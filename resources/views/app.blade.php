@@ -1,6 +1,21 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="rtl">
     <head>
+    @php
+        $nav_color = '#343434';
+        $placeholder_text_color = '#b1b3b6';
+        $primary_button_color = '#f52936';
+    @endphp
+        <style>
+            :root {
+                --main-website-color: #181818;
+                --nav-bg-color: {{$nav_color}}B0;
+                --nav-bg-color-hover: {{$nav_color}};
+                --placeholder_text_color: {{$placeholder_text_color}};
+                --primary_button_color: {{$primary_button_color}};
+            }
+        </style>
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,7 +31,7 @@
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-[--main-website-color]">
         @inertia
     </body>
 </html>
