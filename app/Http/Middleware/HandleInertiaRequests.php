@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -29,11 +32,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $settings = Cache::rememberForever('settings', function () {
+            $all_settings = Setting::all()->pluck('value', 'key');
+            $all_settings['icon'] = Storage::disk('public')->url($all_settings['icon']);
+            $all_settings['logo'] = Storage::disk('public')->url($all_settings['logo']);
+            $all_settings['background'] = Storage::disk('public')->url($all_settings['background']);
+
+            return $all_settings;
+        });
+
+        view()->share('settings', $settings);
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'settings' => $settings,
         ];
     }
 }
