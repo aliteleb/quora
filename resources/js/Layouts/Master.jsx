@@ -8,7 +8,7 @@ function Master({children}) {
     return (
         <>
             <Head title='Home'/>
-            <div className={`bg-gray-400 w-full flex justify-center bg-[--nav-bg-color]`}>
+            <div className={`w-full flex justify-center bg-[--nav-bg-color]`}>
                 <div className={`max-w-screen-xl container py-2`}>
                     <div className={`flex flex-row gap-x-8 items-center justify-center text-[#e6e7e8]`}>
                         <h1 className={`text-red-600 text-2xl`}>Quora</h1>

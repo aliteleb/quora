@@ -9,8 +9,8 @@
         <style>
             :root {
                 --main-website-color: #181818;
-                --nav-bg-color: {{$nav_color}}B0;
-                --nav-bg-color-hover: {{$nav_color}};
+                --nav-bg-color: {{$settings['nav_bg_color'] ?? '#343434'}}B0;
+                --nav-bg-color-hover: {{$settings['nav_bg_color'] ?? '#343434'}};
                 --placeholder_text_color: {{$placeholder_text_color}};
                 --primary_button_color: {{$primary_button_color}};
             }
