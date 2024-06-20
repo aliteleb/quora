@@ -202,10 +202,9 @@ class Settings extends Page implements HasForms
     {
         return [
             Section::make([
-                ColorPicker::make('nav_bg_color')->label('لون خلفية الشريط العلوي')->hiddenLabel()->placeholder('لون خلفية الهيدر')
+                ColorPicker::make('theme-body-color')->label('لون النص الافتراضي')->hiddenLabel()->placeholder('لون النص الافتراضي'),
+                ColorPicker::make('nav_bg_color')->label('لون خلفية الشريط العلوي')->hiddenLabel()->placeholder('لون خلفية الهيدر'),
             ])->columns(1)->heading('تصميم الموقع'),
-
-
         ];
     }
 

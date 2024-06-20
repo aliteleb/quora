@@ -8,10 +8,12 @@
     @endphp
         <style>
             :root {
+                --theme-body-color: {{ $settings['theme-body-color'] ?? '#ffffff' }};
+                --theme-body-bg: {{ $settings['theme-body-bg'] ?? '#181818'}};
                 --main-website-color: #181818;
                 --nav-bg-color: {{$settings['nav_bg_color'] ?? '#343434'}}B0;
                 --nav-bg-color-hover: {{$settings['nav_bg_color'] ?? '#343434'}};
-                --placeholder_text_color: {{$placeholder_text_color}};
+                --placeholder-color: {{$settings['theme-body-color'] ?? '#ffffff'}}77;
                 --primary_button_color: {{$primary_button_color}};
             }
         </style>
@@ -32,7 +34,7 @@
         @inertiaHead
 
     </head>
-    <body class="font-sans antialiased bg-[--main-website-color]">
+    <body class="font-sans antialiased bg-[--theme-body-bg]">
         @inertia
     </body>
 </html>
