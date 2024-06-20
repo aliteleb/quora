@@ -3,15 +3,21 @@ import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
 import {FaAngleDown, FaChevronDown, FaEdit, FaUsers} from "react-icons/fa";
 import {Head} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 function Master({children}) {
+    const {settings} = useApp()
+
     return (
         <>
             <Head title='Home'/>
             <div className={`w-full flex justify-center bg-[--nav-bg-color]`}>
                 <div className={`max-w-screen-xl container py-2`}>
                     <div className={`flex flex-row gap-x-8 items-center justify-center text-[#e6e7e8]`}>
-                        <h1 className={`text-red-600 text-2xl`}>Quora</h1>
+                        <img src={settings.logo}
+                             alt="logo"
+                             className={`h-6`}
+                        />
                         <ul className={`flex gap-x-3 text-2xl`}>
                             <div className={`px-5 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
                                 <li><IoHomeOutline /></li>

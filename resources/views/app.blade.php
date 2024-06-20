@@ -31,10 +31,6 @@
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
 
-        <script>
-            const settings = {!! $settings !!};
-        </script>
-
     </head>
     <body class="font-sans antialiased bg-[--main-website-color]">
         @inertia
