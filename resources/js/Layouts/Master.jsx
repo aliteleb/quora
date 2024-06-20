@@ -55,17 +55,17 @@ function Master({children}) {
 
 
                     {/*  Bottom Nav  */}
-                    <nav className={`sm:hidden absolute bottom-0 flex bg-[--nav-bg-color] w-full justify-around text-3xl text-[--theme-body-color] py-2 px-4`}>
-                        <div className={`px-5 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                    <nav className={`sm:hidden absolute bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
                             <IoHomeOutline />
                         </div>
-                        <div className={`px-5 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
                             <FaUsers />
                         </div>
-                        <div className={`px-5 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
                             <FaEdit />
                         </div>
-                        <div className={`px-5 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
                             <IoNotificationsOutline />
                         </div>
                     </nav>
