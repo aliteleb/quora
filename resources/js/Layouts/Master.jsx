@@ -13,8 +13,8 @@ function Master({children}) {
         <>
             <Head title='Home'/>
             <div className={`w-full flex justify-center bg-[--nav-bg-color]`}>
-                <div className={`max-w-screen-xl container py-2`}>
-                    <nav className={`flex flex-row xl:gap-x-8 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
+                <div className={`max-w-screen-xl container`}>
+                    <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
                               alt="logo"
                               className={`h-6`}
@@ -35,8 +35,8 @@ function Master({children}) {
                                 </div>
                             </div>
 
-                            <div className={`h-9  flex-grow xl:-mr-4 mr-0 relative`}>
-                                <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--placeholder-color] mt-1`}/>
+                            <div className={`flex-grow xl:-mr-4 mr-0 relative`}>
+                                <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--placeholder-color]`}/>
                                 <input
                                     type="text"
                                     className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--main-website-color] rounded-sm border-1 border-[--nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--placeholder-color]`}
