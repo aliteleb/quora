@@ -40,8 +40,7 @@ function Master({children}) {
                             <FaChevronDown />
                         </button>
                     </div>
-
-                    <main>{children}</main>
+                <main>{children}</main>
                 </div>
             </div>
         </>

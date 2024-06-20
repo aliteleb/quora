@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Public Routes
-Route::get('/home', [HomeContorller::class, 'index'])->name('home.index');
+Route::get('/', [HomeContorller::class, 'index'])->name('index');
 
 
 require __DIR__.'/auth.php';
