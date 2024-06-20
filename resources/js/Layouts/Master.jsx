@@ -35,7 +35,7 @@ function Master({children}) {
                                 </div>
                             </div>
 
-                            <div className={`flex-grow xl:-mr-4 mr-0 relative`}>
+                            <div className={`flex-grow relative`}>
                                 <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--placeholder-color]`}/>
                                 <input
                                     type="text"
