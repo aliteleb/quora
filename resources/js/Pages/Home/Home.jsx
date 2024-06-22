@@ -1,12 +1,12 @@
 import React from 'react'
 import Master from "@/Layouts/Master.jsx";
-import {useApp} from "@/AppContext/AppContext.jsx";
+import Footer from "@/Pages/Home/Partials/Footer.jsx";
 
-function Home() {
-    const { settings } = useApp()
+export default function Home() {
     return (
-        <Master />
+        <Master>
+
+            <Footer/>
+        </Master>
     )
 }
-
-export default Home

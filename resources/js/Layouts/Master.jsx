@@ -12,7 +12,7 @@ function Master({children}) {
     return (
         <>
             <Head title='Home'/>
-            <div className={`w-full flex justify-center bg-[--nav-bg-color]`}>
+            <div className={`w-full flex justify-center bg-[--theme-nav-bg-color]`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
@@ -21,16 +21,16 @@ function Master({children}) {
                         />
                         <ul className={`flex xl:gap-x-3 lg:gap-x-1 gap-x-1 text-2xl flex-grow `}>
                             <div className={`sm:flex gap-x-2 hidden`}>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
                                 </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaEdit />
                                 </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoNotificationsOutline />
                                 </div>
                             </div>
@@ -39,7 +39,7 @@ function Master({children}) {
                                 <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--placeholder-color]`}/>
                                 <input
                                     type="text"
-                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--main-website-color] rounded-sm border-1 border-[--nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--placeholder-color]`}
+                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--placeholder-color]`}
                                     placeholder={'البحث عن Quora'}
                                 />
                             </div>
@@ -56,16 +56,16 @@ function Master({children}) {
 
                     {/*  Bottom Nav  */}
                     <nav className={`sm:hidden absolute bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                             <IoHomeOutline />
                         </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                             <FaUsers />
                         </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                             <FaEdit />
                         </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--nav-bg-color-hover] transition cursor-pointer`}>
+                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                             <IoNotificationsOutline />
                         </div>
                     </nav>
@@ -73,12 +73,10 @@ function Master({children}) {
                     <button className={`md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full absolute flex justify-center items-center bottom-[15%] right-2`}>
                         <AiOutlinePlus />
                     </button>
-
-
-                <main>{children}</main>
                 </div>
 
             </div>
+            <main>{children}</main>
         </>
 
     )

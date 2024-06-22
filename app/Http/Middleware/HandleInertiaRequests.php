@@ -32,17 +32,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $settings = Cache::rememberForever('settings', function () {
-            $all_settings = Setting::all()->pluck('value', 'key');
-
-            $all_settings['icon'] = Storage::disk('public')->url($all_settings['icon'] ?? null);
-            $all_settings['logo'] = Storage::disk('public')->url($all_settings['logo'] ?? null);
-            $all_settings['background'] = Storage::disk('public')->url($all_settings['background'] ?? null);
-
-            return $all_settings;
-        });
-
-        view()->share('settings', $settings);
+        $settings = settings();
+//        view()->share('settings', $settings);
 
         return [
             ...parent::share($request),

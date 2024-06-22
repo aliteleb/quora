@@ -203,7 +203,9 @@ class Settings extends Page implements HasForms
         return [
             Section::make([
                 ColorPicker::make('theme-body-color')->label('لون النص الافتراضي')->hiddenLabel()->placeholder('لون النص الافتراضي'),
-                ColorPicker::make('nav_bg_color')->label('لون خلفية الشريط العلوي')->hiddenLabel()->placeholder('لون خلفية الهيدر'),
+                ColorPicker::make('theme-nav_bg_color')->label('لون خلفية الشريط العلوي')->hiddenLabel()->placeholder('لون خلفية الهيدر'),
+                ColorPicker::make('theme-primary-text-color')->label('لون النص الأساسي')->hiddenLabel()->placeholder('لون النص الأساسي'),
+                ColorPicker::make('theme-secondary-text-color')->label('لون النص الثانوي')->hiddenLabel()->placeholder('لون النص الثانوي'),
             ])->columns(1)->heading('تصميم الموقع'),
         ];
     }

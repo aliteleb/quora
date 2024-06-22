@@ -8,13 +8,14 @@
     @endphp
         <style>
             :root {
-                --theme-body-color: {{ $settings['theme-body-color'] ?? '#ffffff' }};
-                --theme-body-bg: {{ $settings['theme-body-bg'] ?? '#181818'}};
-                --main-website-color: #181818;
-                --nav-bg-color: {{$settings['nav_bg_color'] ?? '#343434'}}B0;
-                --nav-bg-color-hover: {{$settings['nav_bg_color'] ?? '#343434'}};
-                --placeholder-color: {{$settings['theme-body-color'] ?? '#ffffff'}}77;
+                --theme-body-color: {{ settings('theme-body-color', '#ffffff') }};
+                --theme-body-bg: {{ settings('theme-body-bg', '#181818') }};
+                --theme-nav-bg-color: {{ settings('theme-nav-bg-color', '#343434')}}B0;
+                --theme-nav-bg-color-hover: {{settings('theme-nav-bg-color', '#343434') }};
+                --placeholder-color: {{settings('theme-body-color', '#ffffff') }}77;
                 --primary_button_color: {{$primary_button_color}};
+                --theme-primary-text-color: {{settings('theme-primary-text-color', '#e6e7e8')}};
+                --theme-secondary-text-color: {{settings('theme-secondary-text-color', '#b1b3b6')}};
             }
         </style>
 

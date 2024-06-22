@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('threads', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->enum('type', ['post', 'question']);
+            $table->string('title');
+            $table->longText('details')->nullable();
+            $table->boolean('is_anonymous')->default(false);
+            $table->boolean('is_visible')->default(true);
+            $table->unsignedBigInteger('all_up_votes_count')->default(0);
+            $table->unsignedBigInteger('all_down_votes_count')->default(0);
+            $table->unsignedBigInteger('all_comments_count')->default(0);
+            $table->unsignedBigInteger('all_shares_count')->default(0);
+            $table->enum('status', ['published', 'pending', 'draft', 'violated']);
+            $table->boolean('sensitive_content')->default(false);
+
+            $table->timestamp('scheduled')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('threads');
+    }
+};
