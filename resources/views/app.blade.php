@@ -4,7 +4,6 @@
     @php
         $nav_color = '#343434';
         $placeholder_text_color = '#b1b3b6';
-        $primary_button_color = '#f52936';
     @endphp
         <style>
             :root {
@@ -12,10 +11,11 @@
                 --theme-body-bg: {{ settings('theme-body-bg', '#181818') }};
                 --theme-nav-bg-color: {{ settings('theme-nav-bg-color', '#343434')}}B0;
                 --theme-nav-bg-color-hover: {{settings('theme-nav-bg-color', '#343434') }};
-                --placeholder-color: {{settings('theme-body-color', '#ffffff') }}77;
-                --primary_button_color: {{$primary_button_color}};
+                --theme-placeholder-color: {{settings('theme-body-bg', '#ffffff') }}77;
+                --theme-primary_button_color: {{settings('theme-primary_button_color', '#f52936')}};
                 --theme-primary-text-color: {{settings('theme-primary-text-color', '#e6e7e8')}};
                 --theme-secondary-text-color: {{settings('theme-secondary-text-color', '#b1b3b6')}};
+                --theme-input-bg-color: {{ settings('theme-input-bg-color', '#202020') }};
             }
         </style>
 

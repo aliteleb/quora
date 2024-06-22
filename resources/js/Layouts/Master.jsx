@@ -36,17 +36,17 @@ function Master({children}) {
                             </div>
 
                             <div className={`flex-grow relative`}>
-                                <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--placeholder-color]`}/>
+                                <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--theme-placeholder-color]`}/>
                                 <input
                                     type="text"
-                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--placeholder-color]`}
+                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--theme-placeholder-color]`}
                                     placeholder={'البحث عن Quora'}
                                 />
                             </div>
                         </ul>
                         <div className={`flex gap-x-2`}>
                             <button className={`size-10 rounded-full bg-sky-950`}></button>
-                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--primary_button_color] text-sm h-9 lg:h-auto lg:py-1 px-4 rounded-full`}>
+                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary_button_color] text-sm h-9 lg:h-auto lg:py-1 px-4 rounded-full`}>
                                 أضف سؤال
                                 <FaChevronDown />
                             </button>
