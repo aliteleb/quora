@@ -5,6 +5,7 @@ import {Head} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
+import {TbUsersGroup} from "react-icons/tb";
 
 function Master({children}) {
     const {settings} = useApp()
@@ -12,7 +13,7 @@ function Master({children}) {
     return (
         <>
             <Head title='Home'/>
-            <div className={`w-full flex justify-center bg-[--theme-nav-bg-color]`}>
+            <div className={`z-50 sticky w-full top-0 flex justify-center bg-[--theme-nav-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
@@ -52,30 +53,28 @@ function Master({children}) {
                             </button>
                         </div>
                     </nav>
-
-
-                    {/*  Bottom Nav  */}
-                    <nav className={`sm:hidden absolute bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
-                            <IoHomeOutline />
-                        </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
-                            <FaUsers />
-                        </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
-                            <FaEdit />
-                        </div>
-                        <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
-                            <IoNotificationsOutline />
-                        </div>
-                    </nav>
-
-                    <button className={`md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full absolute flex justify-center items-center bottom-[15%] right-2`}>
-                        <AiOutlinePlus />
-                    </button>
                 </div>
-
             </div>
+            <button className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2`}>
+                <AiOutlinePlus />
+            </button>
+
+            {/*  Bottom Nav  */}
+            <nav className={`sm:hidden fixed bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                    <IoHomeOutline />
+                </div>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                    <FaUsers />
+                </div>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                    <FaEdit />
+                </div>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                    <IoNotificationsOutline />
+                </div>
+            </nav>
+
             <main>{children}</main>
         </>
 
