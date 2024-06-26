@@ -13,7 +13,7 @@ function Master({children}) {
     return (
         <>
             <Head title='Home'/>
-            <div className={`z-50 sticky w-full top-0 flex justify-center bg-[--theme-nav-bg-color] backdrop-blur-sm`}>
+            <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-nav-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
@@ -47,7 +47,7 @@ function Master({children}) {
                         </ul>
                         <div className={`flex gap-x-2`}>
                             <button className={`size-10 rounded-full bg-sky-950`}></button>
-                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary_button_color] text-sm h-9 lg:h-auto lg:py-1 px-4 rounded-full`}>
+                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:h-auto lg:py-1 px-4 rounded-full`}>
                                 أضف سؤال
                                 <FaChevronDown />
                             </button>

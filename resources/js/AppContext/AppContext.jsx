@@ -7,6 +7,8 @@ const AppProvider = ({children}) => {
         settings: {}
     })
 
+    const [isCreatThreadModalOpen, setIsCreatThreadModalOpen] = useState(false)
+
     const setSettings = (newState) => {
         setAppInfo(prevState => ({
             ...prevState,
@@ -15,7 +17,7 @@ const AppProvider = ({children}) => {
     }
 
     return (
-        <AppContext.Provider value={{settings: appInfo.settings, setSettings}}>
+        <AppContext.Provider value={{settings: appInfo.settings, setSettings, isCreatThreadModalOpen, setIsCreatThreadModalOpen}}>
             {children}
         </AppContext.Provider>
     )

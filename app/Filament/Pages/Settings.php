@@ -206,8 +206,9 @@ class Settings extends Page implements HasForms
                 ColorPicker::make('theme-nav_bg_color')->label('لون خلفية الشريط العلوي')->hiddenLabel()->placeholder('لون خلفية الهيدر'),
                 ColorPicker::make('theme-primary-text-color')->label('لون النص الأساسي')->hiddenLabel()->placeholder('لون النص الأساسي'),
                 ColorPicker::make('theme-secondary-text-color')->label('لون النص الثانوي')->hiddenLabel()->placeholder('لون النص الثانوي'),
-                ColorPicker::make('theme-primary_button_color')->label('لون الزر الأساسي')->hiddenLabel()->placeholder('لون الزر الأساسي'),
+                ColorPicker::make('theme-primary-button-color')->label('لون الزر الأساسي')->hiddenLabel()->placeholder('لون الزر الأساسي'),
                 ColorPicker::make('theme-input-bg-color')->label('لون خلفية مربع النص')->hiddenLabel()->placeholder('لون خلفية مربع النص'),
+                ColorPicker::make('theme-button-border-color')->label('لون حواف الزر')->hiddenLabel()->placeholder('لون حواف الزر'),
             ])->columns(1)->heading('تصميم الموقع'),
         ];
     }
