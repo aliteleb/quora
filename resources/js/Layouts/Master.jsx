@@ -8,6 +8,7 @@ import {AiOutlinePlus} from "react-icons/ai";
 import {TbUsersGroup} from "react-icons/tb";
 
 function Master({children}) {
+
     const {settings} = useApp()
 
     return (

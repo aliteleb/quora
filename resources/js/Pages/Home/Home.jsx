@@ -6,6 +6,7 @@ import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function Home() {
+
     return (
         <Master>
             <div className={`relative flex max-w-screen-xl container mx-auto gap-x-10 px-2 h-[100rem]`}>

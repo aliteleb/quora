@@ -7,6 +7,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import Modal from "@/Components/Modal.jsx";
 
 export default function CreateThreadModal() {
+
     const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen } = useApp();
 
     return (
@@ -15,7 +16,7 @@ export default function CreateThreadModal() {
             onClose={() => {setIsCreatThreadModalOpen(false)}}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
-            <div className={`text-white bg-[--theme-body-bg] z-50 rounded-lg border border-[--theme-nav-bg-color-hover]`}>
+            <div className={`text-white  bg-[--theme-body-bg] z-50 rounded-lg border border-[--theme-nav-bg-color-hover]`}>
                 <div onClick={() => setIsCreatThreadModalOpen(false)}
                      className={`hover:bg-[--theme-nav-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}>
                     <HiMiniXMark className={`size-6`}/>
@@ -45,7 +46,7 @@ export default function CreateThreadModal() {
                 <div className={`px-4`}>
                     <textarea
                         placeholder={`إبدء سؤال بماذا, كيف, لماذا, إلخ.`}
-                        className={`w-full resize-none mt-4 bg-transparent border-x-0 border-t-0 border-[--theme-nav-bg-color-hover] hover:border-[--theme-button-border-color] focus:border-[--theme-nav-bg-color] focus:ring-0`}
+                        className={`w-full resize-none p-0 mt-4 bg-transparent border-x-0 border-t-0 border-[--theme-nav-bg-color-hover] hover:border-[--theme-button-border-color] focus:border-[--theme-nav-bg-color] focus:ring-0`}
                         maxLength={200}
                     >
                     </textarea>

@@ -5,7 +5,7 @@ import {LuFileEdit} from "react-icons/lu";
 import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function CreateThread() {
-    const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen } = useApp();
+    const {setIsCreatThreadModalOpen } = useApp();
 
     return (
         <div className={`z-10 bg-[--theme-nav-bg-color] w-full text-[--theme-primary-text-color] h-fit p-5 rounded flex flex-col gap-y-5`}>
@@ -21,12 +21,12 @@ export default function CreateThread() {
                 </div>
 
                 <div className={`grid grid-cols-3`}>
-                    <div className={`cursor-pointer flex items-center`}>
+                    <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer flex items-center`}>
                         <div className={`w-full flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <CiSquareQuestion/>
                             <span>اسأل</span>
                         </div>
-                        <div className={`w-[1px] h-5 bg-white ms-2 bg-[--theme-nav-bg-color-hover]`}></div>
+                        <div className={`w-[1px] h-5 ms-2 bg-[--theme-nav-bg-color-hover]`}></div>
                     </div>
 
                     <div className={`cursor-pointer flex items-center`}>
@@ -34,10 +34,10 @@ export default function CreateThread() {
                             <LuFileEdit />
                             أجب
                         </div>
-                        <div className={`w-[1px] h-5 bg-white ms-2 bg-[--theme-nav-bg-color-hover]`}></div>
+                        <div className={`w-[1px] h-5 ms-2 bg-[--theme-nav-bg-color-hover]`}></div>
                     </div>
 
-                    <div className={`cursor-pointer ms-2 flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                    <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer ms-2 flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                         <IoPencil />
                         نشر
                     </div>
