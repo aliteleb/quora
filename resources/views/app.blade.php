@@ -37,7 +37,7 @@
         @inertiaHead
 
     </head>
-    <body class="font-sans antialiased bg-[--theme-body-bg]">
+    <body class="font-sans antialiased bg-[--theme-body-bg] text-[--theme-body-color]">
         @inertia
     </body>
 </html>
