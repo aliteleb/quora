@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {FcGoogle} from "react-icons/fc";
 import {FaFacebook} from "react-icons/fa";
@@ -7,6 +7,18 @@ import Input from "@/Core/Input.jsx";
 export default function Auth() {
 
     const {settings} = useApp()
+
+    const [userInfo, setUserInfo] = useState({
+        email: '',
+        password: '',
+    });
+
+    const handleInputChange  = (e) => {
+        setUserInfo(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
 
     return (
         <>
@@ -54,12 +66,12 @@ export default function Auth() {
 
                             <div className={`flex flex-col gap-y-2`}>
                                 <span className={`font-bold`}>البريد الإلكترونى</span>
-                                <Input placeholder={`بريدك الإلكترونى`}/>
+                                <Input placeholder={`بريدك الإلكترونى`} handleInputChange={handleInputChange} name={'email'} value={userInfo.email}/>
                             </div>
 
                             <div className={`flex flex-col gap-y-2`}>
                                 <span className={`font-bold`}>كلمة المرور</span>
-                                <Input placeholder={`كلمة المرور الخاصة بك`}/>
+                                <Input placeholder={`كلمة المرور الخاصة بك`} handleInputChange={handleInputChange} name={'password'} value={userInfo.password}/>
                             </div>
 
                             <div className={`flex justify-between`}>
