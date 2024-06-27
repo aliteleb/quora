@@ -9,8 +9,8 @@
             :root {
                 --theme-body-color: {{ settings('theme-body-color', '#ffffff') }};
                 --theme-body-bg: {{ settings('theme-body-bg', '#181818') }};
-                --theme-nav-bg-color: {{ settings('theme-nav-bg-color', '#343434')}}B0;
-                --theme-nav-bg-color-hover: {{settings('theme-nav-bg-color', '#343434') }};
+                --theme-main-bg-color: {{ settings('theme-main-bg-color', '#262626')}};
+                --theme-nav-bg-color-hover: {{settings('theme-nav-bg-color-hover', '#2f2f2f') }};
                 --theme-placeholder-color: {{settings('theme-body-bg', '#ffffff') }}77;
                 --theme-primary-button-color: {{settings('theme-primary-button-color', '#f52936')}};
                 --theme-primary-text-color: {{settings('theme-primary-text-color', '#e6e7e8')}};
@@ -18,7 +18,9 @@
                 --theme-input-bg-color: {{ settings('theme-input-bg-color', '#202020') }};
                 --theme-button-border-color: {{ settings('theme-button-border-color', '#287dff') }};
                 --theme-button-bg-color-hover: {{ settings('theme-button-bg-color-hover', '#1c1c1cb0') }};
+                --theme-default-border-color: {{ settings('theme-default-border-color', '#393939') }}
             }
+
         </style>
 
         <meta charset="utf-8">

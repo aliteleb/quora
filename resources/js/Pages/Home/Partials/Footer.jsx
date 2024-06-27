@@ -11,7 +11,7 @@ export default function Footer() {
                         </div>
                         <span>إنشاء مساحة</span>
                     </div>
-                    <div className={`w-full mt-5 h-[1px] bg-[--theme-nav-bg-color]`}> </div>
+                    <div className={`w-full mt-5 h-[1px] bg-[--theme-main-bg-color]`}> </div>
                 </button>
 
                 <div className={`text-[--theme-secondary-text-color]`}>

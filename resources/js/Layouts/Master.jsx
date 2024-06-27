@@ -14,7 +14,7 @@ function Master({children}) {
     return (
         <>
             <Head title='Home'/>
-            <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-nav-bg-color] backdrop-blur-sm`}>
+            <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
@@ -41,7 +41,7 @@ function Master({children}) {
                                 <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--theme-placeholder-color]`}/>
                                 <input
                                     type="text"
-                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-nav-bg-color-hover] placeholder:absolute placeholder:right-8 placeholder:text-[--theme-placeholder-color]`}
+                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-default-border-color] placeholder:absolute placeholder:right-8 placeholder:text-[--theme-placeholder-color]`}
                                     placeholder={'البحث عن Quora'}
                                 />
                             </div>
@@ -62,16 +62,16 @@ function Master({children}) {
 
             {/*  Bottom Nav  */}
             <nav className={`sm:hidden fixed bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoHomeOutline />
                 </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaUsers />
                 </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaEdit />
                 </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoNotificationsOutline />
                 </div>
             </nav>

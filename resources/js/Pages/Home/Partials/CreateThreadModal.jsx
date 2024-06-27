@@ -31,14 +31,14 @@ export default function CreateThreadModal() {
             onClose={() => {setIsCreatThreadModalOpen(false)}}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
-            <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded-lg border border-[--theme-nav-bg-color-hover]`}>
+            <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded-lg border border-[--theme-default-border-color]`}>
                 <div className={`flex items-center relative`}>
                     <div onClick={() => setIsCreatThreadModalOpen(false)}
-                         className={`hover:bg-[--theme-nav-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}>
+                         className={`hover:bg-[--theme-main-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}>
                         <HiMiniXMark className={`size-6`}/>
                     </div>
 
-                    <button className={`${!isPostActive ? 'hidden' : ''} absolute left-1/2 -translate-x-1/2 flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color] py-2 px-4 rounded-full`}>
+                    <button className={`${!isPostActive ? 'hidden' : ''} absolute left-1/2 -translate-x-1/2 flex items-center gap-x-1 hover:bg-[--theme-main-bg-color] py-2 px-4 rounded-full`}>
                         <AiOutlineGlobal />
                         <span>الجميع</span>
                         <FaAngleDown className={`size-4`}/>
@@ -46,9 +46,9 @@ export default function CreateThreadModal() {
                 </div>
 
 
-                <div className={`mt-2 flex border-b border-[--theme-nav-bg-color-hover]`}>
-                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-nav-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إضافة سؤال</button>
-                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-nav-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إنشاء منشور</button>
+                <div className={`mt-2 flex border-b border-[--theme-default-border-color]`}>
+                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إضافة سؤال</button>
+                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>
@@ -60,7 +60,7 @@ export default function CreateThreadModal() {
                         </div>
 
                         <button
-                            className={`${isPostActive ? 'hidden' : ''} flex items-center border border-[--theme-nav-bg-color-hover] rounded-full px-3 gap-x-1 hover:bg-[--theme-nav-bg-color]`}>
+                            className={`${isPostActive ? 'hidden' : ''} flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
                             <TbUsers className={`size-4`}/>
                             <span>عام</span>
                             <FaAngleDown className={`size-4`}/>
@@ -71,7 +71,7 @@ export default function CreateThreadModal() {
                 <div className={`px-4`}>
                     <textarea
                         placeholder={`${isPostActive ? 'قل شيئاً ما...' : 'إبدء سؤال بماذا, كيف, لماذا, إلخ.'}`}
-                        className={`w-full resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-0' : ''} border-x-0 border-t-0 border-[--theme-nav-bg-color-hover] hover:border-[--theme-button-border-color] focus:border-[--theme-nav-bg-color] focus:ring-0`}
+                        className={`w-full resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-transparent' : 'border-[--theme-default-border-color] hover:border-[--theme-button-border-color]  focus:border-[--theme-main-bg-color]'} border-x-0 border-t-0  focus:ring-0`}
                         maxLength={200}
                         name={'title'}
                         value={thread.title}
@@ -80,11 +80,11 @@ export default function CreateThreadModal() {
                     </textarea>
                 </div>
 
-                <div className={`h-72 border-b border-[--theme-nav-bg-color-hover] pb-3`}></div>
+                <div className={`h-72 border-b border-[--theme-default-border-color] pb-3`}></div>
 
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
-                        <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-nav-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
+                        <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
                         <button disabled={!thread.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!thread.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 

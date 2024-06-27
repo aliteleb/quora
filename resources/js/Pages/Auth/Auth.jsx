@@ -34,8 +34,7 @@ export default function Auth() {
                 className={`object-cover w-full h-svh absolute`}
             />
 
-            <div className={`bg-black absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
-                <div className={`max-w-[50rem] pt-16 text-[--theme-body-color] bg-[--theme-nav-bg-color]`}>
+            <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-body-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
                     <div className={`flex items-center flex-col pb-6`}>
                         <img
                             src={settings.logo}
@@ -46,8 +45,8 @@ export default function Auth() {
 
                     <span className={`font-bold text-[--theme-primary-text-color] text-center block`}>مكان لتبادل المعرفة وفهم العالم بشكل أفضل</span>
 
-                    <div className={`grid grid-cols-2 mt-10 px-8`}>
-                        <div className={`border-l border-[--theme-nav-bg-color-hover] pe-8`}>
+                    <div className={`md:grid grid-cols-2 mt-10 px-8 flex flex-col`}>
+                        <div className={`md:border-l border-[--theme-default-border-color] md:pe-8`}>
                             <div className={`text-[--theme-secondary-text-color]`}>
                                 <span>بالنقر على "متابعة" فإنك تشير على أنك قد قرأت ووافقت على </span>
                                 <a href="#" className={`text-[--theme-button-border-color]`}>شروط الخدمة </a>
@@ -59,7 +58,7 @@ export default function Auth() {
 
                             <div className={`mt-6 flex flex-col gap-y-3`}>
                                 <button
-                                    className={`border border-[--theme-nav-bg-color-hover] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
+                                    className={`border border-[--theme-default-border-color] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
                                     <FaFacebook className={`size-6 text-[--theme-button-border-color]`}/>
                                     <span>المتابعة عن طريق Facebook</span>
                                 </button>
@@ -71,8 +70,8 @@ export default function Auth() {
                             </button>
                         </div>
 
-                        <div className={`ps-8 flex flex-col gap-y-4`}>
-                            <div className={`border-b border-[--theme-nav-bg-color-hover] w-full pb-2 font-bold`}>تسجيل الدخول</div>
+                        <div className={`md:ps-8 flex flex-col gap-y-4 mt-10 md:mt-0`}>
+                            <div className={`border-b border-[--theme-default-border-color] w-full pb-2 font-bold`}>تسجيل الدخول</div>
 
                             <div className={`flex flex-col gap-y-2`}>
                                 <span className={`font-bold`}>البريد الإلكترونى</span>
@@ -103,7 +102,6 @@ export default function Auth() {
                     </div>
 
                 </div>
-            </div>
 
             <Modal show={isRegisterModalOpen} onClose={closeRegisterModal} backdropColor={`bg-[#222222dd]`} >
                 <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>

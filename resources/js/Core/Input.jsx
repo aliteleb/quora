@@ -5,7 +5,7 @@ export default function Input({placeholder, handleInputChange, name, value}) {
 
     return (
         <input
-            className={`w-full bg-[--theme-body-bg] border-[--theme-nav-bg-color-hover] border-t-transparent rounded hover:border-[--theme-button-border-color] placeholder:text-[--theme-secondary-text-color]`}
+            className={`w-full bg-[--theme-body-bg] border-[--theme-default-border-color] rounded hover:border-[--theme-button-border-color] placeholder:text-[--theme-secondary-text-color]`}
             type="text"
             placeholder={placeholder}
             name={name}
