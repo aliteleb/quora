@@ -71,7 +71,7 @@ export default function CreateThreadModal() {
                 <div className={`px-4`}>
                     <textarea
                         placeholder={`${isPostActive ? 'قل شيئاً ما...' : 'إبدء سؤال بماذا, كيف, لماذا, إلخ.'}`}
-                        className={`w-full resize-none p-0 mt-4 bg-transparent border-x-0 border-t-0 border-[--theme-nav-bg-color-hover] hover:border-[--theme-button-border-color] focus:border-[--theme-nav-bg-color] focus:ring-0`}
+                        className={`w-full resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-0' : ''} border-x-0 border-t-0 border-[--theme-nav-bg-color-hover] hover:border-[--theme-button-border-color] focus:border-[--theme-nav-bg-color] focus:ring-0`}
                         maxLength={200}
                         name={'title'}
                         value={thread.title}
@@ -84,7 +84,7 @@ export default function CreateThreadModal() {
 
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
-                        <button className={`hover:bg-[--theme-nav-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
+                        <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-nav-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
                         <button disabled={!thread.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!thread.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 

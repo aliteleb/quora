@@ -6,7 +6,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function CreateThread() {
 
-    const {setIsCreatThreadModalOpen } = useApp();
+    const {setIsCreatThreadModalOpen, setIsPostActive } = useApp();
 
     return (
         <div className={`z-10 bg-[--theme-nav-bg-color] w-full text-[--theme-primary-text-color] h-fit p-5 rounded flex flex-col gap-y-5`}>
@@ -22,7 +22,10 @@ export default function CreateThread() {
                 </div>
 
                 <div className={`grid grid-cols-3`}>
-                    <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer flex items-center`}>
+                    <div onClick={() => {
+                        setIsCreatThreadModalOpen(true)
+                        setIsPostActive(false)
+                    }} className={`cursor-pointer flex items-center`}>
                         <div className={`w-full flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <CiSquareQuestion/>
                             <span>اسأل</span>
@@ -38,7 +41,10 @@ export default function CreateThread() {
                         <div className={`w-[1px] h-5 ms-2 bg-[--theme-nav-bg-color-hover]`}></div>
                     </div>
 
-                    <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer ms-2 flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                    <div onClick={() => {
+                        setIsCreatThreadModalOpen(true)
+                        setIsPostActive(true)
+                    }} className={`cursor-pointer ms-2 flex items-center gap-x-3 font-bold justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                         <IoPencil />
                         نشر
                     </div>
