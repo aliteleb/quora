@@ -3,10 +3,16 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {FcGoogle} from "react-icons/fc";
 import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
+import Modal from "@/Components/Modal.jsx";
+import {GrClose} from "react-icons/gr";
 
 export default function Auth() {
 
     const {settings} = useApp()
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    const closeRegisterModal = () => {
+        setIsRegisterModalOpen(false)
+    }
 
     const [userInfo, setUserInfo] = useState({
         email: '',
@@ -52,13 +58,17 @@ export default function Auth() {
 
 
                             <div className={`mt-6 flex flex-col gap-y-3`}>
-                                <button className={`border border-[--theme-nav-bg-color-hover] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
+                                <button
+                                    className={`border border-[--theme-nav-bg-color-hover] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
                                     <FaFacebook className={`size-6 text-[--theme-button-border-color]`}/>
                                     <span>المتابعة عن طريق Facebook</span>
                                 </button>
                             </div>
 
-                            <div className={`text-center mt-5 cursor-pointer font-bold text-sm`}>اشترك عن طريق البريد الإلكتروني</div>
+                            <button onClick={() => {
+                                setIsRegisterModalOpen(true)
+                            }} className={`text-center mt-5 cursor-pointer font-bold text-sm`}>اشترك عن طريق البريد الإلكتروني
+                            </button>
                         </div>
 
                         <div className={`ps-8 flex flex-col gap-y-4`}>
@@ -94,6 +104,26 @@ export default function Auth() {
 
                 </div>
             </div>
+
+            <Modal show={isRegisterModalOpen} onClose={closeRegisterModal} backdropColor={`bg-[#222222dd]`} >
+                <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
+                    <header className={`p-2`}>
+                        <button className={`rounded-full hover:bg-white/5 text-white p-2 `} onClick={closeRegisterModal}>
+                            <GrClose className={`size-5`}/>
+                        </button>
+                    </header>
+                    <main className={`py-2 px-3`}>
+                        <h3>
+                            التسجيل
+                        </h3>
+                    </main>
+                    <footer className={`border-t border-[#393839] flex flex-row-reverse py-3 px-2`}>
+                        <button className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
+                            التالي
+                        </button>
+                    </footer>
+                </div>
+            </Modal>
         </>
 
     )
