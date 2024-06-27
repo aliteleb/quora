@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {CiSquareQuestion} from "react-icons/ci";
 import {IoPencil} from "react-icons/io5";
 import {LuFileEdit} from "react-icons/lu";
 import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function CreateThread() {
+
     const {setIsCreatThreadModalOpen } = useApp();
 
     return (

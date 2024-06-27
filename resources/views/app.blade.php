@@ -16,7 +16,7 @@
                 --theme-primary-text-color: {{settings('theme-primary-text-color', '#e6e7e8')}};
                 --theme-secondary-text-color: {{settings('theme-secondary-text-color', '#b1b3b6')}};
                 --theme-input-bg-color: {{ settings('theme-input-bg-color', '#202020') }};
-                --theme-button-border-color: {{ settings('theme-button-border-color', '#287dff') }}
+                --theme-button-border-color: {{ settings('theme-button-border-color', '#287dff') }};
             }
         </style>
 
