@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeContorller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ Route::middleware('auth')->group(function () {
 
 // Public Routes
 Route::get('/', [HomeContorller::class, 'index'])->name('index');
+Route::get('/auth', [AuthController::class, 'index'])->name('index');
 
 
 require __DIR__.'/auth.php';
