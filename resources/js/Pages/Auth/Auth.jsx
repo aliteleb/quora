@@ -53,7 +53,6 @@ export default function Auth() {
 
                         <div className={`ps-8`}>
                             <div className={`border-b border-[--theme-nav-bg-color-hover] w-full pb-2`}>تسجيل الدخول</div>
-
                         </div>
                     </div>
                 </div>
