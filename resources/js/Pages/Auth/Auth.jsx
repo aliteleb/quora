@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
-import {FcGoogle} from "react-icons/fc";
 import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
 import Modal from "@/Components/Modal.jsx";
 import {GrClose} from "react-icons/gr";
+import {useForm} from "@inertiajs/react";
 
 export default function Auth() {
 
@@ -14,16 +14,16 @@ export default function Auth() {
         setIsRegisterModalOpen(false)
     }
 
-    const [userInfo, setUserInfo] = useState({
+    const {data, setData, post, processing, errors, reset} = useForm({
+        name: '',
         email: '',
         password: '',
-    });
+        password_confirmation: '',
+    })
 
-    const handleInputChange  = (e) => {
-        setUserInfo(prevState => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
+    function submit(e) {
+        e.preventDefault()
+        post('/register')
     }
 
     return (
@@ -74,18 +74,18 @@ export default function Auth() {
                             <div className={`border-b border-[--theme-default-border-color] w-full pb-2 font-bold`}>تسجيل الدخول</div>
 
                             <div className={`flex flex-col gap-y-2`}>
-                                <span className={`font-bold`}>البريد الإلكترونى</span>
-                                <Input placeholder={`بريدك الإلكترونى`} handleInputChange={handleInputChange} name={'email'} value={userInfo.email}/>
+                                <span className={`font-medium`}>البريد الإلكترونى</span>
+                                <Input placeholder={`بريدك الإلكترونى`} onChange={e => setData('email', e.target.value)} name={'email'} value={data.email}/>
                             </div>
 
                             <div className={`flex flex-col gap-y-2`}>
-                                <span className={`font-bold`}>كلمة المرور</span>
-                                <Input placeholder={`كلمة المرور الخاصة بك`} handleInputChange={handleInputChange} name={'password'} value={userInfo.password}/>
+                                <span className={`font-medium`}>كلمة المرور</span>
+                                <Input placeholder={`كلمة المرور الخاصة بك`} type={'password'} onChange={e => setData('password', e.target.value)} name={'password'} value={data.password}/>
                             </div>
 
                             <div className={`flex justify-between`}>
                                 <button className={`text-sm text-[--theme-secondary-text-color] hover:underline`}>هل نسيت كلمة المرور؟</button>
-                                <button className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] font-bold`}>تسجيل الدخول</button>
+                                <button className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] font-medium`}>تسجيل الدخول</button>
                             </div>
                         </div>
                     </div>
@@ -105,18 +105,32 @@ export default function Auth() {
 
             <Modal show={isRegisterModalOpen} onClose={closeRegisterModal} backdropColor={`bg-[#222222dd]`} >
                 <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
-                    <header className={`p-2`}>
+                    <header className={`p-2 flex justify-between`}>
                         <button className={`rounded-full hover:bg-white/5 text-white p-2 `} onClick={closeRegisterModal}>
                             <GrClose className={`size-5`}/>
                         </button>
+                        <h3 className={`p-2 font-bold text-lg`}>التسجيل</h3>
                     </header>
-                    <main className={`py-2 px-3`}>
-                        <h3>
-                            التسجيل
-                        </h3>
+                    <main className={`py-2 px-3 pb-20`}>
+                        <div className={`mt-5 flex flex-col gap-y-2`}>
+                            <Input placeholder={`ماذا تريد أن يكون اسمك؟`} onChange={e => setData('name', e.target.value)} value={data.name} name={'name'} label={`الاسم`}/>
+                        </div>
+
+                        <div className={`mt-5 flex flex-col gap-y-2`}>
+                            <Input placeholder={`بريدك الالكترونى`} onChange={e => setData('email', e.target.value)} name={'email'} value={data.email} label={`البريد الإلكترونى`}/>
+                        </div>
+
+                        <div className={`mt-5 flex flex-col gap-y-2`}>
+                            <Input placeholder={`كلمة المرور`} type={'password'} onChange={e => setData('password', e.target.value)} name={'password'} value={data.password} label={`كلمة المرور`}/>
+                        </div>
+
+                        <div className={`mt-5 flex flex-col gap-y-2`}>
+                            <Input placeholder={`تأكيد كلمة المرور`} type={'password'} onChange={e => setData('password_confirmation', e.target.value)} name={'password_confirmation'} value={data.password_confirmation} label={`تأكيد كلمة المرور`}/>
+                        </div>
+
                     </main>
                     <footer className={`border-t border-[#393839] flex flex-row-reverse py-3 px-2`}>
-                        <button className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
+                        <button onClick={submit} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
                             التالي
                         </button>
                     </footer>
