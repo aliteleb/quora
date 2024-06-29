@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -12,8 +12,10 @@ class AuthController extends Controller
        return Inertia::render('Auth/Auth');
    }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        return $request;
+        return Inertia::render('Auth/Auth', [
+            'info' => $request
+        ]);
     }
 }

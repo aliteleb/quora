@@ -8,13 +8,13 @@ import {useForm} from "@inertiajs/react";
 
 export default function Auth() {
 
-    const {settings} = useApp()
+    const {settings, formErrors, setFormErrors} = useApp()
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const closeRegisterModal = () => {
         setIsRegisterModalOpen(false)
     }
 
-    const {data, setData, post, processing, errors, reset} = useForm({
+    const {data, setData, post, errors, reset} = useForm({
         name: '',
         email: '',
         password: '',
@@ -23,8 +23,29 @@ export default function Auth() {
 
     function submit(e) {
         e.preventDefault()
-        post('/register')
+        post('/account', {
+            onSuccess: () => {
+                console.log(data)
+                setIsRegisterModalOpen(false)
+                reset()
+            },
+            onError: () => {
+                console.log(errors)
+                setFormErrors({
+                    ...errors
+                })
+            },
+        })
     }
+
+    useEffect(() => {
+        setFormErrors({
+            name: [],
+            email: [],
+            password: [],
+            password_confirmation: [],
+        })
+    }, [isRegisterModalOpen]);
 
     return (
         <>
@@ -75,12 +96,25 @@ export default function Auth() {
 
                             <div className={`flex flex-col gap-y-2`}>
                                 <span className={`font-medium`}>البريد الإلكترونى</span>
-                                <Input placeholder={`بريدك الإلكترونى`} onChange={e => setData('email', e.target.value)} name={'email'} value={data.email}/>
+                                <Input
+                                    placeholder={`بريدك الإلكترونى`}
+                                    onChange={e => setData('email', e.target.value)}
+                                    name={'email'}
+                                    value={data.email}
+                                    error={!isRegisterModalOpen ? formErrors.email : ''}
+                                />
                             </div>
 
                             <div className={`flex flex-col gap-y-2`}>
                                 <span className={`font-medium`}>كلمة المرور</span>
-                                <Input placeholder={`كلمة المرور الخاصة بك`} type={'password'} onChange={e => setData('password', e.target.value)} name={'password'} value={data.password}/>
+                                <Input
+                                    placeholder={`كلمة المرور الخاصة بك`}
+                                    type={'password'} onChange={e => setData('password', e.target.value)}
+                                    name={'password'}
+                                    value={data.password}
+                                    error={!isRegisterModalOpen ? formErrors.password : ''}
+                                />
+
                             </div>
 
                             <div className={`flex justify-between`}>
@@ -106,26 +140,56 @@ export default function Auth() {
             <Modal show={isRegisterModalOpen} onClose={closeRegisterModal} backdropColor={`bg-[#222222dd]`} >
                 <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
                     <header className={`p-2 flex justify-between`}>
-                        <button className={`rounded-full hover:bg-white/5 text-white p-2 `} onClick={closeRegisterModal}>
+                        <button className={`rounded-full hover:bg-white/5 text-white p-3 `} onClick={closeRegisterModal}>
                             <GrClose className={`size-5`}/>
                         </button>
                         <h3 className={`p-2 font-bold text-lg`}>التسجيل</h3>
                     </header>
                     <main className={`py-2 px-3 pb-20`}>
                         <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input placeholder={`ماذا تريد أن يكون اسمك؟`} onChange={e => setData('name', e.target.value)} value={data.name} name={'name'} label={`الاسم`}/>
+                            <Input
+                                placeholder={`ماذا تريد أن يكون اسمك؟`}
+                                onChange={e => setData('name', e.target.value)}
+                                value={data.name}
+                                name={'name'}
+                                label={`الاسم`}
+                                error={isRegisterModalOpen ? formErrors.name : ''}
+                            />
                         </div>
 
                         <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input placeholder={`بريدك الالكترونى`} onChange={e => setData('email', e.target.value)} name={'email'} value={data.email} label={`البريد الإلكترونى`}/>
+                            <Input
+                                placeholder={`بريدك الالكترونى`}
+                                onChange={e => setData('email', e.target.value)}
+                                name={'email'}
+                                value={data.email}
+                                label={`البريد الإلكترونى`}
+                                error={isRegisterModalOpen ? formErrors.email : ''}
+                            />
                         </div>
 
                         <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input placeholder={`كلمة المرور`} type={'password'} onChange={e => setData('password', e.target.value)} name={'password'} value={data.password} label={`كلمة المرور`}/>
+                            <Input
+                                placeholder={`كلمة المرور`}
+                                type={'password'}
+                                onChange={e => setData('password', e.target.value)}
+                                name={'password'}
+                                value={data.password}
+                                label={`كلمة المرور`}
+                                error={isRegisterModalOpen ? formErrors.password : ''}
+                            />
                         </div>
 
                         <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input placeholder={`تأكيد كلمة المرور`} type={'password'} onChange={e => setData('password_confirmation', e.target.value)} name={'password_confirmation'} value={data.password_confirmation} label={`تأكيد كلمة المرور`}/>
+                            <Input
+                                placeholder={`تأكيد كلمة المرور`}
+                                type={'password'}
+                                onChange={e => setData('password_confirmation', e.target.value)}
+                                name={'password_confirmation'}
+                                value={data.password_confirmation}
+                                label={`تأكيد كلمة المرور`}
+                                error={isRegisterModalOpen ? formErrors.password_confirmation : ''}
+                            />
                         </div>
 
                     </main>

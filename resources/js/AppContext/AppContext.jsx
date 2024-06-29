@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 
 const AppContext = createContext(null);
 
@@ -9,6 +9,12 @@ const AppProvider = ({children}) => {
 
     const [isCreatThreadModalOpen, setIsCreatThreadModalOpen] = useState(false)
     const [isPostActive, setIsPostActive] = useState(false)
+    const [formErrors, setFormErrors] = useState({
+        name: [],
+        email: [],
+        password: [],
+        password_confirmation: [],
+    })
 
     const setSettings = (newState) => {
         setAppInfo(prevState => ({
@@ -26,6 +32,8 @@ const AppProvider = ({children}) => {
                 setIsCreatThreadModalOpen,
                 isPostActive,
                 setIsPostActive,
+                formErrors,
+                setFormErrors,
             }}
         >
             {children}
