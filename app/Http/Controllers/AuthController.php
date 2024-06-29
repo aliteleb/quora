@@ -18,19 +18,12 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-//        return $this->response_success([
-//            'user_info' => $request->toArray()
-//        ], 'Register success');
-
-        return Inertia::render('Auth/Auth', [
-            'info' => $request->toArray(),
-            'successMessage' => 'Register success',
-        ]);
+        return redirect()->route('account');
     }
 
     public function login(LoginRequest $request)
     {
-        return $this->response_success([
+        return $this->success([
             'user_info' => $request->toArray()
         ]);
     }

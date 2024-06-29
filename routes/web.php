@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
 
 // Public Routes
 Route::get('/', [HomeContorller::class, 'index'])->name('index');
-Route::get('/account', [AuthController::class, 'index'])->name('index');
+Route::get('/account', [AuthController::class, 'index'])->name('account');
 Route::post('/register', [AuthController::class, 'register'])->name('profile.register');
 Route::post('/login', [AuthController::class, 'login'])->name('profile.login');
 

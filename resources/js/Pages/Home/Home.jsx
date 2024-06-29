@@ -4,11 +4,13 @@ import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
+import {Head} from "@inertiajs/react";
 
 export default function Home() {
 
     return (
         <Master>
+            <Head title='الرئيسية'/>
             <div className={`relative flex max-w-screen-xl container mx-auto gap-x-10 px-2 h-[100rem]`}>
                 <Footer/>
 

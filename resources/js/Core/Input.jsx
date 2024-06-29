@@ -12,7 +12,6 @@ export default function Input({placeholder, onChange, name, value, label, error,
                 name={name}
                 value={value}
                 onChange={onChange}
-                autoComplete="one-time-code"
             />
             {error?.length !== 0 && <span className={`text-red-500`}>{error}</span>}
         </>

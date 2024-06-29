@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Traits\HttpResponses;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
@@ -21,14 +22,14 @@ class RegisterRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3', 'max:20', 'unique:users,name'],
+            'name' => ['required', 'string', 'min:3', 'max:20'],
             'email' => ['required', 'string', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:8', 'max:32', 'confirmed'],
+            'password' => ['required', 'min:8', 'max:64', 'confirmed'],
             'password_confirmation' => ['required', 'same:password'],
         ];
     }

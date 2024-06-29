@@ -3,7 +3,7 @@
 namespace App\Triats;
 
 trait HttpResponses {
-    protected function response_success ($data = [], $message = '', $status_code = 200)
+    protected function success ($data = [], $message = '', $status_code = 200)
     {
         return response()->json([
             'status' => 'Success response',
@@ -12,7 +12,7 @@ trait HttpResponses {
         ], $status_code);
     }
 
-    protected function response_error($message = '', $errors = [], $status_code)
+    protected function error($message = '', $errors = [], $status_code)
     {
         return response()->json([
             'status' => 'Error has occurred!',

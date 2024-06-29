@@ -4,7 +4,8 @@ import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
 import Modal from "@/Components/Modal.jsx";
 import {GrClose} from "react-icons/gr";
-import {useForm} from "@inertiajs/react";
+import {Head, useForm} from "@inertiajs/react";
+import {MdOutlineEmail} from "react-icons/md";
 
 export default function Auth() {
 
@@ -72,6 +73,7 @@ export default function Auth() {
 
     return (
         <>
+            <Head title='التسجيل - تسجيل الدخول'/>
             <img
                 src="/auth-bg.webp"
                 alt="background"
@@ -103,14 +105,22 @@ export default function Auth() {
                             <div className={`mt-6 flex flex-col gap-y-3`}>
                                 <button
                                     className={`border border-[--theme-default-border-color] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
-                                    <FaFacebook className={`size-6 text-[--theme-button-border-color]`}/>
+                                    <FaFacebook className={`size-6 text-[--theme-body-color]]`}/>
                                     <span>المتابعة عن طريق Facebook</span>
+                                </button>
+                            </div>
+
+                            <div className={`mt-3 flex flex-col gap-y-3`}>
+                                <button
+                                    className={`border border-[--theme-default-border-color] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
+                                    <MdOutlineEmail  className={`size-6 text-[--theme-placeholder-color]`}/>
+                                    <span>اشترك عن طريق البريد الإلكتروني</span>
                                 </button>
                             </div>
 
                             <button onClick={() => {
                                 setIsRegisterModalOpen(true)
-                            }} className={`text-center mt-5 cursor-pointer font-bold text-sm`}>اشترك عن طريق البريد الإلكتروني
+                            }} className={`text-center mt-5 cursor-pointer text-sm`}>تصفح بدون تسجيل الدخول
                             </button>
                         </div>
 

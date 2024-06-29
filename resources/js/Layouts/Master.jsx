@@ -13,7 +13,6 @@ function Master({children}) {
 
     return (
         <>
-            <Head title='Home'/>
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
