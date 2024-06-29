@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use App\Triats\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
@@ -18,7 +20,9 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        return redirect()->route('account');
+        $user = User::create($request->except('password_confirmation'));
+        Auth::loginUsingId($user->id);
+        return redirect()->route('index');
     }
 
     public function login(LoginRequest $request)
