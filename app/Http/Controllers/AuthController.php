@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->except('password_confirmation'));
+        $user = User::create($request->only(['name', 'email', 'password']));
         Auth::loginUsingId($user->id);
         return redirect()->route('index');
     }
