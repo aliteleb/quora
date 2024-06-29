@@ -8,43 +8,67 @@ import {useForm} from "@inertiajs/react";
 
 export default function Auth() {
 
-    const {settings, formErrors, setFormErrors} = useApp()
+    const {settings} = useApp()
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const closeRegisterModal = () => {
         setIsRegisterModalOpen(false)
     }
 
-    const {data, setData, post, errors, reset} = useForm({
+    const { data: registerData, setData: setRegisterData, post: postRegister, errors: registerErrors, reset: resetRegister } = useForm({
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
+    });
+
+    const { data: loginData, setData: setLoginData, post: postLogin, errors: loginErrors, reset: resetLogin } = useForm({
+        email: '',
+        password: '',
+    });
+
+    const [registerFormErrors, setRegisterFormErrors] = useState({
+        name: [],
+        email: [],
+        password: [],
+        password_confirmation: [],
     })
 
-    function submit(e) {
+    const [loginFormErrors, setLoginFormErrors] = useState({
+        email: [],
+        password: [],
+    })
+
+    const submitRegister = (e) => {
         e.preventDefault()
-        post('/account', {
+        postRegister('/register', {
             onSuccess: () => {
                 setIsRegisterModalOpen(false)
-                reset()
+                resetRegister()
             },
             onError: (response) => {
-                const errorsData = response || errors;
-                setFormErrors({
+                const errorsData = response || registerErrors;
+                setRegisterFormErrors({
                     ...errorsData,
                 });
             },
         })
     }
 
-    useEffect(() => {
-        setFormErrors({
-            name: [],
-            email: [],
-            password: [],
-            password_confirmation: [],
+    const submitLogin = (e) => {
+        e.preventDefault()
+        postLogin('/login', {
+            onSuccess: () => {
+                resetLogin()
+            },
+            onError: (response) => {
+                const errorsData = response || loginErrors;
+                setLoginFormErrors({
+                    ...errorsData,
+                });
+            },
         })
-    }, [isRegisterModalOpen]);
+    }
+
 
     return (
         <>
@@ -97,10 +121,10 @@ export default function Auth() {
                                 <span className={`font-medium`}>البريد الإلكترونى</span>
                                 <Input
                                     placeholder={`بريدك الإلكترونى`}
-                                    onChange={e => setData('email', e.target.value)}
+                                    onChange={e => setLoginData('email', e.target.value)}
                                     name={'email'}
-                                    value={data.email}
-                                    error={!isRegisterModalOpen ? formErrors.email : ''}
+                                    value={loginData.email}
+                                    error={!isRegisterModalOpen ? loginFormErrors.email : ''}
                                 />
                             </div>
 
@@ -108,17 +132,17 @@ export default function Auth() {
                                 <span className={`font-medium`}>كلمة المرور</span>
                                 <Input
                                     placeholder={`كلمة المرور الخاصة بك`}
-                                    type={'password'} onChange={e => setData('password', e.target.value)}
+                                    type={'password'} onChange={e => setLoginData('password', e.target.value)}
                                     name={'password'}
-                                    value={data.password}
-                                    error={!isRegisterModalOpen ? formErrors.password : ''}
+                                    value={loginData.password}
+                                    error={!isRegisterModalOpen ? loginFormErrors.password : ''}
                                 />
 
                             </div>
 
                             <div className={`flex justify-between`}>
                                 <button className={`text-sm text-[--theme-secondary-text-color] hover:underline`}>هل نسيت كلمة المرور؟</button>
-                                <button className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] font-medium`}>تسجيل الدخول</button>
+                                <button onClick={submitLogin} className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] font-medium`}>تسجيل الدخول</button>
                             </div>
                         </div>
                     </div>
@@ -148,22 +172,22 @@ export default function Auth() {
                         <div className={`mt-5 flex flex-col gap-y-2`}>
                             <Input
                                 placeholder={`ماذا تريد أن يكون اسمك؟`}
-                                onChange={e => setData('name', e.target.value)}
-                                value={data.name}
+                                onChange={e => setRegisterData('name', e.target.value)}
+                                value={registerData.name}
                                 name={'name'}
                                 label={`الاسم`}
-                                error={isRegisterModalOpen ? formErrors.name : ''}
+                                error={isRegisterModalOpen ? registerFormErrors.name : ''}
                             />
                         </div>
 
                         <div className={`mt-5 flex flex-col gap-y-2`}>
                             <Input
                                 placeholder={`بريدك الالكترونى`}
-                                onChange={e => setData('email', e.target.value)}
+                                onChange={e => setRegisterData('email', e.target.value)}
                                 name={'email'}
-                                value={data.email}
+                                value={registerData.email}
                                 label={`البريد الإلكترونى`}
-                                error={isRegisterModalOpen ? formErrors.email : ''}
+                                error={isRegisterModalOpen ? registerFormErrors.email : ''}
                             />
                         </div>
 
@@ -171,11 +195,11 @@ export default function Auth() {
                             <Input
                                 placeholder={`كلمة المرور`}
                                 type={'password'}
-                                onChange={e => setData('password', e.target.value)}
+                                onChange={e => setRegisterData('password', e.target.value)}
                                 name={'password'}
-                                value={data.password}
+                                value={registerData.password}
                                 label={`كلمة المرور`}
-                                error={isRegisterModalOpen ? formErrors.password : ''}
+                                error={isRegisterModalOpen ? registerFormErrors.password : ''}
                             />
                         </div>
 
@@ -183,17 +207,17 @@ export default function Auth() {
                             <Input
                                 placeholder={`تأكيد كلمة المرور`}
                                 type={'password'}
-                                onChange={e => setData('password_confirmation', e.target.value)}
+                                onChange={e => setRegisterData('password_confirmation', e.target.value)}
                                 name={'password_confirmation'}
-                                value={data.password_confirmation}
+                                value={registerData.password_confirmation}
                                 label={`تأكيد كلمة المرور`}
-                                error={isRegisterModalOpen ? formErrors.password_confirmation : ''}
+                                error={isRegisterModalOpen ? registerFormErrors.password_confirmation : ''}
                             />
                         </div>
 
                     </main>
                     <footer className={`border-t border-[#393839] flex flex-row-reverse py-3 px-2`}>
-                        <button onClick={submit} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
+                        <button onClick={submitRegister} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
                             التالي
                         </button>
                     </footer>
