@@ -56,7 +56,7 @@ class RegisterRequest extends FormRequest
     {
         $errors = $validator->errors()->toArray();
         throw new HttpResponseException(
-            Inertia::render('Auth/Auth', ['errors' => $errors])->toResponse(request())
+            back()->withErrors($errors)->withInput()
         );
     }
 }

@@ -25,15 +25,14 @@ export default function Auth() {
         e.preventDefault()
         post('/account', {
             onSuccess: () => {
-                console.log(data)
                 setIsRegisterModalOpen(false)
                 reset()
             },
-            onError: () => {
-                console.log(errors)
+            onError: (response) => {
+                const errorsData = response || errors;
                 setFormErrors({
-                    ...errors
-                })
+                    ...errorsData,
+                });
             },
         })
     }
