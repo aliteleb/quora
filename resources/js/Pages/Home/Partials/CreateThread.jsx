@@ -17,7 +17,7 @@ export default function CreateThread() {
         <div className={`z-10 bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] h-fit p-5 rounded flex flex-col gap-y-5`}>
                 <div className={`${user ? 'grid' : ''}  grid-cols-[0.5fr_6fr] items-center`}>
                     {user?.avatar && <img src={``} className={`size-7 rounded-full cursor-pointer`}/>}
-                    {(!user?.avatar && user) && <FaRegCircleUser className={`size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
+                    {(!user?.avatar && user) && <FaRegCircleUser className={`size-9 cursor-pointer text-[--theme-placeholder-color]`}/>}
                     <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer`}>
                         <input
                             type="text"
@@ -32,7 +32,7 @@ export default function CreateThread() {
                         setIsCreatThreadModalOpen(true)
                         setIsPostActive(false)
                     }} className={`cursor-pointer flex items-center gap-x-3`}>
-                        <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-input-bg-color] py-2 rounded`}>
+                        <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
                             <span>اسأل</span>
                         </div>
@@ -40,7 +40,7 @@ export default function CreateThread() {
                     </div>
 
                     <div className={`cursor-pointer flex items-center gap-x-3 ms-3`}>
-                        <div className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-input-bg-color] py-2 rounded`}>
+                        <div className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
                             أجب
                         </div>
@@ -50,7 +50,7 @@ export default function CreateThread() {
                     <div onClick={() => {
                         setIsCreatThreadModalOpen(true)
                         setIsPostActive(true)
-                    }} className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-input-bg-color] py-2 rounded`}>
+                    }} className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                         <BiCommentEdit  className={`size-6 text-[--theme-placeholder-color]`}/>
                         نشر
                     </div>

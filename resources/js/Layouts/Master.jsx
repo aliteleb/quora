@@ -50,12 +50,25 @@ function Master({children}) {
                             </div>
                         </ul>
                         <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
-                            {user?.avatar && <img onClick={() => setIsUserDropdownMenuOpen(true)} src={``} className={`md:size-10 size-7 rounded-full cursor-pointer`}/>}
-                            {(!user?.avatar && user) && <FaRegCircleUser onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-10 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
+
+                            <div className={`relative`}>
+                                <button id={`userDropdown`} onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}>
+                                    {user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer pointer-events-none`}/>}
+                                    {(!user?.avatar && user) && <FaRegCircleUser className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color] pointer-events-none`}/>}
+                                </button>
+
+                                {isUserDropdownMenuOpen &&
+                                    <UserDropdownMenu
+                                        isUserDropdownMenuOpen={isUserDropdownMenuOpen}
+                                        setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}
+                                    />
+                                }
+                            </div>
                             <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-full`}>
                                 أضف سؤال
                                 <FaChevronDown />
                             </button>
+
                         </div>
                     </nav>
                 </div>
@@ -63,7 +76,6 @@ function Master({children}) {
             <button className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2`}>
                 <AiOutlinePlus />
             </button>
-
             {/*  Bottom Nav  */}
             <nav className={`sm:hidden fixed bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
                 <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
@@ -80,12 +92,7 @@ function Master({children}) {
                 </div>
             </nav>
 
-            {isUserDropdownMenuOpen &&
-                <UserDropdownMenu
-                    isUserDropdownMenuOpen={isUserDropdownMenuOpen}
-                    setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}
-                />
-            }
+
 
             <main>{children}</main>
         </>

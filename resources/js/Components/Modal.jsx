@@ -29,7 +29,7 @@ export default function Modal({
                 as="div"
                 id="modal"
                 className={`fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all`}
-                onClose={close}
+                onClose={onClose}
             >
                 <TransitionChild
                     enter="ease-out duration-300"

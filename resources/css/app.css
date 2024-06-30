@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+
+    .dropdown-clip-path {
+        clip-path: polygon(0 6%, 43% 6%, 50% 0, 58% 6%, 100% 6%, 100% 100%, 0 100%);
+    }
+
+}
+
+
 /* arabic */
 @font-face {
     font-family: 'IBM Plex Sans Arabic';
@@ -64,4 +73,23 @@ input:-webkit-autofill:active{
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 80px;
     background: #555
+}
+
+
+/* Fade in */
+.animate-fade-in{
+    animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Fade out */
+.animate-fade-out{
+    animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
 }
