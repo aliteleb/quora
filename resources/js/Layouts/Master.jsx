@@ -57,12 +57,12 @@ function Master({children}) {
                                     {(!user?.avatar && user) && <FaRegCircleUser className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color] pointer-events-none`}/>}
                                 </button>
 
-                                {isUserDropdownMenuOpen &&
-                                    <UserDropdownMenu
-                                        isUserDropdownMenuOpen={isUserDropdownMenuOpen}
-                                        setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}
-                                    />
-                                }
+
+                                <UserDropdownMenu
+                                    isUserDropdownMenuOpen={isUserDropdownMenuOpen}
+                                    setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}
+                                />
+
                             </div>
                             <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-full`}>
                                 أضف سؤال

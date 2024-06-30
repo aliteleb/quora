@@ -25,9 +25,8 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
     }, []);
 
     return (
-        <Transition enter={'duration-500 transition'} as={'div'} show={isUserDropdownMenuOpen} leave="duration-200" ref={dropDownRef} className={`dropdown-clip-path absolute left-1/2 top-12 -translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-fit pt-8 py-3`}>
+        <Transition enter={'duration-500 transition'} show={isUserDropdownMenuOpen} leave="duration-200" ref={dropDownRef} className={`dropdown-clip-path absolute left-1/2 top-12 -translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-fit pt-8 py-3`}>
             <TransitionChild
-                as={'div'}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
