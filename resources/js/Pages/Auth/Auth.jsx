@@ -6,12 +6,12 @@ import {Head, useForm} from "@inertiajs/react";
 import {MdOutlineEmail} from "react-icons/md";
 import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 
-export default function Auth() {
+export default function Auth(props) {
 
-    const {settings} = useApp()
+    const {settings, setUser} = useApp()
+
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, errors, processing, reset } = useForm({
         email: '',
         password: '',
     });
@@ -19,7 +19,8 @@ export default function Auth() {
     const submitLogin = (e) => {
         e.preventDefault()
         post('/login', {
-            onSuccess: () => {
+            onSuccess: (res) => {
+                setUser(res.props.auth.user)
                 reset()
             },
             onError: (response) => {
@@ -40,9 +41,7 @@ export default function Auth() {
 
             <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-body-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
 
-                <h1 className={`text-center text-red-600 text-2xl`}>{}</h1>
-
-                    <div className={`flex items-center flex-col pb-6 mt-4`}>
+                    <div className={`flex items-center flex-col pb-6`}>
                         <img
                             src={settings.logo}
                             alt="logo"
@@ -112,7 +111,13 @@ export default function Auth() {
 
                             <div className={`flex justify-between`}>
                                 <button className={`text-sm text-[--theme-secondary-text-color] hover:underline`}>هل نسيت كلمة المرور؟</button>
-                                <button onClick={submitLogin} className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] font-medium`}>تسجيل الدخول</button>
+                                <button
+                                    onClick={submitLogin}
+                                    className={`${processing ? 'opacity-40 cursor-not-allowed' : ''} rounded-full px-4 py-2 bg-[--theme-button-border-color] font-medium`}
+                                    disabled={processing}
+                                >
+                                    تسجيل الدخول
+                                </button>
                             </div>
                         </div>
                     </div>

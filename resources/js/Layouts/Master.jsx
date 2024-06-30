@@ -1,27 +1,31 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
-import {FaAngleDown, FaChevronDown, FaEdit, FaPlus, FaUsers} from "react-icons/fa";
+import {FaAngleDown, FaChevronDown, FaEdit, FaPlus, FaUserCircle, FaUsers} from "react-icons/fa";
 import {Head} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
 import {TbUsersGroup} from "react-icons/tb";
+import {FaRegCircleUser} from "react-icons/fa6";
+import UserDropdownMenu from "@/Layouts/UserDropdownMenu.jsx";
 
 function Master({children}) {
 
-    const {settings} = useApp()
+    const {settings, user} = useApp()
+
+    const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
 
     return (
         <>
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
-                    <nav className={`flex flex-row xl:gap-x-8 h-14 md:gap-x-4 gap-x-2 px-2 items-center justify-between sm:justify-around text-[#e6e7e8]`}>
+                    <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
                         <img src={settings.logo}
                               alt="logo"
                               className={`h-6`}
                         />
-                        <ul className={`flex xl:gap-x-3 lg:gap-x-1 gap-x-1 text-2xl flex-grow `}>
-                            <div className={`sm:flex gap-x-2 hidden`}>
+                        <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `}>
+                            <div className={`sm:flex gap-x-1 hidden`}>
                                 <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </div>
@@ -45,9 +49,10 @@ function Master({children}) {
                                 />
                             </div>
                         </ul>
-                        <div className={`flex gap-x-2`}>
-                            <button className={`size-10 rounded-full bg-sky-950`}></button>
-                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:h-auto lg:py-1 px-4 rounded-full`}>
+                        <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
+                            {user?.avatar && <img onClick={() => setIsUserDropdownMenuOpen(true)} src={``} className={`md:size-10 size-7 rounded-full cursor-pointer`}/>}
+                            {(!user?.avatar && user) && <FaRegCircleUser onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-10 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
+                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-full`}>
                                 أضف سؤال
                                 <FaChevronDown />
                             </button>
@@ -74,6 +79,13 @@ function Master({children}) {
                     <IoNotificationsOutline />
                 </div>
             </nav>
+
+            {isUserDropdownMenuOpen &&
+                <UserDropdownMenu
+                    isUserDropdownMenuOpen={isUserDropdownMenuOpen}
+                    setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}
+                />
+            }
 
             <main>{children}</main>
         </>

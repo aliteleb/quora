@@ -1,9 +1,14 @@
 import {Dialog, DialogPanel, Transition, TransitionChild} from '@headlessui/react';
 
 export default function Modal({
-                                  children, show = false, maxWidth = '2xl', bgColor = 'bg-gray-900/75', backdropColor = 'bg-[#222222dd]', closeable = true, onClose = () => {
-    }
-                              }) {
+        children,
+        show = false,
+        maxWidth = '2xl',
+        bgColor = 'bg-gray-900/75',
+        backdropColor = 'bg-[#222222dd]',
+        closeable = true,
+        onClose = () => {},
+}) {
     const close = () => {
         if (closeable) {
             onClose();
@@ -15,7 +20,7 @@ export default function Modal({
         md: 'sm:max-w-md',
         lg: 'sm:max-w-lg',
         xl: 'sm:max-w-xl',
-        '2xl': 'w-full sm:max-w-2xl',
+        '2xl': `w-full sm:max-w-2xl`,
     }[maxWidth]
 
     return (
@@ -23,7 +28,7 @@ export default function Modal({
             <Dialog
                 as="div"
                 id="modal"
-                className="fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all"
+                className={`fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all`}
                 onClose={close}
             >
                 <TransitionChild
@@ -45,7 +50,7 @@ export default function Modal({
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <DialogPanel className={`mb-6 overflow-hidden shadow transform transition-all sm:w-full sm:mx-auto ${maxWidthClass} ${bgColor}`}>
+                    <DialogPanel className={`mb-6 overflow-hidden shadow transform transition-all sm:w-full sm:mx-auto  ${maxWidthClass} ${bgColor}`}>
                         {children}
                     </DialogPanel>
                 </TransitionChild>

@@ -7,8 +7,6 @@ const AppWrapper = ({ App, props }) => {
     useEffect(() => {
         setSettings(props.initialPage.props.settings)
         setUser(props.initialPage.props.auth.user)
-
-        console.log(props.initialPage.props)
     }, []);
 
     return <App {...props} />;
