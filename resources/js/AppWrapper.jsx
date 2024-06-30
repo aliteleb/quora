@@ -3,9 +3,12 @@ import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './AppContext/AppContext.jsx';
 
 const AppWrapper = ({ App, props }) => {
-    const {setSettings} = useApp()
+    const {setSettings, setUser} = useApp()
     useEffect(() => {
         setSettings(props.initialPage.props.settings)
+        setUser(props.initialPage.props.auth.user)
+
+        console.log(props.initialPage.props)
     }, []);
 
     return <App {...props} />;

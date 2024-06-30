@@ -2,70 +2,28 @@ import React, {useEffect, useState} from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
-import Modal from "@/Components/Modal.jsx";
-import {GrClose} from "react-icons/gr";
 import {Head, useForm} from "@inertiajs/react";
 import {MdOutlineEmail} from "react-icons/md";
+import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 
 export default function Auth() {
 
     const {settings} = useApp()
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
-    const closeRegisterModal = () => {
-        setIsRegisterModalOpen(false)
-    }
 
-    const { data: registerData, setData: setRegisterData, post: postRegister, errors: registerErrors, reset: resetRegister } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-    });
-
-    const { data: loginData, setData: setLoginData, post: postLogin, errors: loginErrors, reset: resetLogin } = useForm({
+    const { data, setData, post, errors, reset } = useForm({
         email: '',
         password: '',
     });
-
-    const [registerFormErrors, setRegisterFormErrors] = useState({
-        name: [],
-        email: [],
-        password: [],
-        password_confirmation: [],
-    })
-
-    const [loginFormErrors, setLoginFormErrors] = useState({
-        email: [],
-        password: [],
-    })
-
-    const submitRegister = (e) => {
-        e.preventDefault()
-        postRegister('/register', {
-            onSuccess: () => {
-                setIsRegisterModalOpen(false)
-                resetRegister()
-            },
-            onError: (response) => {
-                const errorsData = response || registerErrors;
-                setRegisterFormErrors({
-                    ...errorsData,
-                });
-            },
-        })
-    }
 
     const submitLogin = (e) => {
         e.preventDefault()
-        postLogin('/login', {
+        post('/login', {
             onSuccess: () => {
-                resetLogin()
+                reset()
             },
             onError: (response) => {
-                const errorsData = response || loginErrors;
-                setLoginFormErrors({
-                    ...errorsData,
-                });
+                console.log(response)
             },
         })
     }
@@ -81,7 +39,10 @@ export default function Auth() {
             />
 
             <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-body-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
-                    <div className={`flex items-center flex-col pb-6`}>
+
+                <h1 className={`text-center text-red-600 text-2xl`}>{}</h1>
+
+                    <div className={`flex items-center flex-col pb-6 mt-4`}>
                         <img
                             src={settings.logo}
                             alt="logo"
@@ -131,10 +92,10 @@ export default function Auth() {
                                 <span className={`font-medium`}>البريد الإلكترونى</span>
                                 <Input
                                     placeholder={`بريدك الإلكترونى`}
-                                    onChange={e => setLoginData('email', e.target.value)}
+                                    onChange={e => setData('email', e.target.value)}
                                     name={'email'}
-                                    value={loginData.email}
-                                    error={!isRegisterModalOpen ? loginFormErrors.email : ''}
+                                    value={data.email}
+                                    error={errors.invalid_credentials}
                                 />
                             </div>
 
@@ -142,10 +103,9 @@ export default function Auth() {
                                 <span className={`font-medium`}>كلمة المرور</span>
                                 <Input
                                     placeholder={`كلمة المرور الخاصة بك`}
-                                    type={'password'} onChange={e => setLoginData('password', e.target.value)}
+                                    type={'password'} onChange={e => setData('password', e.target.value)}
                                     name={'password'}
-                                    value={loginData.password}
-                                    error={!isRegisterModalOpen ? loginFormErrors.password : ''}
+                                    value={data.password}
                                 />
 
                             </div>
@@ -170,69 +130,7 @@ export default function Auth() {
 
                 </div>
 
-            <Modal show={isRegisterModalOpen} onClose={closeRegisterModal} backdropColor={`bg-[#222222dd]`} >
-                <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
-                    <header className={`p-2 flex justify-between`}>
-                        <button className={`rounded-full hover:bg-white/5 text-white p-3 `} onClick={closeRegisterModal}>
-                            <GrClose className={`size-5`}/>
-                        </button>
-                        <h3 className={`p-2 font-bold text-lg`}>التسجيل</h3>
-                    </header>
-                    <main className={`py-2 px-3 pb-20`}>
-                        <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input
-                                placeholder={`ماذا تريد أن يكون اسمك؟`}
-                                onChange={e => setRegisterData('name', e.target.value)}
-                                value={registerData.name}
-                                name={'name'}
-                                label={`الاسم`}
-                                error={isRegisterModalOpen ? registerFormErrors.name : ''}
-                            />
-                        </div>
-
-                        <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input
-                                placeholder={`بريدك الالكترونى`}
-                                onChange={e => setRegisterData('email', e.target.value)}
-                                name={'email'}
-                                value={registerData.email}
-                                label={`البريد الإلكترونى`}
-                                error={isRegisterModalOpen ? registerFormErrors.email : ''}
-                            />
-                        </div>
-
-                        <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input
-                                placeholder={`كلمة المرور`}
-                                type={'password'}
-                                onChange={e => setRegisterData('password', e.target.value)}
-                                name={'password'}
-                                value={registerData.password}
-                                label={`كلمة المرور`}
-                                error={isRegisterModalOpen ? registerFormErrors.password : ''}
-                            />
-                        </div>
-
-                        <div className={`mt-5 flex flex-col gap-y-2`}>
-                            <Input
-                                placeholder={`تأكيد كلمة المرور`}
-                                type={'password'}
-                                onChange={e => setRegisterData('password_confirmation', e.target.value)}
-                                name={'password_confirmation'}
-                                value={registerData.password_confirmation}
-                                label={`تأكيد كلمة المرور`}
-                                error={isRegisterModalOpen ? registerFormErrors.password_confirmation : ''}
-                            />
-                        </div>
-
-                    </main>
-                    <footer className={`border-t border-[#393839] flex flex-row-reverse py-3 px-2`}>
-                        <button onClick={submitRegister} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
-                            التالي
-                        </button>
-                    </footer>
-                </div>
-            </Modal>
+            <RegistrationModal isRegisterModalOpen={isRegisterModalOpen} setIsRegisterModalOpen={setIsRegisterModalOpen}/>
         </>
 
     )

@@ -10,7 +10,7 @@ import {RiImageAddLine} from "react-icons/ri";
 
 export default function CreateThreadModal() {
 
-    const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen, isPostActive, setIsPostActive} = useApp();
+    const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user} = useApp();
 
     const [thread, setThread] = useState({
         title: '',
@@ -56,7 +56,7 @@ export default function CreateThreadModal() {
                         <div className={`flex items-center gap-x-1`}>
                             <div className={`bg-blue-600 size-8 rounded-full`}></div>
                             {!isPostActive && <BiCaretLeft className={`size-5`}/>}
-                            {isPostActive && <span>{`Username`}</span>}
+                            {isPostActive && <span>{user?.name}</span>}
                         </div>
 
                         <button

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Triats\HttpResponses;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class AuthController extends Controller
@@ -25,10 +23,14 @@ class AuthController extends Controller
         return redirect()->route('index');
     }
 
-    public function login(LoginRequest $request)
+    public function login()
     {
-        return $this->success([
-            'user_info' => $request->toArray()
-        ]);
+        $credentials = request()->only(['email', 'password']);
+        if (Auth::attempt($credentials, true))
+        {
+            return redirect()->route('index');
+        }
+
+        return back()->withErrors(['invalid_credentials' => 'البيانات المدخلة غير صحيحة']);
     }
 }

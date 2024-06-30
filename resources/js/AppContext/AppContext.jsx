@@ -9,17 +9,17 @@ const AppProvider = ({children}) => {
 
     const [isCreatThreadModalOpen, setIsCreatThreadModalOpen] = useState(false)
     const [isPostActive, setIsPostActive] = useState(false)
-    const [formErrors, setFormErrors] = useState({
-        name: [],
-        email: [],
-        password: [],
-        password_confirmation: [],
-    })
-
     const setSettings = (newState) => {
         setAppInfo(prevState => ({
             ...prevState,
             settings: newState
+        }))
+    }
+
+    const setUser = (newState) => {
+        setAppInfo(prevState => ({
+            ...prevState,
+            user: newState
         }))
     }
 
@@ -32,8 +32,8 @@ const AppProvider = ({children}) => {
                 setIsCreatThreadModalOpen,
                 isPostActive,
                 setIsPostActive,
-                formErrors,
-                setFormErrors,
+                setUser,
+                user: appInfo.user,
             }}
         >
             {children}
