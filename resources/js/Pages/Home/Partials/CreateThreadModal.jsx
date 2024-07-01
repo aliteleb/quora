@@ -46,9 +46,9 @@ export default function CreateThreadModal() {
                 </div>
 
 
-                <div className={`mt-2 flex border-b border-[--theme-default-border-color]`}>
-                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إضافة سؤال</button>
-                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'} font-bold`}>إنشاء منشور</button>
+                <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
+                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
+                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>

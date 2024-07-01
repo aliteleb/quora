@@ -57,7 +57,6 @@ function Master({children}) {
                                     {(!user?.avatar && user) && <FaRegCircleUser className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color] pointer-events-none`}/>}
                                 </button>
 
-
                                 <UserDropdownMenu
                                     isUserDropdownMenuOpen={isUserDropdownMenuOpen}
                                     setIsUserDropdownMenuOpen={setIsUserDropdownMenuOpen}

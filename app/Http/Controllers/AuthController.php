@@ -33,4 +33,10 @@ class AuthController extends Controller
 
         return back()->withErrors(['invalid_credentials' => 'البيانات المدخلة غير صحيحة']);
     }
+
+    public function logout()
+    {
+        auth()->logout();
+        return Inertia::location('/account');
+    }
 }
