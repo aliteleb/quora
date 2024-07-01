@@ -1,19 +1,25 @@
 import React, {useState} from 'react'
 import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
 import {FaAngleDown, FaChevronDown, FaEdit, FaPlus, FaUserCircle, FaUsers} from "react-icons/fa";
-import {Head} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
 import {TbUsersGroup} from "react-icons/tb";
 import {FaRegCircleUser} from "react-icons/fa6";
 import UserDropdownMenu from "@/Layouts/UserDropdownMenu.jsx";
+import CreateDropdownMenu from "@/Layouts/CreateDropdownMenu.jsx";
 
 function Master({children}) {
 
     const {settings, user} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
+    const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
+
+    const redirectToLogin = () => {
+        window.location = '/account'
+    }
 
     return (
         <>
@@ -63,9 +69,15 @@ function Master({children}) {
                                 />
 
                             </div>
-                            <button className={`hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-full`}>
-                                أضف سؤال
-                                <FaChevronDown />
+                            <button id={`createDropdown`} onClick={!user ? redirectToLogin : () => setIsCreateDropdownMenuOpen(!isCreateDropdownMenuOpen)} className={`relative hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-fit`}>
+                                {user ? 'إنشاء' : 'تسجيل دخول'}
+                                {user && <FaChevronDown/>}
+
+                                <CreateDropdownMenu
+                                    isCreateDropdownMenuOpen={isCreateDropdownMenuOpen}
+                                    setIsCreateDropdownMenuOpen={setIsCreateDropdownMenuOpen}
+                                />
+
                             </button>
 
                         </div>
