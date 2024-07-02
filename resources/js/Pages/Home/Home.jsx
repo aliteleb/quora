@@ -5,6 +5,7 @@ import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {Head} from "@inertiajs/react";
+import Post from "@/Layouts/Post.jsx";
 
 export default function Home() {
 
@@ -15,8 +16,9 @@ export default function Home() {
                 <Footer/>
 
                 <div className={`w-40 hidden sm:block`}></div> {/* Footer Simulation */}
-                <div className={`lg:w-1/2 sm:w-2/3 w-full flex justify-center py-2`}>
+                <div className={`lg:w-1/2 sm:w-2/3 w-full flex flex-col items-center gap-y-2 py-2`}>
                     <CreateThread/>
+                    <Post/>
                 </div>
                 <CreateThreadModal/>
             </div>

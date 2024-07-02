@@ -3,8 +3,11 @@ import {Transition, TransitionChild} from "@headlessui/react";
 import {BsQuestionSquare} from "react-icons/bs";
 import {BiCommentEdit} from "react-icons/bi";
 import {FaUsers} from "react-icons/fa";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function CreateDropdownMenu(props) {
+
+    const {setIsCreatThreadModalOpen, setIsPostActive, user } = useApp();
 
     const createDropDownRef = useRef(null);
     useEffect(() => {
@@ -32,11 +35,17 @@ export default function CreateDropdownMenu(props) {
                 as={'div'}
             >
                 <main>
-                    <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60 border-b border-[--theme-default-border-color]`}>
+                    <div onClick={() => {
+                        setIsCreatThreadModalOpen(true)
+                        setIsPostActive(false)
+                    }} className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60 border-b border-[--theme-default-border-color]`}>
                         <BsQuestionSquare className={`size-6`}/>
                         <span>إنشاء سؤال</span>
                     </div>
-                    <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60 border-b border-[--theme-default-border-color]`}>
+                    <div onClick={() => {
+                        setIsCreatThreadModalOpen(true)
+                        setIsPostActive(true)
+                    }} className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60 border-b border-[--theme-default-border-color]`}>
                         <BiCommentEdit className={`size-6`}/>
                         <span>إنشاء منشور</span>
                     </div>

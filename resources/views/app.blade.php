@@ -11,6 +11,7 @@
                 --theme-body-bg: {{ settings('theme-body-bg', '#181818') }};
                 --theme-main-bg-color: {{ settings('theme-main-bg-color', '#262626')}};
                 --theme-nav-bg-color-hover: {{settings('theme-nav-bg-color-hover', '#2f2f2f') }};
+                --theme-secondary-bg-color-hover: {{settings('theme-secondary-bg-color-hover', '#393939') }};
                 --theme-placeholder-color: {{settings('theme-body-bg', '#ffffff') }}77;
                 --theme-primary-button-color: {{settings('theme-primary-button-color', '#f52936')}};
                 --theme-primary-text-color: {{settings('theme-primary-text-color', '#e6e7e8')}};
