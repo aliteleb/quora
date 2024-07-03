@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeContorller;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SpaceController;
 use App\Http\Middleware\RedirectWhenAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,8 @@ Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
+
+Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
 
 
 
