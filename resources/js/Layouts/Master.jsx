@@ -87,7 +87,7 @@ function Master({children}) {
                     </nav>
                 </div>
             </div>
-            <button className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2`}>
+            <button className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
                 <AiOutlinePlus />
             </button>
             {/*  Bottom Nav  */}

@@ -8,22 +8,59 @@ import Modal from "@/Components/Modal.jsx";
 import {AiOutlineGlobal} from "react-icons/ai";
 import {RiImageAddLine} from "react-icons/ri";
 import Input from "@/Core/Input.jsx";
+import {FaRegCircleUser} from "react-icons/fa6";
+import {useForm} from "@inertiajs/react";
 
 export default function CreateThreadModal() {
 
     const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user} = useApp();
 
-    const [thread, setThread] = useState({
-        title: '',
-        image: '',
-        space: '',
-    })
+    const { data, setData, post, errors, processing, reset } = useForm({
+            title: '',
+            image: null,
+            video: null,
+            space: '',
+    });
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            if (file.type.startsWith('image') && !data.image) {
+                console.log('there is image')
+                setData({
+                    ...data,
+                    image: file,
+                    video: null,
+                });
+            } else if (file.type.startsWith('video') && !data.video)
+            {
+                setData({
+                    ...data,
+                    video: file,
+                    image: null,
+                });
+            }
+        }
+    };
 
     const handleThreadChange = (e) => {
-        setThread(prevState => ({
+        setData(prevState => ({
             ...prevState,
             [e.target.name]: e.target.value
         }))
+    }
+
+    const inputElement = document.getElementById('upload_post_img');
+    const removeUploadedFile = () => {
+        setData({
+            ...data,
+            image: null,
+            video: null,
+        })
+
+        if (inputElement) {
+            inputElement.value = ''; // Reset the value to empty string
+        }
     }
 
     return (
@@ -32,7 +69,7 @@ export default function CreateThreadModal() {
             onClose={() => {setIsCreatThreadModalOpen(false)}}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
-            <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded-lg border border-[--theme-default-border-color]`}>
+            <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
                 <div className={`flex items-center relative`}>
                     <div onClick={() => setIsCreatThreadModalOpen(false)}
                          className={`hover:bg-[--theme-main-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}>
@@ -54,8 +91,9 @@ export default function CreateThreadModal() {
 
                 <div className={`px-4`}>
                     <div className={`mt-5 flex gap-x-3`}>
-                        <div className={`flex items-center gap-x-1`}>
-                            <div className={`bg-blue-600 size-8 rounded-full`}></div>
+                        <div className={`flex items-center ${isPostActive ? 'gap-x-3' : 'gap-x-1'} `}>
+                            {user?.avatar && <img src={``} className={`size-7 rounded-full cursor-pointer`}/>}
+                            {(!user?.avatar && user) && <FaRegCircleUser className={`size-9 cursor-pointer text-[--theme-placeholder-color]`}/>}
                             {!isPostActive && <BiCaretLeft className={`size-5`}/>}
                             {isPostActive && <span>{user?.name}</span>}
                         </div>
@@ -75,22 +113,52 @@ export default function CreateThreadModal() {
                         className={`w-full resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-transparent' : 'border-[--theme-default-border-color] hover:border-[--theme-button-border-color]  focus:border-[--theme-main-bg-color]'} border-x-0 border-t-0  focus:ring-0`}
                         maxLength={200}
                         name={'title'}
-                        value={thread.title}
+                        value={data.title}
                         onChange={handleThreadChange}
                     >
                     </textarea>
+
+                    {/* Preview uploaded image */}
+                    {(data.image && !data.video) &&
+                        <div
+                            className={`${!data.image ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70 relative'}`}>
+                            <div onClick={removeUploadedFile}
+                                 className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                <HiMiniXMark className={`size-6`}/>
+                            </div>
+                            <img className={`w-full max-h-[30rem] rounded-2xl transition`}
+                                 src={data?.image ? URL.createObjectURL(data?.image) : ''}
+                                 alt=""/>
+                        </div>
+                    }
+
+                    {/* Preview uploaded video */}
+                    {(data.video && !data.image) &&
+                        <div
+                            className={`${!data.video ? 'invisible' : 'visible w-full pb-3 relative'}`}>
+                            <div onClick={removeUploadedFile}
+                                 className="absolute z-50 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                <HiMiniXMark className={`size-6`}/>
+                            </div>
+                            <video
+                                src={data.video}
+                                className={`w-full max-h-[30rem]`}
+                                controls
+                            />
+                        </div>
+                    }
                 </div>
 
-                <div className={`h-72 border-b border-[--theme-default-border-color] pb-3`}></div>
+                <div className={`${ !data.image || !data.video ? 'h-72' : '' } border-b border-[--theme-default-border-color] pb-3`}></div>
 
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
                         <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
-                        <button disabled={!thread.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!thread.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
+                        <button disabled={!data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
-                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'}/>
+                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleFileChange}/>
                             <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>
