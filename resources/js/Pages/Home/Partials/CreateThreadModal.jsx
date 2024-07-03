@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { BiCaretLeft } from 'react-icons/bi';
 import { TbUsers } from 'react-icons/tb';
@@ -26,7 +26,7 @@ export default function CreateThreadModal() {
             ...formData,
             [e.target.name]: e.target.value,
         }));
-        console.log(data)
+        // console.log(data)
     };
 
     const removeUploadedFile = () => {
@@ -39,7 +39,23 @@ export default function CreateThreadModal() {
 
     const handleImage =(e) => {
         setData('image', e.target.files[0])
+    }
+
+    useEffect(() => {
         console.log(data)
+    }, [data]);
+
+    const submitForm = (e) => {
+        e.preventDefault()
+        post('/thread/create', {
+            onSuccess: () => {
+                setIsCreatThreadModalOpen(false)
+                reset()
+            },
+            onError: (response) => {
+                console.log(response)
+            },
+        })
     }
 
     return (
@@ -134,11 +150,11 @@ export default function CreateThreadModal() {
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
                         <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
-                        <button disabled={!data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
+                        <button onClick={submitForm} disabled={!data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
-                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} value={data.image} onChange={handleImage}/>
+                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleImage}/>
                         <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>
