@@ -9,10 +9,12 @@ import {TbUsersGroup} from "react-icons/tb";
 import {FaRegCircleUser} from "react-icons/fa6";
 import UserDropdownMenu from "@/Layouts/UserDropdownMenu.jsx";
 import CreateDropdownMenu from "@/Layouts/CreateDropdownMenu.jsx";
+import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
+import SpaceModal from "@/Pages/Auth/Partials/SpaceModal.jsx";
 
 function Master({children}) {
 
-    const {settings, user} = useApp()
+    const {settings, user, isSpaceModalOpen, setIsSpaceModalOpen} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
@@ -76,6 +78,7 @@ function Master({children}) {
                                 <CreateDropdownMenu
                                     isCreateDropdownMenuOpen={isCreateDropdownMenuOpen}
                                     setIsCreateDropdownMenuOpen={setIsCreateDropdownMenuOpen}
+                                    setIsSpaceModalOpen={setIsSpaceModalOpen}
                                 />
 
                             </button>
@@ -103,9 +106,10 @@ function Master({children}) {
                 </div>
             </nav>
 
-
-
             <main>{children}</main>
+
+            <SpaceModal/>
+
         </>
 
     )

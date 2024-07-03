@@ -1,17 +1,18 @@
 import React from 'react'
 import {LuPlus} from "react-icons/lu";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
-export default function Footer() {
+export default function Footer({ setIsRegisterModalOpen }) {
+
+    const {setIsSpaceModalOpen} = useApp()
+
     return (
             <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-7 sm:flex hidden flex-col`}>
-                <button className={`w-fit`}>
-                    <div className={`flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}>
-                        <div className={`bg-[#262626] p-1 rounded`}>
-                            <LuPlus />
-                        </div>
+                <button  onClick={() => {
+                    setIsSpaceModalOpen(true)
+                }} className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}>
+                        <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
                         <span>إنشاء مساحة</span>
-                    </div>
-                    <div className={`w-full mt-5 h-[1px] bg-[--theme-main-bg-color]`}> </div>
                 </button>
 
                 <div className={`text-[--theme-secondary-text-color]`}>

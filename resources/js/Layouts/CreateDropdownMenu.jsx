@@ -5,14 +5,14 @@ import { BiCommentEdit } from 'react-icons/bi';
 import { FaUsers } from 'react-icons/fa';
 import { useApp } from '@/AppContext/AppContext.jsx';
 
-export default function CreateDropdownMenu(props) {
+export default function CreateDropdownMenu({isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen, setIsSpaceModalOpen}) {
     const { setIsCreatThreadModalOpen, setIsPostActive, user } = useApp();
 
     const createDropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (!createDropDownRef.current?.contains(e.target) && e.target.id !== 'createDropdown') {
-                props.setIsCreateDropdownMenuOpen(false);
+                setIsCreateDropdownMenuOpen(false);
             }
         };
 
@@ -25,7 +25,7 @@ export default function CreateDropdownMenu(props) {
     return (
         <Transition
             enter="duration-500 transition"
-            show={props.isCreateDropdownMenuOpen}
+            show={isCreateDropdownMenuOpen}
             leave="duration-200"
         >
             <div
@@ -62,10 +62,12 @@ export default function CreateDropdownMenu(props) {
                             <BiCommentEdit className={`size-6`} />
                             <span>إنشاء منشور</span>
                         </div>
-                        <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60`}>
+                        <button onClick={() => {
+                            setIsSpaceModalOpen(true)
+                        }}  className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-60`}>
                             <FaUsers className={`size-6`} />
                             <span>إنشاء مساحة</span>
-                        </div>
+                        </button>
                     </main>
                 </TransitionChild>
             </div>
