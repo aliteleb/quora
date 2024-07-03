@@ -50,12 +50,15 @@ export default function SpaceModal() {
                     </h3>
                     <div className={`mt-5 flex flex-col gap-y-2`}>
                         <Input
-                            placeholder={`ماذا تريد أن يكون اسمك؟`}
+                            placeholder={``}
                             onChange={e => setData('name', e.target.value)}
                             value={data.name}
                             name={'name'}
                             label={`الاسم`}
                             error={errors.name}
+                            required={true}
+                            helperText={`يمكنك تغيير هذا من إعدادات المساحة.`}
+                            showCounter={true}
                         />
                     </div>
 
