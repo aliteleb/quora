@@ -26,9 +26,8 @@ export default function CreateThreadModal() {
         const file = e.target.files?.[0];
         if (file) {
             if (file.type.startsWith('image') && !data.image) {
-                console.log('there is image')
                 setData({
-                    ...data,
+
                     image: file,
                     video: null,
                 });
