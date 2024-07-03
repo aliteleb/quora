@@ -28,8 +28,8 @@ export default function Post() {
                         <span>15 أبريل</span>
                     </div>
                 </div>
-                <div>
-                    <HiMiniXMark className={`size-8 p-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full cursor-pointer`}/>
+                <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 cursor-pointer`}>
+                    <RxDotsHorizontal className={`size-5`}/>
                 </div>
             </header>
             <main className={`flex flex-col gap-y-3`}>
@@ -68,11 +68,6 @@ export default function Post() {
                             <CiShare2 />
                             <span>23</span>
                         </div>
-                    </div>
-
-
-                    <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 cursor-pointer`}>
-                        <RxDotsHorizontal className={`size-5`}/>
                     </div>
                 </div>
             </footer>

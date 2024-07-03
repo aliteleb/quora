@@ -14,7 +14,6 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
     const dropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            console.log(e.target.id)
             if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown") {
                 setIsUserDropdownMenuOpen(false)
             }

@@ -15,8 +15,8 @@ export default function Home() {
             <div className={`relative flex max-w-screen-xl container mx-auto gap-x-10 px-2 h-[100rem]`}>
                 <Footer/>
 
-                <div className={`w-40 hidden sm:block`}></div> {/* Footer Simulation */}
-                <div className={`lg:w-1/2 sm:w-2/3 w-full flex flex-col items-center gap-y-2 py-2`}>
+                <div className={`w-40 hidden md:block`}></div> {/* Footer Simulation */}
+                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2`}>
                     <CreateThread/>
                     <Post/>
                 </div>
