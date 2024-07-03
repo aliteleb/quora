@@ -7,6 +7,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import Modal from "@/Components/Modal.jsx";
 import {AiOutlineGlobal} from "react-icons/ai";
 import {RiImageAddLine} from "react-icons/ri";
+import Input from "@/Core/Input.jsx";
 
 export default function CreateThreadModal() {
 
@@ -88,9 +89,10 @@ export default function CreateThreadModal() {
                         <button disabled={!thread.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!thread.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 
-                    <div className={`absolute top-1/2 -translate-y-1/2 p-1 rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}>
-                        <RiImageAddLine className={`size-6 text-[--theme-secondary-text-color]`}/>
-                    </div>
+                    <label htmlFor="upload_post_img" className={`block w-fit`}>
+                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'}/>
+                            <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
+                    </label>
                 </div>
 
             </div>
