@@ -4,12 +4,14 @@ export default function Input({placeholder, onChange, name, value, label, error,
 
     return (
         <>
-            {label && (
-                <span>
+            <div>
+                {label && (
+                    <div>
                     {label}{required && <span className={`text-red-600`}>*</span>}
-                </span>
-            )}
-            {helperText && <span className={`text-sm text-[--theme-body-color] opacity-80`}>{helperText}</span>}
+                    </div>
+                )}
+                {helperText && <div className={`text-sm text-[--theme-body-color] opacity-80`}>{helperText}</div>}
+            </div>
 
             <div className={`relative`}>
                 <input

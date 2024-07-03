@@ -12,14 +12,12 @@ export default function SpaceModal() {
 
     const { data, setData, post, errors, reset } = useForm({
         name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
+        description: '',
     });
 
-    const submitRegister = (e) => {
+    const submitForm = (e) => {
         e.preventDefault()
-        post('/register', {
+        post('/space/create', {
             onSuccess: () => {
                 setIsSpaceModalOpen(false)
                 reset()
@@ -34,7 +32,7 @@ export default function SpaceModal() {
     }
 
     return (
-        <Modal show={isSpaceModalOpen} onClose={closeSpaceModal} backdropColor={`bg-[#222222dd]`} >
+        <Modal show={isSpaceModalOpen} onClose={closeSpaceModal} backdropColor={`bg-[#222222dd]`} maxWidth={`xl`} >
             <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
                 <header className={`p-2 flex justify-between`}>
                     <button className={`rounded-full hover:bg-white/5 text-white p-3 `} onClick={closeSpaceModal}>
@@ -64,43 +62,20 @@ export default function SpaceModal() {
 
                     <div className={`mt-5 flex flex-col gap-y-2`}>
                         <Input
-                            placeholder={`بريدك الالكترونى`}
-                            onChange={e => setData('email', e.target.value)}
-                            name={'email'}
-                            value={data.email}
-                            label={`البريد الإلكترونى`}
-                            error={errors.email}
-                        />
-                    </div>
-
-                    <div className={`mt-5 flex flex-col gap-y-2`}>
-                        <Input
-                            placeholder={`كلمة المرور`}
-                            type={'password'}
-                            onChange={e => setData('password', e.target.value)}
-                            name={'password'}
+                            type={'text'}
+                            onChange={e => setData('description', e.target.value)}
+                            name={'description'}
                             value={data.password}
-                            label={`كلمة المرور`}
+                            label={`وصف موجز`}
+                            helperText={`قم بتضمين بعض الكلمات الرئيسية لتوضح للأشخاص ما يمكن توقعه إذا انضموا.`}
                             error={errors.password}
-                        />
-                    </div>
-
-                    <div className={`mt-5 flex flex-col gap-y-2`}>
-                        <Input
-                            placeholder={`تأكيد كلمة المرور`}
-                            type={'password'}
-                            onChange={e => setData('password_confirmation', e.target.value)}
-                            name={'password_confirmation'}
-                            value={data.password_confirmation}
-                            label={`تأكيد كلمة المرور`}
-                            error={errors.password_confirmation}
                         />
                     </div>
 
                 </main>
                 <footer className={`border-t border-[#393839] flex flex-row-reverse py-3 px-2`}>
-                    <button onClick={submitRegister} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
-                        التالي
+                    <button onClick={submitForm} className={`bg-[#1471ff] hover:bg-opacity-90 px-4 py-1.5 rounded-3xl`}>
+                        إنشاء
                     </button>
                 </footer>
             </div>
