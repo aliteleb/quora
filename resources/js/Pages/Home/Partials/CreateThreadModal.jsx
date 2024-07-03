@@ -1,87 +1,68 @@
-import React, {useEffect, useState} from 'react'
-import {HiMiniXMark} from "react-icons/hi2";
-import {BiCaretLeft} from "react-icons/bi";
-import {TbUsers} from "react-icons/tb";
-import {FaAngleDown} from "react-icons/fa";
-import {useApp} from "@/AppContext/AppContext.jsx";
-import Modal from "@/Components/Modal.jsx";
-import {AiOutlineGlobal} from "react-icons/ai";
-import {RiImageAddLine} from "react-icons/ri";
-import Input from "@/Core/Input.jsx";
-import {FaRegCircleUser} from "react-icons/fa6";
-import {useForm} from "@inertiajs/react";
+import React from 'react';
+import { HiMiniXMark } from 'react-icons/hi2';
+import { BiCaretLeft } from 'react-icons/bi';
+import { TbUsers } from 'react-icons/tb';
+import { FaAngleDown } from 'react-icons/fa';
+import { useApp } from '@/AppContext/AppContext.jsx';
+import Modal from '@/Components/Modal.jsx';
+import { AiOutlineGlobal } from 'react-icons/ai';
+import { RiImageAddLine } from 'react-icons/ri';
+import Input from '@/Core/Input.jsx';
+import { FaRegCircleUser } from 'react-icons/fa6';
+import { useForm } from '@inertiajs/react';
 
 export default function CreateThreadModal() {
-
-    const {isCreatThreadModalOpen ,setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user} = useApp();
+    const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
 
     const { data, setData, post, errors, processing, reset } = useForm({
-            title: '',
-            image: null,
-            video: null,
-            space: '',
-    });
-
-    const handleFileChange = (e) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            if (file.type.startsWith('image') && !data.image) {
-                setData({
-
-                    image: file,
-                    video: null,
-                });
-            } else if (file.type.startsWith('video') && !data.video)
-            {
-                setData({
-                    ...data,
-                    video: file,
-                    image: null,
-                });
-            }
-        }
-    };
+        title: '',
+        image: null,
+        video: null,
+        space: '',
+    }, {forceFormData: true,});
 
     const handleThreadChange = (e) => {
-        setData(prevState => ({
-            ...prevState,
-            [e.target.name]: e.target.value
-        }))
-    }
+        setData((formData) => ({
+            ...formData,
+            [e.target.name]: e.target.value,
+        }));
+        console.log(data)
+    };
 
-    const inputElement = document.getElementById('upload_post_img');
     const removeUploadedFile = () => {
         setData({
             ...data,
             image: null,
             video: null,
-        })
+        });
+    };
 
-        if (inputElement) {
-            inputElement.value = ''; // Reset the value to empty string
-        }
+    const handleImage =(e) => {
+        setData('image', e.target.files[0])
+        console.log(data)
     }
 
     return (
         <Modal
             show={isCreatThreadModalOpen}
-            onClose={() => {setIsCreatThreadModalOpen(false)}}
+            onClose={() => setIsCreatThreadModalOpen(false)}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
             <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
                 <div className={`flex items-center relative`}>
-                    <div onClick={() => setIsCreatThreadModalOpen(false)}
-                         className={`hover:bg-[--theme-main-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}>
-                        <HiMiniXMark className={`size-6`}/>
+                    <div
+                        onClick={() => setIsCreatThreadModalOpen(false)}
+                        className={`hover:bg-[--theme-main-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}
+                    >
+                        <HiMiniXMark className={`size-6`} />
                     </div>
 
                     <button className={`${!isPostActive ? 'hidden' : ''} absolute left-1/2 -translate-x-1/2 flex items-center gap-x-1 hover:bg-[--theme-main-bg-color] py-2 px-4 rounded-full`}>
                         <AiOutlineGlobal />
                         <span>الجميع</span>
-                        <FaAngleDown className={`size-4`}/>
+                        <FaAngleDown className={`size-4`} />
                     </button>
                 </div>
-
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
                     <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
@@ -127,7 +108,7 @@ export default function CreateThreadModal() {
                             </div>
                             <img className={`w-full max-h-[30rem] rounded-2xl transition`}
                                  src={data?.image ? URL.createObjectURL(data?.image) : ''}
-                                 alt=""/>
+                                 alt="post-img"/>
                         </div>
                     }
 
@@ -157,8 +138,8 @@ export default function CreateThreadModal() {
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
-                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleFileChange}/>
-                            <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
+                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} value={data.image} onChange={handleImage}/>
+                        <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>
 
