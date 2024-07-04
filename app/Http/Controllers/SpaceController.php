@@ -12,9 +12,7 @@ class SpaceController extends Controller
     use HttpResponses;
     public function create(SpaceRequest $request)
     {
-        $data = $request->validated();
-        $data['user_id'] = auth()->id();
-        $space = Space::create($data);
+        $space = Space::create($request->validated());
 
         return redirect()->route('index')->with([
             'space' => $space

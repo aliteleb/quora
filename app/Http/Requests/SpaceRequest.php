@@ -24,6 +24,7 @@ class SpaceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => [],
             'name' => ['required', 'max:64', 'min:3'],
             'description' => ['max:250'],
         ];
@@ -39,6 +40,15 @@ class SpaceRequest extends FormRequest
         ];
     }
 
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+        ]);
+    }
 
     public function failedValidation(Validator $validator)
     {
