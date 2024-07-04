@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { BiCaretLeft } from 'react-icons/bi';
 import { TbUsers } from 'react-icons/tb';
@@ -26,7 +26,6 @@ export default function CreateThreadModal() {
             ...formData,
             [e.target.name]: e.target.value,
         }));
-        // console.log(data)
     };
 
     const removeUploadedFile = () => {
@@ -37,8 +36,13 @@ export default function CreateThreadModal() {
         });
     };
 
-    const handleImage =(e) => {
-        setData('image', e.target.files[0])
+    const handleFileChange =(e) => {
+        if (e.target.files[0].type.startsWith('image'))
+        {
+            setData('image', e.target.files[0])
+        } else {
+            setData('video', e.target.files[0])
+        }
     }
 
     useEffect(() => {
@@ -58,13 +62,23 @@ export default function CreateThreadModal() {
         })
     }
 
+    const textAreaRef = useRef(null)
+    useEffect(() => {
+        if (textAreaRef.current) {
+            textAreaRef.current.style.height = 'auto';
+            textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 1 + 'px';
+        }
+
+    }, [data.title])
+
     return (
         <Modal
+            data={data}
             show={isCreatThreadModalOpen}
             onClose={() => setIsCreatThreadModalOpen(false)}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
-            <div className={`text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
+            <div className={`h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
                 <div className={`flex items-center relative`}>
                     <div
                         onClick={() => setIsCreatThreadModalOpen(false)}
@@ -105,9 +119,11 @@ export default function CreateThreadModal() {
 
                 <div className={`px-4`}>
                     <textarea
+                        ref={textAreaRef}
+                        contentEditable
                         placeholder={`${isPostActive ? 'قل شيئاً ما...' : 'إبدء سؤال بماذا, كيف, لماذا, إلخ.'}`}
-                        className={`w-full resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-transparent' : 'border-[--theme-default-border-color] hover:border-[--theme-button-border-color]  focus:border-[--theme-main-bg-color]'} border-x-0 border-t-0  focus:ring-0`}
-                        maxLength={200}
+                        className={`w-full overflow-auto resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-transparent' : 'border-[--theme-default-border-color] hover:border-[--theme-button-border-color]  focus:border-[--theme-main-bg-color]'} border-x-0 border-t-0  focus:ring-0`}
+                        maxLength={600}
                         name={'title'}
                         value={data.title}
                         onChange={handleThreadChange}
@@ -122,7 +138,7 @@ export default function CreateThreadModal() {
                                  className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
                                 <HiMiniXMark className={`size-6`}/>
                             </div>
-                            <img className={`w-full max-h-[30rem] rounded-2xl transition`}
+                            <img className={`w-full max-h-[30rem] rounded`}
                                  src={data?.image ? URL.createObjectURL(data?.image) : ''}
                                  alt="post-img"/>
                         </div>
@@ -137,15 +153,15 @@ export default function CreateThreadModal() {
                                 <HiMiniXMark className={`size-6`}/>
                             </div>
                             <video
-                                src={data.video}
-                                className={`w-full max-h-[30rem]`}
+                                src={URL.createObjectURL(data.video)}
+                                className={`w-full max-h-[30rem] rounded`}
                                 controls
                             />
                         </div>
                     }
                 </div>
 
-                <div className={`${ !data.image || !data.video ? 'h-72' : '' } border-b border-[--theme-default-border-color] pb-3`}></div>
+                <div className={`${ data.image || data.video ? '' : 'h-72' } border-b border-[--theme-default-border-color] pb-3`}></div>
 
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
@@ -154,7 +170,7 @@ export default function CreateThreadModal() {
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
-                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleImage}/>
+                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleFileChange}/>
                         <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>

@@ -1,4 +1,5 @@
 import {Dialog, DialogPanel, Transition, TransitionChild} from '@headlessui/react';
+import {useEffect, useRef} from "react";
 
 export default function Modal({
         children,
@@ -8,6 +9,7 @@ export default function Modal({
         backdropColor = 'bg-[#222222dd]',
         closeable = true,
         onClose = () => {},
+        data,
 }) {
     const close = () => {
         if (closeable) {
@@ -23,12 +25,13 @@ export default function Modal({
         '2xl': `w-full sm:max-w-2xl`,
     }[maxWidth]
 
+
     return (
         <Transition show={show} leave="duration-200">
             <Dialog
                 as="div"
                 id="modal"
-                className={`fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all`}
+                className={`fixed inset-0 flex overflow-y-scroll px-4 py-6 sm:px-0 items-center z-50 transform transition-all ${backdropColor}`}
                 onClose={onClose}
             >
                 <TransitionChild
@@ -39,7 +42,8 @@ export default function Modal({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className={`absolute inset-0 ${backdropColor}`}/>
+                    <div className={`h-full absolute inset-0`}/>
+
                 </TransitionChild>
 
                 <TransitionChild
@@ -50,10 +54,12 @@ export default function Modal({
                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
-                    <DialogPanel className={`mb-6 overflow-hidden shadow transform transition-all sm:w-full sm:mx-auto  ${maxWidthClass} ${bgColor}`}>
+
+                    <DialogPanel className={`my-[10rem] shadow transform transition-all sm:w-full sm:mx-auto  ${maxWidthClass} ${bgColor}`}>
                         {children}
                     </DialogPanel>
                 </TransitionChild>
+
             </Dialog>
         </Transition>
     );
