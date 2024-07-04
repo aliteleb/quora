@@ -33,14 +33,20 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $settings = settings();
-//        view()->share('settings', $settings);
 
-        return [
+        $context = [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
             'settings' => $settings,
         ];
+
+        $flashedKeys = session()->get('_flash')['old'] ?? [];
+        foreach ($flashedKeys as $key) {
+            $context[$key] = session()->get($key);
+        }
+
+        return $context;
     }
 }
