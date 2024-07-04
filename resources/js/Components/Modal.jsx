@@ -55,7 +55,7 @@ export default function Modal({
                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                 >
 
-                    <DialogPanel className={`my-[10rem] shadow transform transition-all sm:w-full sm:mx-auto  ${maxWidthClass} ${bgColor}`}>
+                    <DialogPanel className={`mt-[10rem] shadow transform transition-all sm:w-full sm:mx-auto  ${maxWidthClass} ${bgColor}`}>
                         {children}
                     </DialogPanel>
                 </TransitionChild>
