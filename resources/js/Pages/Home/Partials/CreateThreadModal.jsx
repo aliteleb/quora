@@ -45,9 +45,19 @@ export default function CreateThreadModal() {
         }
     }
 
+    const resetDataWhenClosingModal = () => {
+        setData({
+            title: '',
+            image: null,
+            video: null,
+            space: '',
+        })
+    }
+
     useEffect(() => {
-        console.log(data)
-    }, [data]);
+        resetDataWhenClosingModal()
+    }, [isCreatThreadModalOpen]);
+
 
     const submitForm = (e) => {
         e.preventDefault()
