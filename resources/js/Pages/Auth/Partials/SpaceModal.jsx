@@ -56,7 +56,7 @@ export default function SpaceModal() {
                             error={errors.name}
                             required={true}
                             helperText={`يمكنك تغيير هذا من إعدادات المساحة.`}
-                            showCounter={true}
+                            maxLength={32}
                         />
                     </div>
 
@@ -69,6 +69,7 @@ export default function SpaceModal() {
                             label={`وصف موجز`}
                             helperText={`قم بتضمين بعض الكلمات الرئيسية لتوضح للأشخاص ما يمكن توقعه إذا انضموا.`}
                             error={errors.password}
+                            maxLength={16}
                         />
                     </div>
 

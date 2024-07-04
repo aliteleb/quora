@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Input({placeholder, onChange, name, value, label, error, type = 'text', id = "", visibility = "visible", required = false, helperText, showCounter = false}) {
+export default function Input({placeholder, onChange, name, value, label, error, type = 'text', id = "", visibility = "visible", required = false, helperText, maxLength = null}) {
 
     return (
         <>
@@ -23,10 +23,11 @@ export default function Input({placeholder, onChange, name, value, label, error,
                     onChange={onChange}
                     id={id}
                     required={required}
+                    maxLength={maxLength}
                 />
-                {showCounter && (
-                    <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-body-color] opacity-70 text-[.7rem]`}>
-                        {value.length}
+                {maxLength && (
+                    <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-body-color] opacity-70 text-[.7rem] ${maxLength === value?.length ? 'text-red-600 !opacity-100' : ''}`}>
+                        {value?.length}
                     </span>
                 )}
 
