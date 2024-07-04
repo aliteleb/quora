@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeContorller;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ThreadController;
@@ -28,18 +28,20 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
+    Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
+
 });
 
 // Public Routes
-Route::get('/', [HomeContorller::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::get('/account', [AuthController::class, 'index'])->name('account');
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
 
-Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
-Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
 
 
 

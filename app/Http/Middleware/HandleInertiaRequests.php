@@ -34,19 +34,12 @@ class HandleInertiaRequests extends Middleware
     {
         $settings = settings();
 
-        $context = [
+        return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
             'settings' => $settings,
         ];
-
-        $flashedKeys = session()->get('_flash')['old'] ?? [];
-        foreach ($flashedKeys as $key) {
-            $context[$key] = session()->get($key);
-        }
-
-        return $context;
     }
 }

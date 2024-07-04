@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\InertiaResponse;
 use App\Http\Requests\SpaceRequest;
 use App\Models\Space;
 use App\Triats\HttpResponses;
@@ -14,7 +15,7 @@ class SpaceController extends Controller
     {
         $space = Space::create($request->validated());
 
-        return redirect()->route('index')->with([
+        return InertiaResponse::route('index', [
             'space' => $space
         ]);
     }
