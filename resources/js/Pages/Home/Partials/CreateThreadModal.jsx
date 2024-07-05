@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { BiCaretLeft } from 'react-icons/bi';
 import { TbUsers } from 'react-icons/tb';
@@ -10,9 +10,13 @@ import { RiImageAddLine } from 'react-icons/ri';
 import Input from '@/Core/Input.jsx';
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { useForm } from '@inertiajs/react';
+import Select from "react-select";
+import ReactSelect from "@/Components/ReactSelect.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
+
+    const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
 
     const { data, setData, post, errors, processing, reset } = useForm({
         title: '',
@@ -81,6 +85,27 @@ export default function CreateThreadModal() {
 
     }, [data.title])
 
+    // React Select
+    const options = [
+        { value: 'الجميع', label: 'الجميع' },
+        { value: 'strawberry', label: 'Strawberry' },
+        { value: 'vanilla', label: 'Vanilla' },
+        { value: 'mango', label: 'Mango' },
+        { value: 'apple', label: 'Apple' },
+        { value: 'apple1', label: 'Apple1' },
+        { value: 'apple2', label: 'Apple2' },
+        { value: 'apple3', label: 'Apple3' },
+        { value: 'apple14', label: 'Apple1' },
+        { value: 'apple25', label: 'Apple2' },
+        { value: 'apple36', label: 'Apple3' },
+        { value: 'apple17', label: 'Apple1' },
+        { value: 'apple28', label: 'Apple2' },
+        { value: 'apple39', label: 'Apple3' },
+        { value: 'apple11', label: 'Apple1' },
+        { value: 'apple22', label: 'Apple2' },
+        { value: 'apple33', label: 'Apple3' },
+    ];
+
     return (
         <Modal
             data={data}
@@ -89,7 +114,7 @@ export default function CreateThreadModal() {
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
             <div className={`h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
-                <div className={`flex items-center relative`}>
+                <div className={`grid grid-cols-[0.5fr_6fr] justify-center items-center relative`}>
                     <div
                         onClick={() => setIsCreatThreadModalOpen(false)}
                         className={`hover:bg-[--theme-main-bg-color] p-2 rounded-full w-fit cursor-pointer m-2`}
@@ -97,12 +122,14 @@ export default function CreateThreadModal() {
                         <HiMiniXMark className={`size-6`} />
                     </div>
 
-                    <button className={`${!isPostActive ? 'hidden' : ''} absolute left-1/2 -translate-x-1/2 flex items-center gap-x-1 hover:bg-[--theme-main-bg-color] py-2 px-4 rounded-full`}>
-                        <AiOutlineGlobal />
-                        <span>الجميع</span>
-                        <FaAngleDown className={`size-4`} />
-                    </button>
+                    <div
+                        onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
+                        className={`${!isPostActive ? 'hidden' : ''} justify-self-center me-[40px] mt-2`}
+                    >
+                        <ReactSelect options={options}/>
+                    </div>
                 </div>
+
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
                     <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>

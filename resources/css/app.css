@@ -14,6 +14,16 @@
 
 }
 
+input[aria-haspopup="true"] {
+    border: none !important;
+    text-shadow: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+div[aria-multiselectable="true"] {
+    padding: 0 !important;
+}
 
 /* arabic */
 @font-face {
