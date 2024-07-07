@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from "react-select";
 
-export default function ReactSelect({options}) {
+export default function ReactSelect({options, handleSelectChange, selectedSpaces}) {
 
     const cssVariables = getComputedStyle(document.documentElement);
 
@@ -14,7 +14,7 @@ export default function ReactSelect({options}) {
             boxShadow: 'none',
             border: '0 solid transparent',
             outline: '2px solid',
-            outlineColor: cssVariables.getPropertyValue('--theme-nav-bg-color-hover'),
+            outlineColor: cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
             '&:hover': {
                 borderColor: isDisabled ? 'transparent' : 'none',
             },
@@ -22,7 +22,7 @@ export default function ReactSelect({options}) {
 
         indicatorSeparator: (defaultStyles) => ({
             ...defaultStyles,
-            backgroundColor: 'transparent',
+            display: "none",
         }),
 
         dropdownIndicator: (defaultStyles, {isFocused}) => ({
@@ -51,6 +51,7 @@ export default function ReactSelect({options}) {
             ...defaultStyles,
             backgroundColor: cssVariables.getPropertyValue('--theme-body-bg'),
             '&:hover': {backgroundColor: cssVariables.getPropertyValue('--theme-nav-bg-color-hover')},
+            cursor: 'pointer',
         }),
 
         menuList: (base) => ({
@@ -107,10 +108,12 @@ export default function ReactSelect({options}) {
 
     return (
         <Select
+            isClearable={false}
             isMulti
-            defaultValue={options[0]}
+            value={selectedSpaces}
             options={options}
             styles={customStyles}
+            onChange={handleSelectChange}
         />
     )
 }

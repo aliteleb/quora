@@ -22,7 +22,7 @@ export default function CreateThreadModal() {
         title: '',
         image: null,
         video: null,
-        space: '',
+        spaces: ['الجميع'],
     }, {forceFormData: true,});
 
     const handleThreadChange = (e) => {
@@ -54,21 +54,32 @@ export default function CreateThreadModal() {
             title: '',
             image: null,
             video: null,
-            space: '',
+            spaces: [],
         })
     }
 
-    useEffect(() => {
-        resetDataWhenClosingModal()
-    }, [isCreatThreadModalOpen]);
+    const isFirstRender = useRef(true);
 
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+        } else {
+            if (isCreatThreadModalOpen)
+            {
+                // defaultDataWhenOpenModal()
+            } else
+            {
+                resetDataWhenClosingModal()
+            }
+        }
+    }, [isCreatThreadModalOpen]);
 
     const submitForm = (e) => {
         e.preventDefault()
         post('/thread/create', {
             onSuccess: () => {
-                setIsCreatThreadModalOpen(false)
-                reset()
+                // setIsCreatThreadModalOpen(false)
+                // reset()
             },
             onError: (response) => {
                 console.log(response)
@@ -82,12 +93,11 @@ export default function CreateThreadModal() {
             textAreaRef.current.style.height = 'auto';
             textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 1 + 'px';
         }
-
     }, [data.title])
 
     // React Select
     const options = [
-        { value: 'الجميع', label: 'الجميع' },
+        { value: 'all', label: 'الجميع' },
         { value: 'strawberry', label: 'Strawberry' },
         { value: 'vanilla', label: 'Vanilla' },
         { value: 'mango', label: 'Mango' },
@@ -105,6 +115,42 @@ export default function CreateThreadModal() {
         { value: 'apple22', label: 'Apple2' },
         { value: 'apple33', label: 'Apple3' },
     ];
+
+    const [selectedSpaces, setSelectedSpaces] = useState([
+        { value: 'all', label: 'الجميع' },
+    ])
+
+    const handleSelectChange = (selectedOptions) => {
+        let selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : []
+
+        const lastOption = selectedOptions[selectedOptions.length - 1]
+
+        if (lastOption.value === "all")
+        {
+            setSelectedSpaces([{ value: 'all', label: 'الجميع' }])
+            setData(previousData => ({
+                ...previousData,
+                spaces: ['all']
+            }));
+            } else {
+
+                const filteredOptions = selectedOptions.filter(option => option.value !== "all")
+                selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
+
+                setSelectedSpaces(filteredOptions)
+                setData(previousData => ({
+                    ...previousData,
+                    spaces: selectedValues
+                }));
+            }
+
+    };
+
+    useEffect(() => {
+
+        console.log(data)
+    }, [data]);
+
 
     return (
         <Modal
@@ -126,7 +172,7 @@ export default function CreateThreadModal() {
                         onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
                         className={`${!isPostActive ? 'hidden' : ''} justify-self-center me-[40px] mt-2`}
                     >
-                        <ReactSelect options={options}/>
+                        <ReactSelect options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces}/>
                     </div>
                 </div>
 
@@ -157,7 +203,6 @@ export default function CreateThreadModal() {
                 <div className={`px-4`}>
                     <textarea
                         ref={textAreaRef}
-                        contentEditable
                         placeholder={`${isPostActive ? 'قل شيئاً ما...' : 'إبدء سؤال بماذا, كيف, لماذا, إلخ.'}`}
                         className={`w-full overflow-auto resize-none p-0 mt-4 bg-transparent ${isPostActive ? 'border-transparent' : 'border-[--theme-default-border-color] hover:border-[--theme-button-border-color]  focus:border-[--theme-main-bg-color]'} border-x-0 border-t-0  focus:ring-0`}
                         maxLength={600}
@@ -203,7 +248,7 @@ export default function CreateThreadModal() {
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
                         <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
-                        <button onClick={submitForm} disabled={!data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
+                        <button onClick={submitForm}  className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>

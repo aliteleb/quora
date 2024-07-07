@@ -3,7 +3,6 @@ import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
-import {useApp} from "@/AppContext/AppContext.jsx";
 import {Head} from "@inertiajs/react";
 import Post from "@/Layouts/Post.jsx";
 
