@@ -59,7 +59,7 @@ export default function CreateThreadModal() {
             image: null,
             video: null,
             spaces: [],
-            public: true,
+            visibility: 'public',
             type: 'post',
         })
     }
