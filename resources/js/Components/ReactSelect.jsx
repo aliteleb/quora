@@ -72,10 +72,11 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
         }),
 
         multiValue: (styles, { data }) => {
-            const color = 'red';
             return {
                 ...styles,
                 backgroundColor: cssVariables.getPropertyValue('--theme-nav-bg-color-hover'),
+                borderRadius: '20px',
+                padding: '1px 10px'
             };
         },
         multiValueLabel: (styles, { data }) => ({
@@ -89,6 +90,8 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
                 backgroundColor: cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
                 color: cssVariables.getPropertyValue('--theme-body-color'),
             },
+            borderRadius: '50%',
+            padding: '0 6px'
         }),
 
         clearIndicator: (defaultStyles) => ({

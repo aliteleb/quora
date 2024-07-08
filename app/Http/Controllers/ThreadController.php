@@ -15,8 +15,9 @@ class ThreadController extends Controller implements HasMedia
     public function create(CreateThreadRequest $request)
     {
         $thread = Thread::create([
-           'title' => $request->title,
-           'user_id' => $request->user_id,
+            'type' => $request->type,
+            'title' => $request->title,
+            'user_id' => $request->user_id,
         ]);
 
         if ($request->hasFile('image'))

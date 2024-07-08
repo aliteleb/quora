@@ -12,17 +12,21 @@ import { FaRegCircleUser } from 'react-icons/fa6';
 import { useForm } from '@inertiajs/react';
 import Select from "react-select";
 import ReactSelect from "@/Components/ReactSelect.jsx";
+import PublicOrPrivateDropdown from "@/Layouts/PublicOrPrivateDropdown.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
 
     const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
+    const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
 
     const { data, setData, post, errors, processing, reset } = useForm({
         title: '',
         image: null,
         video: null,
         spaces: ['الجميع'],
+        type: 'post',
+        visibility: 'public',
     }, {forceFormData: true,});
 
     const handleThreadChange = (e) => {
@@ -55,6 +59,8 @@ export default function CreateThreadModal() {
             image: null,
             video: null,
             spaces: [],
+            public: true,
+            type: 'post',
         })
     }
 
@@ -64,10 +70,7 @@ export default function CreateThreadModal() {
         if (isFirstRender.current) {
             isFirstRender.current = false;
         } else {
-            if (isCreatThreadModalOpen)
-            {
-                // defaultDataWhenOpenModal()
-            } else
+            if (!isCreatThreadModalOpen)
             {
                 resetDataWhenClosingModal()
             }
@@ -78,8 +81,8 @@ export default function CreateThreadModal() {
         e.preventDefault()
         post('/thread/create', {
             onSuccess: () => {
-                // setIsCreatThreadModalOpen(false)
-                // reset()
+                setIsCreatThreadModalOpen(false)
+                reset()
             },
             onError: (response) => {
                 console.log(response)
@@ -132,25 +135,39 @@ export default function CreateThreadModal() {
                 ...previousData,
                 spaces: ['all']
             }));
-            } else {
+        } else {
 
-                const filteredOptions = selectedOptions.filter(option => option.value !== "all")
-                selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
+            const filteredOptions = selectedOptions.filter(option => option.value !== "all")
+            selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
 
-                setSelectedSpaces(filteredOptions)
-                setData(previousData => ({
-                    ...previousData,
-                    spaces: selectedValues
-                }));
-            }
+            setSelectedSpaces(filteredOptions)
+            setData(previousData => ({
+                ...previousData,
+                spaces: selectedValues
+            }));
+        }
 
     };
 
     useEffect(() => {
-
         console.log(data)
     }, [data]);
 
+
+    const makePostActive = () => {
+        setIsPostActive(true)
+        setData(prevData => ({
+            ...prevData,
+            type: 'post'
+        }))
+    }
+    const makeQuestionActive = () => {
+        setIsPostActive(false)
+        setData(prevData => ({
+            ...prevData,
+            type: 'question'
+        }))
+    }
 
     return (
         <Modal
@@ -170,7 +187,7 @@ export default function CreateThreadModal() {
 
                     <div
                         onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
-                        className={`${!isPostActive ? 'hidden' : ''} justify-self-center me-[40px] mt-2`}
+                        className={`justify-self-center me-[40px] mt-2`}
                     >
                         <ReactSelect options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces}/>
                     </div>
@@ -178,8 +195,8 @@ export default function CreateThreadModal() {
 
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
-                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
-                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
+                    <button onClick={makeQuestionActive} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
+                    <button onClick={makePostActive} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>
@@ -192,10 +209,25 @@ export default function CreateThreadModal() {
                         </div>
 
                         <button
-                            className={`${isPostActive ? 'hidden' : ''} flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
-                            <TbUsers className={`size-4`}/>
-                            <span>عام</span>
-                            <FaAngleDown className={`size-4`}/>
+                            id={`publicOrPrivateDropdown`}
+                            onClick={() => setIsPublicOrPrivateDropdownOpen(!isPublicOrPrivateDropdownOpen)}
+                            className={`${isPostActive ? 'hidden' : ''} relative `}>
+                            <div className={`cursor-pointer flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 py-1 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
+                                <TbUsers className={`size-4`}/>
+                                <span>عام</span>
+                                <FaAngleDown className={`size-4`}/>
+                            </div>
+
+                            <div className={`absolute top-0 left-1/2`}>
+                                <PublicOrPrivateDropdown
+                                    isPublicOrPrivateDropdownOpen={isPublicOrPrivateDropdownOpen}
+                                    setIsPublicOrPrivateDropdownOpen={setIsPublicOrPrivateDropdownOpen}
+                                    setData={setData}
+                                    data={data}
+                                    handleThreadChange={handleThreadChange}
+                                />
+                            </div>
+
                         </button>
                     </div>
                 </div>
@@ -248,7 +280,7 @@ export default function CreateThreadModal() {
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
                         <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
-                        <button onClick={submitForm}  className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
+                        <button onClick={submitForm} disabled={!data.video && !data.image && !data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.video && !data.image && !data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>

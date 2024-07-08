@@ -26,7 +26,7 @@ class MediaOptimizer
         $pathToImage = $media->getPath();
 
         // Load the image and optimize it
-        $optimizedImage = Image::load($pathToImage)->optimize()->quality(75)->format('webp');
+        $optimizedImage = Image::load($pathToImage)->resize(640, 512)->optimize()->quality(55)->format('webp');
 
         // Save the optimized image
         $optimizedImage->save();
