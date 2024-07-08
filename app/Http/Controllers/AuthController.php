@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\InertiaResponse;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use App\Triats\HttpResponses;
@@ -20,7 +21,7 @@ class AuthController extends Controller
     {
         $user = User::create($request->only(['name', 'email', 'password']));
         Auth::loginUsingId($user->id);
-        return redirect()->route('index');
+        return InertiaResponse::route('index', $user);
     }
 
     public function login()
@@ -28,7 +29,7 @@ class AuthController extends Controller
         $credentials = request()->only(['email', 'password']);
         if (Auth::attempt($credentials, true))
         {
-            return redirect()->route('index');
+            return InertiaResponse::route('index');
         }
 
         return back()->withErrors(['invalid_credentials' => 'البيانات المدخلة غير صحيحة']);

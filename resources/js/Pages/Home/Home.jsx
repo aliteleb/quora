@@ -1,12 +1,21 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
-import {Head} from "@inertiajs/react";
+import {Head, usePage} from "@inertiajs/react";
 import Post from "@/Layouts/Post.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function Home() {
+
+    const { setUser } = useApp()
+
+    const { props } = usePage();
+    useEffect(() => {
+        setUser(props.auth.user)
+    }, []);
+
 
     return (
         <Master>

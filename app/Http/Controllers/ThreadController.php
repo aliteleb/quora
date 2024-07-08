@@ -17,6 +17,7 @@ class ThreadController extends Controller implements HasMedia
         $thread = Thread::create([
             'type' => $request->type,
             'title' => $request->title,
+            'visibility' => $request->visibility,
             'user_id' => $request->user_id,
         ]);
 

@@ -48,6 +48,7 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
                             name={'name'}
                             label={`الاسم`}
                             error={errors.name}
+                            id={'name'}
                         />
                     </div>
 
@@ -59,6 +60,7 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
                             value={data.email}
                             label={`البريد الإلكترونى`}
                             error={errors.email}
+                            id={'register_email'}
                         />
                     </div>
 
@@ -71,6 +73,7 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
                             value={data.password}
                             label={`كلمة المرور`}
                             error={errors.password}
+                            id={'register_password'}
                         />
                     </div>
 
@@ -83,6 +86,7 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
                             value={data.password_confirmation}
                             label={`تأكيد كلمة المرور`}
                             error={errors.password_confirmation}
+                            id={'register_password_confirmation'}
                         />
                     </div>
 

@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, Link, useForm, usePage} from "@inertiajs/react";
 import {MdOutlineEmail} from "react-icons/md";
 import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 
-export default function Auth(props) {
+export default function Auth() {
 
     const {settings, setUser} = useApp()
 
@@ -28,7 +28,6 @@ export default function Auth(props) {
             },
         })
     }
-
 
     return (
         <>
@@ -70,7 +69,7 @@ export default function Auth(props) {
                                 </button>
                             </div>
 
-                            <div className={`mt-3 flex flex-col gap-y-3`}>
+                            <div onClick={() => setIsRegisterModalOpen(true)} className={`mt-3 flex flex-col gap-y-3`}>
                                 <button
                                     className={`border border-[--theme-default-border-color] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
                                     <MdOutlineEmail  className={`size-6 text-[--theme-placeholder-color]`}/>
@@ -78,10 +77,10 @@ export default function Auth(props) {
                                 </button>
                             </div>
 
-                            <button onClick={() => {
-                                setIsRegisterModalOpen(true)
-                            }} className={`text-center mt-5 cursor-pointer text-sm`}>تصفح بدون تسجيل الدخول
+                            <button className={`mt-5 text-center cursor-pointer text-sm`}>
+                                <Link href={`/`}>تصفح بدون تسجيل الدخول</Link>
                             </button>
+
                         </div>
 
                         <div className={`md:ps-8 flex flex-col gap-y-4 mt-10 md:mt-0`}>
@@ -95,6 +94,7 @@ export default function Auth(props) {
                                     name={'email'}
                                     value={data.email}
                                     error={errors.invalid_credentials}
+                                    id={'email'}
                                 />
                             </div>
 
@@ -105,6 +105,7 @@ export default function Auth(props) {
                                     type={'password'} onChange={e => setData('password', e.target.value)}
                                     name={'password'}
                                     value={data.password}
+                                    id={'password'}
                                 />
 
                             </div>
