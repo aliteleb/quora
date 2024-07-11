@@ -14,7 +14,7 @@ class HomeController extends Controller
         $topics = $user->topics;
 
         if ($topics->count() === 0) {
-            return InertiaResponse::route('select_topics');
+//            return InertiaResponse::route('select_topics');
         }
 
         return InertiaResponse::render('Home/Home');

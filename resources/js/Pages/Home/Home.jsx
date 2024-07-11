@@ -17,11 +17,11 @@ export default function Home() {
         setUser(props.auth.user)
         if (props.auth.user.spaces.length === 0)
         {
-            setIsSelectSpacesModalOpen(true)
+            setIsSelectSpacesModalOpen(false)
         }
     }, []);
 
-    const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(true);
+    const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false);
 
 
     return (

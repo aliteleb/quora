@@ -27,6 +27,7 @@ class SpaceRequest extends FormRequest
             'user_id' => [],
             'name' => ['required', 'max:64', 'min:3'],
             'description' => ['max:250'],
+            'topics' => ['required', 'array', 'min:1'],
         ];
     }
 
@@ -37,6 +38,8 @@ class SpaceRequest extends FormRequest
             'name.min' => "يجب أن يحتوي الاسم على الأقل على 3 أحرف.",
             'name.max' => "يجب أن لا يتجاوز الاسم 20 حرفًا.",
             'description.man' => "يجب ألا يتخطي الوصف 250 حرف.",
+            'topics.required' => "حقل المواضيع مطلوب.",
+            'topics.min' => "يجب أن تحتوي المواضيع على عنصر واحد على الأقل.",
         ];
     }
 

@@ -136,7 +136,6 @@ export default function CreateThreadModal() {
                 spaces: ['all']
             }));
         } else {
-
             const filteredOptions = selectedOptions.filter(option => option.value !== "all")
             selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
 
@@ -146,7 +145,6 @@ export default function CreateThreadModal() {
                 spaces: selectedValues
             }));
         }
-
     };
 
     useEffect(() => {
