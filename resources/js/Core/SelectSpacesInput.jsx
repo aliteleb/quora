@@ -1,30 +1,30 @@
-import React from 'react'
-import {MdDone} from "react-icons/md";
+import React from 'react';
+import { MdDone } from "react-icons/md";
 
-export default function SelectSpacesInput({name, img}) {
+export default function SelectSpacesInput({ display_name, img, onChange, value }) {
     return (
-          <div className="w-32 h-32">
+        <div className={`w-32 h-32 relative`}>
             <input
-              type="checkbox"
-              id="custom-checkbox"
-              className="hidden"
+                value={value}
+                onChange={onChange}
+                type="checkbox"
+                id={`custom-checkbox-${value}`}
+                className={`hidden`}
             />
             <label
-              htmlFor="custom-checkbox"
-              className="cursor-pointer relative w-full h-full block"
+                htmlFor={`custom-checkbox-${value}`}
+                className={`cursor-pointer relative w-full h-full block`}
             >
-              <img
-                src={img}
-                alt="Health"
-                className="absolute w-full h-full object-cover rounded shadow-lg"
-              />
-              <div className="absolute left-1 top-1">
-                <div className="size-8 bg-white rounded-full opacity-75 ">
-                    <MdDone className="size-6 text-[--theme-main-bg-color] z-50 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"/>
+                <img
+                    src={img}
+                    alt={display_name}
+                    className={`absolute w-full h-full object-cover rounded shadow-lg`}
+                />
+                <div className={`absolute left-1 top-1 w-8 h-8 bg-white rounded-full opacity-75`}>
+                    <MdDone className={`invisible w-6 h-6 text-[--theme-main-bg-color] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2`}/>
                 </div>
-              </div>
-              <span className={`absolute bottom-2 right-2`}>{name}</span>
+                <span className={`absolute bottom-2 right-2`}>{display_name}</span>
             </label>
-          </div>
-      )
+        </div>
+    );
 }
