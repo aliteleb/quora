@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import SelectSpacesInput from '@/Core/SelectSpacesInput'
 import {useForm} from "@inertiajs/react"
-export default function SelectSpacesModal() {
+export default function SelectSpacesModal({setIsSelectSpacesModalOpen}) {
 
     const { data, setData, post, errors } = useForm({spaces: []})
 
@@ -17,6 +17,15 @@ export default function SelectSpacesModal() {
                 spaces: [...previousData.spaces, value]
             }))
         }
+    }
+
+    const submitForm = (e) => {
+        e.preventDefault()
+        post('/add-interested-spaces', {
+            onSuccess: () => {
+                setIsSelectSpacesModalOpen(false)
+            },
+        })
     }
 
     useEffect(() => {
@@ -39,8 +48,9 @@ export default function SelectSpacesModal() {
             <SelectSpacesInput onChange={handleChange} display_name="الموضة" img="spaces-imgs/Misc1.jpg" value="fashion"/>
             <SelectSpacesInput onChange={handleChange} display_name="الأفلام" img="spaces-imgs/Space4.jpg" value="movies"/>
         </main>
+
         <footer className={`flex justify-end p-3 border-t border-[--theme-nav-bg-color-hover]`}>
-            <button className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] w-fit`}>
+            <button onClick={submitForm} className={`rounded-full px-4 py-2 bg-[--theme-button-border-color] w-fit`}>
                 تابع موضوع واحد على الأقل للمواصلة
             </button>
         </footer>

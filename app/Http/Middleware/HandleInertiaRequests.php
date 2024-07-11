@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Middleware;
 
@@ -32,12 +34,15 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $settings = settings();
 
+        $user = $request->user() ? User::with('spaces')->find($request->user()->id) : [];
+
+
+        $settings = settings();
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
             ],
             'settings' => $settings,
         ];

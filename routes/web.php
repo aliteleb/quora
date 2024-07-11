@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
-
+    Route::post('/add-interested-spaces', [SpaceController::class, 'addSpaces'])->name('addSpaces');
 });
 
 // Public Routes

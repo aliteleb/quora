@@ -15,14 +15,19 @@ export default function Home() {
     const { props } = usePage();
     useEffect(() => {
         setUser(props.auth.user)
+        if (props.auth.user.spaces.length <= 0)
+        {
+            setIsSelectSpacesModalOpen(false)
+        }
     }, []);
 
     const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(true);
 
+
     return (
         <Master>
             <Head title='الرئيسية'/>
-            {!isSelectSpacesModalOpen && 
+            {!isSelectSpacesModalOpen &&
                 <div className={`flex container max-w-screen-xl mx-auto gap-x-10 px-2`}>
                     <Footer/>
 
@@ -35,7 +40,7 @@ export default function Home() {
                 </div>
             }
 
-            {isSelectSpacesModalOpen && <SelectSpacesModal />}
+            {isSelectSpacesModalOpen && <SelectSpacesModal setIsSelectSpacesModalOpen={setIsSelectSpacesModalOpen}/>}
         </Master>
     )
 }

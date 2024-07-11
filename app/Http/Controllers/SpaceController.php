@@ -6,7 +6,8 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\SpaceRequest;
 use App\Models\Space;
 use App\Triats\HttpResponses;
-use Inertia\Inertia;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SpaceController extends Controller
 {
@@ -18,5 +19,10 @@ class SpaceController extends Controller
         return InertiaResponse::route('index', [
             'space' => $space
         ]);
+    }
+
+    public function addSpaces (Request $request)
+    {
+
     }
 }
