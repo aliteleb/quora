@@ -23,12 +23,14 @@ class TopicResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
+                    ->image()->imageEditor()->helperText('100x100'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
-            ]);
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -54,8 +56,8 @@ class TopicResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -75,9 +77,9 @@ class TopicResource extends Resource
     {
         return [
             'index' => Pages\ListTopics::route('/'),
-            'create' => Pages\CreateTopic::route('/create'),
-            'view' => Pages\ViewTopic::route('/{record}'),
-            'edit' => Pages\EditTopic::route('/{record}/edit'),
+            // 'create' => Pages\CreateTopic::route('/create'),
+            // 'view' => Pages\ViewTopic::route('/{record}'),
+            // 'edit' => Pages\EditTopic::route('/{record}/edit'),
         ];
     }
 }

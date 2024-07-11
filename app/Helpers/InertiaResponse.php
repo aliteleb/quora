@@ -11,7 +11,7 @@ class InertiaResponse
     public static function render($component, $data = []): Response
     {
         if (session()->has('redirected_data')) {
-            $data = session()->get('redirected_data');
+            $data = array_merge(session()->get('redirected_data') ?? [], $data);
         }
 
         return Inertia::render($component, $data);
