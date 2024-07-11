@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ThreadController;
+use App\Http\Controllers\TopicController;
 use App\Http\Middleware\RedirectWhenAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    Route::get('/select-topics', [TopicController::class, 'select_topics'])->name('select_topics');
 
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');

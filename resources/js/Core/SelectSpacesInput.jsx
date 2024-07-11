@@ -1,5 +1,4 @@
-import React from 'react';
-import { MdDone } from "react-icons/md";
+import { MdDone } from 'react-icons/md'; // Make sure to import MdDone
 
 export default function SelectSpacesInput({ display_name, img, onChange, value }) {
     return (
@@ -9,8 +8,14 @@ export default function SelectSpacesInput({ display_name, img, onChange, value }
                 onChange={onChange}
                 type="checkbox"
                 id={`custom-checkbox-${value}`}
-                className={`hidden`}
+                className={`hidden peer`}
             />
+            <div className={`absolute left-1 top-1 size-6 bg-green-600 shadow rounded-full z-20 collapse peer-checked:visible`}>
+                <MdDone
+                    className={`w-6 h-6 text-[#fff] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ease-in-out`}/>
+            </div>
+            <div className={`absolute left-1 top-1 size-6 bg-black/30 border border-white/50 rounded-full z-10`}></div>
+
             <label
                 htmlFor={`custom-checkbox-${value}`}
                 className={`cursor-pointer relative w-full h-full block`}
@@ -20,9 +25,7 @@ export default function SelectSpacesInput({ display_name, img, onChange, value }
                     alt={display_name}
                     className={`absolute w-full h-full object-cover rounded shadow-lg`}
                 />
-                <div className={`absolute left-1 top-1 w-8 h-8 bg-white rounded-full opacity-75`}>
-                    <MdDone className={`invisible w-6 h-6 text-[--theme-main-bg-color] absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2`}/>
-                </div>
+
                 <span className={`absolute bottom-2 right-2`}>{display_name}</span>
             </label>
         </div>

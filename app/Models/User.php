@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\AuthBreeze\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,11 +25,15 @@ class User extends Authenticatable
     ];
 
 
-    public function spaces(): HasMany
+    public function spaces(): BelongsToMany
     {
-        return $this->hasMany(Space::class);
+        return $this->belongsToMany(Space::class);
     }
 
+    public function topics(): BelongsToMany
+    {
+        return $this->belongsToMany(Topic::class);
+    }
 
 
     /**
