@@ -15,9 +15,9 @@ export default function Home() {
     const { props } = usePage();
     useEffect(() => {
         setUser(props.auth.user)
-        if (props.auth.user.spaces.length <= 0)
+        if (props.auth.user.spaces.length === 0)
         {
-            setIsSelectSpacesModalOpen(false)
+            setIsSelectSpacesModalOpen(true)
         }
     }, []);
 
