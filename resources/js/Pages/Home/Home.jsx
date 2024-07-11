@@ -6,7 +6,7 @@ import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {Head, usePage} from "@inertiajs/react";
 import Post from "@/Layouts/Post.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
-import SelectSpacesModal from './Partials/SelectSpacesModal';
+import SelectTopicsModal from './Partials/SelectTopicsModal.jsx';
 
 export default function Home() {
 
@@ -40,7 +40,7 @@ export default function Home() {
                 </div>
             }
 
-            {isSelectSpacesModalOpen && <SelectSpacesModal setIsSelectSpacesModalOpen={setIsSelectSpacesModalOpen}/>}
+            {isSelectSpacesModalOpen && <SelectTopicsModal setIsSelectSpacesModalOpen={setIsSelectSpacesModalOpen}/>}
         </Master>
     )
 }

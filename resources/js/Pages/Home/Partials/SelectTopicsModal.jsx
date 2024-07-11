@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import SelectSpacesInput from '@/Core/SelectSpacesInput'
 import {useForm} from "@inertiajs/react"
-export default function SelectSpacesModal({setIsSelectSpacesModalOpen}) {
+export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
 
     const { data, setData, post, errors } = useForm({spaces: []})
 
@@ -21,7 +21,7 @@ export default function SelectSpacesModal({setIsSelectSpacesModalOpen}) {
 
     const submitForm = (e) => {
         e.preventDefault()
-        post('/add-interested-spaces', {
+        post('/select-topics', {
             onSuccess: () => {
                 setIsSelectSpacesModalOpen(false)
             },

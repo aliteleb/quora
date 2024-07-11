@@ -30,7 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-    Route::get('/select-topics', [TopicController::class, 'select_topics'])->name('select_topics');
+    Route::get('/select-topics', [TopicController::class, 'index'])->name('select_topics');
+    Route::post('/select-topics', [TopicController::class, 'select_topics'])->name('select_topics');
 
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
