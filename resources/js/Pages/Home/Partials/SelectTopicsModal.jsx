@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import SelectSpacesInput from '@/Core/SelectSpacesInput'
-import {useForm} from "@inertiajs/react"
+import {useForm, usePage} from "@inertiajs/react"
 export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
 
+    const { props } = usePage();
     const { data, setData, post, errors } = useForm({spaces: []})
+
+    const [topics, setTopics] = useState(null)
 
     const handleChange = (e) => {
         const value = e.target.value
@@ -29,14 +32,20 @@ export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
     }
 
     useEffect(() => {
-        console.log(data)
-    }, [data]);
+        setTopics(props.topics)
+    }, []);
 
 
     return (
     <div className="bg-[--theme-main-bg-color] rounded absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 z-50">
         <header className={`border-b border-[--theme-nav-bg-color-hover] p-4 font-bold text-lg text-[--theme-body-color]`}>ما هي اهتماماتك؟</header>
         <main className={`relative grid grid-cols-5 gap-2 py-4 px-3`}>
+            {topics?.length === 0 && (
+                <div>
+                    لا توجد مواضيع حتى الأن
+                </div>
+            )}
+
             <SelectSpacesInput onChange={handleChange} display_name="البرمجة" img="spaces-imgs/Water8.jpg" value="programming"/>
             <SelectSpacesInput onChange={handleChange} display_name="الطبخ" img="spaces-imgs/Nature23.jpg" value="cooking"/>
             <SelectSpacesInput onChange={handleChange} display_name="التكونولجيا" img="spaces-imgs/Mountains12.jpg" value="technology"/>
