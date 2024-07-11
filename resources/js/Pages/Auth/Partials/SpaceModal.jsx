@@ -69,7 +69,7 @@ export default function SpaceModal() {
                             label={`وصف موجز`}
                             helperText={`قم بتضمين بعض الكلمات الرئيسية لتوضح للأشخاص ما يمكن توقعه إذا انضموا.`}
                             error={errors.password}
-                            maxLength={16}
+                            maxLength={100}
                         />
                     </div>
 
