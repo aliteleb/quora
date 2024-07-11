@@ -14,6 +14,7 @@ class TopicController extends Controller
         $context = [
             'topics' => TopicResource::collection(Topic::all())
         ];
+
         return InertiaResponse::render('SelectTopics', $context);
     }
 
