@@ -20,7 +20,7 @@ export default function CreateThreadModal() {
     const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
 
-    const { data, setData, post, errors, processing, reset } = useForm({
+    const { data, setData, post, errors, clearErrors, processing, reset } = useForm({
         title: '',
         image: null,
         video: null,
@@ -167,11 +167,17 @@ export default function CreateThreadModal() {
         }))
     }
 
+    const onCloseModal = () => {
+        setIsCreatThreadModalOpen(false)
+        reset()
+        clearErrors()
+    }
+
     return (
         <Modal
             data={data}
             show={isCreatThreadModalOpen}
-            onClose={() => setIsCreatThreadModalOpen(false)}
+            onClose={onCloseModal}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
             <div className={`h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>

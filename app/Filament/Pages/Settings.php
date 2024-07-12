@@ -212,6 +212,7 @@ class Settings extends Page implements HasForms
                 ColorPicker::make('theme-input-bg-color')->label('لون خلفية مربع النص')->hiddenLabel()->placeholder('لون خلفية مربع النص'),
                 ColorPicker::make('theme-button-border-color')->label('لون حواف الزر')->hiddenLabel()->placeholder('لون حواف الزر'),
                 ColorPicker::make('theme-button-bg-color-hover')->label('لون خلفية الزر عند الوقوف عليه')->hiddenLabel()->placeholder('لون خلفية الزر عند الوقوف عليه'),
+                ColorPicker::make('theme-react-select-error-color')->label('لون قائمة الاختيارات عند وجود خطأ')->hiddenLabel()->placeholder('لون قائمة الاختيارات عند وجود خطأ'),
             ])->columns(1)->heading('تصميم الموقع'),
         ];
     }

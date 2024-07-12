@@ -12,7 +12,7 @@ export default function SpaceModal() {
 
     const {isSpaceModalOpen, setIsSpaceModalOpen} = useApp()
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, errors, clearErrors, reset } = useForm({
         name: '',
         description: '',
         topics: [],
@@ -26,13 +26,15 @@ export default function SpaceModal() {
                 reset()
             },
             onError: (response) => {
-                console.log(response)
-                console.log(errors)
+                // console.log(response)
+                // console.log(errors)
             },
         })
     }
     const closeSpaceModal = () => {
         setIsSpaceModalOpen(false)
+        reset()
+        clearErrors()
     }
 
     const options = [
@@ -57,8 +59,8 @@ export default function SpaceModal() {
     };
 
     useEffect(() => {
-        // console.log(data)
-    }, [data]);
+        console.log(errors)
+    }, [errors]);
 
 
     return (
@@ -73,9 +75,9 @@ export default function SpaceModal() {
                         <div
                             className={`bg-[--theme-body-bg] mt-2 min-w-[10rem] max-w-[24rem]`}
                         >
-                            <ReactSelect options={options} handleSelectChange={handleSelectChange}/>
+                            <ReactSelect options={options} handleSelectChange={handleSelectChange} errors={errors.topics}/>
                         </div>
-                        <InputError message={errors.topics}/>
+                        <InputError message={errors.topics} className={`!text-red-500`}/>
                     </div>
 
                     <h3 className={`p-2 font-bold text-lg`}>
@@ -98,7 +100,6 @@ export default function SpaceModal() {
                             helperText={`يمكنك تغيير هذا من إعدادات المساحة.`}
                             maxLength={32}
                         />
-                        <InputError message={errors.name}/>
                     </div>
 
                     <div className={`mt-5 flex flex-col gap-y-2`}>
@@ -109,7 +110,7 @@ export default function SpaceModal() {
                             value={data.password}
                             label={`وصف موجز`}
                             helperText={`قم بتضمين بعض الكلمات الرئيسية لتوضح للأشخاص ما يمكن توقعه إذا انضموا.`}
-                            error={errors.password}
+                            error={errors.description}
                             maxLength={100}
                         />
                     </div>

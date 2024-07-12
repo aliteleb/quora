@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from "react-select";
 
-export default function ReactSelect({options, handleSelectChange, selectedSpaces}) {
+export default function ReactSelect({options, handleSelectChange, selectedSpaces, errors}) {
 
     const cssVariables = getComputedStyle(document.documentElement);
 
@@ -14,7 +14,7 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
             boxShadow: 'none',
             border: '0 solid transparent',
             outline: '2px solid',
-            outlineColor: cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
+            outlineColor: errors ? cssVariables.getPropertyValue('--theme-react-select-error-color') : cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
             '&:hover': {
                 borderColor: isDisabled ? 'transparent' : 'none',
             },

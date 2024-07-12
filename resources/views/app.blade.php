@@ -19,7 +19,8 @@
                 --theme-input-bg-color: {{ settings('theme-input-bg-color', '#202020') }};
                 --theme-button-border-color: {{ settings('theme-button-border-color', '#287dff') }};
                 --theme-button-bg-color-hover: {{ settings('theme-button-bg-color-hover', '#1c1c1cb0') }};
-                --theme-default-border-color: {{ settings('theme-default-border-color', '#393939') }}
+                --theme-default-border-color: {{ settings('theme-default-border-color', '#393939') }};
+                --theme-react-select-error-color: {{ settings('theme-react-select-error-color', '#ef4444') }};
             }
 
         </style>

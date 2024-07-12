@@ -32,6 +32,8 @@ export default function Input({placeholder, onChange, name, value, label, error,
                 )}
 
             </div>
+
+            {error?.length !== 0 && <span className={`text-red-500`}>{error}</span>}
         </>
     )
 }
