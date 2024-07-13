@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
 use App\Models\Thread;
 use App\Triats\HttpResponses;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -30,5 +32,13 @@ class ThreadController extends Controller implements HasMedia
         {
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
+    }
+
+    public function getThreads()
+    {
+        $user = Auth::user();
+        $threads = Thread::where('user_id', $user->id)->get()->toArray();
+
+        return InertiaResponse::route('index', $threads);
     }
 }

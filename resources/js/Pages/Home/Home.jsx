@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
-import {Head, usePage} from "@inertiajs/react";
+import {Head, router, useForm, usePage} from "@inertiajs/react";
 import Post from "@/Layouts/Post.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import SelectTopicsModal from './Partials/SelectTopicsModal.jsx';
@@ -11,6 +11,20 @@ import SelectTopicsModal from './Partials/SelectTopicsModal.jsx';
 export default function Home() {
 
     const [isSelectTopicsModalOpen, setIsSelectTopicsModalOpen] = useState(false);
+    const [threads, setThreads] = useState([]);
+
+    const fetchThreads = () => {
+        router.get('get-threads', {}, {
+            onSuccess: (res) => {
+                console.log(res)
+            }
+        })
+    }
+
+    useEffect(() => {
+        fetchThreads()
+    }, []);
+
 
     return (
         <Master>
