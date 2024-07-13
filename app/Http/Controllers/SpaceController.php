@@ -8,7 +8,6 @@ use App\Models\Space;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class SpaceController extends Controller
 {
@@ -30,8 +29,4 @@ class SpaceController extends Controller
         ]);
     }
 
-    public function addSpaces (Request $request)
-    {
-
-    }
 }

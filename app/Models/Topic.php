@@ -13,6 +13,10 @@ class Topic extends Model implements HasMedia
     use InteractsWithMedia;
     protected $guarded = [];
 
+    public function users ()
+    {
+        return $this->hasMany(User::class);
+    }
     protected static function booted(): void
     {
         parent::booted();

@@ -28,7 +28,7 @@ export default function Post() {
                         <span>15 أبريل</span>
                     </div>
                 </div>
-                <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 cursor-pointer`}>
+                <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
                     <RxDotsHorizontal className={`size-5`}/>
                 </div>
             </header>

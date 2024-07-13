@@ -10,37 +10,23 @@ import SelectTopicsModal from './Partials/SelectTopicsModal.jsx';
 
 export default function Home() {
 
-    const { setUser } = useApp()
-
-    const { props } = usePage();
-    useEffect(() => {
-        setUser(props.auth.user)
-        if (props.auth.user.spaces.length === 0)
-        {
-            setIsSelectSpacesModalOpen(false)
-        }
-    }, []);
-
-    const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false);
-
+    const [isSelectTopicsModalOpen, setIsSelectTopicsModalOpen] = useState(false);
 
     return (
         <Master>
             <Head title='الرئيسية'/>
-            {!isSelectSpacesModalOpen &&
-                <div className={`flex container max-w-screen-xl mx-auto gap-x-10 px-2`}>
-                    <Footer/>
+            <div className={`flex container max-w-screen-xl mx-auto gap-x-10 px-2`}>
+                <Footer/>
 
-                    <div className={`w-40 hidden md:block`}></div> {/* Footer Simulation */}
-                    <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2`}>
-                        <CreateThread/>
-                        <Post/>
-                    </div>
-                    <CreateThreadModal/>
+                <div className={`w-40 hidden md:block`}></div> {/* Footer Simulation */}
+                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2`}>
+                    <CreateThread/>
+                    <Post/>
                 </div>
-            }
+                <CreateThreadModal/>
+            </div>
 
-            {isSelectSpacesModalOpen && <SelectTopicsModal setIsSelectSpacesModalOpen={setIsSelectSpacesModalOpen}/>}
+            {isSelectTopicsModalOpen && <SelectTopicsModal setIsSelectTopicsModalOpen={setIsSelectTopicsModalOpen}/>}
         </Master>
     )
 }

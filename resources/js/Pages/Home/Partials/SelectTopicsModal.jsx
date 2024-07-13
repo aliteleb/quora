@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react'
 import SelectSpacesInput from '@/Core/SelectSpacesInput'
 import {useForm, usePage} from "@inertiajs/react"
 import {IoWarningOutline} from "react-icons/io5";
-export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
+export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
 
     const { props } = usePage();
-    const { data, setData, post, errors } = useForm({spaces: []})
+    const { data, setData, post, errors } = useForm({topics: []})
 
     const [loaded, setLoaded] = useState(false)
     const [topics, setTopics] = useState(null)
@@ -13,13 +13,13 @@ export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
     const handleChange = (e) => {
         const value = e.target.value
 
-        if (data.spaces.includes(value))
+        if (data.topics.includes(value))
         {
-            const spaces = data.spaces.filter(space => space !== value)
-            setData({...data, spaces})
+            const topics = data.topics.filter(topic => topic !== value)
+            setData({...data, topics})
         } else {
             setData(previousData => ({
-                spaces: [...previousData.spaces, value]
+                topics: [...previousData.topics, value]
             }))
         }
     }
@@ -28,15 +28,19 @@ export default function SelectTopicsModal({setIsSelectSpacesModalOpen}) {
         e.preventDefault()
         post('/select-topics', {
             onSuccess: () => {
-                setIsSelectSpacesModalOpen(false)
+                setIsSelectTopicsModalOpen(false)
             },
         })
     }
 
     useEffect(() => {
-        setTopics(props.topics.data)
+        setTopics(props.topics?.data)
         setLoaded(true)
     }, []);
+
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
 
 
     if (!loaded) return ;
