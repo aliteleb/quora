@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/select-topics', [TopicController::class, 'select_topics'])->name('update_topics');
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
-    Route::get('/get-threads', [ThreadController::class, 'getThreads'])->name('getThreads');
+//    Route::get('/get-threads', [ThreadController::class, 'getThreads'])->name('getThreads');
 
 });
 

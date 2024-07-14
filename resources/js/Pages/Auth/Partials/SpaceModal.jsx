@@ -59,7 +59,7 @@ export default function SpaceModal() {
     };
 
     useEffect(() => {
-        console.log(errors)
+        // console.log(errors)
     }, [errors]);
 
 

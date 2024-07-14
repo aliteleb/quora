@@ -34,11 +34,4 @@ class ThreadController extends Controller implements HasMedia
         }
     }
 
-    public function getThreads()
-    {
-        $user = Auth::user();
-        $threads = Thread::where('user_id', $user->id)->get()->toArray();
-
-        return InertiaResponse::route('index', $threads);
-    }
 }

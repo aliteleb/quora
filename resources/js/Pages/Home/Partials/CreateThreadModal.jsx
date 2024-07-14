@@ -148,7 +148,7 @@ export default function CreateThreadModal() {
     };
 
     useEffect(() => {
-        console.log(data)
+        // console.log(data)
     }, [data]);
 
 

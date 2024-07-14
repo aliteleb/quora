@@ -24,7 +24,7 @@ class TopicResource extends Resource
         return $form
             ->schema([
                 Forms\Components\SpatieMediaLibraryFileUpload::make('cover')
-                    ->image()->imageEditor()->helperText('100x100'),
+                    ->disk('media')->collection('topics')->image()->imageEditor()->helperText('100x100'),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
