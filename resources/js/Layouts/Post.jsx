@@ -6,13 +6,25 @@ import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { useApp } from "@/AppContext/AppContext.jsx";
+import {router} from "@inertiajs/react";
 
 const Post = forwardRef(({ thread }, ref) => {
     const { user } = useApp();
 
+    const vote = () => {
+        router.post('/vote', thread.id, {
+            onSuccess: (res) => {
+                console.log(res)
+            },
+            onError: (err) => {
+                console.log(err)
+            }
+        })
+    }
+
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded py-3 flex flex-col gap-y-4`}>
-            <header className={`flex justify-between px-3`}>
+            <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
                     <div>
                         {thread.user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer`} />}
@@ -31,14 +43,14 @@ const Post = forwardRef(({ thread }, ref) => {
                 </div>
             </header>
             <main className={`flex flex-col gap-y-3`}>
-                <div className={`px-3`}>{thread.title}</div>
+                <div className={`px-5`}>{thread.title}</div>
                 <img
                     src={thread.image}
                     alt="post-img"
                     className={`w-full object-cover max-h-[30rem]`}
                 />
             </main>
-            <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-3`}>
+            <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>
                     <span className={`hover:underline cursor-pointer`}>عرض {thread.all_up_votes_count} تأييد . </span>
                     <span className={`hover:underline cursor-pointer`}>عرض {thread.all_shares_count} مشاركة</span>

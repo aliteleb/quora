@@ -21,6 +21,10 @@ class ThreadResource extends JsonResource
         $thread_image = $thread->getFirstMediaUrl('threads_images');
         $thread_video = $thread->getMedia('threads_videos');
 
+        $up_votes = $this->votes()->where('vote_type', 'up')->count();
+        $down_votes = $this->votes()->where('vote_type', 'down')->count();
+        $vote = $this->votes()->where('user_id', auth()->id())->first(['vote_type']);
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -38,6 +42,9 @@ class ThreadResource extends JsonResource
             'image' => $thread_image,
             'video' => $thread_video,
             'user' => new UserResource($user),
+            'up_votes' => $up_votes,
+            'down_votes' => $down_votes,
+            'vote' => $vote?->vote_type,
         ];
     }
 }

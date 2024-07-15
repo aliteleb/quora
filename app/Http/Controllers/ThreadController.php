@@ -6,6 +6,7 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
 use App\Models\Thread;
 use App\Triats\HttpResponses;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
@@ -32,6 +33,11 @@ class ThreadController extends Controller implements HasMedia
         {
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
+    }
+
+    public function vote(Request $request)
+    {
+        return $request;
     }
 
 }
