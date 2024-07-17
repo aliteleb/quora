@@ -89,7 +89,7 @@ const Post = forwardRef(({ thread }, ref) => {
                             </div>
                             <div onClick={voteDown} className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
                                 {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`}/>}
-                                {isVoted === 'down' && <PiArrowFatDownFill  className={`size-5 text-red-600`}/>}
+                                {isVoted === 'down' && <PiArrowFatDownFill  className={`size-5 text-[--theme-primary-button-color]`}/>}
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
