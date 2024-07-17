@@ -80,6 +80,8 @@ export default function CreateThreadModal() {
     const submitForm = (e) => {
         e.preventDefault()
         post('/thread/create', {
+            preserveScroll: true,
+            preserveState: true,
             onSuccess: () => {
                 setIsCreatThreadModalOpen(false)
                 reset()
@@ -98,7 +100,6 @@ export default function CreateThreadModal() {
         }
     }, [data.title])
 
-    // React Select
     const options = [
         { value: 'all', label: 'الجميع' },
         { value: 'strawberry', label: 'Strawberry' },

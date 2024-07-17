@@ -21,6 +21,8 @@ export default function SpaceModal() {
     const submitForm = (e) => {
         e.preventDefault()
         post('/space/create', {
+            preserveScroll: true,
+            preserveState: true,
             onSuccess: () => {
                 setIsSpaceModalOpen(false)
                 reset()

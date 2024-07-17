@@ -17,6 +17,7 @@ class ThreadResource extends JsonResource
     public function toArray(Request $request): array
     {
         $user = User::where('id', $this->user_id)->first();
+
         $thread = Thread::where('id', $this->id)->first();
         $thread_image = $thread->getFirstMediaUrl('threads_images');
         $thread_video = $thread->getMedia('threads_videos');

@@ -1,25 +1,46 @@
-import React, { forwardRef } from 'react';
+import React, {forwardRef, useEffect, useState} from 'react';
 import { HiMiniXMark } from "react-icons/hi2";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { PiArrowFatDown, PiArrowFatUp } from "react-icons/pi";
+import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { useApp } from "@/AppContext/AppContext.jsx";
-import {router} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 
 const Post = forwardRef(({ thread }, ref) => {
     const { user } = useApp();
+    const [isVoted, setIsVoted] = useState(null);
+    const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
+    const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
 
-    const vote = () => {
-        router.post('/vote', thread.id, {
+
+    useEffect(() => {
+        setIsVoted(thread.vote)
+    }, []);
+
+    const vote = (voteType) => {
+        router.post('/vote', {thread_id: thread.id, vote_type: voteType}, {
+            preserveScroll: true,
+            preserveState: true,
             onSuccess: (res) => {
-                console.log(res)
+                console.log(res.props)
+                !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
+                setVoteUpCount(res.props.vote_count.all_up_votes_count)
+                setVoteDownCount(res.props.vote_count.all_down_votes_count)
             },
             onError: (err) => {
                 console.log(err)
             }
         })
+    }
+
+    const voteUp = () => {
+        vote('up')
+    }
+
+    const voteDown = () => {
+        vote('down')
     }
 
     return (
@@ -52,22 +73,24 @@ const Post = forwardRef(({ thread }, ref) => {
             </main>
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>
-                    <span className={`hover:underline cursor-pointer`}>عرض {thread.all_up_votes_count} تأييد . </span>
-                    <span className={`hover:underline cursor-pointer`}>عرض {thread.all_shares_count} مشاركة</span>
+                    <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد . </span>
+                    <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
                 </div>
                 <div className={`flex justify-between text-[--theme-body-color]`}>
                     <div className={`flex gap-x-1`}>
                         <div className={`flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
-                            <div className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>
+                            <div onClick={voteUp} className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>
                                 <div className={`flex items-center gap-x-1`}>
-                                    <PiArrowFatUp className={`text-[--theme-button-border-color] size-5`} />
+                                    {(isVoted === null || isVoted === 'down') && <PiArrowFatUp className={`text-[--theme-button-border-color] size-5`}/>}
+                                    {isVoted === 'up' && <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`}/>}
                                     <span>أويد .</span>
                                 </div>
-                                <span>{thread.all_up_votes_count}</span>
+                                <span>{voteUpCount}</span>
                             </div>
-                            <div className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
-                                <PiArrowFatDown className={`size-5`} />
-                                <span>{thread.all_down_votes_count}</span>
+                            <div onClick={voteDown} className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
+                                {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`}/>}
+                                {isVoted === 'down' && <PiArrowFatDownFill  className={`size-5 text-red-600`}/>}
+                                <span>{voteDownCount}</span>
                             </div>
                         </div>
                         <div className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
