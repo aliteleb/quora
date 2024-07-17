@@ -1,4 +1,4 @@
-import React, {forwardRef, useEffect, useState} from 'react';
+import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import { HiMiniXMark } from "react-icons/hi2";
 import { FaRegCircleUser } from "react-icons/fa6";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
@@ -6,14 +6,23 @@ import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { useApp } from "@/AppContext/AppContext.jsx";
-import {router, usePage} from "@inertiajs/react";
+import {router, useForm, usePage} from "@inertiajs/react";
+import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
+import Input from "@/Core/Input.jsx";
+import {RiImageAddLine} from "react-icons/ri";
 
 const Post = forwardRef(({ thread }, ref) => {
     const { user } = useApp();
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
+    const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
+    const {data, setData} = useForm({
+        comment: '',
+        image: null,
+        video: null,
+    });
 
     useEffect(() => {
         setIsVoted(thread.vote)
@@ -43,13 +52,49 @@ const Post = forwardRef(({ thread }, ref) => {
         vote('down')
     }
 
+    const toggleComments = () => {
+        setIsCommentsOpen(!isCommentsOpen)
+    }
+
+    const commentInputRef = useRef(null)
+    useEffect(() => {
+        if (commentInputRef.current) {
+            commentInputRef.current.style.height = 'auto';
+            commentInputRef.current.style.height = commentInputRef.current.scrollHeight + 1 + 'px';
+        }
+    }, [data.comment])
+
+    const handleFileChange =(e) => {
+        if (e.target.files)
+        {
+            if (e.target.files[0].type.startsWith('image'))
+            {
+                setData('image', e.target.files[0])
+            } else {
+                setData('video', e.target.files[0])
+            }
+        }
+    }
+
+    const handleCommentChange = (e) => {
+        setData((formData) => ({
+            ...formData,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
+
+
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded py-3 flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
                     <div>
                         {thread.user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer`} />}
-                        {(!thread.user?.avatar && thread.user) && <FaRegCircleUser className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`} />}
+                        {(!thread.user?.avatar && thread.user) && <DefaultUserIcon/>}
                     </div>
                     <div>
                         <div className={`font-bold`}>
@@ -93,7 +138,7 @@ const Post = forwardRef(({ thread }, ref) => {
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
-                        <div className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                        <div onClick={toggleComments} className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
                             <span>{thread.all_comments_count}</span>
                         </div>
@@ -104,6 +149,27 @@ const Post = forwardRef(({ thread }, ref) => {
                     </div>
                 </div>
             </footer>
+        {/*  Comments section  */}
+            {isCommentsOpen &&
+                <div className={`px-5 bg-[#202020] py-3`}>
+                    <div className={`flex items-center gap-x-1 flex-grow`}>
+                        <DefaultUserIcon/>
+                        <div className={`flex-grow relative `}>
+                            <Input
+                                inputClassStyle={`rounded-full`}
+                                placeholder={`أضف تعليق...`}
+                                ref={commentInputRef}
+                                onChange={handleCommentChange}
+                            />
+                            <label htmlFor="upload_comment_img" className={`block w-fit`}>
+                                <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'} onChange={handleFileChange}/>
+                                <RiImageAddLine className={`size-6 text-[--theme-secondary-text-color] left-3 top-1/2 -translate-y-1/2 absolute cursor-pointer`}/>
+                            </label>
+                        </div>
+
+                        <button className={`rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
+                    </div>
+                </div>}
         </div>
     );
 });

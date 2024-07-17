@@ -44,15 +44,6 @@ export default function CreateThreadModal() {
         });
     };
 
-    const handleFileChange =(e) => {
-        if (e.target.files[0].type.startsWith('image'))
-        {
-            setData('image', e.target.files[0])
-        } else {
-            setData('video', e.target.files[0])
-        }
-    }
-
     const resetDataWhenClosingModal = () => {
         setData({
             title: '',
@@ -172,6 +163,15 @@ export default function CreateThreadModal() {
         setIsCreatThreadModalOpen(false)
         reset()
         clearErrors()
+    }
+
+    const handleFileChange =(e) => {
+        if (e.target.files[0].type.startsWith('image'))
+        {
+            setData('image', e.target.files[0])
+        } else {
+            setData('video', e.target.files[0])
+        }
     }
 
     return (

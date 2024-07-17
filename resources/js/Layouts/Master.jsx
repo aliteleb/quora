@@ -11,6 +11,7 @@ import UserDropdownMenu from "@/Layouts/UserDropdownMenu.jsx";
 import CreateDropdownMenu from "@/Layouts/CreateDropdownMenu.jsx";
 import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 import SpaceModal from "@/Pages/Auth/Partials/SpaceModal.jsx";
+import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 
 function Master({children}) {
 
@@ -62,7 +63,7 @@ function Master({children}) {
                             <div className={`relative`}>
                                 <button id={`userDropdown`} onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}>
                                     {user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer pointer-events-none`}/>}
-                                    {(!user?.avatar && user) && <FaRegCircleUser className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color] pointer-events-none`}/>}
+                                    {(!user?.avatar && user) && <DefaultUserIcon/>}
                                 </button>
 
                                 <UserDropdownMenu
