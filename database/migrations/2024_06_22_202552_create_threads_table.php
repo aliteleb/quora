@@ -19,10 +19,6 @@ return new class extends Migration
             $table->longText('details')->nullable();
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_visible')->default(true);
-            $table->unsignedBigInteger('all_up_votes_count')->default(0);
-            $table->unsignedBigInteger('all_down_votes_count')->default(0);
-            $table->unsignedBigInteger('all_comments_count')->default(0);
-            $table->unsignedBigInteger('all_shares_count')->default(0);
             $table->enum('status', ['published', 'pending', 'draft', 'violated']);
             $table->boolean('sensitive_content')->default(false);
 

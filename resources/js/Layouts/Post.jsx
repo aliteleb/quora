@@ -1,6 +1,4 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
-import { HiMiniXMark } from "react-icons/hi2";
-import { FaRegCircleUser } from "react-icons/fa6";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
@@ -10,6 +8,7 @@ import {router, useForm, usePage} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Input from "@/Core/Input.jsx";
 import {RiImageAddLine} from "react-icons/ri";
+import Comment from "@/Components/Comment.jsx";
 
 const Post = forwardRef(({ thread }, ref) => {
     const { user } = useApp();
@@ -151,8 +150,9 @@ const Post = forwardRef(({ thread }, ref) => {
             </footer>
         {/*  Comments section  */}
             {isCommentsOpen &&
-                <div className={`px-5 bg-[#202020] py-3`}>
-                    <div className={`flex items-center gap-x-1 flex-grow`}>
+                // أضف تعليق
+                <div className={``}>
+                    <div className={`flex items-center gap-x-1 flex-grow px-5 py-3 bg-[#202020]`}>
                         <DefaultUserIcon/>
                         <div className={`flex-grow relative `}>
                             <Input
@@ -169,6 +169,15 @@ const Post = forwardRef(({ thread }, ref) => {
 
                         <button className={`rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
                     </div>
+
+                {/*  عرض التعليقات  */}
+                    <div>
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
+                        <Comment/>
+                    </div>
+
                 </div>}
         </div>
     );
