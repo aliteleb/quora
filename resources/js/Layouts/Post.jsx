@@ -18,11 +18,24 @@ const Post = forwardRef(({ thread }, ref) => {
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-    const { data, setData } = useForm({
+    const { data, setData, post, errors } = useForm({
         comment: '',
         image: null,
         video: null,
     });
+
+    const addComment = () => {
+        post('/add-comment', {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+
+            },
+            onError: () => {
+
+            }
+        })
+    }
 
     useEffect(() => {
         setIsVoted(thread.vote)
@@ -61,7 +74,7 @@ const Post = forwardRef(({ thread }, ref) => {
     useEffect(() => {
         if (commentTextAreaRef.current) {
             commentTextAreaRef.current.style.height = 'auto';
-            commentTextAreaRef.current.style.height = `${data.comment.length === 0 ? commentTextAreaRef.current.scrollHeight - 20 : commentTextAreaRef.current.scrollHeight}px`;
+            commentTextAreaRef.current.style.height = `${commentTextAreaRef.current.scrollHeight}px`;
         }
     }, [data.comment]);
 
@@ -160,8 +173,8 @@ const Post = forwardRef(({ thread }, ref) => {
                         <DefaultUserIcon />
                         <div className={`relative flex-grow flex flex-col items-center`}>
                             <textarea
-                                className={`w-full rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
-                                maxLength={800}
+                                className={`w-full h-[45px] ${data.comment.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
+                                maxLength={600}
                                 placeholder={'أضف تعليق...'}
                                 ref={commentTextAreaRef}
                                 name="comment"
@@ -203,8 +216,10 @@ const Post = forwardRef(({ thread }, ref) => {
                             }
                         </div>
 
-                        <button className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
-                        <button className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف</button>
+                        <div onClick={addComment}>
+                            <button className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
+                            <button className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف</button>
+                        </div>
                     </div>
 
                     {/* عرض التعليقات */}

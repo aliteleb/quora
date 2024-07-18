@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpaceController;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
     Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
+    Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
 });
 
 // Public Routes
