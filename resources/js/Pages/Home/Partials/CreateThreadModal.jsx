@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { BiCaretLeft } from 'react-icons/bi';
 import { TbUsers } from 'react-icons/tb';
-import { FaAngleDown } from 'react-icons/fa';
+import {FaAngleDown, FaCloudUploadAlt} from 'react-icons/fa';
 import { useApp } from '@/AppContext/AppContext.jsx';
 import Modal from '@/Components/Modal.jsx';
 import { AiOutlineGlobal } from 'react-icons/ai';
@@ -139,11 +139,6 @@ export default function CreateThreadModal() {
         }
     };
 
-    useEffect(() => {
-        // console.log(data)
-    }, [data]);
-
-
     const makePostActive = () => {
         setIsPostActive(true)
         setData(prevData => ({
@@ -172,6 +167,7 @@ export default function CreateThreadModal() {
         } else {
             setData('video', e.target.files[0])
         }
+        e.target.value = null;
     }
 
     return (
@@ -246,8 +242,7 @@ export default function CreateThreadModal() {
                         name={'title'}
                         value={data.title}
                         onChange={handleThreadChange}
-                    >
-                    </textarea>
+                    />
 
                     {/* Preview uploaded image */}
                     {(data.image && !data.video) &&
@@ -290,7 +285,7 @@ export default function CreateThreadModal() {
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
                         <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleFileChange}/>
-                        <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
+                        <FaCloudUploadAlt className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>
 

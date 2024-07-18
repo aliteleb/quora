@@ -1,14 +1,15 @@
-import React, {forwardRef, useEffect, useRef, useState} from 'react';
-import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
-import { FaRegComment } from "react-icons/fa";
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import { PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill } from "react-icons/pi";
+import { FaCloudUploadAlt, FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
 import { useApp } from "@/AppContext/AppContext.jsx";
-import {router, useForm, usePage} from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Input from "@/Core/Input.jsx";
-import {RiImageAddLine} from "react-icons/ri";
+import { RiImageAddLine } from "react-icons/ri";
 import Comment from "@/Components/Comment.jsx";
+import { HiMiniXMark } from "react-icons/hi2";
 
 const Post = forwardRef(({ thread }, ref) => {
     const { user } = useApp();
@@ -17,7 +18,7 @@ const Post = forwardRef(({ thread }, ref) => {
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
 
-    const {data, setData} = useForm({
+    const { data, setData } = useForm({
         comment: '',
         image: null,
         video: null,
@@ -28,7 +29,7 @@ const Post = forwardRef(({ thread }, ref) => {
     }, []);
 
     const vote = (voteType) => {
-        router.post('/vote', {thread_id: thread.id, vote_type: voteType}, {
+        router.post('/vote', { thread_id: thread.id, vote_type: voteType }, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
@@ -55,24 +56,22 @@ const Post = forwardRef(({ thread }, ref) => {
         setIsCommentsOpen(!isCommentsOpen)
     }
 
-    const commentInputRef = useRef(null)
-    useEffect(() => {
-        if (commentInputRef.current) {
-            commentInputRef.current.style.height = 'auto';
-            commentInputRef.current.style.height = commentInputRef.current.scrollHeight + 1 + 'px';
-        }
-    }, [data.comment])
+    const commentTextAreaRef = useRef(null);
 
-    const handleFileChange =(e) => {
-        if (e.target.files)
-        {
-            if (e.target.files[0].type.startsWith('image'))
-            {
-                setData('image', e.target.files[0])
-            } else {
-                setData('video', e.target.files[0])
-            }
+    useEffect(() => {
+        if (commentTextAreaRef.current) {
+            commentTextAreaRef.current.style.height = 'auto';
+            commentTextAreaRef.current.style.height = `${data.comment.length === 0 ? commentTextAreaRef.current.scrollHeight - 20 : commentTextAreaRef.current.scrollHeight}px`;
         }
+    }, [data.comment]);
+
+    const handleFileChange = (e) => {
+        if (e.target.files[0].type.startsWith('image')) {
+            setData('image', e.target.files[0])
+        } else {
+            setData('video', e.target.files[0])
+        }
+        e.target.value = null;
     }
 
     const handleCommentChange = (e) => {
@@ -82,10 +81,17 @@ const Post = forwardRef(({ thread }, ref) => {
         }));
     };
 
+    const removeUploadedFile = () => {
+        setData({
+            ...data,
+            image: null,
+            video: null,
+        });
+    };
+
     useEffect(() => {
         console.log(data)
     }, [data]);
-
 
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded py-3 flex flex-col gap-y-4`}>
@@ -93,7 +99,7 @@ const Post = forwardRef(({ thread }, ref) => {
                 <div className={`flex gap-x-3`}>
                     <div>
                         {thread.user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer`} />}
-                        {(!thread.user?.avatar && thread.user) && <DefaultUserIcon/>}
+                        {(!thread.user?.avatar && thread.user) && <DefaultUserIcon />}
                     </div>
                     <div>
                         <div className={`font-bold`}>
@@ -125,15 +131,15 @@ const Post = forwardRef(({ thread }, ref) => {
                         <div className={`flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
                             <div onClick={voteUp} className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>
                                 <div className={`flex items-center gap-x-1`}>
-                                    {(isVoted === null || isVoted === 'down') && <PiArrowFatUp className={`text-[--theme-button-border-color] size-5`}/>}
-                                    {isVoted === 'up' && <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`}/>}
+                                    {(isVoted === null || isVoted === 'down') && <PiArrowFatUp className={`text-[--theme-button-border-color] size-5`} />}
+                                    {isVoted === 'up' && <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`} />}
                                     <span>أويد .</span>
                                 </div>
                                 <span>{voteUpCount}</span>
                             </div>
                             <div onClick={voteDown} className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
-                                {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`}/>}
-                                {isVoted === 'down' && <PiArrowFatDownFill  className={`size-5 text-[--theme-primary-button-color]`}/>}
+                                {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`} />}
+                                {isVoted === 'down' && <PiArrowFatDownFill className={`size-5 text-[--theme-primary-button-color]`} />}
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
@@ -148,34 +154,65 @@ const Post = forwardRef(({ thread }, ref) => {
                     </div>
                 </div>
             </footer>
-        {/*  Comments section  */}
             {isCommentsOpen &&
-                // أضف تعليق
                 <div className={``}>
                     <div className={`flex items-center gap-x-1 flex-grow px-5 py-3 bg-[#202020]`}>
-                        <DefaultUserIcon/>
-                        <div className={`flex-grow relative `}>
-                            <Input
-                                inputClassStyle={`rounded-full`}
-                                placeholder={`أضف تعليق...`}
-                                ref={commentInputRef}
+                        <DefaultUserIcon />
+                        <div className={`relative flex-grow flex flex-col items-center`}>
+                            <textarea
+                                className={`w-full rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
+                                maxLength={800}
+                                placeholder={'أضف تعليق...'}
+                                ref={commentTextAreaRef}
+                                name="comment"
+                                value={data.comment}
                                 onChange={handleCommentChange}
                             />
-                            <label htmlFor="upload_comment_img" className={`block w-fit`}>
-                                <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'} onChange={handleFileChange}/>
-                                <RiImageAddLine className={`size-6 text-[--theme-secondary-text-color] left-3 top-1/2 -translate-y-1/2 absolute cursor-pointer`}/>
+                            <label htmlFor="upload_comment_img" className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
+                                <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'} onChange={handleFileChange} />
+                                <FaCloudUploadAlt className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`} />
                             </label>
+                            {/* Preview uploaded image */}
+                            {(data.image && !data.video) &&
+                                <div
+                                    className={`${!data.image ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70 relative'} mt-3`}>
+                                    <div onClick={removeUploadedFile}
+                                         className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                        <HiMiniXMark className={`size-6`} />
+                                    </div>
+                                    <img className={`w-full max-h-[20rem] rounded object-cover`}
+                                         src={data?.image ? URL.createObjectURL(data?.image) : ''}
+                                         alt="post-img" />
+                                </div>
+                            }
+
+                            {/* Preview uploaded video */}
+                            {(data.video && !data.image) &&
+                                <div
+                                    className={`${!data.video ? 'invisible' : 'visible w-full pb-3 relative'} mt-3`}>
+                                    <div onClick={removeUploadedFile}
+                                         className="absolute z-50 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                        <HiMiniXMark className={`size-6`} />
+                                    </div>
+                                    <video
+                                        src={URL.createObjectURL(data.video)}
+                                        className={`w-full max-h-[20rem] rounded`}
+                                        controls
+                                    />
+                                </div>
+                            }
                         </div>
 
-                        <button className={`rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
+                        <button className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
+                        <button className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف</button>
                     </div>
 
-                {/*  عرض التعليقات  */}
+                    {/* عرض التعليقات */}
                     <div>
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`}/>
-                        <Comment/>
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
+                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
+                        <Comment />
                     </div>
 
                 </div>}
