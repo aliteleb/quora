@@ -28,7 +28,7 @@ export default function Comment({customStyles}) {
                         <div className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>
                             <div className={`flex items-center gap-x-1`}>
                                 <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`}/>
-                                <span>أويد .</span>
+                                <span>أويد ·</span>
                             </div>
                             <span>55</span>
                         </div>

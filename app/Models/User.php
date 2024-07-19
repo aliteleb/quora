@@ -35,6 +35,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Topic::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

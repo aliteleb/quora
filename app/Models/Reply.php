@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Comment extends Model
+class Reply extends Model
 {
     use HasFactory;
 
@@ -16,8 +15,8 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function replies(): HasMany
+    public function comment(): BelongsTo
     {
-        return $this->hasMany(Reply::class);
+        return $this->belongsTo(Comment::class);
     }
 }

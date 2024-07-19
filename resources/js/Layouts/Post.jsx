@@ -116,7 +116,7 @@ const Post = forwardRef(({ thread }, ref) => {
                     </div>
                     <div>
                         <div className={`font-bold`}>
-                            <span className={`cursor-pointer`}>{thread.user.name} . </span>
+                            <span className={`cursor-pointer`}>{thread.user.name} · </span>
                             <span className={`text-[--theme-button-border-color] cursor-pointer hover:underline`}>متابعة</span>
                         </div>
                         <span>15 أبريل</span>
@@ -136,7 +136,7 @@ const Post = forwardRef(({ thread }, ref) => {
             </main>
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>
-                    <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد . </span>
+                    <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
                     <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
                 </div>
                 <div className={`flex justify-between text-[--theme-body-color]`}>
@@ -146,7 +146,7 @@ const Post = forwardRef(({ thread }, ref) => {
                                 <div className={`flex items-center gap-x-1`}>
                                     {(isVoted === null || isVoted === 'down') && <PiArrowFatUp className={`text-[--theme-button-border-color] size-5`} />}
                                     {isVoted === 'up' && <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`} />}
-                                    <span>أويد .</span>
+                                    <span>أويد ·</span>
                                 </div>
                                 <span>{voteUpCount}</span>
                             </div>
