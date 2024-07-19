@@ -21,4 +21,9 @@ class Thread extends Model implements HasMedia
     {
         return $this->hasMany(Vote::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

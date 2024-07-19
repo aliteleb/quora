@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CommentRequest extends FormRequest
+class CreateCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +24,26 @@ class CommentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comment' => ['max:600'],
+            'body' => ['max:600'],
             'image' => ['mimes:jpeg,jpg,png,webp', 'max:4096', 'nullable'],
             'video' => ['mimes:mp4,mov,ogg,avi,mkv', 'max:20480', 'nullable'],
+            'user_id' => [],
+            'thread_id' => []
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+        ]);
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        $errors = $validator->errors()->toArray();
+        throw new HttpResponseException(
+            back()->withErrors($errors)->withInput()
+        );
     }
 }

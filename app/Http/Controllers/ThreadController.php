@@ -15,7 +15,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class ThreadController extends Controller implements HasMedia
 {
-    use HttpResponses, InteractsWithMedia;
+    use InteractsWithMedia;
     public function create(CreateThreadRequest $request)
     {
         $thread = Thread::create([

@@ -17,11 +17,11 @@ const Post = forwardRef(({ thread }, ref) => {
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-
-    const { data, setData, post, errors } = useForm({
-        comment: '',
+    const { data, setData, post, errors, reset } = useForm({
+        body: '',
         image: null,
         video: null,
+        thread_id: thread.id
     });
 
     const addComment = () => {
@@ -29,7 +29,7 @@ const Post = forwardRef(({ thread }, ref) => {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-
+                reset()
             },
             onError: () => {
 
@@ -76,7 +76,7 @@ const Post = forwardRef(({ thread }, ref) => {
             commentTextAreaRef.current.style.height = 'auto';
             commentTextAreaRef.current.style.height = `${commentTextAreaRef.current.scrollHeight}px`;
         }
-    }, [data.comment]);
+    }, [data.body]);
 
     const handleFileChange = (e) => {
         if (e.target.files[0].type.startsWith('image')) {
@@ -173,12 +173,12 @@ const Post = forwardRef(({ thread }, ref) => {
                         <DefaultUserIcon />
                         <div className={`relative flex-grow flex flex-col items-center`}>
                             <textarea
-                                className={`w-full h-[45px] ${data.comment.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
+                                className={`w-full h-[45px] ${data.body.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
                                 maxLength={600}
                                 placeholder={'أضف تعليق...'}
                                 ref={commentTextAreaRef}
-                                name="comment"
-                                value={data.comment}
+                                name="body"
+                                value={data.body}
                                 onChange={handleCommentChange}
                             />
                             <label htmlFor="upload_comment_img" className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
