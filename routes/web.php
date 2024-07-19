@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
     Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
+    Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
 });
 
 // Public Routes

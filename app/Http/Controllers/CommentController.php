@@ -15,7 +15,6 @@ class CommentController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function addComment(CreateCommentRequest $request)
     {
-        Log::info($request);
         $comment = Comment::create([
             'user_id' => $request->user_id,
             'body' => $request->body,
@@ -32,4 +31,11 @@ class CommentController extends Controller implements HasMedia
             $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
     }
+
+    public function getComments(Request $request)
+    {
+        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with('replies')->get();
+        flattenComments($comments);
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,3 +23,33 @@ function settings (string|null $key = null, $default = null) {
     return $settings[$key] ?? $default;
 
 }
+
+function flattenAllReplies(array $comments)
+{
+    $flattened = [];
+
+    foreach ($comments as $comment) {
+        $nestedComments = $comment['comments'];
+        unset($comment['comments']);
+        $flattened[] = $comment;
+
+        if (!empty($nestedComments)) {
+            $flattened = array_merge($flattened, flattenAllReplies($nestedComments));
+        }
+    }
+
+    return $flattened;
+}
+
+function flattenComments(Collection $comments)
+{
+    foreach ($comments as $comment) {
+        $nestedComments = $comment['comments'] ?? [];
+        unset($comment['comments']);
+        if ($nestedComments) {
+            $comment['comments'] = flattenAllComments($nestedComments->toArray());
+        }
+    }
+    return $comments;
+}
+

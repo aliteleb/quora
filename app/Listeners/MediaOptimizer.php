@@ -23,6 +23,10 @@ class MediaOptimizer
     {
         $media = $event->media;
 
+        if ($media->type !== 'image') {
+            return;
+        }
+
         $pathToImage = $media->getPath();
 
         // Load the image and optimize it

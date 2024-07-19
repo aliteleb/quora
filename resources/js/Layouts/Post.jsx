@@ -17,6 +17,10 @@ const Post = forwardRef(({ thread }, ref) => {
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+    const [comments, setComments] = useState([]);
+    const [fetched, setFetched] = useState(false);
+
+
     const { data, setData, post, errors, reset } = useForm({
         body: '',
         image: null,
@@ -106,6 +110,20 @@ const Post = forwardRef(({ thread }, ref) => {
         console.log(data)
     }, [data]);
 
+    const getComments = () => {
+        setFetched(true)
+        router.get('/get-comments', {thread_id: thread.id}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+
+            },
+            onError: () => {
+
+            }
+        })
+    }
+
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded py-3 flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
@@ -156,7 +174,10 @@ const Post = forwardRef(({ thread }, ref) => {
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
-                        <div onClick={toggleComments} className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                        <div onClick={() => {
+                            (!isCommentsOpen && !fetched) && getComments()
+                            toggleComments()
+                        }} className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
                             <span>{thread.all_comments_count}</span>
                         </div>
@@ -183,7 +204,7 @@ const Post = forwardRef(({ thread }, ref) => {
                             />
                             <label htmlFor="upload_comment_img" className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
                                 <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'} onChange={handleFileChange} />
-                                <FaCloudUploadAlt className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`} />
+                                <RiImageAddLine className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`} />
                             </label>
                             {/* Preview uploaded image */}
                             {(data.image && !data.video) &&
@@ -224,10 +245,11 @@ const Post = forwardRef(({ thread }, ref) => {
 
                     {/* عرض التعليقات */}
                     <div>
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
-                        <Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />
-                        <Comment />
+
+                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
+                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
+                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
+                        {/*<Comment />*/}
                     </div>
 
                 </div>}
