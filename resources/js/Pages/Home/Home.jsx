@@ -45,7 +45,6 @@ export default function Home() {
     const show_threads = threads.map((thread, index) => (
         <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null} />
     ));
-
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isFetching) {

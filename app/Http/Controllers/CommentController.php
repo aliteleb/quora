@@ -6,6 +6,7 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateCommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -34,8 +35,18 @@ class CommentController extends Controller implements HasMedia
 
     public function getComments(Request $request)
     {
-        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with('replies')->get();
+        Log::info('Request parameters:', $request->all());
+        Log::info('SQL Query:', DB::getQueryLog());
+        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with('replies')->latest()->paginate(5);
+        $next_page_url = $comments->nextPageUrl();
+        $comments = $comments->getCollection();
+
         flattenComments($comments);
+        $data = [
+            'comments' => $comments,
+            'next_page_url' => $next_page_url,
+        ];
+        return InertiaResponse::render('Home/Home', $data);
     }
 
 }

@@ -33,10 +33,6 @@ class ThreadResource extends JsonResource
             'type' => $this->type,
             'is_anonymous' => $this->is_anonymous,
             'visibility' => $this->visibility,
-            'all_up_votes_count' => $this->all_up_votes_count,
-            'all_down_votes_count' => $this->all_down_votes_count,
-            'all_comments_count' => $this->all_comments_count,
-            'all_shares_count' => $this->all_shares_count,
             'status' => $this->status,
             'sensitive_content' => $this->sensitive_content,
             'scheduled' => $this->scheduled,
@@ -46,6 +42,7 @@ class ThreadResource extends JsonResource
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,
+            'comments_count' => count($this->comments),
         ];
     }
 }

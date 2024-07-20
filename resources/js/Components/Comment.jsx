@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 
-export default function Comment({customStyles}) {
+const Comment = forwardRef(({comment, customStyles}, ref) => {
     return (
-        <div className={`px-5 pt-3 flex gap-x-3 ${customStyles}`}>
+        <div ref={ref} className={`px-5 pt-3 flex gap-x-3 ${customStyles ? customStyles : ''}`}>
             <div>
                 <DefaultUserIcon/>
             </div>
@@ -42,4 +42,6 @@ export default function Comment({customStyles}) {
             </div>
         </div>
     )
-}
+})
+
+export default Comment;

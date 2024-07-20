@@ -18,8 +18,9 @@ const Post = forwardRef(({ thread }, ref) => {
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
-    const [fetched, setFetched] = useState(false);
-
+    const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
+    const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status in pagination
+    const [nextPageUrl, setNextPageUrl] = useState('');
 
     const { data, setData, post, errors, reset } = useForm({
         body: '',
@@ -28,15 +29,41 @@ const Post = forwardRef(({ thread }, ref) => {
         thread_id: thread.id
     });
 
+    const loadMoreComments = (pageUrl) => {
+        if (pageUrl && !isFetching) {
+            setIsFetching(true); // Set fetch status to true
+            router.get(pageUrl, { thread_id: thread.id }, {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (page) => {
+                    // Combine new comments with the existing ones
+                    setComments(prevState => [...prevState, ...page.props.comments]);
+                    setNextPageUrl(page.props.next_page_url);
+                    setIsFetching(false); // Set fetch status to false after fetch completes
+                    window.history.replaceState({}, '', '/');
+                },
+                onError: () => {
+                    setIsFetching(false); // Set fetch status to false if an error occurs
+                }
+            });
+        }
+    };
+
+    const lastCommentRef = useRef(null);
+    const show_comments = comments.map((comment, index) => (
+        <Comment key={comment.id} comment={comment} ref={index === comments.length - 1 ? lastCommentRef : null} />
+    ));
+
     const addComment = () => {
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
                 reset()
+                window.history.replaceState({}, '', '/');
             },
             onError: () => {
-
+                window.history.replaceState({}, '', '/');
             }
         })
     }
@@ -115,11 +142,13 @@ const Post = forwardRef(({ thread }, ref) => {
         router.get('/get-comments', {thread_id: thread.id}, {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
-
+            onSuccess: (res) => {
+                setComments(res.props.comments)
+                setNextPageUrl(res.props.next_page_url)
+                window.history.replaceState({}, '', '/');
             },
             onError: () => {
-
+                window.history.replaceState({}, '', '/');
             }
         })
     }
@@ -179,7 +208,7 @@ const Post = forwardRef(({ thread }, ref) => {
                             toggleComments()
                         }} className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
-                            <span>{thread.all_comments_count}</span>
+                            <span>{thread.comments_count}</span>
                         </div>
                         <div className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <CiShare2 />
@@ -245,11 +274,7 @@ const Post = forwardRef(({ thread }, ref) => {
 
                     {/* عرض التعليقات */}
                     <div>
-
-                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
-                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
-                        {/*<Comment customStyles={`border-b border-[--theme-secondary-bg-color-hover] pb-6`} />*/}
-                        {/*<Comment />*/}
+                        {show_comments}
                     </div>
 
                 </div>}
