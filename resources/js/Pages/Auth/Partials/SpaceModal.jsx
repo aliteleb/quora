@@ -69,15 +69,17 @@ export default function SpaceModal() {
         <Modal show={isSpaceModalOpen} onClose={closeSpaceModal} backdropColor={`bg-[#222222dd]`} maxWidth={`xl`} >
             <div className={`border border-[#393839] rounded bg-[--theme-body-bg]`}>
                 <header className={`p-2 flex justify-between`}>
-                    <button className={`rounded-full hover:bg-white/5 text-white p-3`} onClick={closeSpaceModal}>
-                        <GrClose className={`size-5`}/>
+                    <button className={``} onClick={closeSpaceModal}>
+                        <div className={`rounded-full hover:bg-white/5 text-white p-3 h-fit`}>
+                            <GrClose className={`size-5`}/>
+                        </div>
                     </button>
 
                     <div className={`flex flex-col gap-y-2`}>
                         <div
                             className={`bg-[--theme-body-bg] mt-2 min-w-[10rem] max-w-[24rem]`}
                         >
-                            <ReactSelect options={options} handleSelectChange={handleSelectChange} errors={errors.topics}/>
+                            <ReactSelect options={options} handleSelectChange={handleSelectChange} errors={errors.topics} placeholder={'حدد المواضيع'}/>
                         </div>
                         <InputError message={errors.topics} className={`!text-red-500`}/>
                     </div>

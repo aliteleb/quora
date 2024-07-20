@@ -1,10 +1,11 @@
 import React from 'react'
-import Select from "react-select";
+import Select, {components} from "react-select";
+import {IoIosAddCircle, IoIosAddCircleOutline} from "react-icons/io";
 
-export default function ReactSelect({options, handleSelectChange, selectedSpaces, errors}) {
+
+export default function ReactSelect({options, handleSelectChange, selectedSpaces, errors, placeholder}) {
 
     const cssVariables = getComputedStyle(document.documentElement);
-
     const customStyles = {
         control: (styles, { isFocused, isDisabled }) => ({
             ...styles,
@@ -13,7 +14,7 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
             transition: 'ease-in-out',
             boxShadow: 'none',
             border: '0 solid transparent',
-            outline: '2px solid',
+            outline: 'none',
             outlineColor: errors ? cssVariables.getPropertyValue('--theme-react-select-error-color') : cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
             '&:hover': {
                 borderColor: isDisabled ? 'transparent' : 'none',
@@ -28,7 +29,6 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
         dropdownIndicator: (defaultStyles, {isFocused}) => ({
             ...defaultStyles,
             color: cssVariables.getPropertyValue('--theme-body-color'),
-
         }),
 
         input: (defaultStyles) => ({
@@ -106,13 +106,24 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
             padding: '8px',
         }),
     }
-
-
+    const CustomDropdownIndicator = (props) => {
+        return (
+            <components.DropdownIndicator {...props}>
+                <span style={{
+                    // color: cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
+                    color: '#4a4a4a',
+                    fontSize: '30px'
+                }}><IoIosAddCircleOutline /></span>
+            </components.DropdownIndicator>
+        );
+    };
 
     return (
         <Select
             isClearable={false}
             isMulti
+            components={{DropdownIndicator: CustomDropdownIndicator}}
+            placeholder={placeholder}
             value={selectedSpaces}
             options={options}
             styles={customStyles}

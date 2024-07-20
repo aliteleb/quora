@@ -190,7 +190,7 @@ export default function CreateThreadModal() {
                         onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
                         className={`justify-self-center me-[40px] mt-2`}
                     >
-                        <ReactSelect options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces}/>
+                        <ReactSelect options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces} placeholder={'حدد المساحة'}/>
                     </div>
                 </div>
 
