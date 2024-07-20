@@ -21,6 +21,9 @@ const Post = forwardRef(({ thread }, ref) => {
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
     const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status in pagination
     const [nextPageUrl, setNextPageUrl] = useState('');
+    const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
+    const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
+
 
     const { data, setData, post, errors, reset } = useForm({
         body: '',
@@ -31,7 +34,8 @@ const Post = forwardRef(({ thread }, ref) => {
 
     const loadMoreComments = (pageUrl) => {
         if (pageUrl && !isFetching) {
-            setIsFetching(true); // Set fetch status to true
+            setShowMoreCommentsLoading(true)
+            setIsFetching(true);
             router.get(pageUrl, { thread_id: thread.id }, {
                 preserveScroll: true,
                 preserveState: true,
@@ -40,10 +44,12 @@ const Post = forwardRef(({ thread }, ref) => {
                     setComments(prevState => [...prevState, ...page.props.comments]);
                     setNextPageUrl(page.props.next_page_url);
                     setIsFetching(false); // Set fetch status to false after fetch completes
+                    setShowMoreCommentsLoading(false)
                     window.history.replaceState({}, '', '/');
                 },
                 onError: () => {
                     setIsFetching(false); // Set fetch status to false if an error occurs
+                    setShowMoreCommentsLoading(false)
                 }
             });
         }
@@ -138,17 +144,20 @@ const Post = forwardRef(({ thread }, ref) => {
     }, [data]);
 
     const getComments = () => {
+        setOpenCommentsLoading(false)
         setFetched(true)
         router.get('/get-comments', {thread_id: thread.id}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
+                setOpenCommentsLoading(true)
                 setComments(res.props.comments)
                 setNextPageUrl(res.props.next_page_url)
                 window.history.replaceState({}, '', '/');
             },
             onError: () => {
                 window.history.replaceState({}, '', '/');
+                setOpenCommentsLoading(true)
             }
         })
     }
@@ -219,62 +228,84 @@ const Post = forwardRef(({ thread }, ref) => {
             </footer>
             {isCommentsOpen &&
                 <div className={``}>
-                    <div className={`flex items-center gap-x-1 flex-grow px-5 py-3 bg-[#202020]`}>
-                        <DefaultUserIcon />
-                        <div className={`relative flex-grow flex flex-col items-center`}>
-                            <textarea
-                                className={`w-full h-[45px] ${data.body.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
-                                maxLength={600}
-                                placeholder={'أضف تعليق...'}
-                                ref={commentTextAreaRef}
-                                name="body"
-                                value={data.body}
-                                onChange={handleCommentChange}
-                            />
-                            <label htmlFor="upload_comment_img" className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
-                                <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'} onChange={handleFileChange} />
-                                <RiImageAddLine className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`} />
-                            </label>
-                            {/* Preview uploaded image */}
-                            {(data.image && !data.video) &&
-                                <div
-                                    className={`${!data.image ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70 relative'} mt-3`}>
-                                    <div onClick={removeUploadedFile}
-                                         className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
-                                        <HiMiniXMark className={`size-6`} />
+                    {openCommentsLoading &&
+                        <div className={`flex items-center gap-x-1 flex-grow px-5 py-3 bg-[#202020]`}>
+                            <DefaultUserIcon/>
+                            <div className={`relative flex-grow flex flex-col items-center`}>
+                                <textarea
+                                    className={`w-full h-[45px] ${data.body.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}
+                                    maxLength={600}
+                                    placeholder={'أضف تعليق...'}
+                                    ref={commentTextAreaRef}
+                                    name="body"
+                                    value={data.body}
+                                    onChange={handleCommentChange}
+                                />
+                                <label htmlFor="upload_comment_img"
+                                       className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
+                                    <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'}
+                                           onChange={handleFileChange}/>
+                                    <RiImageAddLine
+                                        className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`}/>
+                                </label>
+                                {/* Preview uploaded image */}
+                                {(data.image && !data.video) &&
+                                    <div
+                                        className={`${!data.image ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70 relative'} mt-3`}>
+                                        <div onClick={removeUploadedFile}
+                                             className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                            <HiMiniXMark className={`size-6`}/>
+                                        </div>
+                                        <img className={`w-full max-h-[20rem] rounded object-cover`}
+                                             src={data?.image ? URL.createObjectURL(data?.image) : ''}
+                                             alt="post-img"/>
                                     </div>
-                                    <img className={`w-full max-h-[20rem] rounded object-cover`}
-                                         src={data?.image ? URL.createObjectURL(data?.image) : ''}
-                                         alt="post-img" />
-                                </div>
-                            }
+                                }
 
-                            {/* Preview uploaded video */}
-                            {(data.video && !data.image) &&
-                                <div
-                                    className={`${!data.video ? 'invisible' : 'visible w-full pb-3 relative'} mt-3`}>
-                                    <div onClick={removeUploadedFile}
-                                         className="absolute z-50 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
-                                        <HiMiniXMark className={`size-6`} />
+                                {/* Preview uploaded video */}
+                                {(data.video && !data.image) &&
+                                    <div
+                                        className={`${!data.video ? 'invisible' : 'visible w-full pb-3 relative'} mt-3`}>
+                                        <div onClick={removeUploadedFile}
+                                             className="absolute z-50 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                            <HiMiniXMark className={`size-6`}/>
+                                        </div>
+                                        <video
+                                            src={URL.createObjectURL(data.video)}
+                                            className={`w-full max-h-[20rem] rounded`}
+                                            controls
+                                        />
                                     </div>
-                                    <video
-                                        src={URL.createObjectURL(data.video)}
-                                        className={`w-full max-h-[20rem] rounded`}
-                                        controls
-                                    />
-                                </div>
-                            }
-                        </div>
+                                }
+                            </div>
 
-                        <div onClick={addComment}>
-                            <button className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف تعليق</button>
-                            <button className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف</button>
-                        </div>
-                    </div>
-
+                            <div onClick={addComment}>
+                                <button
+                                    className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف
+                                    تعليق
+                                </button>
+                                <button
+                                    className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف
+                                </button>
+                            </div>
+                    </div>}
+                    {openCommentsLoading ||
+                        <div className={`flex justify-center py-5 bg-[#202020]`}>
+                            <div className='flex space-x-2 justify-center items-center'>
+                                <span className='sr-only'>Loading...</span>
+                                <div
+                                    className='h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+                                <div
+                                    className='h-2 w-2 bg-white  rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+                                <div className='h-2 w-2 bg-white  rounded-full animate-bounce'></div>
+                            </div>
+                        </div>}
                     {/* عرض التعليقات */}
                     <div>
                         {show_comments}
+                        {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[#202020] w-full py-3 mt-3`}>
+                            {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}
+                        </button>}
                     </div>
 
                 </div>}
