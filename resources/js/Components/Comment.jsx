@@ -3,9 +3,11 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 
-const Comment = forwardRef(({comment, customStyles}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
 
     const [replies, setReplies] = useState([]);
+    const [showReplies, setShowReplies] = useState(false);
+
 
     const storeReplies = (replies) => {
         const allReplies = []
@@ -30,8 +32,12 @@ const Comment = forwardRef(({comment, customStyles}, ref) => {
     }, []);
 
     const show_replies = replies.map(reply => (
-        <Comment comment={reply} customStyles={`!px-20`}/>
+        <Comment comment={reply} customStyles={`!ps-20`} isReply={true} show={true}/>
     ))
+
+    const toggleShowReplies = () => {
+        setShowReplies(!showReplies)
+    }
 
     return (
         <>
@@ -68,16 +74,16 @@ const Comment = forwardRef(({comment, customStyles}, ref) => {
                             </div>
                         </div>
                         <button className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
-                        {comment.replies.length !== 0 && <button
-                            className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full px-4 py-2 cursor-pointer`}>عرض
-                            الردود</button>}
+                        {comment.replies.length !== 0 && !isReply &&
+                            <button
+                                onClick={toggleShowReplies}
+                                className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full px-4 py-2 cursor-pointer`}>عرض
+                                الردود</button>}
                     </div>
                 </div>
             </div>
             {/*  عرض الردود  */}
-            <div>
-                {show_replies}
-            </div>
+            {(showReplies || show) && show_replies}
         </>
     )
 })

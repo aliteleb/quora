@@ -229,7 +229,7 @@ const Post = forwardRef(({ thread }, ref) => {
             {isCommentsOpen &&
                 <div className={``}>
                     {openCommentsLoading &&
-                        <div className={`flex items-center gap-x-1 flex-grow px-5 py-3 bg-[#202020]`}>
+                        <div className={`flex items-center gap-x-3 flex-grow px-5 py-3 bg-[#202020]`}>
                             <DefaultUserIcon/>
                             <div className={`relative flex-grow flex flex-col items-center`}>
                                 <textarea
