@@ -41,7 +41,7 @@ const Post = forwardRef(({ thread }, ref) => {
                 preserveState: true,
                 onSuccess: (page) => {
                     // Combine new comments with the existing ones
-                    setComments(prevState => [...prevState, ...page.props.comments]);
+                    setComments(prevState => [...prevState, ...page.props.comments.data]);
                     setNextPageUrl(page.props.next_page_url);
                     setIsFetching(false); // Set fetch status to false after fetch completes
                     setShowMoreCommentsLoading(false)
@@ -57,7 +57,7 @@ const Post = forwardRef(({ thread }, ref) => {
 
     const lastCommentRef = useRef(null);
     const show_comments = comments.map((comment, index) => (
-        <Comment key={comment.id} comment={comment} ref={index === comments.length - 1 ? lastCommentRef : null} />
+        <Comment key={comment.id} comment={comment} ref={index === comments.length - 1 ? lastCommentRef : null} user={comment.user}/>
     ));
 
     const addComment = () => {
@@ -151,7 +151,7 @@ const Post = forwardRef(({ thread }, ref) => {
             preserveState: true,
             onSuccess: (res) => {
                 setOpenCommentsLoading(true)
-                setComments(res.props.comments)
+                setComments(res.props.comments.data)
                 setNextPageUrl(res.props.next_page_url)
                 window.history.replaceState({}, '', '/');
             },

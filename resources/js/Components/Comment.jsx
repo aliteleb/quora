@@ -3,7 +3,7 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 
-const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -11,7 +11,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
 
     const storeReplies = (replies) => {
         const allReplies = []
-        replies.map(reply => {
+        replies?.map(reply => {
             if (reply.replies.length === 0) {
                 allReplies.push(reply)
             } else {
@@ -32,7 +32,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
     }, []);
 
     const show_replies = replies.map(reply => (
-        <Comment comment={reply} customStyles={`!ps-20`} isReply={true} show={true}/>
+        <Comment comment={reply} customStyles={`!ps-20`} isReply={true} user={reply.user}/>
     ))
 
     const toggleShowReplies = () => {
@@ -45,14 +45,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
                 <div>
                     <DefaultUserIcon/>
                 </div>
-                <div className={`flex flex-col gap-y-2`}>
-                    <div className={`flex`}>
+                <div className={`flex flex-col gap-y-2 w-full`}>
+                    <div className={`flex justify-between`}>
                         <div>
-                            <div className={`font-bold cursor-pointer w-fit`}>Username <span className={`font-medium cursor-auto`}>· منذ 3 أسابيع</span></div>
-                            {/*  محتوي التعليق  */}
-                            <div className={`mt-3`}>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis ducimus fugit id ipsam minima, porro quibusdam. Accusantium dolore.
-                            </div>
+                            <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto`}>· {comment.created_at}</span></div>
+                            <div className={`mt-3`}>{comment.body}</div>
                         </div>
 
                         <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
@@ -74,16 +71,16 @@ const Comment = forwardRef(({comment, customStyles, isReply, show}, ref) => {
                             </div>
                         </div>
                         <button className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
-                        {comment.replies.length !== 0 && !isReply &&
+                        {comment.replies?.length !== 0 && !isReply &&
                             <button
                                 onClick={toggleShowReplies}
-                                className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full px-4 py-2 cursor-pointer`}>عرض
-                                الردود</button>}
+                                className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full px-4 py-2 cursor-pointer`}>
+                                {showReplies ? 'إخفاء الردود' : 'عرض الردود'}</button>}
                     </div>
                 </div>
             </div>
             {/*  عرض الردود  */}
-            {(showReplies || show) && show_replies}
+            {(showReplies) && show_replies}
         </>
     )
 })
