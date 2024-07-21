@@ -14,4 +14,9 @@ class Vote extends Model
     {
         return $this->belongsTo(Thread::class);
     }
+
+    public function comments()
+    {
+        return $this->belongsTo(Comment::class);
+    }
 }

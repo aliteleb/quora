@@ -29,4 +29,9 @@ class Comment extends Model implements HasMedia
         return $this->hasMany(Comment::class)->with(['replies', 'user']);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
 }

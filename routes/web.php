@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
     Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
+    Route::post('/vote-comment', [CommentController::class, 'vote'])->name('vote');
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
     Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
 });
