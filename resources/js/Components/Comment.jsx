@@ -30,7 +30,7 @@ const Comment = forwardRef(({comment, customStyles}, ref) => {
     }, []);
 
     const show_replies = replies.map(reply => (
-        <Comment comment={reply} customStyles={`px-20`}/>
+        <Comment comment={reply} customStyles={`!px-20`}/>
     ))
 
     return (
@@ -75,7 +75,7 @@ const Comment = forwardRef(({comment, customStyles}, ref) => {
                 </div>
             </div>
             {/*  عرض الردود  */}
-            <div className={``}>
+            <div>
                 {show_replies}
             </div>
         </>
