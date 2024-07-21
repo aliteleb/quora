@@ -14,7 +14,6 @@ class Comment extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
 
     protected $guarded = [];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -27,6 +26,7 @@ class Comment extends Model implements HasMedia
 
     public function replies()
     {
-        return $this->hasMany(Comment::class)->with('replies');
+        return $this->hasMany(Comment::class)->with(['replies', 'user']);
     }
+
 }

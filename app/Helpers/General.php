@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -29,8 +30,9 @@ function flattenAllReplies(array $comments)
     $flattened = [];
 
     foreach ($comments as $comment) {
-        $nestedComments = $comment['comments'];
-        unset($comment['comments']);
+        $nestedComments = $comment['replies'];
+        $comment['created_at'] = Carbon::parse($comment['created_at'])->diffForHumans();
+        unset($comment['replies'], $comment['updated_at']);
         $flattened[] = $comment;
 
         if (!empty($nestedComments)) {
@@ -44,10 +46,11 @@ function flattenAllReplies(array $comments)
 function flattenComments(Collection $comments)
 {
     foreach ($comments as $comment) {
-        $nestedComments = $comment['comments'] ?? [];
-        unset($comment['comments']);
+        $nestedComments = $comment['replies'] ?? [];
+        $comment['creation_date'] = $comment['created_at']->diffForHumans();
+        unset($comment['replies'], $comment['updated_at'], $comment['created_at']);
         if ($nestedComments) {
-            $comment['comments'] = flattenAllComments($nestedComments->toArray());
+            $comment['replies'] = flattenAllReplies($nestedComments->toArray());
         }
     }
     return $comments;
