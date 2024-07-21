@@ -215,11 +215,11 @@ const Post = forwardRef(({ thread }, ref) => {
                         <div onClick={() => {
                             (!isCommentsOpen && !fetched) && getComments()
                             toggleComments()
-                        }} className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                        }} className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
                             <span>{thread.comments_count}</span>
                         </div>
-                        <div className={`flex items-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                        <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <CiShare2 />
                             <span>{thread.all_shares_count}</span>
                         </div>
@@ -294,10 +294,10 @@ const Post = forwardRef(({ thread }, ref) => {
                             <div className='flex space-x-2 justify-center items-center'>
                                 <span className='sr-only'>Loading...</span>
                                 <div
-                                    className='h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+                                    className='h-2 w-2 bg-[--theme-secondary-text-color] rounded-full animate-bounce [animation-delay:-0.3s]'></div>
                                 <div
-                                    className='h-2 w-2 bg-white  rounded-full animate-bounce [animation-delay:-0.15s]'></div>
-                                <div className='h-2 w-2 bg-white  rounded-full animate-bounce'></div>
+                                    className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+                                <div className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce'></div>
                             </div>
                         </div>}
                     {/* عرض التعليقات */}

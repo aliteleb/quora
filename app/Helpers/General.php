@@ -32,7 +32,7 @@ function flattenAllReplies(array $comments)
     foreach ($comments as $comment) {
         $nestedComments = $comment['replies'];
         $comment['created_at'] = Carbon::parse($comment['created_at'])->diffForHumans();
-        unset($comment['replies'], $comment['updated_at']);
+        unset($comment['replies']);
         $flattened[] = $comment;
 
         if (!empty($nestedComments)) {
@@ -47,8 +47,7 @@ function flattenComments(Collection $comments)
 {
     foreach ($comments as $comment) {
         $nestedComments = $comment['replies'] ?? [];
-        $comment['creation_date'] = $comment['created_at']->diffForHumans();
-        unset($comment['replies'], $comment['updated_at'], $comment['created_at']);
+        unset($comment['replies']);
         if ($nestedComments) {
             $comment['replies'] = flattenAllReplies($nestedComments->toArray());
         }

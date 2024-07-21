@@ -42,8 +42,7 @@ class CommentController extends Controller implements HasMedia
         $comments = $comments->getCollection();
 
         $comments = flattenComments($comments);
-        return $comments;
-        Log::info('comments_without_resource', array($comments));
+        $comments = CommentResource::collection($comments);
         $data = [
             'comments' => $comments,
             'next_page_url' => $next_page_url,
