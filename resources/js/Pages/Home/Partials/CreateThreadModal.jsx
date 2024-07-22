@@ -210,10 +210,9 @@ export default function CreateThreadModal() {
                         </div>
 
                         <button
-                            id={`publicOrPrivateDropdown`}
                             onClick={() => setIsPublicOrPrivateDropdownOpen(!isPublicOrPrivateDropdownOpen)}
                             className={`${isPostActive ? 'hidden' : ''} relative `}>
-                            <div className={`cursor-pointer flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 py-1 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
+                            <div id={`publicOrPrivateDropdown`} className={`cursor-pointer flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 py-1 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
                                 <TbUsers className={`size-4`}/>
                                 <span>عام</span>
                                 <FaAngleDown className={`size-4`}/>

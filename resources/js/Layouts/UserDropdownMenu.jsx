@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useRef} from 'react'
+import React, {Fragment, useEffect, useRef, useState} from 'react'
 import {FaRegCircleUser} from "react-icons/fa6";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {FaRegBookmark, FaUsers} from "react-icons/fa";
@@ -8,6 +8,7 @@ import {router} from "@inertiajs/react";
 
 
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
+    const [test, setTest] = useState('');
 
     const { user } = useApp()
 
