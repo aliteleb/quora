@@ -75,6 +75,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
     };
 
     const handleFileChange = (e) => {
+            console.log('comment image uploaded')
         if (e.target.files[0].type.startsWith('image')) {
             setData('image', e.target.files[0])
         } else {
@@ -110,6 +111,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
     const toggleShowReplyInput = () => {
         setShowReplyInput(!showReplyInput)
     }
+
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
+
 
     return (
         <>

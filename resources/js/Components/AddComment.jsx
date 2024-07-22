@@ -7,13 +7,9 @@ import {useForm} from "@inertiajs/react";
 
 const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id}, ref) => {
 
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
     return (
         <div className={`bg-[#202020] mt-2`}>
-            {replyTo && <div className={`px-5 py-1 rounded-full mt-1 ms-20 bg-[--theme-body-bg] w-fit`}> الرد على <button className={`font-bold`}>{replyTo}</button></div>}
+            {replyTo && <div className={`px-5 py-1 rounded-full mt-1 ms-20 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> الرد على <button className={`font-bold`}>{replyTo}</button></div>}
             <div className={`flex items-center gap-x-3 flex-grow px-5 py-3 ${customStyles ? customStyles : ''}`}>
                 <DefaultUserIcon/>
                 <div className={`relative flex-grow flex flex-col items-center`}>
@@ -26,9 +22,9 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
                         value={data.body}
                         onChange={handleCommentChange}
                     />
-                    <label htmlFor="upload_comment_img"
+                    <label htmlFor={comment_id ? comment_id : 'upload_comment_img'}
                            className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
-                        <Input type={'file'} id={'upload_comment_img'} visibility={'hidden'}
+                        <Input type={'file'} id={comment_id ? comment_id : 'upload_comment_img'} visibility={'hidden'}
                                onChange={handleFileChange}/>
                         <RiImageAddLine
                             className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`}/>
