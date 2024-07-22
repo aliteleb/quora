@@ -92,7 +92,7 @@ function Master({children}) {
                 <AiOutlinePlus />
             </button>
             {/*  Bottom Nav  */}
-            <nav className={`sm:hidden fixed bottom-0 flex bg-[--nav-bg-color] w-full justify-between text-3xl text-[--theme-body-color]`}>
+            <nav className={`sm:hidden z-50 fixed bottom-0 flex bg-[--theme-body-bg] w-full justify-between text-3xl text-[--theme-body-color]`}>
                 <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoHomeOutline />
                 </div>

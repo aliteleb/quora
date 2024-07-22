@@ -1,16 +1,26 @@
-import React, {forwardRef, useEffect, useState} from 'react'
+import React, {forwardRef, useEffect, useRef, useState} from 'react'
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
-import {router} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
+import AddComment from "@/Components/AddComment.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(comment.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
+    const [showReplyInput, setShowReplyInput] = useState(false);
+
+    const { data, setData, post, errors, reset } = useForm({
+        body: '',
+        image: null,
+        video: null,
+        comment_id: comment.id,
+        thread_id: thread_id,
+    });
 
     useEffect(() => {
         setReplies(comment.replies)
@@ -18,7 +28,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user}, ref) => {
     }, []);
 
     const show_replies = replies?.map(reply => (
-        <Comment comment={reply} customStyles={`!ps-20`} isReply={true} user={reply.user}/>
+        <Comment comment={reply} customStyles={``} isReply={true} user={reply.user} thread_id={thread_id}/>
     ))
 
     const toggleShowReplies = () => {
@@ -48,22 +58,75 @@ const Comment = forwardRef(({comment, customStyles, isReply, user}, ref) => {
         vote('down')
     }
 
+    const replyTextAreaRef = useRef(null);
+
+    useEffect(() => {
+        if (replyTextAreaRef.current) {
+            replyTextAreaRef.current.style.height = 'auto';
+            replyTextAreaRef.current.style.height = `${replyTextAreaRef.current.scrollHeight}px`;
+        }
+    }, [data.body]);
+
+    const handleReplyChange = (e) => {
+        setData((formData) => ({
+            ...formData,
+            [e.target.name]: e.target.value,
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        if (e.target.files[0].type.startsWith('image')) {
+            setData('image', e.target.files[0])
+        } else {
+            setData('video', e.target.files[0])
+        }
+        e.target.value = null;
+    }
+
+    const removeUploadedFile = () => {
+        setData({
+            ...data,
+            image: null,
+            video: null,
+        });
+    };
+
+    const addReply = () => {
+        post('/add-comment', {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+                reset()
+                setShowReplyInput(false)
+                window.history.replaceState({}, '', '/');
+            },
+            onError: () => {
+                setShowReplyInput(false)
+                window.history.replaceState({}, '', '/');
+            }
+        })
+    }
+
+    const toggleShowReplyInput = () => {
+        setShowReplyInput(!showReplyInput)
+    }
+
     return (
         <>
-            <div ref={ref} className={`px-5 pt-3 flex gap-x-3 ${customStyles ? customStyles : ''}`}>
-                <div>
-                    <DefaultUserIcon/>
-                </div>
-                <div className={`flex flex-col gap-y-2 w-full`}>
-                    <div className={`flex justify-between`}>
-                        <div>
-                            <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
-                            <div className={`mt-3`}>{comment.body}</div>
-                        </div>
+            <div ref={ref} className={`pt-3 flex flex-col gap-x-3 ${customStyles ? customStyles : ''}`}>
+                <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex items-center justify-between gap-x-3`}>
+                    <div className={`flex items-center gap-x-3`}>
+                        <DefaultUserIcon/>
+                        <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
+                    </div>
 
-                        <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
-                            <RxDotsHorizontal className={`size-5`} />
-                        </div>
+                    <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
+                        <RxDotsHorizontal className={`size-5`} />
+                    </div>
+                </div>
+                <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
+                    <div className={`flex justify-between`}>
+                        <div className={`mt-3 w-full break-words`}>{comment.body}</div>
                     </div>
                     <div className={`flex items-center gap-x-1`}>
                         <div className={`w-fit flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
@@ -81,14 +144,35 @@ const Comment = forwardRef(({comment, customStyles, isReply, user}, ref) => {
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
-                        <button className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
+                        <button onClick={toggleShowReplyInput} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
                         {comment.replies?.length !== 0 && !isReply &&
                             <button
                                 onClick={toggleShowReplies}
                                 className={`hover:bg-[--theme-nav-bg-color-hover] text-[--theme-secondary-text-color] rounded-full px-4 py-2 cursor-pointer`}>
-                                {showReplies ? 'إخفاء الردود' : 'عرض الردود'}</button>}
+                                {showReplies ? 'إخفاء الردود' : 'عرض الردود'}
+                            </button>
+                        }
                     </div>
+                {/*  أضف رد  */}
                 </div>
+
+                {showReplyInput &&
+                    <AddComment
+                        ref={replyTextAreaRef}
+                        handleCommentChange={handleReplyChange}
+                        handleFileChange={handleFileChange}
+                        removeUploadedFile={removeUploadedFile}
+                        data={data}
+                        addComment={addReply}
+                        customStyles={`!ps-20`}
+                        placeholder={'أضف رد...'}
+                        submitBtnText={'أضف رد'}
+                        replyTo={comment.user.name}
+                        comment_id={comment.id}
+                        thread_id={thread_id}
+                    />
+                }
+
             </div>
             {/*  عرض الردود  */}
             {(showReplies) && show_replies}

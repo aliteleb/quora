@@ -23,17 +23,16 @@ class CommentController extends Controller implements HasMedia
             'user_id' => $request->user_id,
             'body' => $request->body,
             'thread_id' => $request->thread_id,
+            'comment_id' => $request->comment_id ?: null,
         ]);
-
-        if ($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             $comment->addMediaFromRequest('image')->toMediaCollection('comments_images');
         }
 
-        if ($request->hasFile('video'))
-        {
+        if ($request->hasFile('video')) {
             $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
+
     }
 
     public function getComments(Request $request)
