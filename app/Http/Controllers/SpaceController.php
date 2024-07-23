@@ -29,4 +29,9 @@ class SpaceController extends Controller
         ]);
     }
 
+    public function index()
+    {
+        return InertiaResponse::render('Spaces/Spaces');
+    }
+
 }

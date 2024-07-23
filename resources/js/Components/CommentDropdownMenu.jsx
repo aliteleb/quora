@@ -53,7 +53,7 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
         >
             <div
                 ref={commentDropdownRef}
-                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[#202020] ${commentUserId !== user.id ? 'pt-0' : 'pt-3'} z-50`}
+                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] ${commentUserId !== user.id ? 'pt-0' : 'pt-3'} z-50`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
