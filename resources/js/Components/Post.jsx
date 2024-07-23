@@ -25,7 +25,6 @@ const Post = forwardRef(({ thread }, ref) => {
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
 
-
     const { data, setData, post, errors, reset } = useForm({
         body: '',
         image: null,
@@ -58,7 +57,16 @@ const Post = forwardRef(({ thread }, ref) => {
 
     const lastCommentRef = useRef(null);
     const show_comments = comments.map((comment, index) => (
-        <Comment key={comment.id} comment={comment} ref={index === comments.length - 1 ? lastCommentRef : null} user={comment.user} thread_id={thread.id}/>
+        <Comment
+            key={comment.id}
+            comment={comment}
+            ref={index === comments.length - 1 ? lastCommentRef : null}
+            user={comment.user}
+            thread_id={thread.id}
+            setComments={setComments}
+            comments={comments}
+            customStyles={index === comments.length - 1 ? 'pb-3' : ''}
+        />
     ));
 
     const addComment = () => {
@@ -68,6 +76,7 @@ const Post = forwardRef(({ thread }, ref) => {
             onSuccess: () => {
                 reset()
                 window.history.replaceState({}, '', '/');
+                getComments()
             },
             onError: () => {
                 window.history.replaceState({}, '', '/');
@@ -164,7 +173,7 @@ const Post = forwardRef(({ thread }, ref) => {
     }
 
     return (
-        <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded py-3 flex flex-col gap-y-4`}>
+        <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
                     <div>
@@ -253,7 +262,7 @@ const Post = forwardRef(({ thread }, ref) => {
                             </div>
                         </div>}
                     {/* عرض التعليقات */}
-                    <div>
+                    <div className={`bg-[#202020]`}>
                         {show_comments}
                         {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[#202020] w-full py-3 mt-3`}>
                             {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}

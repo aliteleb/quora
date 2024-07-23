@@ -6,7 +6,7 @@ import {router, useForm} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -115,7 +115,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
         setShowReplyInput(!showReplyInput)
     }
 
-
     return (
         <>
             <div ref={ref} className={`pt-3 flex flex-col gap-x-3 ${customStyles ? customStyles : ''}`}>
@@ -135,6 +134,8 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
                                 setIsCommentModalOpen={setIsCommentModalOpen}
                                 commentUserId={comment.user.id}
                                 commentId={comment.id}
+                                setComments={setComments}
+                                comments={comments}
                             />
                         }
                     </div>
@@ -143,10 +144,17 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
                     <div className={`flex flex-col justify-between px-12 gap-y-2`}>
                         <div className={`mt-3 w-full break-words`}>{comment.body}</div>
 
-                        <img className={`w-full max-h-[20rem] rounded object-cover`}
-                             src={comment.media?.image}
-                             alt="post-img"
-                        />
+                        {comment.media?.image &&
+                            <img className={`w-full max-h-[20rem] rounded object-cover`}
+                              src={comment.media?.image}
+                              alt="post-img"
+                            />
+                        }
+                        {comment.media?.video &&
+                            <video className={`w-full max-h-[20rem] rounded object-cover`}
+                                 src={comment.media?.video}
+                            />
+                        }
 
                     </div>
                     <div className={`flex items-center gap-x-1 px-12`}>
@@ -196,7 +204,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
 
             </div>
             {/*  عرض الردود  */}
-            {(showReplies) && show_replies}
+            {(showReplies) &&
+                <div className={`pb-3`}>
+                    {show_replies}
+                </div>
+            }
         </>
     )
 })

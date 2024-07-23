@@ -8,7 +8,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {TbMessageReport} from "react-icons/tb";
 import {router} from "@inertiajs/react";
 
-export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId}) {
+export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments}) {
 
     const { user } = useApp()
 
@@ -28,13 +28,21 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
 
     const deleteComment = () => {
         router.delete(`delete-comment/${commentId}`, {
+            preserveScroll: true,
+            preserveState: true,
             onSuccess: () => {
+                updateCommentsAfterDelete()
                 window.history.replaceState({}, '', '/');
             },
             onError: () => {
                 window.history.replaceState({}, '', '/');
             }
         })
+    }
+
+    const updateCommentsAfterDelete = () => {
+        const updatedComments = comments.filter(comment => comment.id !== commentId)
+        setComments(updatedComments)
     }
 
     return (
