@@ -4,7 +4,7 @@ import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {Head, usePage} from "@inertiajs/react";
-import Post from "@/Layouts/Post.jsx";
+import Post from "@/Components/Post.jsx";
 import SelectTopicsModal from "@/Pages/Home/Partials/SelectTopicsModal.jsx";
 
 export default function SelectTopics() {

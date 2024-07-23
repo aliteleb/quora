@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/vote-comment', [CommentController::class, 'vote'])->name('vote');
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
     Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
+    Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
 });
 
 // Public Routes

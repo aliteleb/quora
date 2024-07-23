@@ -4,6 +4,7 @@ import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
 import {router, useForm} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
+import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
 
 const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, ref) => {
 
@@ -13,6 +14,8 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
     const [voteUpCount, setVoteUpCount] = useState(comment.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
     const [showReplyInput, setShowReplyInput] = useState(false);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+
 
     const { data, setData, post, errors, reset } = useForm({
         body: '',
@@ -126,8 +129,18 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
                         <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
                     </div>
 
-                    <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
-                        <RxDotsHorizontal className={`size-5`} />
+                    <div className={`relative`}>
+                        <div id={`commentDropdownMenu`} onClick={() => setIsCommentModalOpen(!isCommentModalOpen)} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
+                            <RxDotsHorizontal className={`size-5`} id={`commentDropdownMenu`}/>
+                        </div>
+                        {isCommentModalOpen &&
+                            <CommentDropdownMenu
+                                isCommentModalOpen={isCommentModalOpen}
+                                setIsCommentModalOpen={setIsCommentModalOpen}
+                                commentUserId={comment.user.id}
+                                commentId={comment.id}
+                            />
+                        }
                     </div>
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>

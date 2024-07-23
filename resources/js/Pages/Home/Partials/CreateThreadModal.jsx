@@ -12,7 +12,7 @@ import { FaRegCircleUser } from 'react-icons/fa6';
 import { useForm } from '@inertiajs/react';
 import Select from "react-select";
 import ReactSelect from "@/Components/ReactSelect.jsx";
-import PublicOrPrivateDropdown from "@/Layouts/PublicOrPrivateDropdown.jsx";
+import PublicOrPrivateDropdown from "@/Components/PublicOrPrivateDropdown.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
@@ -209,14 +209,15 @@ export default function CreateThreadModal() {
                             {isPostActive && <span>{user?.name}</span>}
                         </div>
 
-                        <button
-                            onClick={() => setIsPublicOrPrivateDropdownOpen(!isPublicOrPrivateDropdownOpen)}
-                            className={`${isPostActive ? 'hidden' : ''} relative `}>
-                            <div id={`publicOrPrivateDropdown`} className={`cursor-pointer flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 py-1 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
-                                <TbUsers className={`size-4`}/>
-                                <span>عام</span>
-                                <FaAngleDown className={`size-4`}/>
+                        <button className={`${isPostActive ? 'hidden' : ''} relative `}>
+                            <div onClick={() => setIsPublicOrPrivateDropdownOpen(!isPublicOrPrivateDropdownOpen)}
+                                 id={`publicOrPrivateDropdown`}
+                                 className={`cursor-pointer flex items-center border border-[--theme-main-bg-color-hover] rounded-full px-3 py-1 gap-x-1 hover:bg-[--theme-main-bg-color]`}>
+                                <TbUsers className={`size-4`} id={`publicOrPrivateDropdown`}/>
+                                <span id={`publicOrPrivateDropdown`}>عام</span>
+                                <FaAngleDown className={`size-4`} id={`publicOrPrivateDropdown`}/>
                             </div>
+
 
                             <div className={`absolute top-0 left-1/2`}>
                                 <PublicOrPrivateDropdown
@@ -229,6 +230,7 @@ export default function CreateThreadModal() {
                             </div>
 
                         </button>
+
                     </div>
                 </div>
 

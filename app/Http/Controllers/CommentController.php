@@ -90,4 +90,11 @@ class CommentController extends Controller implements HasMedia
         return InertiaResponse::route('index', ['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
+    public function deleteComment($id)
+    {
+        $comment = Comment::where('id', $id)->first();
+        $comment->clearMediaCollection();
+        $comment->delete();
+    }
+
 }
