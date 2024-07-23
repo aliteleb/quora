@@ -93,6 +93,13 @@ class CommentController extends Controller implements HasMedia
     public function deleteComment($id)
     {
         $comment = Comment::where('id', $id)->first();
+        $replies = $comment->replies;
+
+        foreach ($replies as $reply) {
+            $reply->clearMediaCollection();
+            $reply->delete();
+        }
+
         $comment->clearMediaCollection();
         $comment->delete();
     }

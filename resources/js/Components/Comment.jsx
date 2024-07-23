@@ -115,10 +115,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
         setShowReplyInput(!showReplyInput)
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
 
     return (
         <>
@@ -144,10 +140,16 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id}, r
                     </div>
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
-                    <div className={`flex justify-between`}>
+                    <div className={`flex flex-col justify-between px-12 gap-y-2`}>
                         <div className={`mt-3 w-full break-words`}>{comment.body}</div>
+
+                        <img className={`w-full max-h-[20rem] rounded object-cover`}
+                             src={comment.media?.image}
+                             alt="post-img"
+                        />
+
                     </div>
-                    <div className={`flex items-center gap-x-1`}>
+                    <div className={`flex items-center gap-x-1 px-12`}>
                         <div className={`w-fit flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
                             <div onClick={voteUp} className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>
                                 <div className={`flex items-center gap-x-1`}>
