@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
 import {FaAngleDown, FaChevronDown, FaEdit, FaPlus, FaUserCircle, FaUsers} from "react-icons/fa";
-import {Head, router} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
@@ -35,18 +35,18 @@ function Master({children}) {
                         />
                         <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `}>
                             <div className={`sm:flex gap-x-1 hidden`}>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link href={`/`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
-                                </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                </Link>
+                                <Link href={`/spaces`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
-                                </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                </Link>
+                                <Link className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaEdit />
-                                </div>
-                                <div className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                </Link>
+                                <Link className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoNotificationsOutline />
-                                </div>
+                                </Link>
                             </div>
 
                             <div className={`flex-grow relative`}>
