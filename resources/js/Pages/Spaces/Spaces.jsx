@@ -32,7 +32,7 @@ export default function Spaces() {
                     </div>
                 </div>
 
-                <div className={`flex flex-col gap-y-3 px-6`}>
+                <div className={`flex flex-col gap-y-3 px-6 xl:px-0`}>
                     <h1 className={`font-bold text-lg`}>إستكشف مساحات</h1>
                     <h2>مساحات من الممكن أن تعجبك</h2>
                     <div className={`grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 mt-4 gap-4 pb-4`}>
