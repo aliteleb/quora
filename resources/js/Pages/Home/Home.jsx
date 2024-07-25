@@ -43,7 +43,7 @@ export default function Home() {
 
     const lastThreadRef = useRef(null);
     const show_threads = threads.map((thread, index) => (
-        <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null} />
+        <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null} customStyles={index === threads.length - 1 ? 'pb-14' : null}/>
     ));
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {

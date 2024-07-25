@@ -37,7 +37,7 @@ class CommentController extends Controller implements HasMedia
 
     public function getComments(Request $request)
     {
-        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with(['replies', 'replies.user'])->latest()->paginate(12);
+        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with(['replies', 'replies.user'])->latest()->paginate(2);
         $next_page_url = $comments->nextPageUrl();
         $comments = $comments->getCollection();
 

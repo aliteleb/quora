@@ -1,22 +1,42 @@
 import React from 'react'
 import {Link} from "@inertiajs/react";
 
-export default function RecommendedSpace() {
+export default function RecommendedSpace({name, description, slug, status, cover, poster}) {
+
     return (
-        <Link className={`bg-[--theme-main-bg-color] h-max relative pb-4 rounded `}>
-            <img
-                src="/auth-bg.webp"
-                alt="space-img"
-                className={`h-1/2 rounded-t`}
-            />
-            <img
-                src="/how-to-make-a-macchiato-003s.webp"
-                alt="space-small-img"
-                className={`absolute w-20 h-20 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl hover:opacity-95 cursor-pointer`}
-            />
+        <Link className={`bg-[--theme-main-bg-color] relative pb-4 ${description.length > 65 ? 'xs:pb-10 xl:pb-4' : ''} rounded hover:brightness-90`}>
+            {!cover &&
+                <img
+                    src="/spaces/space_cover_default_image_discover_spaces.webp"
+                    alt="space-cover"
+                    className={`h-1/2 rounded-t w-full`}
+                />
+            }
+            {cover &&
+                <img
+                    src={cover}
+                    alt="space-cover"
+                    className={`h-1/2 rounded-t w-full`}
+                />
+            }
+            {!poster &&
+                <img
+                    src="/spaces/space_default_image.webp"
+                    alt="space-small-img"
+                    className={`absolute w-20 h-20 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl hover:brightness-90 cursor-pointer`}
+                />
+            }
+            {poster &&
+                <img
+                    src={poster}
+                    alt="space-small-img"
+                    className={`absolute w-20 h-20 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl hover:brightness-90 cursor-pointer`}
+                />
+            }
+
             <div className={`flex flex-col items-center`}>
-                <h1 className={`mt-16 font-bold text-lg`}>Life & Lessons</h1>
-                <div className={`text-center p-4`}>Knowledge & actionable advice to help you grow as a human being. Life Lessons, Personal...</div>
+                <h1 className={`mt-16 font-bold text-lg`}>{name}</h1>
+                <div className={`text-center p-4`}>{description}</div>
             </div>
         </Link>
     )

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
@@ -6,10 +6,39 @@ import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";
+import {router, usePage} from "@inertiajs/react";
 
 export default function Spaces() {
 
     const {isSpaceModalOpen, setIsSpaceModalOpen} = useApp()
+    const {props} = usePage()
+
+    const [spaces, setSpaces] = useState([]);
+    const [nextPageUrl, setNextPageUrl] = useState('');
+
+    const getSpaces = (pageUrl) => {
+        router.visit(pageUrl, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setSpaces(prevState => ([
+                    ...prevState,
+                    ...res.props.data.spaces.data
+                ]))
+                setNextPageUrl(res.props.data.next_page_url)
+                window.history.replaceState({}, '', '/spaces');
+            }
+        })
+    }
+
+    useEffect(() => {
+        setSpaces(props.data.spaces.data)
+        setNextPageUrl(props.data.next_page_url)
+    }, []);
+
+    const display_spaces = spaces.map(space => (
+        <RecommendedSpace name={space.name} description={space.description} slug={space.slug} status={space.status} cover={space?.cover} poster={space?.poster}/>
+    ))
 
     return (
         <Master>
@@ -32,19 +61,19 @@ export default function Spaces() {
                     </div>
                 </div>
 
-                <div className={`flex flex-col gap-y-3 px-6 xl:px-0`}>
+                <div className={`flex flex-col gap-y-3 px-6 xl:px-0 sm:pb-8 pb-16`}>
                     <h1 className={`font-bold text-lg`}>إستكشف مساحات</h1>
                     <h2>مساحات من الممكن أن تعجبك</h2>
                     <div className={`grid lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 mt-4 gap-4 pb-4`}>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
-                        <RecommendedSpace/>
+                        {display_spaces}
                     </div>
+                    {nextPageUrl &&
+                        <div className={`flex justify-center`}>
+                            <button onClick={() => getSpaces(nextPageUrl)}
+                                    className={`bg-[--theme-main-bg-color] py-3 px-6 w-fit rounded hover:brightness-110`}>عرض المزيد
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </Master>

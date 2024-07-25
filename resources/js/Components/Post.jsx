@@ -12,7 +12,7 @@ import Comment from "@/Components/Comment.jsx";
 import { HiMiniXMark } from "react-icons/hi2";
 import AddComment from "@/Components/AddComment.jsx";
 
-const Post = forwardRef(({ thread }, ref) => {
+const Post = forwardRef(({ thread, customStyles }, ref) => {
     const { user } = useApp();
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
@@ -25,7 +25,7 @@ const Post = forwardRef(({ thread }, ref) => {
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, reset } = useForm({
         body: '',
         image: null,
         video: null,
@@ -40,15 +40,14 @@ const Post = forwardRef(({ thread }, ref) => {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (page) => {
-                    // Combine new comments with the existing ones
-                    setComments(prevState => [...prevState, ...page.props.comments.data]);
+                    setComments(prevState => ([...prevState, ...page.props.comments.data]));
                     setNextPageUrl(page.props.next_page_url);
-                    setIsFetching(false); // Set fetch status to false after fetch completes
+                    setIsFetching(false);
                     setShowMoreCommentsLoading(false)
                     window.history.replaceState({}, '', '/');
                 },
                 onError: () => {
-                    setIsFetching(false); // Set fetch status to false if an error occurs
+                    setIsFetching(false);
                     setShowMoreCommentsLoading(false)
                 }
             });
@@ -173,7 +172,7 @@ const Post = forwardRef(({ thread }, ref) => {
     }
 
     return (
-        <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} flex flex-col gap-y-4`}>
+        <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
                     <div>
@@ -262,9 +261,9 @@ const Post = forwardRef(({ thread }, ref) => {
                             </div>
                         </div>}
                     {/* عرض التعليقات */}
-                    <div className={`bg-[#202020]`}>
+                    <div className={`bg-[#202020] ${nextPageUrl ? 'pb-3' : ''}`}>
                         {show_comments}
-                        {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[#202020] w-full py-3 mt-3`}>
+                        {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[--theme-main-bg-color] w-full py-3 mt-3`}>
                             {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}
                         </button>}
                     </div>

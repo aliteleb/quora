@@ -15,7 +15,7 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 
 function Master({children}) {
 
-    const {settings, user, isSpaceModalOpen, setIsSpaceModalOpen} = useApp()
+    const {settings, user, isSpaceModalOpen, setIsSpaceModalOpen, setIsCreatThreadModalOpen} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
@@ -88,23 +88,26 @@ function Master({children}) {
                     </nav>
                 </div>
             </div>
-            <button className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
-                <AiOutlinePlus />
-            </button>
+            {location.pathname === '/' &&
+                <button onClick={() => setIsCreatThreadModalOpen(true)}
+                        className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
+                        <AiOutlinePlus/>
+                </button>
+            }
             {/*  Bottom Nav  */}
-            <nav className={`sm:hidden z-50 fixed bottom-0 flex bg-[--theme-body-bg] w-full justify-between text-3xl text-[--theme-body-color]`}>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+            <nav className={`bg-[#141414] sm:hidden z-50 fixed bottom-0 flex w-full justify-between text-3xl text-[--theme-body-color]`}>
+                <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoHomeOutline />
-                </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                </Link>
+                <Link href={`/spaces`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaUsers />
-                </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                </Link>
+                <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaEdit />
-                </div>
-                <div className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                </Link>
+                <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoNotificationsOutline />
-                </div>
+                </Link>
             </nav>
 
             <main>{children}</main>
