@@ -250,7 +250,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                         />
                     }
                     {openCommentsLoading ||
-                        <div className={`flex justify-center py-5 bg-[#202020]`}>
+                        <div className={`flex justify-center py-5 bg-[--theme-comment-bg-color]`}>
                             <div className='flex space-x-2 justify-center items-center'>
                                 <span className='sr-only'>Loading...</span>
                                 <div
@@ -261,7 +261,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                             </div>
                         </div>}
                     {/* عرض التعليقات */}
-                    <div className={`bg-[#202020] ${nextPageUrl ? 'pb-3' : ''}`}>
+                    <div className={`bg-[--theme-comment-bg-color] ${nextPageUrl ? 'pb-3' : ''}`}>
                         {show_comments}
                         {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[--theme-main-bg-color] w-full py-3 mt-3`}>
                             {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}

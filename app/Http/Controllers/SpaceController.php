@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\DiscoverSpaceResource;
+use App\Http\Resources\SpaceResource;
 use App\Models\Space;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
@@ -27,9 +28,7 @@ class SpaceController extends Controller
         $space->topics()->attach($topics_ids);
         $space->user()->attach(auth()->id());
 
-        return InertiaResponse::route('index', [
-            'space' => $space
-        ]);
+        return InertiaResponse::route('index', ['space' => $space]);
     }
 
     public function index()
@@ -44,6 +43,13 @@ class SpaceController extends Controller
         ];
 
         return InertiaResponse::render('Spaces/Spaces', ['data' => $data]);
+    }
+
+    public function showSpace($slug)
+    {
+        $space = Space::where('slug', $slug)->first();
+        $space = new SpaceResource($space);
+        return InertiaResponse::render('Spaces/ShowSpace', ['space' => $space]);
     }
 
 }

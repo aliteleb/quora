@@ -5,6 +5,7 @@ import {FaRegBookmark, FaUsers} from "react-icons/fa";
 import {BsBarChart, BsChevronLeft} from "react-icons/bs";
 import {Transition, TransitionChild} from "@headlessui/react";
 import {router} from "@inertiajs/react";
+import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 
 
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
@@ -46,7 +47,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                         <div className={`flex items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-2 px-3`}>
                             <div className={`flex items-center gap-x-4`}>
                                 {user?.avatar && <img onClick={() => setIsUserDropdownMenuOpen(true)} src={user.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`}/>}
-                                {(!user?.avatar && user) && <FaRegCircleUser onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
+                                {(!user?.avatar && user) && <DefaultUserIcon onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
                                 <span className={`font-bold`}>{user?.name}</span>
                             </div>
                             <BsChevronLeft className={`size-6`}/>

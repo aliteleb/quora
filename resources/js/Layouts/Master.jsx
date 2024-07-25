@@ -29,10 +29,12 @@ function Master({children}) {
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
-                        <img src={settings.logo}
-                              alt="logo"
-                              className={`h-6`}
-                        />
+                        <Link href={`/`}>
+                            <img src={settings.logo}
+                                  alt="logo"
+                                  className={`h-6`}
+                            />
+                        </Link>
                         <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `}>
                             <div className={`sm:flex gap-x-1 hidden`}>
                                 <Link href={`/`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
@@ -60,7 +62,7 @@ function Master({children}) {
                         </ul>
                         <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
 
-                            <div className={`relative`}>
+                            <div className={`relative flex items-center`}>
                                 <button onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}>
                                     {user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer pointer-events-none`}/>}
                                     {(!user?.avatar && user) && <DefaultUserIcon id={`userDropdown`} />}
