@@ -34,12 +34,21 @@ export default function ShowSpace() {
 
     const checkIfUserIsOwner = user?.id === space.user.id
     const followSpace = () => {
-        router.post(`/follow-space/${space.id}`, {}, {
-            onSuccess: (res) => {
-                console.log(res.props)
-                setIsFollowed(res.props.space.data.is_followed)
-            }
-        })
+        if (!isFollowed) {
+            router.post(`/follow-space/${space.id}`, {}, {
+                onSuccess: (res) => {
+                    console.log(res.props)
+                    setIsFollowed(res.props.space.data.is_followed)
+                }
+            })
+        } else {
+            router.post(`/unfollow-space/${space.id}`, {}, {
+                onSuccess: (res) => {
+                    setIsFollowed(res.props.space.data.is_followed)
+                }
+            })
+        }
+
     }
 
     return (
