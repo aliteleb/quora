@@ -73,7 +73,7 @@ class ThreadController extends Controller implements HasMedia
             'all_down_votes_count' => $thread_down_votes_count
         ];
 
-        return InertiaResponse::route('index', ['vote' => $vote ?: null, 'vote_count' => $vote_count]);
+        return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
 

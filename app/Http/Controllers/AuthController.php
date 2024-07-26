@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         $user = User::create($request->only(['name', 'email', 'password']));
         Auth::loginUsingId($user->id);
-        return InertiaResponse::route('index', $user);
+        return InertiaResponse::back($user);
     }
 
     public function login()
@@ -29,7 +29,7 @@ class AuthController extends Controller
         $credentials = request()->only(['email', 'password']);
         if (Auth::attempt($credentials, true))
         {
-            return InertiaResponse::route('index');
+            return InertiaResponse::back();
         }
 
         return back()->withErrors(['invalid_credentials' => 'البيانات المدخلة غير صحيحة']);

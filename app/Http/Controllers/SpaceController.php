@@ -28,7 +28,7 @@ class SpaceController extends Controller
         $space->topics()->attach($topics_ids);
         $space->user()->attach(auth()->id());
 
-        return InertiaResponse::route('index', ['space' => $space]);
+        return InertiaResponse::back(['space' => $space]);
     }
 
     public function index()
@@ -58,7 +58,7 @@ class SpaceController extends Controller
         $space->followers()->attach(auth()->id());
         $space = new SpaceResource($space);
 
-        return InertiaResponse::render('Spaces/Pages/ShowSpace', ['space' => $space]);
+        return InertiaResponse::back(['space' => $space]);
     }
 
 }

@@ -38,7 +38,6 @@ export default function ShowSpace() {
             onSuccess: (res) => {
                 console.log(res.props)
                 setIsFollowed(res.props.space.data.is_followed)
-                window.history.replaceState({}, `/follow-space/${space.id}`, `/spaces/${space.slug}`)
             }
         })
     }

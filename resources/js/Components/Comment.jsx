@@ -46,9 +46,10 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                 !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
                 setVoteUpCount(res.props.vote_count.all_up_votes_count)
                 setVoteDownCount(res.props.vote_count.all_down_votes_count)
+                window.history.replaceState({}, ``, `/`)
             },
             onError: (err) => {
-                console.log(err)
+                window.history.replaceState({}, ``, `/`)
             }
         })
     }

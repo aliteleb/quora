@@ -48,7 +48,7 @@ Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 });
 Route::get('/', [HomeController::class, 'index'])->name('index');
-Route::get('/spaces', [SpaceController::class, 'index'])->name('index');
+Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
 Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
 

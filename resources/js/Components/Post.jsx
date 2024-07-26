@@ -162,10 +162,8 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                 setOpenCommentsLoading(true)
                 setComments(res.props.comments.data)
                 setNextPageUrl(res.props.next_page_url)
-                window.history.replaceState({}, ``, `/`)
             },
             onError: () => {
-                window.history.replaceState({}, ``, `/`)
                 setOpenCommentsLoading(true)
             }
         })

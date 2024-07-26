@@ -47,7 +47,7 @@ class CommentController extends Controller implements HasMedia
             'comments' => $comments,
             'next_page_url' => $next_page_url,
         ];
-        return InertiaResponse::render('Home/Pages/Home', $data);
+        return InertiaResponse::back($data);
     }
 
     public function vote(Request $request)
@@ -87,7 +87,7 @@ class CommentController extends Controller implements HasMedia
             'all_down_votes_count' => $comment_down_votes_count,
         ];
 
-        return InertiaResponse::route('index', ['vote' => $vote ?: null, 'vote_count' => $vote_count]);
+        return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
     public function deleteComment($id)
