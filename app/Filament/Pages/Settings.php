@@ -214,6 +214,7 @@ class Settings extends Page implements HasForms
                 ColorPicker::make('theme-button-bg-color-hover')->label('لون خلفية الزر عند الوقوف عليه')->hiddenLabel()->placeholder('لون خلفية الزر عند الوقوف عليه'),
                 ColorPicker::make('theme-react-select-error-color')->label('لون قائمة الاختيارات عند وجود خطأ')->hiddenLabel()->placeholder('لون قائمة الاختيارات عند وجود خطأ'),
                 ColorPicker::make('theme-comment-bg-color')->label('لون خلفية التعليقات')->hiddenLabel()->placeholder('لون خلفية التعليقات'),
+                ColorPicker::make('theme-space-owner-main-color')->label('اللون الرئيسي فى صفحة المساحة للمالك')->hiddenLabel()->placeholder('اللون الرئيسي فى صفحة المساحة للمالك'),
             ])->columns(1)->heading('تصميم الموقع'),
         ];
     }

@@ -29,7 +29,7 @@ function Master({children}) {
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
-                        <Link href={`/`}>
+                        <Link href={`/`} className={`select-none outline-0 border-none shadow-none`}>
                             <img src={settings.logo}
                                   alt="logo"
                                   className={`h-6`}

@@ -47,7 +47,7 @@ class CommentController extends Controller implements HasMedia
             'comments' => $comments,
             'next_page_url' => $next_page_url,
         ];
-        return InertiaResponse::render('Home/Home', $data);
+        return InertiaResponse::render('Home/Pages/Home', $data);
     }
 
     public function vote(Request $request)

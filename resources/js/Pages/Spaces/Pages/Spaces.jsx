@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
-import CreateThread from "@/Pages/Home/Partials/CreateThread.jsx";
-import CreateThreadModal from "@/Pages/Home/Partials/CreateThreadModal.jsx";
+import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
+import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";

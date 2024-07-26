@@ -42,14 +42,14 @@ class SpaceController extends Controller
             'next_page_url' => $next_page_url,
         ];
 
-        return InertiaResponse::render('Spaces/Spaces', ['data' => $data]);
+        return InertiaResponse::render('Spaces/Pages/Spaces', ['data' => $data]);
     }
 
     public function showSpace($slug)
     {
         $space = Space::where('slug', $slug)->first();
         $space = new SpaceResource($space);
-        return InertiaResponse::render('Spaces/ShowSpace', ['space' => $space]);
+        return InertiaResponse::render('Spaces/Pages/ShowSpace', ['space' => $space]);
     }
 
 }

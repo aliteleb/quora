@@ -22,6 +22,7 @@
                 --theme-default-border-color: {{ settings('theme-default-border-color', '#393939') }};
                 --theme-react-select-error-color: {{ settings('theme-react-select-error-color', '#ef4444') }};
                 --theme-comment-bg-color: {{ settings('theme-comment-bg-color', '#202020') }};
+                --theme-space-owner-main-color: {{ settings('theme-space-owner-main-color', '#D17078') }};
             }
 
         </style>

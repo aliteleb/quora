@@ -14,7 +14,7 @@ class AuthController extends Controller
     use HttpResponses;
    public function index ()
    {
-       return Inertia::render('Auth/Auth');
+       return Inertia::render('Auth/Pages/Auth');
    }
 
     public function register(RegisterRequest $request)

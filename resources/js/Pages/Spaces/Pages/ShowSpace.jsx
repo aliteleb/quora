@@ -2,14 +2,34 @@ import React, {useEffect, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
-import {IoIosTrendingUp} from "react-icons/io";
-import {VscDiffAdded} from "react-icons/vsc";
-import {RiAddBoxLine} from "react-icons/ri";
+import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
+import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
 
 export default function ShowSpace() {
 
+    const { user } = useApp()
     const {props} = usePage()
     const space = props.space.data
+
+    const [isActive, setIsActive] = useState({
+        about: false,
+        posts: true,
+        questions: false,
+    });
+
+    const handleClickOnAboutButton = (e) => {
+        const button = e.target.id
+        if (!isActive.button) {
+            setIsActive({
+                about: false,
+                posts: false,
+                questions: false,
+                [button]: true,
+            })
+        }
+    }
+
+    const checkIfUserIsOwner = user?.id === space.user.id
 
     return (
         <Master>
@@ -49,17 +69,35 @@ export default function ShowSpace() {
                             </div>
                             <button className={`flex items-center gap-x-2 bg-[--theme-button-border-color] rounded-full px-6 py-2 font-bold`}>
                                 متابعة
-                                <RiAddBoxLine className={`text-xl`}/>
+                                <IoMdAddCircleOutline className={`text-2xl`}/>
                             </button>
                         </div>
                     </header>
                 </div>
-
-                <main className={`h-[20rem] z-50 relative bg-[--theme-body-bg] w-full mt-10`}>
-                    <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative`}>
-
+                <main className={`h-[20rem] z-20 relative bg-[--theme-body-bg] w-full mt-10`}>
+                    <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative gap-y-6`}>
+                        <header className={`flex border-b border-[--theme-main-bg-color] w-[60%]`}>
+                            <button
+                                onClick={handleClickOnAboutButton}
+                                id={`about`}
+                                className={`py-3 px-5 ${isActive.about ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>حول
+                            </button>
+                            <button
+                                onClick={handleClickOnAboutButton}
+                                id={`posts`}
+                                className={`py-3 px-5 ${isActive.posts ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>المنشورات
+                            </button>
+                            <button
+                                onClick={handleClickOnAboutButton}
+                                id={`questions`}
+                                className={`py-3 px-5 ${isActive.questions ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>الأسئلة
+                            </button>
+                        </header>
+                        {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
                     </div>
                 </main>
+
+
             </div>
         </Master>
     )

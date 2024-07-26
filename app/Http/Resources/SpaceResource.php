@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use App\Models\Space;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class SpaceResource extends JsonResource
 {
@@ -23,11 +24,11 @@ class SpaceResource extends JsonResource
         $media =[];
 
         if ($space_image) {
-            $media['poster_img'] = $space_image;
+            $media['poster'] = $space_image;
         }
 
         if ($space_cover_image) {
-            $media['cover_img'] = $space_cover_image;
+            $media['cover'] = $space_cover_image;
         }
 
         return [
@@ -38,6 +39,7 @@ class SpaceResource extends JsonResource
             'status' => $this->status,
             'media' => $media,
             'created_at' => $this->created_at,
+            'user' => new UserResource($this->user->first())
         ];
     }
 }

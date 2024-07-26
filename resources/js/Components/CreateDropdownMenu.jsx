@@ -30,7 +30,7 @@ export default function CreateDropdownMenu({isCreateDropdownMenuOpen, setIsCreat
         >
             <div
                 ref={createDropDownRef}
-                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-11 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] pt-3`}
+                className={`z-50 dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-11 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] pt-3`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"

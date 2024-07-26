@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import SelectSpacesInput from '@/Core/SelectSpacesInput'
+import SelectSpacesInput from '@/Core/SelectSpacesInput.jsx'
 import {useForm, usePage} from "@inertiajs/react"
 import {IoWarningOutline} from "react-icons/io5";
 export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
