@@ -20,7 +20,7 @@ class HomeController extends Controller
         $threads = Thread::latest()->paginate(3);
 
         $data = [
-            'threads' => ThreadResource::collection($threads)
+            'threads' => ThreadResource::collection($threads),
         ];
         return InertiaResponse::render('Home/Pages/Home', $data);
     }

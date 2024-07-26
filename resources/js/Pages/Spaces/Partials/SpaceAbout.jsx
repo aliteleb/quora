@@ -61,7 +61,8 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
                             </button>
                         }
                     </div>
-                    <div className={`p-4 flex justify-between items-center`}>
+                    <div className={`p-4 flex flex-col justify-between gap-y-3`}>
+                        <SpacePerson space={space} isFollower={true}/>
                         <SpacePerson space={space} isFollower={true}/>
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
 import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
+import SpacePosts from "@/Pages/Spaces/Partials/SpacePosts.jsx";
 
 export default function ShowSpace() {
 
@@ -94,6 +95,7 @@ export default function ShowSpace() {
                             </button>
                         </header>
                         {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
+                        {isActive.posts && <SpacePosts />}
                     </div>
                 </main>
 
