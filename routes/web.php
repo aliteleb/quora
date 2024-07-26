@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::get('/account', [AuthController::class, 'index'])->name('account');
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');

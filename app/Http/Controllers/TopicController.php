@@ -25,6 +25,6 @@ class TopicController extends Controller
         $topics_ids = Topic::whereIn('id', $array_values)->pluck('id');
         auth()->user()->topics()->syncWithoutDetaching($topics_ids);
 
-        return InertiaResponse::back();
+        return InertiaResponse::route('index');
     }
 }

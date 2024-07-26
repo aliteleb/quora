@@ -11,9 +11,9 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $topics = $user->topics;
+        $topics = $user?->topics ?? collect();
 
-        if ($topics->count() === 0) {
+        if ($user && $topics->count() === 0) {
             return InertiaResponse::route('select_topics');
         }
 
