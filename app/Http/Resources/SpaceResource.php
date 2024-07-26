@@ -39,7 +39,8 @@ class SpaceResource extends JsonResource
             'status' => $this->status,
             'media' => $media,
             'created_at' => $this->created_at,
-            'user' => new UserResource($this->user->first())
+            'user' => new UserResource($this->user->first()),
+            'is_followed' => $this->followers()->exists(),
         ];
     }
 }

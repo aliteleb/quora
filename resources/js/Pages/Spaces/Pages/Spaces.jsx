@@ -26,7 +26,7 @@ export default function Spaces() {
                     ...res.props.data.spaces.data
                 ]))
                 setNextPageUrl(res.props.data.next_page_url)
-                window.history.replaceState({}, '', '/spaces');
+                window.history.replaceState({}, ``, `/spaces`)
             }
         })
     }

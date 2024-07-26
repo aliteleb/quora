@@ -32,10 +32,10 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
             preserveState: true,
             onSuccess: () => {
                 updateCommentsAfterDelete()
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             },
             onError: () => {
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             }
         })
     }

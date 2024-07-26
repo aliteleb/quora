@@ -5,6 +5,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
 import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
 import SpacePosts from "@/Pages/Spaces/Partials/SpacePosts.jsx";
+import {IoPersonAddOutline} from "react-icons/io5";
 
 export default function ShowSpace() {
 
@@ -17,6 +18,7 @@ export default function ShowSpace() {
         posts: true,
         questions: false,
     });
+    const [isFollowed, setIsFollowed] = useState(space.is_followed);
 
     const handleClickOnAboutButton = (e) => {
         const button = e.target.id
@@ -31,6 +33,15 @@ export default function ShowSpace() {
     }
 
     const checkIfUserIsOwner = user?.id === space.user.id
+    const followSpace = () => {
+        router.post(`/follow-space/${space.id}`, {}, {
+            onSuccess: (res) => {
+                console.log(res.props)
+                setIsFollowed(res.props.space.data.is_followed)
+                window.history.replaceState({}, `/follow-space/${space.id}`, `/spaces/${space.slug}`)
+            }
+        })
+    }
 
     return (
         <Master>
@@ -68,9 +79,9 @@ export default function ShowSpace() {
                                 </span>
 
                             </div>
-                            <button className={`flex items-center gap-x-2 bg-[--theme-button-border-color] rounded-full px-6 py-2 font-bold`}>
-                                متابعة
-                                <IoMdAddCircleOutline className={`text-2xl`}/>
+                            <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-6 py-2 font-bold`}>
+                                {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
+                                {!checkIfUserIsOwner ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
                             </button>
                         </div>
                     </header>

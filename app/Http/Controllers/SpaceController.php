@@ -52,4 +52,13 @@ class SpaceController extends Controller
         return InertiaResponse::render('Spaces/Pages/ShowSpace', ['space' => $space]);
     }
 
+    public function followSpace($id)
+    {
+        $space = Space::where('id', $id)->first();
+        $space->followers()->attach(auth()->id());
+        $space = new SpaceResource($space);
+
+        return InertiaResponse::render('Spaces/Pages/ShowSpace', ['space' => $space]);
+    }
+
 }

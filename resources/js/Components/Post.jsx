@@ -44,7 +44,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                     setNextPageUrl(page.props.next_page_url);
                     setIsFetching(false);
                     setShowMoreCommentsLoading(false)
-                    window.history.replaceState({}, '', '/');
+                    window.history.replaceState({}, ``, `/`)
                 },
                 onError: () => {
                     setIsFetching(false);
@@ -74,11 +74,11 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
             preserveState: true,
             onSuccess: () => {
                 reset()
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
                 getComments()
             },
             onError: () => {
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             }
         })
     }
@@ -162,10 +162,10 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                 setOpenCommentsLoading(true)
                 setComments(res.props.comments.data)
                 setNextPageUrl(res.props.next_page_url)
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             },
             onError: () => {
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
                 setOpenCommentsLoading(true)
             }
         })

@@ -76,7 +76,7 @@ function Master({children}) {
                             </div>
                             <button id={`createDropdown`} onClick={!user ? redirectToLogin : () => setIsCreateDropdownMenuOpen(!isCreateDropdownMenuOpen)} className={`relative hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-fit`}>
                                 {user ? 'إنشاء' : 'تسجيل دخول'}
-                                {user && <FaChevronDown/>}
+                                {user && <FaChevronDown id={`createDropdown`}/>}
 
                                 <CreateDropdownMenu
                                     isCreateDropdownMenuOpen={isCreateDropdownMenuOpen}

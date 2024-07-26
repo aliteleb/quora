@@ -40,6 +40,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function followSpace()
+    {
+        return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

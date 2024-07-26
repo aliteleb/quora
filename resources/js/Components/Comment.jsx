@@ -102,11 +102,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             onSuccess: () => {
                 reset()
                 setShowReplyInput(false)
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             },
             onError: () => {
                 setShowReplyInput(false)
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, ``, `/`)
             }
         })
     }
