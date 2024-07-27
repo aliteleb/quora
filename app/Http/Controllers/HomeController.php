@@ -22,6 +22,7 @@ class HomeController extends Controller
         $data = [
             'threads' => ThreadResource::collection($threads),
         ];
+
         return InertiaResponse::render('Home/Pages/Home', $data);
     }
 

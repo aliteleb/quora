@@ -8,10 +8,18 @@ use Inertia\Response;
 
 class InertiaResponse
 {
-    public static function render($component, $data = []): Response
+    public static function render($component, $data = [], $hidePaginationUrl = true): Response | RedirectResponse
     {
         if (session()->has('redirected_data')) {
-            $data = array_merge(session()->get('redirected_data') ?? [], $data);
+            if ( session()->has('redirected_data')) {
+                $data = session()->get('redirected_data');
+            }
+
+            session()->forget('redirected_data');
+        }
+
+        if (request()->has('page') && $hidePaginationUrl) {
+            return self::back($data);
         }
 
         return Inertia::render($component, $data);

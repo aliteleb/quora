@@ -19,6 +19,7 @@ export default function Home() {
         console.log(props)
         setThreads(props.threads.data)
         setNextPaginationLink(props.threads.links.next)
+        console.log(props.threads.links.next)
     }, []);
 
     const loadMoreThreads = (pageUrl) => {
@@ -32,7 +33,8 @@ export default function Home() {
                     setThreads(prevThreads => [...prevThreads, ...page.props.threads.data]);
                     setNextPaginationLink(page.props.threads.links.next);
                     setIsFetching(false); // Set fetch status to false after fetch completes
-                    window.history.replaceState({}, '', '/');
+                    // window.history.replaceState({}, '', '/');
+                    console.log(page.props.threads.links.next)
                 },
                 onError: () => {
                     setIsFetching(false); // Set fetch status to false if an error occurs
