@@ -25,7 +25,7 @@ class SpaceRequest extends FormRequest
     {
         return [
             'user_id' => [],
-            'name' => ['required', 'max:64', 'min:3'],
+            'name' => ['required', 'max:64', 'min:3', 'unique'],
             'description' => ['max:250'],
             'topics' => ['required', 'array', 'min:1'],
         ];

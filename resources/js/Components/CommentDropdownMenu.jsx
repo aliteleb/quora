@@ -15,7 +15,7 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
     const commentDropdownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!commentDropdownRef.current?.contains(e.target) && e.target.id !== 'commentDropdownMenu') {
+            if (!commentDropdownRef.current?.contains(e.target) && e.target.id !== 'commentDropdownMenu' && e.target.tagName !== 'path') {
                 setIsCommentModalOpen(false);
             }
         };
@@ -69,12 +69,12 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
                             <>
                                 <div
                                     onClick={deleteComment}
-                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-40 border-b border-[--theme-default-border-color]`}>
-                                    <GoTrash className={`size-6`}/>
+                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
+                                    <GoTrash className={`size-5`}/>
                                     <span>حذف</span>
                                 </div>
-                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-40 border-b border-[--theme-default-border-color]`}>
-                                    <FaRegEdit className={`size-6`}/>
+                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
+                                    <FaRegEdit className={`size-5`}/>
                                     <span>تعديل</span>
                                 </div>
                             </>
@@ -82,7 +82,7 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
                         { commentUserId !== user.id &&
                             <>
                                 <div
-                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 w-40 border-b border-[--theme-default-border-color]`}>
+                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
                                     <TbMessageReport className={`size-6`}/>
                                     <span>إبلاغ</span>
                                 </div>

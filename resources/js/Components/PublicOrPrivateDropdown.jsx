@@ -12,7 +12,8 @@ export default function PublicOrPrivateDropdown({
     const publicOrPrivateDropdownOpenRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!publicOrPrivateDropdownOpenRef.current?.contains(e.target) && e.target.id !== 'publicOrPrivateDropdown' || e.target.id !== 'drop') {
+            console.log(e.target.tagName)
+            if (!publicOrPrivateDropdownOpenRef.current?.contains(e.target) && e.target.id !== 'publicOrPrivateDropdown' && e.target.tagName !== 'path' && e.target.tagName !== 'svg' &&  e.target.tagName !== 'SPAN' && e.target.id !== 'drop') {
                 setIsPublicOrPrivateDropdownOpen(false);
             }
         };

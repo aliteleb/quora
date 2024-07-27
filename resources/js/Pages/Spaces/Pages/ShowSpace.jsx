@@ -6,6 +6,7 @@ import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
 import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
 import SpacePosts from "@/Pages/Spaces/Partials/SpacePosts.jsx";
 import {IoPersonAddOutline} from "react-icons/io5";
+import {MdDone} from "react-icons/md";
 
 export default function ShowSpace() {
 
@@ -89,7 +90,7 @@ export default function ShowSpace() {
                             </div>
                             <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-6 py-2 font-bold`}>
                                 {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
-                                {!checkIfUserIsOwner ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
+                                {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
                             </button>
                         </div>
                     </header>

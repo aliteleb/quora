@@ -11,7 +11,7 @@ export default function CreateDropdownMenu({isCreateDropdownMenuOpen, setIsCreat
     const createDropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!createDropDownRef.current?.contains(e.target) && e.target.id !== 'createDropdown') {
+            if (!createDropDownRef.current?.contains(e.target) && e.target.id !== 'createDropdown' && e.target.tagName !== 'path') {
                 setIsCreateDropdownMenuOpen(false);
             }
         };

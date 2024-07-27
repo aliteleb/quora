@@ -3,9 +3,8 @@ import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
-import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import Post from "@/Components/Post.jsx";
-import { useApp } from "@/AppContext/AppContext.jsx";
 import SelectTopicsModal from '../Components/SelectTopicsModal.jsx';
 
 export default function Home() {
@@ -16,10 +15,8 @@ export default function Home() {
     const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status
 
     useEffect(() => {
-        console.log(props)
         setThreads(props.threads.data)
         setNextPaginationLink(props.threads.links.next)
-        console.log(props.threads.links.next)
     }, []);
 
     const loadMoreThreads = (pageUrl) => {
@@ -33,7 +30,6 @@ export default function Home() {
                     setThreads(prevThreads => [...prevThreads, ...page.props.threads.data]);
                     setNextPaginationLink(page.props.threads.links.next);
                     setIsFetching(false); // Set fetch status to false after fetch completes
-                    // window.history.replaceState({}, '', '/');
                     console.log(page.props.threads.links.next)
                 },
                 onError: () => {

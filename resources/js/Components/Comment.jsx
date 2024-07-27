@@ -127,7 +127,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
 
                     <div className={`relative`}>
                         <div id={`commentDropdownMenu`} onClick={() => setIsCommentModalOpen(!isCommentModalOpen)} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
-                            <RxDotsHorizontal className={`size-5`} id={`commentDropdownMenu`}/>
+                            <RxDotsHorizontal className={`size-5`}/>
                         </div>
                         {isCommentModalOpen &&
                             <CommentDropdownMenu
