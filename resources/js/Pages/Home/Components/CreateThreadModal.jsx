@@ -19,12 +19,13 @@ export default function CreateThreadModal() {
 
     const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
+    const [options, setOptions] = useState([{ value: 'profile', label: 'الملف الشخصي' }]);
 
     const { data, setData, post, errors, clearErrors, processing, reset } = useForm({
         title: '',
         image: null,
         video: null,
-        spaces: ['الجميع'],
+        spaces: ['الملف الشخصي'],
         type: 'post',
         visibility: 'public',
     }, {forceFormData: true,});
@@ -91,28 +92,16 @@ export default function CreateThreadModal() {
         }
     }, [data.title])
 
-    const options = [
-        { value: 'all', label: 'الجميع' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-        { value: 'mango', label: 'Mango' },
-        { value: 'apple', label: 'Apple' },
-        { value: 'apple1', label: 'Apple1' },
-        { value: 'apple2', label: 'Apple2' },
-        { value: 'apple3', label: 'Apple3' },
-        { value: 'apple14', label: 'Apple1' },
-        { value: 'apple25', label: 'Apple2' },
-        { value: 'apple36', label: 'Apple3' },
-        { value: 'apple17', label: 'Apple1' },
-        { value: 'apple28', label: 'Apple2' },
-        { value: 'apple39', label: 'Apple3' },
-        { value: 'apple11', label: 'Apple1' },
-        { value: 'apple22', label: 'Apple2' },
-        { value: 'apple33', label: 'Apple3' },
-    ];
+    const clickAddSpace = () => {
+        const newOptions = [...options];
+        for (let i = 0; i < 5; i++) {
+            newOptions.push({ value: `${i} example`, label: `${i}` });
+        }
+        setOptions(newOptions);
+    };
 
     const [selectedSpaces, setSelectedSpaces] = useState([
-        { value: 'all', label: 'الجميع' },
+        { value: 'profile', label: 'الملف الشخصي' },
     ])
 
     const handleSelectChange = (selectedOptions) => {
@@ -120,18 +109,19 @@ export default function CreateThreadModal() {
 
         const lastOption = selectedOptions[selectedOptions.length - 1]
 
-        if (lastOption.value === "all")
+        if (lastOption.value === "profile")
         {
-            setSelectedSpaces([{ value: 'all', label: 'الجميع' }])
+            setSelectedSpaces(selectedOptions)
+            // setSelectedSpaces([{ value: 'profile', label: 'الملف الشخصي' }])
             setData(previousData => ({
                 ...previousData,
-                spaces: ['all']
+                spaces: ['profile']
             }));
         } else {
-            const filteredOptions = selectedOptions.filter(option => option.value !== "all")
-            selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
+            // const filteredOptions = selectedOptions.filter(option => option.value !== "profile")
+            // selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
 
-            setSelectedSpaces(filteredOptions)
+            setSelectedSpaces(selectedOptions)
             setData(previousData => ({
                 ...previousData,
                 spaces: selectedValues
@@ -190,7 +180,7 @@ export default function CreateThreadModal() {
                         onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
                         className={`justify-self-center me-[40px] mt-2`}
                     >
-                        <ReactSelect options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces} placeholder={'حدد المساحة'}/>
+                        <ReactSelect showSpaces={clickAddSpace} options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces} placeholder={'حدد المساحة'}/>
                     </div>
                 </div>
 

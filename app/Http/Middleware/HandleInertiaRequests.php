@@ -34,7 +34,6 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-
         $settings = settings();
         return [
             ...parent::share($request),

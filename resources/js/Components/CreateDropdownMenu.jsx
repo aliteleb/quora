@@ -6,7 +6,7 @@ import { FaUsers } from 'react-icons/fa';
 import { useApp } from '@/AppContext/AppContext.jsx';
 
 export default function CreateDropdownMenu({isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen, setIsSpaceModalOpen}) {
-    const { setIsCreatThreadModalOpen, setIsPostActive, user } = useApp();
+    const { setIsCreatThreadModalOpen, setIsPostActive } = useApp();
 
     const createDropDownRef = useRef(null);
     useEffect(() => {

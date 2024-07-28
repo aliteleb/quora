@@ -14,6 +14,8 @@ export default function Home() {
     const [nextPaginationLink, setNextPaginationLink] = useState('');
     const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status
 
+    console.log(props)
+
     useEffect(() => {
         setThreads(props.threads.data)
         setNextPaginationLink(props.threads.links.next)
