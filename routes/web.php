@@ -39,6 +39,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
     Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
     Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
+    Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
+    Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
+    Route::get('/initial-followed-spaces', [SpaceController::class, 'initialFollowedSpaces'])->name('initialFollowedSpaces');
 });
 
 // Public Routes
@@ -50,8 +53,6 @@ Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
-Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
-Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
 
 
 

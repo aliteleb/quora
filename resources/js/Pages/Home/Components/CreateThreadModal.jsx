@@ -9,17 +9,17 @@ import { AiOutlineGlobal } from 'react-icons/ai';
 import { RiImageAddLine } from 'react-icons/ri';
 import Input from '@/Core/Input.jsx';
 import { FaRegCircleUser } from 'react-icons/fa6';
-import { useForm } from '@inertiajs/react';
+import {router, useForm} from '@inertiajs/react';
 import Select from "react-select";
 import ReactSelect from "@/Components/ReactSelect.jsx";
 import PublicOrPrivateDropdown from "@/Components/PublicOrPrivateDropdown.jsx";
+import SelectSpaces from "@/Components/SelectSpaces.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
 
     const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
-    const [options, setOptions] = useState([{ value: 'profile', label: 'الملف الشخصي' }]);
 
     const { data, setData, post, errors, clearErrors, processing, reset } = useForm({
         title: '',
@@ -92,42 +92,6 @@ export default function CreateThreadModal() {
         }
     }, [data.title])
 
-    const clickAddSpace = () => {
-        const newOptions = [...options];
-        for (let i = 0; i < 5; i++) {
-            newOptions.push({ value: `${i} example`, label: `${i}` });
-        }
-        setOptions(newOptions);
-    };
-
-    const [selectedSpaces, setSelectedSpaces] = useState([
-        { value: 'profile', label: 'الملف الشخصي' },
-    ])
-
-    const handleSelectChange = (selectedOptions) => {
-        let selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : []
-
-        const lastOption = selectedOptions[selectedOptions.length - 1]
-
-        if (lastOption.value === "profile")
-        {
-            setSelectedSpaces(selectedOptions)
-            // setSelectedSpaces([{ value: 'profile', label: 'الملف الشخصي' }])
-            setData(previousData => ({
-                ...previousData,
-                spaces: ['profile']
-            }));
-        } else {
-            // const filteredOptions = selectedOptions.filter(option => option.value !== "profile")
-            // selectedValues = filteredOptions ? filteredOptions.map(option => option.value) : []
-
-            setSelectedSpaces(selectedOptions)
-            setData(previousData => ({
-                ...previousData,
-                spaces: selectedValues
-            }));
-        }
-    };
 
     const makePostActive = () => {
         setIsPostActive(true)
@@ -178,16 +142,16 @@ export default function CreateThreadModal() {
 
                     <div
                         onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
-                        className={`justify-self-center me-[40px] mt-2`}
+                        className={`absolute  mt-2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`}
                     >
-                        <ReactSelect showSpaces={clickAddSpace} options={options} handleSelectChange={handleSelectChange} selectedSpaces={selectedSpaces} placeholder={'حدد المساحة'}/>
+                        <SelectSpaces/>
                     </div>
                 </div>
 
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
-                    <button onClick={makeQuestionActive} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
-                    <button onClick={makePostActive} className={`hover:bg-[--theme-main-bg-color] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
+                    <button onClick={makeQuestionActive} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
+                    <button onClick={makePostActive} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>

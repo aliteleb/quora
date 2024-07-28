@@ -70,4 +70,11 @@ class SpaceController extends Controller
         return InertiaResponse::back(['space' => $space]);
     }
 
+    public function initialFollowedSpaces()
+    {
+        $followed_spaces = auth()->user()->followSpace->take(10);
+        $followed_spaces = SpaceResource::collection($followed_spaces);
+        return InertiaResponse::back(['followed_spaces' => $followed_spaces]);
+    }
+
 }

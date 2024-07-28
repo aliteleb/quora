@@ -14,11 +14,9 @@ export default function Home() {
     const [nextPaginationLink, setNextPaginationLink] = useState('');
     const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status
 
-    console.log(props)
-
     useEffect(() => {
-        setThreads(props.threads.data)
-        setNextPaginationLink(props.threads.links.next)
+        setThreads(props.threads?.data)
+        setNextPaginationLink(props.threads?.links.next)
     }, []);
 
     const loadMoreThreads = (pageUrl) => {
@@ -29,10 +27,9 @@ export default function Home() {
                 preserveState: true,
                 only: ['threads'],
                 onSuccess: (page) => {
-                    setThreads(prevThreads => [...prevThreads, ...page.props.threads.data]);
-                    setNextPaginationLink(page.props.threads.links.next);
+                    setThreads(prevThreads => [...prevThreads, ...page.props.threads?.data]);
+                    setNextPaginationLink(page.props.threads?.links.next);
                     setIsFetching(false); // Set fetch status to false after fetch completes
-                    console.log(page.props.threads.links.next)
                 },
                 onError: () => {
                     setIsFetching(false); // Set fetch status to false if an error occurs
@@ -42,7 +39,7 @@ export default function Home() {
     };
 
     const lastThreadRef = useRef(null);
-    const show_threads = threads.map((thread, index) => (
+    const show_threads = threads?.map((thread, index) => (
         <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null} customStyles={index === threads.length - 1 ? 'pb-14' : null}/>
     ));
     useEffect(() => {

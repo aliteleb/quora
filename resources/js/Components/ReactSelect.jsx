@@ -3,7 +3,7 @@ import Select, {components} from "react-select";
 import {IoIosAddCircle, IoIosAddCircleOutline} from "react-icons/io";
 
 
-export default function ReactSelect({options, handleSelectChange, selectedSpaces, errors, placeholder, showSpaces}) {
+export default function ReactSelect({options, handleSelectChange, selectedSpaces, errors, placeholder, showSpaces, isSelectSpacesModalOpen}) {
 
     const cssVariables = getComputedStyle(document.documentElement);
     const customStyles = {
@@ -122,6 +122,7 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
             onMenuOpen={options.length === 1 ? showSpaces : ''}
             isClearable={false}
             isMulti
+            menuIsOpen={isSelectSpacesModalOpen}
             components={{DropdownIndicator: CustomDropdownIndicator}}
             placeholder={placeholder}
             value={selectedSpaces}

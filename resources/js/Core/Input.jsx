@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import {IoIosSearch} from "react-icons/io";
 
 const Input = forwardRef(({
     placeholder,
@@ -15,6 +16,7 @@ const Input = forwardRef(({
     maxLength = null,
     parentClassStyle,
     inputClassStyle,
+    isSearch,
 }, ref) => {
 
     return (
@@ -46,6 +48,7 @@ const Input = forwardRef(({
                         {value?.length}
                     </span>
                 )}
+                {isSearch === 'searchable' && <IoIosSearch className={`size-5 absolute top-1/2 right-2 -translate-y-1/2 text-[--theme-secondary-text-color] pointer-events-none`}/>}
             </div>
 
             {error?.length !== 0 && <span className="text-red-500">{error}</span>}

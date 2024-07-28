@@ -148,10 +148,6 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
         });
     };
 
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
     const getComments = () => {
         setOpenCommentsLoading(false)
         setFetched(true)
