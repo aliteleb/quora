@@ -6,7 +6,9 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\DiscoverSpaceResource;
 use App\Http\Resources\SpaceResource;
+use App\Http\Resources\ThreadResource;
 use App\Models\Space;
+use App\Models\Thread;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
 use Illuminate\Http\Request;
@@ -49,7 +51,19 @@ class SpaceController extends Controller
     {
         $space = Space::where('slug', $slug)->first();
         $space = new SpaceResource($space);
-        return InertiaResponse::render('Spaces/Pages/ShowSpace', ['space' => $space]);
+
+        $posts = Thread::where('space_id', $space->id)->where('type', 'post')->latest()->paginate(3);
+        $posts = ThreadResource::collection($posts);
+
+        $questions = Thread::where('space_id', $space->id)->where('type', 'question')->latest()->paginate(3);
+        $questions = ThreadResource::collection($questions);
+
+        $data = [
+            'space' => $space,
+            'posts' => $posts,
+            'questions' => $questions,
+        ];
+        return InertiaResponse::render('Spaces/Pages/ShowSpace', $data);
     }
 
     public function followSpace($id)
@@ -68,13 +82,6 @@ class SpaceController extends Controller
         $space = new SpaceResource($space);
 
         return InertiaResponse::back(['space' => $space]);
-    }
-
-    public function initialFollowedSpaces()
-    {
-        $followed_spaces = auth()->user()->followSpace->take(10);
-        $followed_spaces = SpaceResource::collection($followed_spaces);
-        return InertiaResponse::back(['followed_spaces' => $followed_spaces]);
     }
 
 }

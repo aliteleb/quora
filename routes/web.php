@@ -41,7 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
-    Route::get('/initial-followed-spaces', [SpaceController::class, 'initialFollowedSpaces'])->name('initialFollowedSpaces');
 });
 
 // Public Routes

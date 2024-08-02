@@ -28,6 +28,7 @@ class CreateThreadRequest extends FormRequest
             'image' => ['mimes:jpeg,jpg,png,webp', 'max:4096', 'nullable'],
             'video' => ['mimes:mp4,mov,ogg,avi,mkv', 'max:20480', 'nullable'],
             'visibility' => ['required', 'in:public,private'],
+            'space' => ['string'],
             'type' => ['required', 'in:post,question'],
             'user_id' => [],
         ];

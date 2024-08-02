@@ -13,12 +13,15 @@ export default function Home() {
     const [threads, setThreads] = useState([]);
     const [nextPaginationLink, setNextPaginationLink] = useState('');
     const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status
-
     useEffect(() => {
-        setThreads(props.threads?.data)
-        setNextPaginationLink(props.threads?.links.next)
+        if (props.threads?.links.url) {
+            setThreads(props.threads?.threads.data)
+            setNextPaginationLink(props.threads?.links.url)
+        } else {
+            setThreads(props.threads?.data)
+            setNextPaginationLink(props.threads?.links.next)
+        }
     }, []);
-
     const loadMoreThreads = (pageUrl) => {
         if (pageUrl && !isFetching) {
             setIsFetching(true); // Set fetch status to true
@@ -40,7 +43,7 @@ export default function Home() {
 
     const lastThreadRef = useRef(null);
     const show_threads = threads?.map((thread, index) => (
-        <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null} customStyles={index === threads.length - 1 ? 'pb-14' : null}/>
+        <Post key={thread.id} thread={thread} ref={index === threads.length - 1 ? lastThreadRef : null}/>
     ));
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
@@ -70,11 +73,10 @@ export default function Home() {
             <div className={`flex container max-w-screen-xl mx-auto gap-x-10 px-2`}>
                 <Footer />
                 <div className={`w-40 hidden md:block`}></div> {/* Footer Simulation */}
-                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2`}>
+                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-0`}>
                     <CreateThread />
                     {show_threads}
                 </div>
-                <CreateThreadModal />
             </div>
 
             {isSelectTopicsModalOpen && <SelectTopicsModal setIsSelectTopicsModalOpen={setIsSelectTopicsModalOpen} />}

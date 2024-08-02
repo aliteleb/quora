@@ -12,6 +12,7 @@ import CreateDropdownMenu from "@/Components/CreateDropdownMenu.jsx";
 import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 import SpaceModal from "@/Pages/Auth/Partials/SpaceModal.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
+import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 
 function Master({children}) {
 
@@ -28,6 +29,8 @@ function Master({children}) {
         <>
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
+                    <CreateThreadModal />
+                    
                     <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
                         <Link href={`/`} className={`select-none outline-0 border-none shadow-none`}>
                             <img src={settings.logo}

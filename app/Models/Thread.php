@@ -26,4 +26,9 @@ class Thread extends Model implements HasMedia
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function space()
+    {
+        return $this->belongsTo(Space::class);
+    }
 }

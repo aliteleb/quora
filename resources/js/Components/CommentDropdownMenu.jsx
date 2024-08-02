@@ -69,11 +69,11 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
                             <>
                                 <div
                                     onClick={deleteComment}
-                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
+                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-full border-b border-[--theme-default-border-color]`}>
                                     <GoTrash className={`size-5`}/>
                                     <span>حذف</span>
                                 </div>
-                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
+                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-full border-b border-[--theme-default-border-color]`}>
                                     <FaRegEdit className={`size-5`}/>
                                     <span>تعديل</span>
                                 </div>
@@ -82,7 +82,7 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
                         { commentUserId !== user.id &&
                             <>
                                 <div
-                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-fit border-b border-[--theme-default-border-color]`}>
+                                    className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-full border-b border-[--theme-default-border-color]`}>
                                     <TbMessageReport className={`size-6`}/>
                                     <span>إبلاغ</span>
                                 </div>

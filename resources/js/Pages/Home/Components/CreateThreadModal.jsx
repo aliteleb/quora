@@ -14,21 +14,38 @@ import Select from "react-select";
 import ReactSelect from "@/Components/ReactSelect.jsx";
 import PublicOrPrivateDropdown from "@/Components/PublicOrPrivateDropdown.jsx";
 import SelectSpaces from "@/Components/SelectSpaces.jsx";
+import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
 
-    const [isSelectSpacesModalOpen, setIsSelectSpacesModalOpen] = useState(false)
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
 
     const { data, setData, post, errors, clearErrors, processing, reset } = useForm({
         title: '',
         image: null,
         video: null,
-        spaces: ['الملف الشخصي'],
+        space: 'الملف الشخصي',
         type: 'post',
         visibility: 'public',
     }, {forceFormData: true,});
+
+    const [selectedSpaceImg, setSelectedSpaceImg] = useState('');
+
+    useEffect(() => {
+        if (isPostActive) {
+            setData(previousData => ({
+                ...previousData,
+                type: 'post'
+            }))
+        } else {
+            setData(previousData => ({
+                ...previousData,
+                type: 'question'
+            }))
+        }
+    }, [isPostActive]);
+
 
     const handleThreadChange = (e) => {
         setData((formData) => ({
@@ -50,7 +67,7 @@ export default function CreateThreadModal() {
             title: '',
             image: null,
             video: null,
-            spaces: [],
+            space: 'الملف الشخصي',
             visibility: 'public',
             type: 'post',
         })
@@ -131,7 +148,7 @@ export default function CreateThreadModal() {
             onClose={onCloseModal}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
-            <div className={`h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-50 rounded border border-[--theme-default-border-color]`}>
+            <div className={`h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-40 rounded border border-[--theme-default-border-color]`}>
                 <div className={`grid grid-cols-[0.5fr_6fr] justify-center items-center relative`}>
                     <div
                         onClick={() => setIsCreatThreadModalOpen(false)}
@@ -140,11 +157,8 @@ export default function CreateThreadModal() {
                         <HiMiniXMark className={`size-6`} />
                     </div>
 
-                    <div
-                        onClick={() => setIsSelectSpacesModalOpen(!isSelectSpacesModalOpen)}
-                        className={`absolute  mt-2 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2`}
-                    >
-                        <SelectSpaces/>
+                    <div className={`absolute z-50 mt-2 xxs:left-1/2 left-2 top-1/2 xxs:-translate-x-1/2 -translate-y-1/2`}>
+                        <SelectSpaces setData={setData} data={data} selectedSpaceImg={selectedSpaceImg} setSelectedSpaceImg={setSelectedSpaceImg}/>
                     </div>
                 </div>
 
@@ -158,7 +172,7 @@ export default function CreateThreadModal() {
                     <div className={`mt-5 flex gap-x-3`}>
                         <div className={`flex items-center ${isPostActive ? 'gap-x-3' : 'gap-x-1'} `}>
                             {user?.avatar && <img src={``} className={`size-7 rounded-full cursor-pointer`}/>}
-                            {(!user?.avatar && user) && <FaRegCircleUser className={`size-9 cursor-pointer text-[--theme-placeholder-color]`}/>}
+                            {(!user?.avatar && user) && <DefaultUserIcon className={`size-9 cursor-pointer text-[--theme-placeholder-color]`}/>}
                             {!isPostActive && <BiCaretLeft className={`size-5`}/>}
                             {isPostActive && <span>{user?.name}</span>}
                         </div>
@@ -218,7 +232,7 @@ export default function CreateThreadModal() {
                         <div
                             className={`${!data.video ? 'invisible' : 'visible w-full pb-3 relative'}`}>
                             <div onClick={removeUploadedFile}
-                                 className="absolute z-50 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
+                                 className="absolute z-40 right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
                                 <HiMiniXMark className={`size-6`}/>
                             </div>
                             <video

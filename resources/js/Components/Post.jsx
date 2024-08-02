@@ -175,10 +175,10 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                     </div>
                     <div>
                         <div className={`font-bold`}>
-                            <span className={`cursor-pointer`}>{thread.user.name} · </span>
+                            <span className={`cursor-pointer`}>{thread.user?.name} · </span>
                             <span className={`text-[--theme-button-border-color] cursor-pointer hover:underline`}>متابعة</span>
                         </div>
-                        <span>15 أبريل</span>
+                        <span>{thread.created_at}</span>
                     </div>
                 </div>
                 <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
@@ -187,11 +187,13 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
             </header>
             <main className={`flex flex-col gap-y-3`}>
                 <div className={`px-5`}>{thread.title}</div>
-                <img
+                {thread.image &&
+                    <img
                     src={thread.image}
                     alt="post-img"
                     className={`w-full object-cover max-h-[30rem]`}
-                />
+                    />
+                }
             </main>
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>

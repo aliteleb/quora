@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Space;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
@@ -31,6 +32,18 @@ class SpaceResource extends JsonResource
             $media['cover'] = $space_cover_image;
         }
 
+        $user_followed_spaces = auth()->user()->followSpace;
+        $is_followed = false;
+        foreach ($user_followed_spaces as $space) {
+            if ($space->pivot->space_id === $this->id) {
+                $is_followed = true;
+                break;
+            }
+        }
+
+        $space_followers_count = $this->followers->count();
+        $space_last_week_posts_count = $this->postsCount();
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -40,7 +53,9 @@ class SpaceResource extends JsonResource
             'media' => $media,
             'created_at' => $this->created_at,
             'user' => new UserResource($this->user->first()),
-            'is_followed' => $this->followers()->exists(),
+            'is_followed' => $is_followed,
+            'followers_count' => $space_followers_count,
+            'last_week_posts_count' => $space_last_week_posts_count,
         ];
     }
 }

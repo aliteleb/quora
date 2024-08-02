@@ -33,7 +33,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
-            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 2xl:w-fit pt-8 py-3 z-50`}>
+            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 2xl:w-fit md:pt-8 pt-6 md:py-3 z-50`}>
                 <TransitionChild
                     enter="ease-out duration-300"
                     enterFrom="opacity-0"
@@ -44,17 +44,17 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                     as={'div'}
                 >
                     <header>
-                        <div className={`flex items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-2 px-3`}>
-                            <div className={`flex items-center gap-x-4`}>
+                        <div className={`grid grid-cols-2 items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-2 px-3`}>
+                            <div className={`flex items-center gap-x-4 w-max`}>
                                 {user?.avatar && <img onClick={() => setIsUserDropdownMenuOpen(true)} src={user.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`}/>}
                                 {(!user?.avatar && user) && <DefaultUserIcon onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
                                 <span className={`font-bold`}>{user?.name}</span>
                             </div>
-                            <BsChevronLeft className={`size-6`}/>
+                            <BsChevronLeft className={`size-6 justify-self-end`}/>
                         </div>
-                        <div className={`bg-[--theme-default-border-color] h-[1px] w-full mt-3`}></div>
+                        <div className={`bg-[--theme-default-border-color] h-[1px] w-full`}></div>
                     </header>
-                    <main className={`py-4 pb-4 border-b border-[--theme-default-border-color] 2xl:text-sm text-[15px]`}>
+                    <main className={`md:py-4 py-2 pb-4 border-b border-[--theme-default-border-color] 2xl:text-sm text-[15px]`}>
                         <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
                             <BsBarChart className={`size-6`}/>
                             <span>المحتوي والإحصاءات الخاصة بك</span>

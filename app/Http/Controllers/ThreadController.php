@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
+use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Vote;
 use App\Triats\HttpResponses;
@@ -18,11 +19,14 @@ class ThreadController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function create(CreateThreadRequest $request)
     {
+        $space_id = Space::where('name', $request->space)->first('id');
+        Log::info('id', array($space_id));
         $thread = Thread::create([
             'type' => $request->type,
             'title' => $request->title,
             'visibility' => $request->visibility,
             'user_id' => $request->user_id,
+            'space_id' => $space_id ? $space_id['id'] : null ,
         ]);
 
         if ($request->hasFile('image'))

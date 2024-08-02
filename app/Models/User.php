@@ -25,11 +25,6 @@ class User extends Authenticatable
     ];
 
 
-    public function spaces(): BelongsToMany
-    {
-        return $this->belongsToMany(Space::class);
-    }
-
     public function topics(): BelongsToMany
     {
         return $this->belongsToMany(Topic::class);
@@ -44,6 +39,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id');
     }
+
+//    public function isFollowedSpace()
+//    {
+//        return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id')
+//            ->where('user_id', auth()->id());
+//    }
 
     /**
      * The attributes that should be hidden for serialization.

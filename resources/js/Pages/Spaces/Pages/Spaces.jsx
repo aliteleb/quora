@@ -6,7 +6,7 @@ import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";
-import {router, usePage} from "@inertiajs/react";
+import {Head, router, usePage} from "@inertiajs/react";
 
 export default function Spaces() {
 
@@ -42,6 +42,7 @@ export default function Spaces() {
 
     return (
         <Master>
+            <Head title={`المساحات`}/>
             <div className={`flex flex-col container max-w-screen-xl mx-auto rounded mt-10 gap-y-10`}>
                 <div className={`bg-[--theme-main-bg-color] relative`}>
                     <img

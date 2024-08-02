@@ -9,7 +9,7 @@ export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
 
     const [loaded, setLoaded] = useState(false)
     const [topics, setTopics] = useState(null)
-
+    console.log(props)
     const handleChange = (e) => {
         const value = e.target.value
 
@@ -37,11 +37,6 @@ export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
         setTopics(props.topics?.data)
         setLoaded(true)
     }, []);
-
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
 
     if (!loaded) return ;
 

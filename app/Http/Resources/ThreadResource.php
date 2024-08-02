@@ -6,6 +6,8 @@ use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ThreadResource extends JsonResource
 {
@@ -22,6 +24,9 @@ class ThreadResource extends JsonResource
         $thread_image = $thread->getFirstMediaUrl('threads_images');
         $thread_video = $thread->getMedia('threads_videos');
 
+        $log_data = ['image' => $thread_image, 'thread_id' => $thread->id];
+        Log::info('image', $log_data);
+
         $up_votes = $this->votes()->where('vote_type', 'up')->whereNull('comment_id')->count();
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
@@ -31,6 +36,7 @@ class ThreadResource extends JsonResource
             'user_id' => $this->user_id,
             'title' => $this->title,
             'type' => $this->type,
+            'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
             'is_anonymous' => $this->is_anonymous,
             'visibility' => $this->visibility,
             'status' => $this->status,
