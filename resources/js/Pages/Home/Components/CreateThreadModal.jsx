@@ -44,7 +44,7 @@ export default function CreateThreadModal() {
                 type: 'question'
             }))
         }
-    }, [isPostActive]);
+    }, [isCreatThreadModalOpen]);
 
 
     const handleThreadChange = (e) => {
@@ -110,20 +110,20 @@ export default function CreateThreadModal() {
     }, [data.title])
 
 
-    const makePostActive = () => {
-        setIsPostActive(true)
-        setData(prevData => ({
-            ...prevData,
-            type: 'post'
-        }))
-    }
-    const makeQuestionActive = () => {
-        setIsPostActive(false)
-        setData(prevData => ({
-            ...prevData,
-            type: 'question'
-        }))
-    }
+    // const makePostActive = () => {
+    //     setIsPostActive(true)
+    //     setData(prevData => ({
+    //         ...prevData,
+    //         type: 'post'
+    //     }))
+    // }
+    // const makeQuestionActive = () => {
+    //     setIsPostActive(false)
+    //     setData(prevData => ({
+    //         ...prevData,
+    //         type: 'question'
+    //     }))
+    // }
 
     const onCloseModal = () => {
         setIsCreatThreadModalOpen(false)
@@ -164,8 +164,8 @@ export default function CreateThreadModal() {
 
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
-                    <button onClick={makeQuestionActive} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
-                    <button onClick={makePostActive} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
+                    <button  className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
+                    <button  className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>

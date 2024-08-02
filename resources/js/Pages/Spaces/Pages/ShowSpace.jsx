@@ -179,12 +179,12 @@ export default function ShowSpace() {
                     <div className={`flex justify-between items-center`}>
                         <div className={`flex gap-x-1`}>
                             <button className={`hover:underline underline-offset-2`}>
-                                <span className={`font-bold`}>{`${space.followers_count} `}</span>
+                                <span className={`font-bold`}>{`${space?.followers_count} `}</span>
                                 متابعين
                             </button>
                             <span>· </span>
                             <span className={`flex`}>
-                                <span className={`flex font-bold`}>{`\u00A0${space.last_week_posts_count}\u00A0`}</span> منشورات الأسبوع الماضي
+                                <span className={`flex font-bold`}>{`\u00A0${space?.last_week_posts_count}\u00A0`}</span> منشورات الأسبوع الماضي
                             </span>
 
                         </div>

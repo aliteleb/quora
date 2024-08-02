@@ -33,7 +33,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
-            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 2xl:w-fit md:pt-8 pt-6 md:py-3 z-50`}>
+            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 md:pt-8 pt-6 md:py-3 z-50`}>
                 <TransitionChild
                     enter="ease-out duration-300"
                     enterFrom="opacity-0"

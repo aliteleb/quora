@@ -11,7 +11,6 @@ use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class SpaceController extends Controller
@@ -20,11 +19,11 @@ class SpaceController extends Controller
     public function create(SpaceRequest $request)
     {
         $validated_data = $request->validated();
+        unset($validated_data['user_id']);
         $request_topics = $validated_data['topics'];
         $topics_ids = Topic::whereIn('name', $request_topics)->pluck('id');
 
         unset($validated_data['topics']);
-
         $space = Space::create($validated_data);
 
         $space->topics()->attach($topics_ids);
