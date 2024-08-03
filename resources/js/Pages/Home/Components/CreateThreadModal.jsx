@@ -2,16 +2,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { BiCaretLeft } from 'react-icons/bi';
 import { TbUsers } from 'react-icons/tb';
-import {FaAngleDown, FaCloudUploadAlt} from 'react-icons/fa';
+import {FaAngleDown} from 'react-icons/fa';
 import { useApp } from '@/AppContext/AppContext.jsx';
 import Modal from '@/Components/Modal.jsx';
-import { AiOutlineGlobal } from 'react-icons/ai';
 import { RiImageAddLine } from 'react-icons/ri';
 import Input from '@/Core/Input.jsx';
-import { FaRegCircleUser } from 'react-icons/fa6';
-import {router, useForm} from '@inertiajs/react';
-import Select from "react-select";
-import ReactSelect from "@/Components/ReactSelect.jsx";
+import {useForm} from '@inertiajs/react';
 import PublicOrPrivateDropdown from "@/Components/PublicOrPrivateDropdown.jsx";
 import SelectSpaces from "@/Components/SelectSpaces.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
@@ -21,7 +17,7 @@ export default function CreateThreadModal() {
 
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
 
-    const { data, setData, post, errors, clearErrors, processing, reset } = useForm({
+    const { data, setData, post, clearErrors, reset } = useForm({
         title: '',
         image: null,
         video: null,
@@ -108,22 +104,6 @@ export default function CreateThreadModal() {
             textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 1 + 'px';
         }
     }, [data.title])
-
-
-    // const makePostActive = () => {
-    //     setIsPostActive(true)
-    //     setData(prevData => ({
-    //         ...prevData,
-    //         type: 'post'
-    //     }))
-    // }
-    // const makeQuestionActive = () => {
-    //     setIsPostActive(false)
-    //     setData(prevData => ({
-    //         ...prevData,
-    //         type: 'question'
-    //     }))
-    // }
 
     const onCloseModal = () => {
         setIsCreatThreadModalOpen(false)

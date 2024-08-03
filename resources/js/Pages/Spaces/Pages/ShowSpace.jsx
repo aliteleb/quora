@@ -13,7 +13,7 @@ export default function ShowSpace() {
 
     const { user } = useApp()
     const {props} = usePage()
-    const space = props.space?.data
+    const space = props.data?.space?.data
 
     const [isActive, setIsActive] = useState({
         about: false,
@@ -30,11 +30,11 @@ export default function ShowSpace() {
 
 
     useEffect(() => {
-        setPosts(props.posts.data)
-        setPostsNextPageUrl(props.posts.links.next)
+        setPosts(props.data.posts?.data)
+        setPostsNextPageUrl(props.data.posts.links.next)
 
-        setQuestions(props.questions.data)
-        setQuestionsNextPageUrl(props.questions.links.next)
+        setQuestions(props.data.questions.data)
+        setQuestionsNextPageUrl(props.data.questions.links.next)
     }, []);
     const handleClickOnAboutButton = (e) => {
         const button = e.target.id
@@ -47,20 +47,21 @@ export default function ShowSpace() {
             })
         }
     }
-
     const checkIfUserIsOwner = user?.id === space?.user.id
     const followSpace = () => {
         if (!isFollowed) {
-            router.post(`/follow-space/${space.id}`, {}, {
+            console.log(space)
+            router.post(`/follow-space/${space?.id}`, {}, {
                 onSuccess: (res) => {
-                    console.log(res.props)
-                    setIsFollowed(res.props.space.data.is_followed)
+                    console.log(res)
+                    setIsFollowed(res.props.data.space?.data.is_followed)
                 }
             })
         } else {
-            router.post(`/unfollow-space/${space.id}`, {}, {
+            console.log(space)
+            router.post(`/unfollow-space/${space?.id}`, {}, {
                 onSuccess: (res) => {
-                    setIsFollowed(res.props.space.data.is_followed)
+                    setIsFollowed(res.props.data.space?.data.is_followed)
                 }
             })
         }
@@ -75,9 +76,9 @@ export default function ShowSpace() {
                 onSuccess: (res) => {
                     setPosts(prevState => ([
                         ...prevState,
-                        ...res.props.posts.data,
+                        ...res.props.data.posts.data,
                     ]))
-                    setPostsNextPageUrl(res.props.posts.links.next)
+                    setPostsNextPageUrl(res.props.data.posts.links.next)
                     setIsPostsFetching(false)
                 }
             })
@@ -118,9 +119,9 @@ export default function ShowSpace() {
                 onSuccess: (res) => {
                     setQuestions(prevState => ([
                         ...prevState,
-                        ...res.props.questions.data,
+                        ...res.props.data.questions.data,
                     ]))
-                    setQuestionsNextPageUrl(res.props.questions.links.next)
+                    setQuestionsNextPageUrl(res.props.data.questions.links.next)
                     setIsQuestionsFetching(false)
                 }
             })
@@ -151,7 +152,7 @@ export default function ShowSpace() {
         };
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching]);
 
-
+    console.log(props)
     return (
         <Master>
             <Head title={space?.name}/>

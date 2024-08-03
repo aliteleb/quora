@@ -17,6 +17,11 @@ class Topic extends Model implements HasMedia
     {
         return $this->hasMany(User::class);
     }
+    public function spaces()
+    {
+        return $this->belongsToMany(Space::class, 'space_topic');
+    }
+
     protected static function booted(): void
     {
         parent::booted();

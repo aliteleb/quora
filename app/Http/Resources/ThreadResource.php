@@ -24,9 +24,6 @@ class ThreadResource extends JsonResource
         $thread_image = $thread->getFirstMediaUrl('threads_images');
         $thread_video = $thread->getMedia('threads_videos');
 
-        $log_data = ['image' => $thread_image, 'thread_id' => $thread->id];
-        Log::info('image', $log_data);
-
         $up_votes = $this->votes()->where('vote_type', 'up')->whereNull('comment_id')->count();
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
