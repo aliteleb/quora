@@ -11,7 +11,10 @@ use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Log;
+use Inertia\Response;
 
 class SpaceController extends Controller
 {
@@ -46,33 +49,47 @@ class SpaceController extends Controller
         return InertiaResponse::render('Spaces/Pages/Spaces', ['data' => $data]);
     }
 
+    protected function getThreadsByType($space_id, $type)
+    {
+        $threads = Thread::where('space_id', $space_id)->where('type', $type)->latest()->paginate(3);
+        return ThreadResource::collection($threads);
+    }
+
+    protected function getThreeRandomSimilarSpaces($space, $slug)
+    {
+        $recommended_spaces = collect();
+        $topics = $space->topics;
+
+        foreach ($topics as $topic) {
+            $recommended_spaces = $recommended_spaces->merge($topic->spaces);
+        }
+
+        $recommended_spaces = $recommended_spaces->unique('id');
+        $recommended_spaces = array_filter($recommended_spaces->toArray(), function ($space) use ($slug) {
+            return $space['slug'] !== $slug;
+        });
+        $recommended_spaces = collect($recommended_spaces);
+
+        if ($recommended_spaces->count() > 3) {
+            $random_keys = array_rand($recommended_spaces->toArray(), 3);
+            $random_spaces = array_map(function ($key) use ($recommended_spaces) {
+                return $recommended_spaces[$key];
+            }, $random_keys);
+            $recommended_spaces = collect($random_spaces);
+        }
+
+        return $recommended_spaces->values();
+    }
+
     public function showSpace($slug)
     {
         $space = Space::where('slug', $slug)->first();
         $space = new SpaceResource($space);
 
-        $posts = Thread::where('space_id', $space->id)->where('type', 'post')->latest()->paginate(3);
-        $posts = ThreadResource::collection($posts);
+        $posts = $this->getThreadsByType($space->id, 'post');
+        $questions = $this->getThreadsByType($space->id, 'question');
 
-        $questions = Thread::where('space_id', $space->id)->where('type', 'question')->latest()->paginate(3);
-        $questions = ThreadResource::collection($questions);
-
-        $recommended_spaces = [];
-        $topics = $space->topics;
-        if (count($topics) === 1) {
-            $topic = $topics[0];
-            $spaces = $topic->spaces;
-
-            if ($spaces->count() > 3) {
-                $random_keys = array_rand($spaces->toArray(), 3);
-                $random_spaces = array_map(function($key) use ($spaces) {
-                    return $spaces[$key];
-                }, $random_keys);
-            } else {
-                $random_spaces = $spaces;
-            }
-            array_push($recommended_spaces, ...$random_spaces);
-        }
+        $recommended_spaces = $this->getThreeRandomSimilarSpaces($space, $slug);
 
         $data = [
             'space' => $space,
