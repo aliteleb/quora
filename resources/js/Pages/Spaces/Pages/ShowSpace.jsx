@@ -8,25 +8,27 @@ import SpacePosts from "@/Pages/Spaces/Partials/SpacePosts.jsx";
 import {IoPersonAddOutline} from "react-icons/io5";
 import {MdDone} from "react-icons/md";
 import SpaceQuestions from "@/Pages/Spaces/Partials/SpaceQuestions.jsx";
+import RecommendedSpace from "@/Pages/Spaces/Components/RecommendedSpace.jsx";
 
 export default function ShowSpace() {
 
     const { user } = useApp()
     const {props} = usePage()
-    const space = props.data?.space?.data
 
     const [isActive, setIsActive] = useState({
         about: false,
         posts: true,
         questions: false,
     });
-    const [isFollowed, setIsFollowed] = useState(space?.is_followed);
+    const [isFollowed, setIsFollowed] = useState(props.data?.space?.data.is_followed);
     const [posts, setPosts] = useState([]);
     const [postsNextPageUrl, setPostsNextPageUrl] = useState('');
     const [questions, setQuestions] = useState([]);
     const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState('');
     const [isPostsFetching, setIsPostsFetching] = useState(false);
     const [isQuestionsFetching, setIsQuestionsFetching] = useState(false);
+    const [recommendedSpaces, setRecommendedSpaces] = useState([]);
+    const [space] = useState(props.data?.space?.data);
 
 
     useEffect(() => {
@@ -35,6 +37,8 @@ export default function ShowSpace() {
 
         setQuestions(props.data.questions.data)
         setQuestionsNextPageUrl(props.data.questions.links.next)
+
+        setRecommendedSpaces(props.data.recommended_spaces.data)
     }, []);
     const handleClickOnAboutButton = (e) => {
         const button = e.target.id
@@ -50,16 +54,15 @@ export default function ShowSpace() {
     const checkIfUserIsOwner = user?.id === space?.user.id
     const followSpace = () => {
         if (!isFollowed) {
-            console.log(space)
             router.post(`/follow-space/${space?.id}`, {}, {
+                preserveScroll: true,
                 onSuccess: (res) => {
-                    console.log(res)
                     setIsFollowed(res.props.data.space?.data.is_followed)
                 }
             })
         } else {
-            console.log(space)
             router.post(`/unfollow-space/${space?.id}`, {}, {
+                preserveScroll: true,
                 onSuccess: (res) => {
                     setIsFollowed(res.props.data.space?.data.is_followed)
                 }
@@ -152,7 +155,10 @@ export default function ShowSpace() {
         };
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching]);
 
-    console.log(props)
+    const display_recommended_spaces = recommendedSpaces.map(space => (
+        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner}/>
+    ))
+
     return (
         <Master>
             <Head title={space?.name}/>
@@ -198,7 +204,7 @@ export default function ShowSpace() {
             </div>
             <main className={`h-[20rem] z-20 relative bg-[--theme-body-bg] w-full mt-10 px-2`}>
                 <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative gap-y-6`}>
-                    <header className={`flex border-b border-[--theme-main-bg-color] w-full md:w-[80%] lg:w-[65%] xl:w-[60%]`}>
+                    <header className={`flex border-b border-[--theme-main-bg-color] w-full`}>
                         <button
                             onClick={handleClickOnAboutButton}
                             id={`about`}
@@ -215,9 +221,14 @@ export default function ShowSpace() {
                             className={`py-3 px-5 ${isActive.questions ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>الأسئلة
                         </button>
                     </header>
-                    {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
-                    {isActive.posts && <SpacePosts posts={posts} ref={lastPostRef}/>}
-                    {isActive.questions && <SpaceQuestions questions={questions} ref={lastQuestionRef}/>}
+                    <div className={`grid grid-cols-[4fr_2.5fr] gap-x-10`}>
+                        {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
+                        {isActive.posts && <SpacePosts posts={posts} ref={lastPostRef}/>}
+                        {isActive.questions && <SpaceQuestions questions={questions} ref={lastQuestionRef}/>}
+                        <div className={`flex flex-col gap-y-3 ${isActive.posts ? 'mt-9' : ''}`}>
+                            {display_recommended_spaces}
+                        </div>
+                    </div>
                 </div>
             </main>
         </Master>

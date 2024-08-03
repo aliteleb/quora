@@ -57,25 +57,23 @@ class SpaceController extends Controller
 
     protected function getThreeRandomSimilarSpaces($space, $slug)
     {
-        $recommended_spaces = collect();
         $topics = $space->topics;
+        $recommended_spaces = collect();
 
         foreach ($topics as $topic) {
             $recommended_spaces = $recommended_spaces->merge($topic->spaces);
         }
 
-        $recommended_spaces = $recommended_spaces->unique('id');
-        $recommended_spaces = array_filter($recommended_spaces->toArray(), function ($space) use ($slug) {
-            return $space['slug'] !== $slug;
-        });
-        $recommended_spaces = collect($recommended_spaces);
+        $recommended_spaces = $recommended_spaces->unique('id')
+            ->filter(function ($space) use ($slug) {
+                $spaceResource = new SpaceResource($space);
+                $spaceArray = $spaceResource->toArray(request());
+
+                return $space->slug !== $slug && $space->user[0]->id !== auth()->id() && !$spaceArray['is_followed'];
+            });
 
         if ($recommended_spaces->count() > 3) {
-            $random_keys = array_rand($recommended_spaces->toArray(), 3);
-            $random_spaces = array_map(function ($key) use ($recommended_spaces) {
-                return $recommended_spaces[$key];
-            }, $random_keys);
-            $recommended_spaces = collect($random_spaces);
+            $recommended_spaces = $recommended_spaces->random(3);
         }
 
         return $recommended_spaces->values();
@@ -90,6 +88,7 @@ class SpaceController extends Controller
         $questions = $this->getThreadsByType($space->id, 'question');
 
         $recommended_spaces = $this->getThreeRandomSimilarSpaces($space, $slug);
+        $recommended_spaces = SpaceResource::collection($recommended_spaces);
 
         $data = [
             'space' => $space,

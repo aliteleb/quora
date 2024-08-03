@@ -18,9 +18,8 @@ class SpaceResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $space = Space::where('id', $this->id)->first();
-        $space_image = $space->getFirstMediaUrl('spaces_poster_images');
-        $space_cover_image = $space->getFirstMediaUrl('spaces_cover_images');
+        $space_image = $this->getFirstMediaUrl('spaces_poster_images');
+        $space_cover_image = $this->getFirstMediaUrl('spaces_cover_images');
 
         $media =[];
 
