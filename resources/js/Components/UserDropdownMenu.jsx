@@ -33,7 +33,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
-            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 md:pt-8 pt-6 md:py-3 z-50`}>
+            <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 pt-6 py-3 z-50`}>
                 <TransitionChild
                     enter="ease-out duration-300"
                     enterFrom="opacity-0"
@@ -54,7 +54,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                         </div>
                         <div className={`bg-[--theme-default-border-color] h-[1px] w-full`}></div>
                     </header>
-                    <main className={`md:py-4 py-2 pb-4 border-b border-[--theme-default-border-color] 2xl:text-sm text-[15px]`}>
+                    <main className={`py-2 pb-4 border-b border-[--theme-default-border-color] 2xl:text-sm text-[15px]`}>
                         <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
                             <BsBarChart className={`size-6`}/>
                             <span>المحتوي والإحصاءات الخاصة بك</span>

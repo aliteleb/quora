@@ -32,7 +32,7 @@ export default function FilterPosts({
         >
             <div
                 ref={filterPostsRef}
-                className={`filterPostsInSpacePage absolute right-0 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] pt-3`}
+                className={`filterPostsInSpacePage absolute right-0 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] pt-3 `}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
