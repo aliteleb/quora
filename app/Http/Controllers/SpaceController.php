@@ -124,4 +124,19 @@ class SpaceController extends Controller
         return InertiaResponse::back(['data' => $data]);
     }
 
+    protected function filterPosts()
+    {
+
+    }
+    protected function filterQuestions()
+    {
+
+    }
+    public function filterThreads($type)
+    {
+
+    }
+
+
+
 }

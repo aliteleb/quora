@@ -44,19 +44,22 @@ class ThreadController extends Controller implements HasMedia
     {
         $user_id = auth()->id();
         $thread_id = $request->thread_id;
+        $thread = Thread::where('id', $thread_id)->first();
         $vote_type = $request->vote_type;
 
-        $voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('thread_id', $thread_id);
-        $voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('thread_id', $thread_id);
+        $user_has_voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('thread_id', $thread_id);
+        $user_has_voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('thread_id', $thread_id);
 
         $vote = [];
-        if ($vote_type === 'up' && $voted_up->exists()) {
-            $voted_up->delete();
-        } elseif ($vote_type === 'down' && $voted_down->exists()) {
-            $voted_down->delete();
+        if ($vote_type === 'up' && $user_has_voted_up->exists()) {
+            $user_has_voted_up->delete();
+            $this->updateVoteCounts($thread, $vote_type, true);
+        } else if ($vote_type === 'down' && $user_has_voted_down->exists()) {
+            $user_has_voted_down->delete();
+            $this->updateVoteCounts($thread, $vote_type, true);
         } else {
             if ($vote_type === 'up' || $vote_type === 'down') {
-                $opposite_vote = ($vote_type === 'up') ? $voted_down : $voted_up;
+                $opposite_vote = ($vote_type === 'up') ? $user_has_voted_down : $user_has_voted_up;
                 if ($opposite_vote->exists()) {
                     $opposite_vote->delete();
                 }
@@ -66,8 +69,12 @@ class ThreadController extends Controller implements HasMedia
                     'vote_type' => $vote_type,
                     'thread_id' => $thread_id
                 ]);
+                $opposite_vote = ($vote_type === 'up') ? 'down' : 'up';
+
+                $this->updateVoteCounts($thread, $opposite_vote);
             }
         }
+        $thread->save();
 
         $thread_up_votes_count = Vote::where('thread_id', $thread_id)->where('vote_type', 'up')->count();
         $thread_down_votes_count = Vote::where('thread_id', $thread_id)->where('vote_type', 'down')->count();
@@ -78,6 +85,24 @@ class ThreadController extends Controller implements HasMedia
         ];
 
         return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
+    }
+    protected function updateVoteCounts($thread, $vote_type, $removeVote = false)
+    {
+        if ($vote_type === 'up') {
+            if (!$removeVote) {
+                $thread->all_vote_down_count++;
+            }
+            if ($thread->all_vote_up_count > 0) {
+                $thread->all_vote_up_count--;
+            }
+        } else {
+            if (!$removeVote) {
+                $thread->all_vote_up_count++;
+            }
+            if ($thread->all_vote_down_count > 0) {
+                $thread->all_vote_down_count--;
+            }
+        }
     }
 
 
