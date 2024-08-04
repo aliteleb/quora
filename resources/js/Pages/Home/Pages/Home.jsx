@@ -23,25 +23,26 @@ export default function Home() {
         }
     }, []);
 
-    const loadMoreThreads = useCallback(
-        (pageUrl) => {
-            if (pageUrl && !isFetching) {
-                setIsFetching(true); // Set fetch status to true
-                router.get(pageUrl, {}, {
-                    preserveScroll: true,
-                    preserveState: true,
-                    only: ['threads'],
-                    onSuccess: (page) => {
-                        setThreads(prevThreads => [...prevThreads, ...page.props.threads?.data]);
-                        setNextPaginationLink(page.props.threads?.links.next);
-                        setIsFetching(false); // Set fetch status to false after fetch completes
-                    },
-                    onError: () => {
-                        setIsFetching(false); // Set fetch status to false if an error occurs
-                    }
-                });
-            }
-        }, []);
+    const loadMoreThreads = (pageUrl) => {
+        if (pageUrl && !isFetching) {
+            setIsFetching(true); // Set fetch status to true
+            router.get(pageUrl, {}, {
+                preserveScroll: true,
+                preserveState: true,
+                only: ['threads'],
+                onSuccess: (page) => {
+                    setThreads(prevThreads => [...prevThreads, ...page.props.threads?.data]);
+                    setNextPaginationLink(page.props.threads?.links.next);
+                    setIsFetching(false); // Set fetch status to false after fetch completes
+                },
+                onError: () => {
+                    setIsFetching(false); // Set fetch status to false if an error occurs
+                }
+            });
+        }
+    }
+
+
 
 
     const lastThreadRef = useRef(null);

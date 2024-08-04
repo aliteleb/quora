@@ -5,7 +5,7 @@ import {MdOutlineModeEdit} from "react-icons/md";
 
 export default function SpaceAbout({checkIfUserIsOwner, space}) {
     return (
-        <main className={`w-[60%] flex flex-col gap-y-4 pb-10`}>
+        <main className={`w-full flex flex-col gap-y-4 pb-10`}>
             <div className={`flex flex-col gap-y-3`}>
                 <h1>التفاصيل</h1>
                 <div className={`w-full bg-[--theme-main-bg-color] flex flex-col justify-center items-center gap-y-2 py-24 rounded`}>

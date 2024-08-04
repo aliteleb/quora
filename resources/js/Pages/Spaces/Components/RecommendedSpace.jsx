@@ -6,7 +6,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {router} from "@inertiajs/react";
 
 
-export default function RecommendedSpace({space}) {
+export default function RecommendedSpace({space, customStyles}) {
     const {user} = useApp()
     const [isFollowed, setIsFollowed] = useState(space.is_followed);
 
@@ -33,32 +33,40 @@ export default function RecommendedSpace({space}) {
     }
 
     return (
-        <div className={`bg-[--theme-main-bg-color] text-[--theme-primary-text-color] p-5 h-fit flex flex-col gap-y-3 rounded`}>
-            <div className={`flex justify-between`}>
-                <div className={`flex items-center gap-x-2`}>
-                    {!space.poster &&
-                        <img
-                            src="/spaces/space_default_image.webp"
-                            alt="space-img"
-                            className={`w-8 rounded-xl`}
-                        />
-                    }
-                    {space.poster &&
-                        <img
-                            src={img}
-                            alt="space-img"
-                            className={`w-8 rounded-xl`}
-                        />
-                    }
-                    <div className={`font-bold`}>{space.name}</div>
+        <div className={`relative rounded ${customStyles}`}>
+            <img
+                src={space.cover ? space.cover : '/spaces/space_cover_default_image_space_page.webp'}
+                alt="cover"
+                className={`absolute h-full rounded brightness-50 w-full`}
+            />
+            <div className={`bg-[--theme-main-bg-color] text-[--theme-primary-text-color] h-fit flex flex-col p-5 gap-y-3`}>
+                <div className={`flex justify-between z-10`}>
+                    <div className={`flex items-center gap-x-2`}>
+                        {!space.poster &&
+                            <img
+                                src="/spaces/space_default_image.webp"
+                                alt="space-img"
+                                className={`w-8 rounded-xl`}
+                            />
+                        }
+                        {space.poster &&
+                            <img
+                                src={space.poster}
+                                alt="space-img"
+                                className={`w-8 rounded-xl`}
+                            />
+                        }
+                        <div className={`font-bold`}>{space.name}</div>
+                    </div>
+                    <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border h-fit ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 font-bold`}>
+                        {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
+                        {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
+                    </button>
                 </div>
-                <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 font-bold`}>
-                    {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
-                    {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
-                </button>
+
+                <div className={`z-10`}>{space.description}</div>
             </div>
 
-            <div>{space.description}</div>
         </div>
     )
 }

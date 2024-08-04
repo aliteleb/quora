@@ -10,7 +10,7 @@ const SpaceQuestions = forwardRef(({questions}, ref) => {
 
 
     return (
-        <div className={`flex flex-col gap-y-3 w-full md:w-[80%] lg:w-[65%] xl:w-[60%]`}>
+        <div className={`flex flex-col gap-y-3 w-full`}>
             <div className={`pb-3`}>
                 {show_questions}
             </div>

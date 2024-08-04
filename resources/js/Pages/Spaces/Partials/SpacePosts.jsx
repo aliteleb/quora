@@ -7,7 +7,7 @@ const SpacePosts = forwardRef(({posts}, ref) => {
 
     const show_posts = posts.map((post, index) => (
         <Post key={post.id} thread={post} ref={index === posts.length - 1 ? ref : null}
-              customStyles={index !== 0 ? `mt-3` : ''}/>
+              customStyles={`${index !== 0 ? `mt-3` : ''} ${index === posts.length - 1 ? 'pb-14 sm:pb-3' : ''}`}/>
     ))
 
     return (

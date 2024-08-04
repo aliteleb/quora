@@ -155,8 +155,8 @@ export default function ShowSpace() {
         };
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching]);
 
-    const display_recommended_spaces = recommendedSpaces.map(space => (
-        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner}/>
+    const display_recommended_spaces = recommendedSpaces.map((space, index) => (
+        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner} customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-36' : ''}/>
     ))
 
     return (
@@ -184,18 +184,18 @@ export default function ShowSpace() {
                     <h1 className={`text-2xl font-extrabold`}>{space?.name}</h1>
                     <div>{space?.description}</div>
                     <div className={`flex justify-between items-center`}>
-                        <div className={`flex gap-x-1`}>
+                        <div className={`flex xxs:flex-row flex-col items-start justify-center gap-x-1`}>
                             <button className={`hover:underline underline-offset-2`}>
                                 <span className={`font-bold`}>{`${space?.followers_count} `}</span>
                                 متابعين
                             </button>
-                            <span>· </span>
+                            <span className={`hidden xxs:block`}>· </span>
                             <span className={`flex`}>
-                                <span className={`flex font-bold`}>{`\u00A0${space?.last_week_posts_count}\u00A0`}</span> منشورات الأسبوع الماضي
+                                <span className={`flex font-bold -ms-1`}>{`\u00A0${space?.last_week_posts_count}\u00A0`}</span> منشورات الأسبوع الماضي
                             </span>
 
                         </div>
-                        <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}>
+                        <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}>
                             {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
                             {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
                         </button>
@@ -204,7 +204,7 @@ export default function ShowSpace() {
             </div>
             <main className={`h-[20rem] z-20 relative bg-[--theme-body-bg] w-full mt-10 px-2`}>
                 <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative gap-y-6`}>
-                    <header className={`flex border-b border-[--theme-main-bg-color] w-full`}>
+                    <header className={`flex border-b border-[--theme-main-bg-color] ${isActive.about ? 'w-[60%]' : 'w-full'} `}>
                         <button
                             onClick={handleClickOnAboutButton}
                             id={`about`}
@@ -221,13 +221,19 @@ export default function ShowSpace() {
                             className={`py-3 px-5 ${isActive.questions ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>الأسئلة
                         </button>
                     </header>
-                    <div className={`grid grid-cols-[4fr_2.5fr] gap-x-10`}>
+                    <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
                         {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
                         {isActive.posts && <SpacePosts posts={posts} ref={lastPostRef}/>}
                         {isActive.questions && <SpaceQuestions questions={questions} ref={lastQuestionRef}/>}
-                        <div className={`flex flex-col gap-y-3 ${isActive.posts ? 'mt-9' : ''}`}>
-                            {display_recommended_spaces}
-                        </div>
+
+                        {(isActive.posts || isActive.questions) &&
+                            <div>
+                                <h1>مساحات قد تعجبك</h1>
+                                <div className={`grid grid-cols-1 sm:grid-cols-2 lg:flex flex-col gap-x-3 gap-y-3 mt-3`}>
+                                    {display_recommended_spaces}
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </main>
