@@ -1,36 +1,34 @@
-import React, {useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
-import {FaAngleDown, FaChevronDown, FaEdit, FaPlus, FaUserCircle, FaUsers} from "react-icons/fa";
-import {Head, Link, router} from "@inertiajs/react";
+import { FaChevronDown, FaEdit, FaUsers} from "react-icons/fa";
+import {Link} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
-import {TbUsersGroup} from "react-icons/tb";
-import {FaRegCircleUser} from "react-icons/fa6";
 import UserDropdownMenu from "@/Components/UserDropdownMenu.jsx";
 import CreateDropdownMenu from "@/Components/CreateDropdownMenu.jsx";
-import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
 import SpaceModal from "@/Pages/Auth/Partials/SpaceModal.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 
 function Master({children}) {
 
-    const {settings, user, isSpaceModalOpen, setIsSpaceModalOpen, setIsCreatThreadModalOpen} = useApp()
+    const {settings, user, setIsSpaceModalOpen, isSpaceModalOpen, setIsCreatThreadModalOpen} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
 
-    const redirectToLogin = () => {
+    const redirectToLogin =  useCallback(() => {
         window.location = '/account'
-    }
+    }, [])
+
 
     return (
         <>
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>
                 <div className={`max-w-screen-xl container`}>
                     <CreateThreadModal />
-                    
+
                     <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
                         <Link href={`/`} className={`select-none outline-0 border-none shadow-none`}>
                             <img src={settings.logo}

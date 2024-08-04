@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->enum('type', ['post', 'question']);
-            $table->string('title')->nullable();
-            $table->longText('details')->nullable();
+            $table->longText('title')->nullable();
             $table->boolean('is_anonymous')->default(false);
             $table->boolean('is_visible')->default(true);
             $table->enum('status', ['published', 'pending', 'draft', 'violated']);

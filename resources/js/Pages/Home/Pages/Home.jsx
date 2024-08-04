@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Partials/Footer.jsx";
 import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
@@ -22,24 +22,27 @@ export default function Home() {
             setNextPaginationLink(props.threads?.links.next)
         }
     }, []);
-    const loadMoreThreads = (pageUrl) => {
-        if (pageUrl && !isFetching) {
-            setIsFetching(true); // Set fetch status to true
-            router.get(pageUrl, {}, {
-                preserveScroll: true,
-                preserveState: true,
-                only: ['threads'],
-                onSuccess: (page) => {
-                    setThreads(prevThreads => [...prevThreads, ...page.props.threads?.data]);
-                    setNextPaginationLink(page.props.threads?.links.next);
-                    setIsFetching(false); // Set fetch status to false after fetch completes
-                },
-                onError: () => {
-                    setIsFetching(false); // Set fetch status to false if an error occurs
-                }
-            });
-        }
-    };
+
+    const loadMoreThreads = useCallback(
+        (pageUrl) => {
+            if (pageUrl && !isFetching) {
+                setIsFetching(true); // Set fetch status to true
+                router.get(pageUrl, {}, {
+                    preserveScroll: true,
+                    preserveState: true,
+                    only: ['threads'],
+                    onSuccess: (page) => {
+                        setThreads(prevThreads => [...prevThreads, ...page.props.threads?.data]);
+                        setNextPaginationLink(page.props.threads?.links.next);
+                        setIsFetching(false); // Set fetch status to false after fetch completes
+                    },
+                    onError: () => {
+                        setIsFetching(false); // Set fetch status to false if an error occurs
+                    }
+                });
+            }
+        }, []);
+
 
     const lastThreadRef = useRef(null);
     const show_threads = threads?.map((thread, index) => (

@@ -1,22 +1,23 @@
-import React from 'react'
-import {LuPlus} from "react-icons/lu";
-import {useApp} from "@/AppContext/AppContext.jsx";
+import React from 'react';
+import { LuPlus } from "react-icons/lu";
+import { useApp } from "@/AppContext/AppContext.jsx";
 
-export default function Footer() {
-
-    const {setIsSpaceModalOpen} = useApp()
+function Footer() {
+    const { setIsSpaceModalOpen } = useApp();
 
     return (
         <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-7 md:flex hidden flex-col`}>
-            <button onClick={() => {
-                setIsSpaceModalOpen(true)
-            }} className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}>
-                <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
+            <button
+                onClick={() => {
+                    setIsSpaceModalOpen(true);
+                }}
+                className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
+            >
+                <LuPlus className={`bg-[#262626] p-1 rounded text-xl`} />
                 <span>إنشاء مساحة</span>
             </button>
 
             <div className={`text-[--theme-secondary-text-color]`}>
-
                 <div>
                     <a href="" className={`hover:underline`}>حول . </a>
                     <a href="" className={`hover:underline`}>الوظائف .</a>
@@ -32,10 +33,9 @@ export default function Footer() {
                     <a href="" className={`hover:underline`}>إعلان . </a>
                     <a href="" className={`hover:underline`}>الصحافة</a>
                 </div>
-
             </div>
-
         </div>
-
-    )
+    );
 }
+
+export default React.memo(Footer);

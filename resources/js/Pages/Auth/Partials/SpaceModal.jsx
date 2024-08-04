@@ -60,10 +60,6 @@ export default function SpaceModal() {
         }));
     };
 
-    useEffect(() => {
-        // console.log(errors)
-    }, [errors]);
-
 
     return (
         <Modal show={isSpaceModalOpen} onClose={closeSpaceModal} backdropColor={`bg-[#222222dd]`} maxWidth={`xl`} >
