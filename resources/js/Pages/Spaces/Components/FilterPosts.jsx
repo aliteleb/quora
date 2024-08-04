@@ -6,13 +6,12 @@ export default function FilterPosts({
     isFilterDropdownOpen,
     setIsFilterDropdownOpen,
     filterType,
-    handleFilterTypeSelect
+    handleFilterTypeSelect,
 }) {
 
     const filterPostsRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            console.log(e.target.tagName)
             if (!filterPostsRef.current?.contains(e.target) && e.target.id !== 'publicOrPrivateDropdown' && e.target.tagName !== 'path' && e.target.tagName !== 'svg' &&  e.target.tagName !== 'SPAN' && e.target.id !== 'drop' && e.target.tagName !== 'BUTTON') {
                 setIsFilterDropdownOpen(false);
             }

@@ -51,7 +51,7 @@ class SpaceController extends Controller
 
     protected function getThreadsByType($space_id, $type)
     {
-        $threads = Thread::where('space_id', $space_id)->where('type', $type)->latest()->paginate(3);
+        $threads = Thread::where('space_id', $space_id)->where('type', $type)->latest()->paginate(5);
         return ThreadResource::collection($threads);
     }
 
@@ -124,17 +124,27 @@ class SpaceController extends Controller
         return InertiaResponse::back(['data' => $data]);
     }
 
-    protected function filterPosts()
+    protected function filterThreads($filter_type, $space_id, $thread_type)
     {
+        if ($filter_type === 'most_popular') {
+            $threads = Thread::where('space_id', $space_id)->where('type', $thread_type)->orderBy('all_vote_up_count', 'desc')->paginate(5);
+            Log::info('most_reacted', array($threads));
+        } else {
+            $threads = Thread::where('space_id', $space_id)->where('type', $thread_type)->orderBy('created_at', 'desc')->paginate(5);
+        }
+        $threads = ThreadResource::collection($threads);
+        $data = ['threads' => $threads];
 
+        return InertiaResponse::back($data);
     }
-    protected function filterQuestions()
-    {
 
-    }
-    public function filterThreads($type)
+    public function callFilterThreadsFn($section, $type, $space_id)
     {
-
+        if ($section === 'posts') {
+            $this->filterThreads($type, $space_id, 'post');
+        } else {
+            $this->filterThreads($type, $space_id, 'question');
+        }
     }
 
 

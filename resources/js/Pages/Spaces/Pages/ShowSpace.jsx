@@ -29,6 +29,7 @@ export default function ShowSpace() {
     const [isQuestionsFetching, setIsQuestionsFetching] = useState(false);
     const [recommendedSpaces, setRecommendedSpaces] = useState([]);
     const [space] = useState(props.data?.space?.data);
+    const [filterType, setFilterType] = useState('most_recent');
 
 
     useEffect(() => {
@@ -79,9 +80,9 @@ export default function ShowSpace() {
                 onSuccess: (res) => {
                     setPosts(prevState => ([
                         ...prevState,
-                        ...res.props.data.posts.data,
+                        ...res.props.data?.posts?.data,
                     ]))
-                    setPostsNextPageUrl(res.props.data.posts.links.next)
+                    setPostsNextPageUrl(res.props.data?.posts?.links.next)
                     setIsPostsFetching(false)
                 }
             })
@@ -92,7 +93,7 @@ export default function ShowSpace() {
 
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting && isActive.posts && !isPostsFetching) {
+            if (entries[0].isIntersecting && isActive.posts && !isPostsFetching && filterType === 'most_recent') {
                 loadNextPosts(postsNextPageUrl);
             }
         }, {
@@ -110,7 +111,7 @@ export default function ShowSpace() {
                 observer.unobserve(lastPostRef.current);
             }
         };
-    }, [postsNextPageUrl, isActive.posts, isPostsFetching]);
+    }, [postsNextPageUrl, isActive.posts, isPostsFetching, filterType]);
 
 
     const loadNextQuestions = (pageUrl) => {
@@ -155,7 +156,7 @@ export default function ShowSpace() {
         };
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching]);
 
-    const display_recommended_spaces = recommendedSpaces.map((space, index) => (
+    const display_recommended_spaces = recommendedSpaces?.map((space, index) => (
         <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner} customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-36' : ''}/>
     ))
 
@@ -223,7 +224,16 @@ export default function ShowSpace() {
                     </header>
                     <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
                         {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
-                        {isActive.posts && <SpacePosts posts={posts} ref={lastPostRef}/>}
+                        {isActive.posts &&
+                            <SpacePosts
+                                posts={posts}
+                                ref={lastPostRef}
+                                spaceID={space.id}
+                                setPosts={setPosts}
+                                setPostsNextPageUrl={setPostsNextPageUrl}
+                                filterType={filterType}
+                                setFilterType={setFilterType}
+                            />}
                         {isActive.questions && <SpaceQuestions questions={questions} ref={lastQuestionRef}/>}
 
                         {(isActive.posts || isActive.questions) &&
