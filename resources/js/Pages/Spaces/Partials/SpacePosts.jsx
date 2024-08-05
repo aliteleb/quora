@@ -5,7 +5,7 @@ import Post from "@/Components/Post.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import { router } from "@inertiajs/react";
 
-const SpacePosts = ({ posts = [], spaceID, setPosts, setPostsNextPageUrl, filterType, setFilterType }) => {
+const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }) => {
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
     const [isPostsFetching, setIsPostsFetching] = useState(false);
