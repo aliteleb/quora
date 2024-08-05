@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import { IoChevronDownOutline } from "react-icons/io5";
 import { IoIosTrendingUp } from "react-icons/io";
 import Post from "@/Components/Post.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import { router } from "@inertiajs/react";
 
-const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }) => {
+const SpacePosts = forwardRef (({ posts, spaceID, setPosts }, ref) => {
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
     const [isPostsFetching, setIsPostsFetching] = useState(false);
-    const lastFilteredPostRef = useRef(null);
+    const [filterType, setFilterType] = useState('most_recent');
 
     const handleFilterTypeSelect = (e) => {
         setFilterType(e.target.value);
@@ -40,7 +40,7 @@ const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }
                         ...res.props.threads.data,
                     ]));
                     setFilteredNextPageUrl(res.props.threads.links.next);
-                    setIsPostsFetching(true)
+                    setIsPostsFetching(false)
                 },
 
             });
@@ -50,6 +50,8 @@ const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isPostsFetching && filteredNextPageUrl) {
+                console.log('called')
+
                 loadNextPosts(filteredNextPageUrl);
             }
         }, {
@@ -57,26 +59,27 @@ const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }
         });
 
         // Watch the last post
-        if (lastFilteredPostRef.current) {
-            observer.observe(lastFilteredPostRef.current);
+        if (ref.current) {
+            observer.observe(ref.current);
         }
 
         // Cleanup
         return () => {
-            if (lastFilteredPostRef.current) {
-                observer.unobserve(lastFilteredPostRef.current);
+            if (ref.current) {
+                observer.unobserve(ref.current);
             }
         };
     }, [filteredNextPageUrl, isPostsFetching, filterType]);
 
-    const show_posts = Array.isArray(posts) ? posts.map((post, index) => (
+    const show_posts = posts.map((post, index) => (
         <Post
             key={post.id}
             thread={post}
-            ref={index === posts.length - 1 ? lastFilteredPostRef : null}
+            ref={index === posts.length - 1 ? ref : null}
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === posts.length - 1 ? 'pb-14 sm:pb-3' : ''}`}
         />
-    )) : [];
+    ));
+
 
     return (
         <div className={`flex flex-col gap-y-3 w-full`}>
@@ -100,6 +103,6 @@ const SpacePosts = ({ posts = [], spaceID, setPosts, filterType, setFilterType }
             </div>
         </div>
     );
-};
+});
 
 export default SpacePosts;
