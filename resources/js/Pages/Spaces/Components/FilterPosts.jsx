@@ -23,6 +23,7 @@ export default function FilterPosts({
         };
     }, []);
 
+
     return (
         <Transition
             enter="duration-500 transition"

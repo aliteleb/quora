@@ -33,13 +33,13 @@ export default function ShowSpace() {
 
 
     useEffect(() => {
-        setPosts(props.data.posts?.data)
-        setPostsNextPageUrl(props.data.posts.links.next)
+        setPosts(props.data?.posts?.data)
+        setPostsNextPageUrl(props.data?.posts.links.next)
 
-        setQuestions(props.data.questions.data)
-        setQuestionsNextPageUrl(props.data.questions.links.next)
+        setQuestions(props.data?.questions.data)
+        setQuestionsNextPageUrl(props.data?.questions.links.next)
 
-        setRecommendedSpaces(props.data.recommended_spaces.data)
+        setRecommendedSpaces(props.data?.recommended_spaces.data)
     }, []);
     const handleClickOnAboutButton = (e) => {
         const button = e.target.id
@@ -227,8 +227,7 @@ export default function ShowSpace() {
                         {isActive.posts &&
                             <SpacePosts
                                 posts={posts}
-                                ref={lastPostRef}
-                                spaceID={space.id}
+                                spaceID={space?.id}
                                 setPosts={setPosts}
                                 setPostsNextPageUrl={setPostsNextPageUrl}
                                 filterType={filterType}
