@@ -5,10 +5,11 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
 import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
 import SpacePosts from "@/Pages/Spaces/Partials/SpacePosts.jsx";
-import {IoPersonAddOutline} from "react-icons/io5";
+import {IoChevronDownOutline, IoPersonAddOutline} from "react-icons/io5";
 import {MdDone} from "react-icons/md";
 import SpaceQuestions from "@/Pages/Spaces/Partials/SpaceQuestions.jsx";
 import RecommendedSpace from "@/Pages/Spaces/Components/RecommendedSpace.jsx";
+import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
 export default function ShowSpace() {
 
@@ -29,6 +30,8 @@ export default function ShowSpace() {
     const [isQuestionsFetching, setIsQuestionsFetching] = useState(false);
     const [recommendedSpaces, setRecommendedSpaces] = useState([]);
     const [space] = useState(props.data?.space?.data);
+    const [filterType, setFilterType] = useState('most_recent');
+    const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
 
     useEffect(() => {
         setPosts(props.data?.posts?.data)
@@ -157,8 +160,25 @@ export default function ShowSpace() {
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching, posts]);
 
     const display_recommended_spaces = recommendedSpaces?.map((space, index) => (
-        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner} customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-36' : ''}/>
+        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner} customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-32' : ''}/>
     ))
+
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const handleFilterTypeSelect = (e) => {
+        setFilterType(e.target.value);
+        setIsFilterDropdownOpen(false);
+        e.target.value === 'most_popular' ? filterPosts('most_popular') : filterPosts('most_recent');
+    };
+    const filterPosts = (filter_type) => {
+        router.get(`/spaces/filter/posts/${filter_type}/${space?.id}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setPosts(res.props.threads.data);
+                setFilteredNextPageUrl(res.props.threads.links.next);
+            }
+        });
+    };
 
     return (
         <Master>
@@ -222,10 +242,52 @@ export default function ShowSpace() {
                             className={`py-3 px-5 ${isActive.questions ? 'border-[--theme-button-border-color]' : 'border-transparent hover:bg-neutral-800'} border-b-[3px]`}>الأسئلة
                         </button>
                     </header>
-                    <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
-                        {isActive.about && <SpaceAbout space={space} isActive={isActive} checkIfUserIsOwner={checkIfUserIsOwner} handleClickOnAboutButton={handleClickOnAboutButton}/>}
-                        {isActive.posts && <SpacePosts posts={posts} setPosts={setPosts} spaceID={space?.id} ref={lastPostRef}/>}
-                        {isActive.questions && <SpaceQuestions questions={questions} ref={lastQuestionRef}/>}
+
+                    <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'}`}>
+                        <div className={`w-full flex flex-col gap-y-3`}>
+                            <div className={`relative`}>
+                                <button onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} className={`flex items-center gap-x-2`}>
+                                    <IoIosTrendingUp />
+                                    <span>{filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}</span>
+                                    <IoChevronDownOutline />
+                                </button>
+                                <FilterPosts
+                                    isFilterDropdownOpen={isFilterDropdownOpen}
+                                    setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                                    filterType={filterType}
+                                    handleFilterTypeSelect={handleFilterTypeSelect}
+                                    filterPosts={filterPosts}
+                                />
+                            </div>
+                            <div className={`flex flex-col-reverse gap-y-10 ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
+                                {isActive.about &&
+                                    <SpaceAbout
+                                        space={space}
+                                        isActive={isActive}
+                                        checkIfUserIsOwner={checkIfUserIsOwner}
+                                        handleClickOnAboutButton={handleClickOnAboutButton}
+                                    />
+                                }
+                                {isActive.posts &&
+                                    <SpacePosts
+                                        posts={posts}
+                                        setPosts={setPosts}
+                                        ref={lastPostRef}
+                                        filteredNextPageUrl={filteredNextPageUrl}
+                                        setFilteredNextPageUrl={setFilteredNextPageUrl}
+                                        filterType={filterType}
+                                    />
+                                }
+                                {isActive.questions &&
+                                    <SpaceQuestions
+                                        questions={questions}
+                                        ref={lastQuestionRef}
+                                    />
+                                }
+                            </div>
+                        </div>
+
+
 
                         {(isActive.posts || isActive.questions) &&
                             <div>

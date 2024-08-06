@@ -5,28 +5,9 @@ import Post from "@/Components/Post.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import { router } from "@inertiajs/react";
 
-const SpacePosts = forwardRef (({ posts, spaceID, setPosts }, ref) => {
-    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
-    const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
+const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilteredNextPageUrl, filterType }, ref) => {
+
     const [isPostsFetching, setIsPostsFetching] = useState(false);
-    const [filterType, setFilterType] = useState('most_recent');
-
-    const handleFilterTypeSelect = (e) => {
-        setFilterType(e.target.value);
-        setIsFilterDropdownOpen(false);
-        e.target.value === 'most_popular' ? filterPosts('most_popular') : filterPosts('most_recent');
-    };
-
-    const filterPosts = (filter_type) => {
-        router.get(`/spaces/filter/posts/${filter_type}/${spaceID}`, {}, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                setPosts(res.props.threads.data);
-                setFilteredNextPageUrl(res.props.threads.links.next);
-            }
-        });
-    };
 
     const loadNextPosts = (pageUrl) => {
         if (pageUrl && !isPostsFetching) {
@@ -83,21 +64,6 @@ const SpacePosts = forwardRef (({ posts, spaceID, setPosts }, ref) => {
 
     return (
         <div className={`flex flex-col gap-y-3 w-full`}>
-            <div className={`relative`}>
-                <button onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} className={`flex items-center gap-x-2`}>
-                    <IoIosTrendingUp />
-                    <span>{filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}</span>
-                    <IoChevronDownOutline />
-                </button>
-                <FilterPosts
-                    isFilterDropdownOpen={isFilterDropdownOpen}
-                    setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                    filterType={filterType}
-                    handleFilterTypeSelect={handleFilterTypeSelect}
-                    filterPosts={filterPosts}
-                />
-            </div>
-
             <div className={`pb-3`}>
                 {show_posts}
             </div>
