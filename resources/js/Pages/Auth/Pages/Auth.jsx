@@ -4,7 +4,7 @@ import {FaFacebook} from "react-icons/fa";
 import Input from "@/Core/Input.jsx";
 import {Head, Link, useForm, usePage} from "@inertiajs/react";
 import {MdOutlineEmail} from "react-icons/md";
-import RegistrationModal from "@/Pages/Auth/Partials/RegistrationModal.jsx";
+import RegistrationModal from "@/Pages/Auth/Components/RegistrationModal.jsx";
 
 export default function Auth() {
 

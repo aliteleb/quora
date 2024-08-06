@@ -1,22 +1,20 @@
-import React, {Fragment, useEffect, useRef, useState} from 'react'
-import {FaRegCircleUser} from "react-icons/fa6";
+import React, { useEffect, useRef} from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {FaRegBookmark, FaUsers} from "react-icons/fa";
 import {BsBarChart, BsChevronLeft} from "react-icons/bs";
 import {Transition, TransitionChild} from "@headlessui/react";
-import {router} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 
 
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
-    const [test, setTest] = useState('');
 
     const { user } = useApp()
 
     const dropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown") {
+            if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown" && e.target.tagName !== 'A' && e.target.tagName !== 'IMG' && e.target.tagName !== 'SPAN') {
                 setIsUserDropdownMenuOpen(false)
             }
         }
@@ -43,17 +41,29 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                     leaveTo="opacity-0"
                     as={'div'}
                 >
-                    <header>
-                        <div className={`grid grid-cols-2 items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-2 px-3`}>
+                    <Link href={`/profile/${user?.id}`}>
+                        <div className={`grid grid-cols-2 items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] py-2 px-3`}>
                             <div className={`flex items-center gap-x-4 w-max`}>
-                                {user?.avatar && <img onClick={() => setIsUserDropdownMenuOpen(true)} src={user.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`}/>}
-                                {(!user?.avatar && user) && <DefaultUserIcon onClick={() => setIsUserDropdownMenuOpen(true)} className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`}/>}
+                                {user?.avatar &&
+                                    <img
+                                        onClick={() => setIsUserDropdownMenuOpen(true)}
+                                        src={user.avatar}
+                                        className={`md:size-9 size-7 rounded-full cursor-pointer`}
+                                    />
+                                }
+                                {(!user?.avatar && user) &&
+                                    <DefaultUserIcon
+                                        onClick={() => setIsUserDropdownMenuOpen(true)}
+                                        className={`md:size-9 size-7 cursor-pointer text-[--theme-placeholder-color]`}
+                                    />
+                                }
                                 <span className={`font-bold`}>{user?.name}</span>
                             </div>
                             <BsChevronLeft className={`size-6 justify-self-end`}/>
                         </div>
                         <div className={`bg-[--theme-default-border-color] h-[1px] w-full`}></div>
-                    </header>
+                    </Link>
+
                     <main className={`py-2 pb-4 border-b border-[--theme-default-border-color] 2xl:text-sm text-[15px]`}>
                         <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
                             <BsBarChart className={`size-6`}/>

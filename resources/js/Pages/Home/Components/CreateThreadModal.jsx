@@ -11,6 +11,7 @@ import {useForm} from '@inertiajs/react';
 import PublicOrPrivateDropdown from "@/Components/PublicOrPrivateDropdown.jsx";
 import SelectSpaces from "@/Components/SelectSpaces.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
+import Button from "@/Core/Button.jsx";
 
 export default function CreateThreadModal() {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
@@ -144,8 +145,8 @@ export default function CreateThreadModal() {
 
 
                 <div className={`mt-2 flex border-b border-[--theme-default-border-color] text-lg`}>
-                    <button  className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
-                    <button  className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
+                    <button onClick={() => setIsPostActive(false)} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2  ${!isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إضافة سؤال</button>
+                    <button onClick={() => setIsPostActive(true)} className={`hover:bg-[--theme-secondary-bg-color-hover] transition w-1/2 py-3 border-b-2 ${isPostActive ? 'border-[--theme-button-border-color]' : 'border-transparent'}`}>إنشاء منشور</button>
                 </div>
 
                 <div className={`px-4`}>
@@ -228,8 +229,17 @@ export default function CreateThreadModal() {
 
                 <div className={`p-4 relative `}>
                     <div className={`w-full flex justify-end gap-x-2`}>
-                        <button onClick={() => setIsCreatThreadModalOpen(false)} className={`hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}>إالغاء</button>
-                        <button onClick={submitForm} disabled={!data.video && !data.image && !data.title} className={`rounded-full px-4 py-1 bg-[--theme-button-border-color] ${!data.video && !data.image && !data.title ? 'opacity-40' : ''}`}>{isPostActive ? 'نشر' : 'أضف سؤال'}</button>
+                        <Button
+                            onClick={() => setIsCreatThreadModalOpen(false)}
+                            content={`إالغاء`}
+                            custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}
+                        />
+                        <Button
+                            disabled={!data.video && !data.image && !data.title}
+                            onClick={submitForm}
+                            custom_styles={`${!data.video && !data.image && !data.title ? 'opacity-40' : ''}`}
+                            content={isPostActive ? 'نشر' : 'أضف سؤال'}
+                        />
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>

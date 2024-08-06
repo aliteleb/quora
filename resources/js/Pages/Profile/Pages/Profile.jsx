@@ -1,0 +1,39 @@
+import React, {useState} from 'react'
+import Master from "@/Layouts/Master.jsx";
+import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
+import Header from "@/Pages/Profile/Layouts/Header.jsx";
+import {Head} from "@inertiajs/react";
+import ContentHeader from "@/Pages/Profile/Components/ContentHeader/ContentHeader.jsx";
+
+export default function Profile() {
+
+    const [isActive, setIsActive] = useState({
+        profile: true,
+        answers: false,
+        questions: false,
+        posts: false,
+        followers: false,
+        following: false,
+    });
+
+
+
+    return (
+        <Master>
+            <Head title={``}/>
+
+            <div className={`flex flex-col text-[--theme-body-color] container max-w-screen-xl mx-auto rounded z-10 relative`}>
+                <div className={`flex justify-between gap-x-10`}>
+                    <div className={`w-[70%]`}>
+                        <Header/>
+
+                        <ContentHeader isActive={isActive} setIsActive={setIsActive}/>
+                    </div>
+
+                    <Sidebar/>
+                </div>
+
+            </div>
+        </Master>
+    )
+}
