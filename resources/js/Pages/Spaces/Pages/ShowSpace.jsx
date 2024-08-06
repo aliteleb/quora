@@ -164,17 +164,18 @@ export default function ShowSpace() {
     ))
 
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const section = isActive.posts ? 'posts' : 'question'
     const handleFilterTypeSelect = (e) => {
         setFilterType(e.target.value);
         setIsFilterDropdownOpen(false);
-        e.target.value === 'most_popular' ? filterPosts('most_popular') : filterPosts('most_recent');
+        e.target.value === 'most_popular' ? filterThreads(section, 'most_popular') : filterThreads(section, 'most_recent');
     };
-    const filterPosts = (filter_type) => {
-        router.get(`/spaces/filter/posts/${filter_type}/${space?.id}`, {}, {
+    const filterThreads = (section, filter_type) => {
+        router.get(`/spaces/filter/${section}/${filter_type}/${space?.id}`, {}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                setPosts(res.props.threads.data);
+                section === 'posts' ? setPosts(res.props.threads.data) : setQuestions(res.props.threads.data);
                 setFilteredNextPageUrl(res.props.threads.links.next);
             }
         });
@@ -256,7 +257,6 @@ export default function ShowSpace() {
                                     setIsFilterDropdownOpen={setIsFilterDropdownOpen}
                                     filterType={filterType}
                                     handleFilterTypeSelect={handleFilterTypeSelect}
-                                    filterPosts={filterPosts}
                                 />
                             </div>
                             <div className={`flex flex-col-reverse gap-y-10 ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
@@ -281,7 +281,11 @@ export default function ShowSpace() {
                                 {isActive.questions &&
                                     <SpaceQuestions
                                         questions={questions}
+                                        setQuestions={setQuestions}
                                         ref={lastQuestionRef}
+                                        filteredNextPageUrl={filteredNextPageUrl}
+                                        setFilteredNextPageUrl={setFilteredNextPageUrl}
+                                        filterType={filterType}
                                     />
                                 }
                             </div>
