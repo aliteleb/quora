@@ -1,4 +1,4 @@
-import React from 'react';
+import {memo} from 'react';
 import { LuPlus } from "react-icons/lu";
 import { useApp } from "@/AppContext/AppContext.jsx";
 
@@ -38,4 +38,4 @@ function Footer() {
     );
 }
 
-export default React.memo(Footer);
+export default memo(Footer);
