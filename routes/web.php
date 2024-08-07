@@ -41,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
+    Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
 });
 
 // Public Routes
@@ -53,11 +54,7 @@ Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
-Route::get('/profile/{username}/{id}', [ProfileController::class, 'index'])->name('profile.index');
-
-
-
-
+Route::get('/profile/{username}', [ProfileController::class, 'index'])->name('profile.index');
 
 
 //require __DIR__.'/auth.php';
