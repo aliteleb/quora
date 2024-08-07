@@ -29,6 +29,8 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
         router.get('/logout')
     }
 
+    const username = user?.name?.toLowerCase().replace(/\s+/g, '-');
+
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
             <div ref={dropDownRef} className={`dropdown-clip-path-responsive md:dropdown-clip-path absolute left-1/2 top-11 md:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] w-64 pt-6 py-3 z-50`}>
@@ -41,7 +43,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                     leaveTo="opacity-0"
                     as={'div'}
                 >
-                    <Link href={`/profile/${user?.id}`}>
+                    <Link href={`/profile/${username}/${user?.id}`}>
                         <div className={`grid grid-cols-2 items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] py-2 px-3`}>
                             <div className={`flex items-center gap-x-4 w-max`}>
                                 {user?.avatar &&

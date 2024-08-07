@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
-import {Head} from "@inertiajs/react";
+import {Head, router} from "@inertiajs/react";
 
 export default function Profile() {
 
@@ -15,6 +15,11 @@ export default function Profile() {
         following: false,
     });
 
+    const [userInfo, setUserInfo] = useState({});
+
+    // const getUserInfo = () => {
+    //     router.get(`/profile/${}`)
+    // }
 
 
     return (
