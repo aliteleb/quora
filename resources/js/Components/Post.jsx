@@ -1,19 +1,15 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill } from "react-icons/pi";
-import { FaCloudUploadAlt, FaRegComment } from "react-icons/fa";
+import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
-import { useApp } from "@/AppContext/AppContext.jsx";
-import { router, useForm, usePage } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
-import Input from "@/Core/Input.jsx";
-import { RiImageAddLine } from "react-icons/ri";
 import Comment from "@/Components/Comment.jsx";
-import { HiMiniXMark } from "react-icons/hi2";
 import AddComment from "@/Components/AddComment.jsx";
+import PostDropdown from "@/Components/PostDropdown.jsx";
 
-const Post = forwardRef(({ thread, customStyles }, ref) => {
-    const { user } = useApp();
+const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => {
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
@@ -24,6 +20,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
     const [nextPageUrl, setNextPageUrl] = useState('');
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
+    const [isPostDropdownOpen, setIsPostDropdownOpen] = useState(false);
 
     const { data, setData, post, reset } = useForm({
         body: '',
@@ -181,8 +178,19 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                         <span>{thread.created_at}</span>
                     </div>
                 </div>
-                <div className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
-                    <RxDotsHorizontal className={`size-5`} />
+                <div onClick={() => setIsPostDropdownOpen(!isPostDropdownOpen)} className={`relative h-fit cursor-pointer`}>
+                    <div className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
+                        <RxDotsHorizontal className={`size-5`} />
+                    </div>
+                    {isPostDropdownOpen &&
+                        <PostDropdown
+                            isPostDropdownOpen={isPostDropdownOpen}
+                            setIsPostDropdownOpen={setIsPostDropdownOpen}
+                            id={thread.id}
+                            setThreads={setThreads}
+                            threads={threads}
+                        />
+                    }
                 </div>
             </header>
             <main className={`flex flex-col gap-y-3`}>
@@ -246,7 +254,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                         />
                     }
                     {openCommentsLoading ||
-                        <div className={`flex justify-center py-5 bg-[--theme-comment-bg-color]`}>
+                        <div className={`flex justify-center py-5 bg-[--theme-input-bg-color]`}>
                             <div className='flex space-x-2 justify-center items-center'>
                                 <span className='sr-only'>Loading...</span>
                                 <div
@@ -257,7 +265,7 @@ const Post = forwardRef(({ thread, customStyles }, ref) => {
                             </div>
                         </div>}
                     {/* عرض التعليقات */}
-                    <div className={`bg-[--theme-comment-bg-color] ${nextPageUrl ? 'pb-3' : ''}`}>
+                    <div className={`bg-[--theme-input-bg-color] ${nextPageUrl ? 'pb-3' : ''}`}>
                         {show_comments}
                         {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[--theme-main-bg-color] w-full py-3 mt-3`}>
                             {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}

@@ -105,9 +105,12 @@ class ThreadController extends Controller implements HasMedia
         }
     }
 
-    public function deletePost()
+    public function deletePost($id)
     {
-        
+        $thread = Thread::find($id);
+        if ($thread) {
+            $thread->delete();
+        }
     }
 
 
