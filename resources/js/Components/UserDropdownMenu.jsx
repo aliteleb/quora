@@ -5,6 +5,7 @@ import {BsBarChart, BsChevronLeft} from "react-icons/bs";
 import {Transition, TransitionChild} from "@headlessui/react";
 import {Link, router} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
+import {convertUsername} from "@/Utilities/ConvertUsername.js";
 
 
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
@@ -29,7 +30,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
         router.get('/logout')
     }
 
-    const username = user?.name?.toLowerCase().replace(/\s+/g, '-');
+    const username = convertUsername(user?.name);
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">

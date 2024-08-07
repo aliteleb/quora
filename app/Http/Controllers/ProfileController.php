@@ -4,19 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function index($id)
+    public function index($username, $id)
     {
-        return InertiaResponse::render('Profile/Pages/Profile');
+        $user = User::find($id);
+        $user = new UserResource($user);
+        return InertiaResponse::render('Profile/Pages/Profile', ['data' => $user]);
     }
     public function edit(Request $request): Response
     {

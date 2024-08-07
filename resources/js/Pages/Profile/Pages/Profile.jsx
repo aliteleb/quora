@@ -1,11 +1,15 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
 import {Head, router} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
+import {convertUsername} from "@/Utilities/ConvertUsername.js";
+import useUserInfo from "@/Hooks/useUserInfo.js";
 
 export default function Profile() {
-
+    const { user } = useApp();
+    const { getUserInfo } = useUserInfo();
     const [isActive, setIsActive] = useState({
         profile: true,
         answers: false,
@@ -15,11 +19,11 @@ export default function Profile() {
         following: false,
     });
 
-    const [userInfo, setUserInfo] = useState({});
+    const username = convertUsername(user?.name)
 
-    // const getUserInfo = () => {
-    //     router.get(`/profile/${}`)
-    // }
+    useEffect(() => {
+        getUserInfo(username, user?.id)
+    }, []);
 
 
     return (
