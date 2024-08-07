@@ -44,10 +44,10 @@ export default function FilterPosts({
                     as="div"
                 >
                     <main id="drop">
-                        <div className="w-60 border-b border-[--theme-default-border-color] hover:bg-[--theme-nav-bg-color-hover]">
+                        <div className="w-40 hover:bg-[--theme-nav-bg-color-hover]">
                             <label
                                 htmlFor="most_popular"
-                                className={`grid grid-cols-[5fr_0.5fr] items-center gap-x-2 cursor-pointer p-3`}
+                                className={`grid grid-cols-[5fr_0.5fr] items-center gap-x-2 cursor-pointer px-3 py-2`}
                             >
                                 <span className="text-sm text-right">الأكثر تفاعلا</span>
                                 <input
@@ -65,10 +65,10 @@ export default function FilterPosts({
 
                             </label>
                         </div>
-                        <div className="w-60 border-b border-[--theme-default-border-color] hover:bg-[--theme-nav-bg-color-hover]">
+                        <div className="w-40 hover:bg-[--theme-nav-bg-color-hover]">
                             <label
                                 htmlFor="most_recent"
-                                className={`grid grid-cols-[5fr_0.5fr] items-center gap-x-2 cursor-pointer p-3`}
+                                className={`grid grid-cols-[5fr_0.5fr] items-center gap-x-2 cursor-pointer px-3 py-2`}
                             >
                                 <span className="text-sm text-right">الأحدث</span>
                                 <input

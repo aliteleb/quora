@@ -10,6 +10,7 @@ import {MdDone} from "react-icons/md";
 import SpaceQuestions from "@/Pages/Spaces/Partials/SpaceQuestions.jsx";
 import RecommendedSpace from "@/Pages/Spaces/Components/RecommendedSpace.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
+import Button from "@/Core/Button.jsx";
 
 export default function ShowSpace() {
 
@@ -247,11 +248,13 @@ export default function ShowSpace() {
                     <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'}`}>
                         <div className={`w-full flex flex-col gap-y-3`}>
                             <div className={`relative`}>
-                                <button onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)} className={`flex items-center gap-x-2`}>
-                                    <IoIosTrendingUp />
-                                    <span>{filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}</span>
-                                    <IoChevronDownOutline />
-                                </button>
+                                <Button
+                                    content={filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}
+                                    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                    isDropDown={true}
+                                    custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
+                                />
+
                                 <FilterPosts
                                     isFilterDropdownOpen={isFilterDropdownOpen}
                                     setIsFilterDropdownOpen={setIsFilterDropdownOpen}

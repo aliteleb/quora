@@ -23,7 +23,6 @@ const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilte
                     setFilteredNextPageUrl(res.props.threads.links.next);
                     setIsPostsFetching(false)
                 },
-
             });
         }
     };
@@ -31,8 +30,6 @@ const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilte
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isPostsFetching && filteredNextPageUrl) {
-                console.log('called')
-
                 loadNextPosts(filteredNextPageUrl);
             }
         }, {
@@ -54,7 +51,7 @@ const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilte
 
     const show_posts = posts.map((post, index) => (
         <Post
-            key={post.id}
+            key={index}
             thread={post}
             ref={index === posts.length - 1 ? ref : null}
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === posts.length - 1 ? 'pb-14 sm:pb-3' : ''}`}
