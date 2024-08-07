@@ -17,7 +17,7 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function index($username, $id)
+    public function showUser($username, $id)
     {
         $user = User::find($id);
         $user = new UserResource($user);

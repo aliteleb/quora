@@ -105,5 +105,10 @@ class ThreadController extends Controller implements HasMedia
         }
     }
 
+    public function deletePost()
+    {
+        
+    }
+
 
 }
