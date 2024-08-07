@@ -5,7 +5,6 @@ import {BsBarChart, BsChevronLeft} from "react-icons/bs";
 import {Transition, TransitionChild} from "@headlessui/react";
 import {Link, router} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
-import {convertUsername} from "@/Utilities/ConvertUsername.js";
 
 
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
@@ -30,7 +29,6 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
         router.get('/logout')
     }
 
-    const username = convertUsername(user?.name);
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
@@ -44,7 +42,7 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                     leaveTo="opacity-0"
                     as={'div'}
                 >
-                    <Link href={`/profile/${username}/${user?.id}`}>
+                    <Link href={`/profile/${user?.username}`}>
                         <div className={`grid grid-cols-2 items-center gap-x-36 hover:bg-[--theme-nav-bg-color-hover] py-2 px-3`}>
                             <div className={`flex items-center gap-x-4 w-max`}>
                                 {user?.avatar &&

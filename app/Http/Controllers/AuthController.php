@@ -19,7 +19,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->only(['name', 'email', 'password']));
+        $user = User::create($request->validated());
         Auth::loginUsingId($user->id);
         return InertiaResponse::back($user);
     }

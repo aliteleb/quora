@@ -31,7 +31,7 @@ class SpaceResource extends JsonResource
             $media['cover'] = $space_cover_image;
         }
 
-        $user_followed_spaces = auth()->user()->followSpace;
+        $user_followed_spaces = auth()->user()->followedSpaces;
         $is_followed = false;
         foreach ($user_followed_spaces as $space) {
             if ($space->pivot->space_id === $this->id) {

@@ -9,6 +9,7 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
 
     const { data, setData, post, errors, reset } = useForm({
         name: '',
+        username: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -54,13 +55,25 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
 
                     <div className={`mt-5 flex flex-col gap-y-2`}>
                         <Input
-                            placeholder={`بريدك الالكترونى`}
+                            placeholder={`اسم المستخدم`}
+                            onChange={e => setData('username', e.target.value)}
+                            name={'username'}
+                            value={data.username}
+                            label={`اسم المستخدم`}
+                            error={errors.username}
+                            id={'username'}
+                        />
+                    </div>
+
+                    <div className={`mt-5 flex flex-col gap-y-2`}>
+                        <Input
+                            placeholder={`بريدك الإلكتروني`}
                             onChange={e => setData('email', e.target.value)}
                             name={'email'}
                             value={data.email}
                             label={`البريد الإلكترونى`}
                             error={errors.email}
-                            id={'register_email'}
+                            id={'email'}
                         />
                     </div>
 

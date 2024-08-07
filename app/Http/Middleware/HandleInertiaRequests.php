@@ -36,7 +36,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         if (auth()->user()) {
-            $followed_spaces = auth()->user()->followSpace->take(10);
+            $followed_spaces = auth()->user()->followedSpaces->take(10);
             $followed_spaces = FollowedSpacesResource::collection($followed_spaces);
         }
 

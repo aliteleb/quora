@@ -2,14 +2,14 @@ import React, {useEffect, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
-import {Head, router} from "@inertiajs/react";
+import {Head, router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
-import {convertUsername} from "@/Utilities/ConvertUsername.js";
 import useUserInfo from "@/Hooks/useUserInfo.js";
 
 export default function Profile() {
     const { user } = useApp();
-    const { getUserInfo } = useUserInfo();
+    const { props } = usePage();
+
     const [isActive, setIsActive] = useState({
         profile: true,
         answers: false,
@@ -18,13 +18,6 @@ export default function Profile() {
         followers: false,
         following: false,
     });
-
-    const username = convertUsername(user?.name)
-
-    useEffect(() => {
-        getUserInfo(username, user?.id)
-    }, []);
-
 
     return (
         <Master>

@@ -17,9 +17,16 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
-    public function showUser($username, $id)
+    public function showUser($username)
     {
-        $user = User::find($id);
+        $user = User::whereUsername($username)
+            ->select(['name', 'bio', 'username'])
+            ->withCount('posts', 'answers', 'followedSpaces', 'questions')
+            ->first();
+        if (!$user) {
+            abort(404);
+        }
+
         $user = new UserResource($user);
         return InertiaResponse::render('Profile/Pages/Profile', ['data' => $user]);
     }

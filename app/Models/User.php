@@ -21,6 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'username',
         'password',
     ];
 
@@ -29,13 +30,31 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Topic::class);
     }
-
+    public function threads(): HasMany
+    {
+        return $this->hasMany(Thread::class);
+    }
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Thread::class)->where('type', 'question');
+    }
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Thread::class)->where('type', 'post');
+    }
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
-
-    public function followSpace()
+    public function space(): BelongsToMany
+    {
+        return $this->belongsToMany(Space::class);
+    }
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function followedSpaces()
     {
         return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id');
     }
