@@ -16,7 +16,7 @@ export default function Profile() {
         followers: false,
         following: false,
     });
-    const [profileUserInfo, setProfileUserInfo] = useState(props.data.data);
+    const [profileUserInfo, setProfileUserInfo] = useState(props.user.data);
 
     return (
         <Master>

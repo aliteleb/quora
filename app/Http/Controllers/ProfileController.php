@@ -28,11 +28,16 @@ class ProfileController extends Controller
         }
 
         $is_followed = $user->followedUser;
-//        $is_followed = count($is_followed) > 0;
+        $is_followed = count($is_followed) > 0;
         Log::info('follow', array($is_followed));
 
         $user = new UserResource($user);
-        return InertiaResponse::render('Profile/Pages/Profile', ['data' => $user]);
+        $data = [
+            'user' => $user,
+            'is_followed' => $is_followed
+        ];
+
+        return InertiaResponse::render('Profile/Pages/Profile', $data);
     }
     public function edit(Request $request): Response
     {

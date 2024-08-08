@@ -8,7 +8,7 @@ import {followUser} from "@/Utilities/followUser.js";
 
 export default function Header({isActive, setIsActive, profileUserInfo}) {
     const {props} = usePage()
-    const [user, setUser] = useState(props?.data?.data);
+    const [user, setUser] = useState(props?.user?.data);
     const [isUserFollowed, setIsUserFollowed] = useState(false);
 
     const handleClickOnButton = (e) => {
