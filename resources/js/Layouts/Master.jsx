@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react'
-import {IoHomeOutline, IoNotificationsOutline} from "react-icons/io5";
+import {IoHomeOutline, IoNotificationsOutline, IoSearchOutline} from "react-icons/io5";
 import { FaChevronDown, FaEdit, FaUsers} from "react-icons/fa";
 import {Link} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
@@ -10,6 +10,9 @@ import CreateDropdownMenu from "@/Components/CreateDropdownMenu.jsx";
 import SpaceModal from "@/Pages/Auth/Components/SpaceModal.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
+import Input from "@/Core/Input.jsx";
+import {RiGlobalLine} from "react-icons/ri";
+import Search from "@/Components/Search.jsx";
 
 function Master({children}) {
 
@@ -52,14 +55,8 @@ function Master({children}) {
                                 </Link>
                             </div>
 
-                            <div className={`flex-grow relative`}>
-                                <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--theme-placeholder-color]`}/>
-                                <input
-                                    type="text"
-                                    className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-default-border-color] placeholder:absolute placeholder:right-8 placeholder:text-[--theme-placeholder-color]`}
-                                    placeholder={'البحث عن Quora'}
-                                />
-                            </div>
+                           <Search className={`flex-grow relative`}/>
+
                         </ul>
                         <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
 
@@ -69,7 +66,7 @@ function Master({children}) {
                                     className={`w-10`}
                                 >
                                     {user?.avatar && <img src={``} className={`size-9 rounded-full cursor-pointer pointer-events-none`}/>}
-                                    {(!user?.avatar && user) && <DefaultUserIcon id={`userDropdown`} />}
+                                    {(!user?.avatar && user) && <DefaultUserIcon id={`userDropdown`}/>}
                                 </button>
 
                                 <UserDropdownMenu
