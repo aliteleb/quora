@@ -3,9 +3,10 @@ import {FiEdit} from "react-icons/fi";
 import Button from "@/Core/Button.jsx";
 import ProfileButton from "@/Pages/Profile/Components/ProfileButton.jsx";
 import {router, usePage} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function Header({isActive, setIsActive}) {
-
+    const { isUserFollowed, setIsUserFollowed } = useApp()
     const {props} = usePage()
     const [user, setUser] = useState(null);
 
@@ -39,10 +40,6 @@ export default function Header({isActive, setIsActive}) {
 
     const active_label = Object.keys(isActive).find(key => isActive[key]);
 
-    const follow = () => {
-        router.post(``)
-    }
-
     return (
         <>
             <div className={`py-2 flex gap-x-4 w-full`}>
@@ -63,7 +60,12 @@ export default function Header({isActive, setIsActive}) {
                             <span> يتابع 0</span>
                         </div>
                         <div className={`flex gap-x-2`}>
-                            <Button content={`متابعة`}/>
+                            <Button
+                                content={isUserFollowed ? 'تمت المتابعة' : 'متابعة'}
+                                custom_styles={`border ${!isUserFollowed ? 'border-transparent' : 'bg-transparent'} `}
+                                isTypeFollow={true}
+                                isFollowed={isUserFollowed}
+                            />
                             <Button content={`حظر`} custom_styles={`bg-[--theme-primary-button-color]`}/>
                         </div>
                     </div>

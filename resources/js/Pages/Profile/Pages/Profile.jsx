@@ -4,7 +4,7 @@ import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
-import useUserInfo from "@/Hooks/useUserInfo.js";
+import useFollowUser from "@/Hooks/useFollowUser.js";
 
 export default function Profile() {
     const { user } = useApp();

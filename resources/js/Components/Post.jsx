@@ -3,13 +3,17 @@ import { PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill } fr
 import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
-import { router, useForm } from "@inertiajs/react";
+import {Link, router, useForm} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Comment from "@/Components/Comment.jsx";
 import AddComment from "@/Components/AddComment.jsx";
 import PostDropdown from "@/Components/PostDropdown.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => {
+
+    const { user } = useApp()
+
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
@@ -166,13 +170,13 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
-                    <div>
+                    <Link href={`/profile/${thread.user?.username}`}>
                         {thread.user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer`} />}
                         {(!thread.user?.avatar && thread.user) && <DefaultUserIcon />}
-                    </div>
+                    </Link>
                     <div>
                         <div className={`font-bold`}>
-                            <span className={`cursor-pointer`}>{thread.user?.name} · </span>
+                            <Link href={`/profile/${thread.user?.username}`} className={`cursor-pointer`}>{thread.user?.name} · </Link>
                             <span className={`text-[--theme-button-border-color] cursor-pointer hover:underline`}>متابعة</span>
                         </div>
                         <span>{thread.created_at}</span>

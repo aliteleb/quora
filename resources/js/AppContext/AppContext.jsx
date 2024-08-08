@@ -11,6 +11,7 @@ const AppProvider = ({children}) => {
     const [isSpaceModalOpen, setIsSpaceModalOpen] = useState(false)
     const [isPostActive, setIsPostActive] = useState(false)
     const [profileUserInfo, setProfileUserInfo] = useState({});
+    const [isUserFollowed, setIsUserFollowed] = useState(false);
     const setSettings = (newState) => {
         setAppInfo(prevState => ({
             ...prevState,
@@ -42,6 +43,8 @@ const AppProvider = ({children}) => {
                 user: appInfo.user,
                 profileUserInfo,
                 setProfileUserInfo,
+                isUserFollowed,
+                setIsUserFollowed,
             }}
         >
             {children}

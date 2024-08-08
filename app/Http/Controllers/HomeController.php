@@ -13,18 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-//        $user = auth()->user();
-//        $topics = $user?->topics ?? collect();
-//
-//        $context = [
-//            'topics' => TopicResource::collection(Topic::all())
-//        ];
-//
-//        if ($user && $topics->count() === 0) {
-//            return InertiaResponse::route('select_topics', [], $context);
-//        }
-
-        $threads = Thread::latest()->paginate(5);
+        $threads = Thread::where('user_id', '!=', auth()->id())->latest()->paginate(5);
         $data = [
             'threads' => ThreadResource::collection($threads),
         ];
