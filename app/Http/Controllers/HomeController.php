@@ -13,16 +13,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
-        $topics = $user?->topics ?? collect();
-
-        $context = [
-            'topics' => TopicResource::collection(Topic::all())
-        ];
-
-        if ($user && $topics->count() === 0) {
-            return InertiaResponse::route('select_topics', [], $context);
-        }
+//        $user = auth()->user();
+//        $topics = $user?->topics ?? collect();
+//
+//        $context = [
+//            'topics' => TopicResource::collection(Topic::all())
+//        ];
+//
+//        if ($user && $topics->count() === 0) {
+//            return InertiaResponse::route('select_topics', [], $context);
+//        }
 
         $threads = Thread::latest()->paginate(5);
         $data = [

@@ -4,8 +4,11 @@ import Input from "@/Core/Input.jsx";
 
 import React, {useState} from 'react'
 import {useForm} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function RegistrationModal({isRegisterModalOpen, setIsRegisterModalOpen}) {
+
+    const { setUser } = useApp();
 
     const { data, setData, post, errors, reset } = useForm({
         name: '',
@@ -18,7 +21,8 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
     const submitRegister = (e) => {
         e.preventDefault()
         post('/register', {
-            onSuccess: () => {
+            onSuccess: (res) => {
+                setUser(res.props.auth.user)
                 setIsRegisterModalOpen(false)
                 reset()
             },

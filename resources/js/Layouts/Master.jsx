@@ -30,13 +30,13 @@ function Master({children}) {
                     <CreateThreadModal />
 
                     <nav className={`flex flex-row xl:gap-x-6 h-14 lg:gap-x-4 gap-x-2 px-2 items-center lg:justify-between sm:justify-around text-[#e6e7e8]`}>
-                        <Link href={`/`} className={`select-none outline-0 border-none shadow-none`}>
+                        <Link href={`/`} className={`select-none outline-0 border-none shadow-none`} data-select={true}>
                             <img src={settings.logo}
                                   alt="logo"
                                   className={`h-6`}
                             />
                         </Link>
-                        <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `}>
+                        <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `} data-select={true}>
                             <div className={`sm:flex gap-x-1 hidden`}>
                                 <Link href={`/`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
@@ -82,6 +82,7 @@ function Master({children}) {
                                 id={`createDropdown`}
                                 onClick={!user ? redirectToLogin : () => setIsCreateDropdownMenuOpen(!isCreateDropdownMenuOpen)}
                                 className={`relative hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-fit`}
+                                data-select={true}
                             >
                                 {user ? 'إنشاء' : 'تسجيل دخول'}
                                 {user && <FaChevronDown id={`createDropdown`}/>}

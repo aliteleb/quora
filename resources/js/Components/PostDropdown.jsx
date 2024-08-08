@@ -18,7 +18,6 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
             window.removeEventListener('mousedown', handleClickOutside)
         }
     }, []);
-
     const deletePost = () => {
         router.delete(`/posts/${id}`, {
             preserveScroll: true,

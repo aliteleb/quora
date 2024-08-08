@@ -23,7 +23,6 @@ export default function FilterPosts({
         };
     }, []);
 
-
     return (
         <Transition
             enter="duration-500 transition"
@@ -44,6 +43,7 @@ export default function FilterPosts({
                     as="div"
                 >
                     <main id="drop">
+
                         <div className="w-40 hover:bg-[--theme-nav-bg-color-hover]">
                             <label
                                 htmlFor="most_popular"

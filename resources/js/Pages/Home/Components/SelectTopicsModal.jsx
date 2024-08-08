@@ -5,7 +5,8 @@ import {IoWarningOutline} from "react-icons/io5";
 export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
 
     const { props } = usePage();
-    const { data, setData, post, errors } = useForm({topics: []})
+
+    const { data, setData, post } = useForm({topics: []})
 
     const [loaded, setLoaded] = useState(false)
     const [topics, setTopics] = useState(null)
