@@ -4,15 +4,12 @@ import Button from "@/Core/Button.jsx";
 import ProfileButton from "@/Pages/Profile/Components/ProfileButton.jsx";
 import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
+import {followUser} from "@/Utilities/followUser.js";
 
-export default function Header({isActive, setIsActive}) {
-    const { isUserFollowed, setIsUserFollowed } = useApp()
+export default function Header({isActive, setIsActive, profileUserInfo}) {
     const {props} = usePage()
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        setUser(props?.data?.data)
-    }, []);
+    const [user, setUser] = useState(props?.data?.data);
+    const [isUserFollowed, setIsUserFollowed] = useState(false);
 
     const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
@@ -61,6 +58,7 @@ export default function Header({isActive, setIsActive}) {
                         </div>
                         <div className={`flex gap-x-2`}>
                             <Button
+                                onClick={() => followUser(profileUserInfo.id, setIsUserFollowed)}
                                 content={isUserFollowed ? 'تمت المتابعة' : 'متابعة'}
                                 custom_styles={`border ${!isUserFollowed ? 'border-transparent' : 'bg-transparent'} `}
                                 isTypeFollow={true}

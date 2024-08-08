@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class UserController extends Controller
 {
-    public function follow($id)
+    public function follow($type, $id)
     {
+        $user = auth()->user();
+
+        if ($type !== 'unfollow') {
+            $user->followerUser()->syncWithoutDetaching($id);
+        } else {
+            $user->followerUser()->detach($id);
+        }
 
     }
 }

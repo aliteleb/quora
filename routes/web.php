@@ -8,7 +8,6 @@ use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\EnsureUserSelectTopic;
 use App\Http\Middleware\RedirectWhenAuthenticated;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -47,7 +46,7 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
-    Route::post('/users/follow/{id}', [UserController::class, 'follow'])->name('user.follow');
+    Route::post('/users/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
 });
 
 Route::middleware(['select.topic'])->group(function () {
@@ -57,8 +56,6 @@ Route::middleware(['select.topic'])->group(function () {
     Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
     Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
 });
-
-
 
 // Public Routes
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {

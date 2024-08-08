@@ -20,12 +20,16 @@ class ProfileController extends Controller
     public function showUser($username)
     {
         $user = User::whereUsername($username)
-            ->select(['name', 'bio', 'username'])
+            ->select(['name', 'bio', 'username', 'id'])
             ->withCount('posts', 'answers', 'followedSpaces', 'questions')
             ->first();
         if (!$user) {
             abort(404);
         }
+
+        $is_followed = $user->followedUser;
+//        $is_followed = count($is_followed) > 0;
+        Log::info('follow', array($is_followed));
 
         $user = new UserResource($user);
         return InertiaResponse::render('Profile/Pages/Profile', ['data' => $user]);

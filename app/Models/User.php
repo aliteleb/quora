@@ -59,6 +59,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id');
     }
 
+    public function followerUser()
+    {
+        return $this->belongsToMany(User::class, 'follow_user', 'user_id', 'followed_id');
+    }
+
+    public function followedUser()
+    {
+        return $this->belongsToMany(User::class, 'follow_user', 'followed_id', 'user_id');
+    }
+
 //    public function isFollowedSpace()
 //    {
 //        return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id')

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Log;
 
 class UserResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class UserResource extends JsonResource
             'answers_count' => $this->answers_count,
             'followed_spaces_count' => $this->followed_spaces_count,
             'created_at' => $this->created_at,
+
         ];
     }
 }
