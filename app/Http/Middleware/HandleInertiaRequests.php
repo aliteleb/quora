@@ -40,7 +40,6 @@ class HandleInertiaRequests extends Middleware
             $followed_spaces = FollowedSpacesResource::collection($followed_spaces);
         }
 
-
         $settings = settings();
         return [
             ...parent::share($request),

@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
-Route::middleware(['auth', EnsureUserSelectTopic::class])->group(function () {
+Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -50,13 +50,7 @@ Route::middleware(['auth', EnsureUserSelectTopic::class])->group(function () {
     Route::post('/users/follow/{id}', [UserController::class, 'follow'])->name('user.follow');
 });
 
-// Public Routes
-Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
-    Route::get('/account', [AuthController::class, 'index'])->name('account');
-    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-});
-Route::middleware(EnsureUserSelectTopic::class)->group(function () {
+Route::middleware(['select.topic'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
     Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
@@ -65,5 +59,12 @@ Route::middleware(EnsureUserSelectTopic::class)->group(function () {
 });
 
 
+
+// Public Routes
+Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
+    Route::get('/account', [AuthController::class, 'index'])->name('account');
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+});
 
 //require __DIR__.'/auth.php';
