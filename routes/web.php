@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpaceController;
 use App\Http\Controllers\ThreadController;
 use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\EnsureUserSelectTopic;
 use App\Http\Middleware\RedirectWhenAuthenticated;
 use Illuminate\Foundation\Application;
@@ -46,6 +47,7 @@ Route::middleware(['auth', EnsureUserSelectTopic::class])->group(function () {
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
+    Route::post('/users/follow/{id}', [UserController::class, 'follow'])->name('user.follow');
 });
 
 // Public Routes

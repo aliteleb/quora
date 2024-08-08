@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {FiEdit} from "react-icons/fi";
 import Button from "@/Core/Button.jsx";
 import ProfileButton from "@/Pages/Profile/Components/ProfileButton.jsx";
-import {usePage} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 
 export default function Header({isActive, setIsActive}) {
 
@@ -37,8 +37,11 @@ export default function Header({isActive, setIsActive}) {
         following: 'يتابع'
     };
 
-
     const active_label = Object.keys(isActive).find(key => isActive[key]);
+
+    const follow = () => {
+        router.post(``)
+    }
 
     return (
         <>
@@ -53,7 +56,7 @@ export default function Header({isActive, setIsActive}) {
                         <h1 className={`text-3xl font-bold`}>{user?.name}</h1>
                         <Button content={`تعديل`} custom_styles={`p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
                     </div>
-                    <div className={`${!user.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{user?.bio ? user.bio : 'Bio'}</div>
+                    <div className={`${!user?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{user?.bio ? user.bio : 'نبذة'}</div>
                     <div className={`flex justify-between `}>
                         <div>
                             <span>0 متابعين · </span>
