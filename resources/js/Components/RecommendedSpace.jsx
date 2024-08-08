@@ -4,7 +4,7 @@ import {Link, router} from "@inertiajs/react";
 export default function RecommendedSpace({name, description, slug, status, cover, poster}) {
 
     return (
-        <Link href={`/spaces/${slug}`} className={`bg-[--theme-main-bg-color] relative pb-4 ${description.length > 65 ? 'xs:pb-10 xl:pb-4' : ''} rounded hover:brightness-90`}>
+        <Link href={`/spaces/${slug}`} className={`bg-[--theme-main-bg-color] relative pb-4 ${description?.length > 65 ? 'xs:pb-10 xl:pb-4' : ''} rounded hover:brightness-90`}>
 
             <img
                 src={`${cover ? cover : '/spaces/space_cover_default_image_discover_spaces.webp'}`}
