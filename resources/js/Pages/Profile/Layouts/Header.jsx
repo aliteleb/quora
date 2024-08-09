@@ -10,10 +10,10 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
     const {props} = usePage()
     const { user } = useApp()
     const [userInfo, setUserInfo] = useState(props?.user?.data);
-    const [isFollowed, setIsFollowed] = useState(true);
+    const [isFollowed, setIsFollowed] = useState(props.is_followed);
     const [isDisabled, setIsDisabled] = useState(false);
 
-
+    console.log(props)
     const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {
@@ -58,8 +58,8 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
                     <div className={`${!userInfo?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{userInfo?.bio ? userInfo.bio : 'نبذة'}</div>
                     <div className={`flex justify-between `}>
                         <div>
-                            <span>0 متابعين · </span>
-                            <span> يتابع 0</span>
+                            <span>{props.user?.data.followers_count} متابعين · </span>
+                            <span> يتابع {props.user?.data.follow_count}</span>
                         </div>
                         {userInfo?.id !== user?.id &&
                             <div className={`flex gap-x-2`}>

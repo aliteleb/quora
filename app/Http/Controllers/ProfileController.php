@@ -10,7 +10,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -29,7 +28,6 @@ class ProfileController extends Controller
 
         $is_followed = $user->followedUser;
         $is_followed = count($is_followed) > 0;
-        Log::info('follow', array($is_followed));
 
         $user = new UserResource($user);
         $data = [
