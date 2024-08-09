@@ -40,7 +40,6 @@ export default function Header({isActive, setIsActive}) {
         }
     }
 
-    console.log(props)
     const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {

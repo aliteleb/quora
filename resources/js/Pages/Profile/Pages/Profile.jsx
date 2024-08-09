@@ -3,6 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
+import ProfileThreadsSection from "@/Pages/Profile/Components/ProfileThreadsSection.jsx";
 
 export default function Profile() {
 
@@ -17,6 +18,10 @@ export default function Profile() {
         following: false,
     });
 
+    const [threads, setThreads] = useState(props.threads.data);
+    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads.links.next);
+
+
     return (
         <Master>
             <Head title={``}/>
@@ -25,6 +30,12 @@ export default function Profile() {
                 <div className={`flex justify-between gap-x-10`}>
                     <div className={`w-[70%]`}>
                         <Header isActive={isActive} setIsActive={setIsActive}/>
+                        <ProfileThreadsSection
+                            threads={threads}
+                            setThreads={setThreads}
+                            threadsNextPageUrl={threadsNextPageUrl}
+                            setThreadsNextPageUrl={setThreadsNextPageUrl}
+                        />
                     </div>
 
                     <Sidebar/>

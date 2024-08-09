@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
+use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +19,12 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    protected function getProfileThreads($id)
+    {
+        $threads = Thread::where('user_id', $id)
+            ->whereNull('space_id')->paginate(2);
+        return ThreadResource::collection($threads);
+    }
     public function showUser($username)
     {
         $user = User::whereUsername($username)
@@ -29,13 +37,15 @@ class ProfileController extends Controller
 
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
         $is_blocked = $user->blockedUser()->where('user_id', auth()->id())->exists();
-        Log::info('block', array($is_blocked));
+
+        $threads = $this->getProfileThreads($user->id);
 
         $user = new UserResource($user);
         $data = [
             'user' => $user,
             'is_followed' => $is_followed,
             'is_blocked' => $is_blocked,
+            'threads' => $threads,
         ];
 
         return InertiaResponse::render('Profile/Pages/Profile', $data);
