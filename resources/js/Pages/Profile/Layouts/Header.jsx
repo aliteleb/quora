@@ -11,6 +11,7 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
     const { user } = useApp()
     const [userInfo, setUserInfo] = useState(props?.user?.data);
     const [isFollowed, setIsFollowed] = useState(true);
+    const [isDisabled, setIsDisabled] = useState(false);
 
 
     const handleClickOnButton = (e) => {
@@ -50,7 +51,7 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
                 <div className={`flex flex-col gap-y-2 w-full`}>
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
-                        {userInfo.id === user.id &&
+                        {userInfo.id === user?.id &&
                             <Button content={`تعديل`} custom_styles={`p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
                         }
                     </div>
@@ -63,7 +64,8 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
                         {userInfo?.id !== user?.id &&
                             <div className={`flex gap-x-2`}>
                                 <Button
-                                    onClick={() => followUser(profileUserInfo.id, setIsFollowed, isFollowed)}
+                                    disabled={isDisabled}
+                                    onClick={() => followUser(profileUserInfo.id, setIsFollowed, isFollowed, setIsDisabled)}
                                     content={isFollowed ? 'تمت المتابعة' : 'متابعة'}
                                     custom_styles={`border ${!isFollowed ? 'border-transparent' : 'bg-transparent'} `}
                                     isTypeFollow={true}

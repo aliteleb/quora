@@ -1,8 +1,8 @@
 import React from 'react'
 import {router} from "@inertiajs/react";
 
-export function followUser(id, setIsFollowed, isFollowed) {
-
+export function followUser(id, setIsFollowed, isFollowed, setIsDisabled) {
+    setIsDisabled(true)
     if (!isFollowed) {
         router.post(`/users/follow/${id}`, {}, {
             preserveScroll: true,
@@ -10,6 +10,7 @@ export function followUser(id, setIsFollowed, isFollowed) {
 
             onSuccess: () => {
                 setIsFollowed(true)
+                setIsDisabled(false)
             }
         })
     } else {
@@ -19,6 +20,7 @@ export function followUser(id, setIsFollowed, isFollowed) {
 
             onSuccess: () => {
                 setIsFollowed(false)
+                setIsDisabled(false)
             }
         })
     }

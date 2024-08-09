@@ -49,13 +49,11 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::post('/users/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
 });
 
-Route::middleware(['select.topic'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
-    Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
-    Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
-    Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
-});
+Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
+Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
+Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
+Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
 
 // Public Routes
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
