@@ -4,7 +4,7 @@ import {router} from "@inertiajs/react";
 export function followUser(id, setIsFollowed, isFollowed, setIsDisabled) {
     setIsDisabled(true)
     if (!isFollowed) {
-        router.post(`/users/follow/${id}`, {}, {
+        router.post(`/users/follow/follow/${id}`, {}, {
             preserveScroll: true,
             preserveState: true,
 
@@ -14,7 +14,7 @@ export function followUser(id, setIsFollowed, isFollowed, setIsDisabled) {
             }
         })
     } else {
-        router.post(`/users/unfollow/${id}`, {}, {
+        router.post(`/users/follow/unfollow/${id}`, {}, {
             preserveScroll: true,
             preserveState: true,
 

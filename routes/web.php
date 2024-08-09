@@ -46,7 +46,8 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
-    Route::post('/users/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
+    Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
+    Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index');

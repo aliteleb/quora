@@ -6,12 +6,39 @@ import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 
-export default function Header({isActive, setIsActive, profileUserInfo}) {
+export default function Header({isActive, setIsActive}) {
     const {props} = usePage()
     const { user } = useApp()
     const [userInfo, setUserInfo] = useState(props?.user?.data);
     const [isFollowed, setIsFollowed] = useState(props.is_followed);
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(props.is_blocked);
+    const [isBlockedBtnDisabled, setIsBlockedBtnDisabled] = useState(false);
+
+    const blockUser = () => {
+        setIsBlockedBtnDisabled(true)
+        if (!isBlocked) {
+            router.post(`/users/block/block/${userInfo?.id}`, {}, {
+                preserveScroll: true,
+                preserveState: true,
+
+                onSuccess: () => {
+                    setIsBlocked(true)
+                    setIsBlockedBtnDisabled(false)
+                }
+            })
+        } else {
+            router.post(`/users/block/unblock/${userInfo?.id}`, {}, {
+                preserveScroll: true,
+                preserveState: true,
+
+                onSuccess: () => {
+                    setIsBlocked(false)
+                    setIsBlockedBtnDisabled(false)
+                }
+            })
+        }
+    }
 
     console.log(props)
     const handleClickOnButton = (e) => {
@@ -64,14 +91,21 @@ export default function Header({isActive, setIsActive, profileUserInfo}) {
                         {userInfo?.id !== user?.id &&
                             <div className={`flex gap-x-2`}>
                                 <Button
-                                    disabled={isDisabled}
-                                    onClick={() => followUser(profileUserInfo.id, setIsFollowed, isFollowed, setIsDisabled)}
+                                    disabled={isFollowBtnDisabled}
+                                    onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
                                     content={isFollowed ? 'تمت المتابعة' : 'متابعة'}
                                     custom_styles={`border ${!isFollowed ? 'border-transparent' : 'bg-transparent'} `}
                                     isTypeFollow={true}
                                     isFollowed={isFollowed}
                                 />
-                                <Button content={`حظر`} custom_styles={`bg-[--theme-primary-button-color]`}/>
+                                <Button
+                                    disabled={isBlockedBtnDisabled}
+                                    onClick={blockUser}
+                                    content={isBlocked ? 'تم الحظر' : 'حظر'}
+                                    custom_styles={`bg-[--theme-primary-button-color] border ${!isBlocked ? 'border-transparent' : 'bg-transparent'}`}
+                                    isTypeBlock={true}
+                                    isBlocked={isBlocked}
+                                />
                             </div>
                         }
                     </div>

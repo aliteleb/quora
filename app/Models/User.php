@@ -71,7 +71,7 @@ class User extends Authenticatable
 
     public function blockedUser()
     {
-        return $this->belongsToMany(User::class, 'follow_user', 'user_id', 'blocked_id');
+        return $this->belongsToMany(User::class, 'block_user', 'blocked_id', 'user_id');
     }
 
 //    public function isFollowedSpace()

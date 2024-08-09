@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -26,13 +27,15 @@ class ProfileController extends Controller
             abort(404);
         }
 
-        $is_followed = $user->followedUser;
-        $is_followed = count($is_followed) > 0;
+        $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
+        $is_blocked = $user->blockedUser()->where('user_id', auth()->id())->exists();
+        Log::info('block', array($is_blocked));
 
         $user = new UserResource($user);
         $data = [
             'user' => $user,
-            'is_followed' => $is_followed
+            'is_followed' => $is_followed,
+            'is_blocked' => $is_blocked,
         ];
 
         return InertiaResponse::render('Profile/Pages/Profile', $data);
