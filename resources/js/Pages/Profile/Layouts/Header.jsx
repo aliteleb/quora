@@ -17,6 +17,8 @@ export default function Header({isActive, setIsActive}) {
     const [isBlockedBtnDisabled, setIsBlockedBtnDisabled] = useState(false);
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [filterType, setFilterType] = useState('most_recent');
+    const [sectionSelection, setSectionSelection] = useState('profile');
+
 
     const blockUser = () => {
         setIsBlockedBtnDisabled(true)
@@ -55,6 +57,7 @@ export default function Header({isActive, setIsActive}) {
                 following: false,
                 [button]: true,
             })
+            setSectionSelection(button)
         }
     }
 
@@ -69,10 +72,23 @@ export default function Header({isActive, setIsActive}) {
 
     const active_label = Object.keys(isActive).find(key => isActive[key]);
 
+    const filterThreads = (section, filter_type) => {
+        router.get(`/users/${userInfo?.id}/${section}/${filter_type}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                // section === 'posts' ? setPosts(res.props.threads.data) : setQuestions(res.props.threads.data);
+                // setFilteredNextPageUrl(res.props.threads.links.next);
+            }
+        });
+    }
+
     const handleFilterTypeSelect = (e) => {
         setFilterType(e.target.value);
         setIsFilterDropdownOpen(false);
-        // e.target.value === 'most_popular' ? filterThreads(section, 'most_popular') : filterThreads(section, 'most_recent');
+        if (isActive.profile || isActive.posts || isActive.questions) {
+            e.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
+        }
     };
 
     return (
@@ -144,14 +160,14 @@ export default function Header({isActive, setIsActive}) {
                                 content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
                                 onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
                                 isDropDown={true}
-                                custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
+                                custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
                             />
                             <FilterPosts
                                 isFilterDropdownOpen={isFilterDropdownOpen}
                                 setIsFilterDropdownOpen={setIsFilterDropdownOpen}
                                 filterType={filterType}
                                 handleFilterTypeSelect={handleFilterTypeSelect}
-                                custom_styles={`left-0`}
+                                custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
                             />
                         </div>
                     }

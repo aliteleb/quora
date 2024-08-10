@@ -128,7 +128,6 @@ class SpaceController extends Controller
     {
         if ($filter_type === 'most_popular') {
             $threads = Thread::where('space_id', $space_id)->where('type', $thread_type)->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')->paginate(3);
-            Log::info('most_reacted', array($threads));
         } else {
             $threads = Thread::where('space_id', $space_id)->where('type', $thread_type)->orderBy('created_at', 'desc')->paginate(3);
         }

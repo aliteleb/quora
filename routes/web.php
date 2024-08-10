@@ -48,6 +48,7 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
+    Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
