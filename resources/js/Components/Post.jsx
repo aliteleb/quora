@@ -15,12 +15,12 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
     const { user } = useApp()
 
     const [isVoted, setIsVoted] = useState(null);
-    const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
-    const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
+    // const [voteUpCount, setVoteUpCount] = useState(thread.up_votes);
+    // const [voteDownCount, setVoteDownCount] = useState(thread.down_votes);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
-    const [isFetching, setIsFetching] = useState(false); // Flag to track fetch status in pagination
+    const [isFetching, setIsFetching] = useState(false);
     const [nextPageUrl, setNextPageUrl] = useState('');
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
@@ -209,7 +209,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             </main>
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>
-                    <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
+                    <span className={`hover:underline cursor-pointer`}> {thread.up_votes} تأييد · </span>
                     <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
                 </div>
                 <div className={`flex justify-between text-[--theme-body-color]`}>
@@ -221,12 +221,12 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                                     {isVoted === 'up' && <PiArrowFatUpFill className={`text-[--theme-button-border-color] size-5`} />}
                                     <span>أويد ·</span>
                                 </div>
-                                <span>{voteUpCount}</span>
+                                <span>{thread.up_votes}</span>
                             </div>
                             <div onClick={voteDown} className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
                                 {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`} />}
                                 {isVoted === 'down' && <PiArrowFatDownFill className={`size-5 text-[--theme-primary-button-color]`} />}
-                                <span>{voteDownCount}</span>
+                                <span>{thread.down_votes}</span>
                             </div>
                         </div>
                         <div onClick={() => {

@@ -7,7 +7,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
-export default function Header({isActive, setIsActive}) {
+export default function Header({isActive, setIsActive, setQuestions, setPosts, setThreads, setPostsNextPageUrl, setThreadsNextPageUrl, setQuestionsNextPageUrl}) {
     const {props} = usePage()
     const { user } = useApp()
     const [userInfo, setUserInfo] = useState(props?.user?.data);
@@ -77,8 +77,17 @@ export default function Header({isActive, setIsActive}) {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                // section === 'posts' ? setPosts(res.props.threads.data) : setQuestions(res.props.threads.data);
-                // setFilteredNextPageUrl(res.props.threads.links.next);
+                console.log(res.props)
+                if (section === 'posts') {
+                    setPosts(res.props.threads.data)
+                    setPostsNextPageUrl(res.props.threads.links.next)
+                } else if (section === 'questions') {
+                    setQuestions(res.props.threads.data)
+                    setQuestionsNextPageUrl(res.props.threads.links.next)
+                } else {
+                    setThreads(res.props.threads.data)
+                    setThreadsNextPageUrl(res.props.threads.links.next)
+                }
             }
         });
     }

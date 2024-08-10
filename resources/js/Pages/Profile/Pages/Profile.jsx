@@ -8,7 +8,6 @@ import ProfileThreadsSection from "@/Pages/Profile/Components/ProfileThreadsSect
 export default function Profile() {
 
     const { props } = usePage()
-    console.log(props)
     const [isActive, setIsActive] = useState({
         profile: true,
         answers: false,
@@ -20,7 +19,12 @@ export default function Profile() {
 
     const [threads, setThreads] = useState(props.threads?.data);
     const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links.next);
-    const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
+    const [posts, setPosts] = useState(props.threads?.data);
+    const [postsNextPageUrl, setPostsNextPageUrl] = useState('');
+    const [questions, setQuestions] = useState(props.threads?.data);
+    const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState('');
+
+    // const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
 
     return (
         <Master>
@@ -29,7 +33,16 @@ export default function Profile() {
             <div className={`flex flex-col text-[--theme-body-color] container max-w-screen-xl mx-auto rounded z-10 relative`}>
                 <div className={`flex justify-between gap-x-10`}>
                     <div className={`w-[70%]`}>
-                        <Header isActive={isActive} setIsActive={setIsActive}/>
+                        <Header
+                            isActive={isActive}
+                            setIsActive={setIsActive}
+                            setThreads={setThreads}
+                            setPosts={setPosts}
+                            setQuestions={setQuestions}
+                            setQuestionsNextPageUrl={setQuestionsNextPageUrl}
+                            setPostsNextPageUrl={setPostsNextPageUrl}
+                            setThreadsNextPageUrl={setThreadsNextPageUrl}
+                        />
                         <ProfileThreadsSection
                             threads={threads}
                             setThreads={setThreads}
