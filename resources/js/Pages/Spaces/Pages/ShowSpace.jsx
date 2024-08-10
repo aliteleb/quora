@@ -33,6 +33,7 @@ export default function ShowSpace() {
     const [space] = useState(props.data?.space?.data);
     const [filterType, setFilterType] = useState('most_recent');
     const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
 
     useEffect(() => {
         setPosts(props.data?.posts?.data)
@@ -161,10 +162,14 @@ export default function ShowSpace() {
     }, [questionsNextPageUrl, isActive.questions, isQuestionsFetching, posts]);
 
     const display_recommended_spaces = recommendedSpaces?.map((space, index) => (
-        <RecommendedSpace key={space.id} space={space} checkIfUserIsOwner={checkIfUserIsOwner} customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-32' : ''}/>
+        <RecommendedSpace
+            key={space.id}
+            space={space}
+            checkIfUserIsOwner={checkIfUserIsOwner}
+            customStyles={index === recommendedSpaces.length - 1 ? 'sm:col-span-2 min-h-32' : ''}
+        />
     ))
 
-    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const section = isActive.posts ? 'posts' : 'question'
     const handleFilterTypeSelect = (e) => {
         setFilterType(e.target.value);

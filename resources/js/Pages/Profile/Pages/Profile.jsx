@@ -18,9 +18,9 @@ export default function Profile() {
         following: false,
     });
 
-    const [threads, setThreads] = useState(props.threads.data);
-    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads.links.next);
-
+    const [threads, setThreads] = useState(props.threads?.data);
+    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links.next);
+    const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
 
     return (
         <Master>

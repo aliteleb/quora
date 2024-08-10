@@ -5,6 +5,7 @@ import ProfileButton from "@/Pages/Profile/Components/ProfileButton.jsx";
 import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
+import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
 export default function Header({isActive, setIsActive}) {
     const {props} = usePage()
@@ -14,6 +15,8 @@ export default function Header({isActive, setIsActive}) {
     const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
     const [isBlocked, setIsBlocked] = useState(props.is_blocked);
     const [isBlockedBtnDisabled, setIsBlockedBtnDisabled] = useState(false);
+    const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const [filterType, setFilterType] = useState('most_recent');
 
     const blockUser = () => {
         setIsBlockedBtnDisabled(true)
@@ -65,6 +68,12 @@ export default function Header({isActive, setIsActive}) {
     };
 
     const active_label = Object.keys(isActive).find(key => isActive[key]);
+
+    const handleFilterTypeSelect = (e) => {
+        setFilterType(e.target.value);
+        setIsFilterDropdownOpen(false);
+        // e.target.value === 'most_popular' ? filterThreads(section, 'most_popular') : filterThreads(section, 'most_recent');
+    };
 
     return (
         <>
@@ -130,11 +139,21 @@ export default function Header({isActive, setIsActive}) {
                     </div>
 
                     {labels[active_label] !== 'يتابع' &&
-                        <Button
-                            content={`الأحدث`}
-                            isDropDown={true}
-                            custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
-                        />
+                        <div className={`relative`}>
+                            <Button
+                                content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
+                                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                isDropDown={true}
+                                custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
+                            />
+                            <FilterPosts
+                                isFilterDropdownOpen={isFilterDropdownOpen}
+                                setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                                filterType={filterType}
+                                handleFilterTypeSelect={handleFilterTypeSelect}
+                                custom_styles={`left-0`}
+                            />
+                        </div>
                     }
                     {labels[active_label] === 'يتابع' &&
                         <span className={`px-4 py-1`}>Spaces</span>

@@ -22,7 +22,7 @@ class ProfileController extends Controller
     protected function getProfileThreads($id)
     {
         $threads = Thread::where('user_id', $id)
-            ->whereNull('space_id')->paginate(2);
+            ->whereNull('space_id')->paginate(3);
         return ThreadResource::collection($threads);
     }
     public function showUser($username)
