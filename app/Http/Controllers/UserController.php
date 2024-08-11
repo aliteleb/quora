@@ -37,15 +37,29 @@ class UserController extends Controller
     {
         if ($section !== 'profile') {
             if ($filter_type === 'most_popular') {
-                $threads = Thread::where('user_id', $user_id)->where('type', $thread_type)->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')->paginate(3);
+                $threads = Thread::where('user_id', $user_id)
+                    ->where('type', $thread_type)
+                    ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(3);
             } else {
-                $threads = Thread::where('user_id', $user_id)->where('type', $thread_type)->orderBy('created_at', 'desc')->paginate(3);
+                $threads = Thread::where('user_id', $user_id)
+                    ->where('type', $thread_type)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(3);
             }
         } else {
             if ($filter_type === 'most_popular') {
-                $threads = Thread::where('user_id', $user_id)->whereNull('space_id')->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')->paginate(3);
+                $threads = Thread::where('user_id', $user_id)
+                    ->whereNull('space_id')
+                    ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(3);
             } else {
-                $threads = Thread::where('user_id', $user_id)->whereNull('space_id')->orderBy('created_at', 'desc')->paginate(3);
+                $threads = Thread::where('user_id', $user_id)
+                    ->whereNull('space_id')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(3);
             }
         }
 
