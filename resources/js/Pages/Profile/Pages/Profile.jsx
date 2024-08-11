@@ -18,7 +18,7 @@ export default function Profile() {
     });
 
     const [threads, setThreads] = useState(props.threads?.data);
-    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links.next);
+    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links?.next);
     const [posts, setPosts] = useState(props.threads?.data);
     const [postsNextPageUrl, setPostsNextPageUrl] = useState('');
     const [questions, setQuestions] = useState(props.threads?.data);

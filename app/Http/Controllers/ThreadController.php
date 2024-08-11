@@ -91,15 +91,13 @@ class ThreadController extends Controller implements HasMedia
         if ($vote_type === 'up') {
             if (!$removeVote) {
                 $thread->all_vote_down_count++;
-            }
-            if ($thread->all_vote_up_count > 0) {
+            } elseif ($thread->all_vote_up_count > 0) {
                 $thread->all_vote_up_count--;
             }
         } else {
             if (!$removeVote) {
                 $thread->all_vote_up_count++;
-            }
-            if ($thread->all_vote_down_count > 0) {
+            } elseif ($thread->all_vote_down_count > 0) {
                 $thread->all_vote_down_count--;
             }
         }

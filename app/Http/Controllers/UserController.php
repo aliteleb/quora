@@ -54,7 +54,10 @@ class UserController extends Controller
                     ->whereNull('space_id')
                     ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3);
+//                    ->paginate(3);
+                    ->get();
+                Log::info('inside', array($threads));
+
             } else {
                 $threads = Thread::where('user_id', $user_id)
                     ->whereNull('space_id')
@@ -64,6 +67,8 @@ class UserController extends Controller
         }
 
         $threads = ThreadResource::collection($threads);
+//        Log::info('th', array($threads));
+
         $data = ['threads' => $threads];
 
         return InertiaResponse::back($data);

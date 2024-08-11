@@ -86,7 +86,7 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
                     setQuestionsNextPageUrl(res.props.threads.links.next)
                 } else {
                     setThreads(res.props.threads.data)
-                    setThreadsNextPageUrl(res.props.threads.links.next)
+                    setThreadsNextPageUrl(res.props.threads?.links?.next)
                 }
             }
         });
