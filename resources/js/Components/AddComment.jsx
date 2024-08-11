@@ -5,7 +5,18 @@ import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import {useForm} from "@inertiajs/react";
 
-const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id}, ref) => {
+const AddComment = forwardRef(({
+    handleCommentChange,
+    handleFileChange,
+    removeUploadedFile,
+    data,
+    addComment,
+    customStyles,
+    placeholder,
+    submitBtnText,
+    replyTo,
+    comment_id,
+    thread_id}, ref) => {
 
     return (
         <div className={`bg-[--theme-input-bg-color] mt-2`}>

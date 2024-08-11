@@ -19,12 +19,15 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
     const [voteDownCount, setVoteDownCount] = useState();
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
+    const [commentsCount, setCommentsCount] = useState(thread.comments_count);
+    const [sharesCount, setSharesCount] = useState(thread.all_shares_count);
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
     const [isFetching, setIsFetching] = useState(false);
     const [nextPageUrl, setNextPageUrl] = useState('');
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
     const [isPostDropdownOpen, setIsPostDropdownOpen] = useState(false);
+    const [showReplies, setShowReplies] = useState(false);
 
     const { data, setData, post, reset } = useForm({
         body: '',
@@ -64,10 +67,30 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         }
     };
 
+    const getComments = (isReply = false, comment_id) => {
+        setOpenCommentsLoading(false)
+        setFetched(true)
+        router.get('/get-comments', {thread_id: thread.id}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                console.log(res.props)
+                if (isReply) {
+                    // setReplies()
+                    setShowReplies(true)
+                }
+
+                setOpenCommentsLoading(true)
+                setComments(res.props.comments.data)
+                setNextPageUrl(res.props.next_page_url)
+            }
+        })
+    }
+
     const lastCommentRef = useRef(null);
     const show_comments = comments.map((comment, index) => (
         <Comment
-            key={comment.id}
+            key={index}
             comment={comment}
             ref={index === comments.length - 1 ? lastCommentRef : null}
             user={comment.user}
@@ -75,6 +98,11 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             setComments={setComments}
             comments={comments}
             customStyles={index === comments.length - 1 ? 'pb-3' : ''}
+            setCommentsCount={setCommentsCount}
+            commentsCount={commentsCount}
+            getComments={getComments}
+            showReplies={showReplies}
+            setShowReplies={setShowReplies}
         />
     ));
 
@@ -84,12 +112,9 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             preserveState: true,
             onSuccess: () => {
                 reset()
-                window.history.replaceState({}, ``, `/`)
+                setCommentsCount(commentsCount + 1)
                 getComments()
             },
-            onError: () => {
-                window.history.replaceState({}, ``, `/`)
-            }
         })
     }
 
@@ -158,23 +183,6 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         });
     };
 
-    const getComments = () => {
-        setOpenCommentsLoading(false)
-        setFetched(true)
-        router.get('/get-comments', {thread_id: thread.id}, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                setOpenCommentsLoading(true)
-                setComments(res.props.comments.data)
-                setNextPageUrl(res.props.next_page_url)
-            },
-            onError: () => {
-                setOpenCommentsLoading(true)
-            }
-        })
-    }
-
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
@@ -220,7 +228,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
                 <div>
                     <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
-                    <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
+                    <span className={`hover:underline cursor-pointer`}> {sharesCount} مشاركة</span>
                 </div>
                 <div className={`flex justify-between text-[--theme-body-color]`}>
                     <div className={`flex gap-x-1`}>
@@ -244,11 +252,11 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                             toggleComments()
                         }} className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
-                            <span>{thread.comments_count}</span>
+                            <span>{commentsCount}</span>
                         </div>
                         <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <CiShare2 />
-                            <span>{thread.all_shares_count}</span>
+                            <span>{sharesCount}</span>
                         </div>
                     </div>
                 </div>

@@ -166,7 +166,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                             content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
                             onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
                             isDropDown={true}
-                            custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
+                            custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
                         />
                         <FilterPosts
                             isFilterDropdownOpen={isFilterDropdownOpen}

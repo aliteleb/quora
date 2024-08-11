@@ -6,18 +6,30 @@ import {router, useForm} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments}, ref) => {
+const Comment = forwardRef(({
+    comment,
+    customStyles,
+    isReply,
+    user,
+    thread_id,
+    setComments,
+    comments,
+    commentsCount,
+    setCommentsCount,
+    getComments,
+    showReplies,
+    setShowReplies,
+}, ref) => {
 
-    const [replies, setReplies] = useState([]);
-    const [showReplies, setShowReplies] = useState(false);
     const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState(comment.up_votes);
     const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+    const [replies, setReplies] = useState([]);
 
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, reset } = useForm({
         body: '',
         image: null,
         video: null,
@@ -30,8 +42,21 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
         setIsVoted(comment.vote)
     }, []);
 
-    const show_replies = replies?.map(reply => (
-        <Comment comment={reply} customStyles={``} isReply={true} user={reply.user} thread_id={thread_id}/>
+    const show_replies = replies?.map((reply, index) => (
+        <Comment
+            key={index}
+            comment={reply}
+            isReply={true}
+            user={reply.user}
+            thread_id={thread_id}
+            commentsCount={commentsCount}
+            setCommentsCount={setCommentsCount}
+            setComments={setComments}
+            comments={comments}
+            getComments={getComments}
+            showReplies={showReplies}
+            setShowReplies={setShowReplies}
+        />
     ))
 
     const toggleShowReplies = () => {
@@ -46,11 +71,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                 !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
                 setVoteUpCount(res.props.vote_count.all_up_votes_count)
                 setVoteDownCount(res.props.vote_count.all_down_votes_count)
-                window.history.replaceState({}, ``, `/`)
             },
-            onError: (err) => {
-                window.history.replaceState({}, ``, `/`)
-            }
         })
     }
 
@@ -100,14 +121,10 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
+            onSuccess: (res) => {
                 reset()
+                getComments(true, data.comment_id)
                 setShowReplyInput(false)
-                window.history.replaceState({}, ``, `/`)
-            },
-            onError: () => {
-                setShowReplyInput(false)
-                window.history.replaceState({}, ``, `/`)
             }
         })
     }
@@ -137,6 +154,8 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                                 commentId={comment.id}
                                 setComments={setComments}
                                 comments={comments}
+                                commentsCount={commentsCount}
+                                setCommentsCount={setCommentsCount}
                             />
                         }
                     </div>
