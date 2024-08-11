@@ -13,8 +13,6 @@ export default function Profile() {
         answers: false,
         questions: false,
         posts: false,
-        followers: false,
-        following: false,
     });
 
     const [threads, setThreads] = useState(props.threads?.data);

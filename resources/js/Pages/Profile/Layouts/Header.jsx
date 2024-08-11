@@ -7,10 +7,12 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
-export default function Header({isActive, setIsActive, setQuestions, setPosts, setThreads, setPostsNextPageUrl, setThreadsNextPageUrl, setQuestionsNextPageUrl}) {
+export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl}) {
     const {props} = usePage()
     const { user } = useApp()
     const [userInfo, setUserInfo] = useState(props?.user?.data);
+    const [followersCount, setFollowersCount] = useState(props.user?.data.followers_count);
+    const [followCount, setFollowCount] = useState(props.user?.data.follow_count);
     const [isFollowed, setIsFollowed] = useState(props.is_followed);
     const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
     const [isBlocked, setIsBlocked] = useState(props.is_blocked);
@@ -68,8 +70,6 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
         answers: 'إجابات',
         questions: 'أسئلة',
         posts: 'منشورات',
-        followers: 'متابعين',
-        following: 'يتابع'
     };
 
     const active_label = Object.keys(isActive).find(key => isActive[key]);
@@ -81,17 +81,6 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
             onSuccess: (res) => {
                 setThreads(res.props.threads.data)
                 setThreadsNextPageUrl(res.props.threads?.links?.next)
-                // console.log(res.props)
-                // if (section === 'posts') {
-                //     setPosts(res.props.threads.data)
-                //     setPostsNextPageUrl(res.props.threads.links.next)
-                // } else if (section === 'questions') {
-                //     setQuestions(res.props.threads.data)
-                //     setQuestionsNextPageUrl(res.props.threads.links.next)
-                // } else {
-                //     setThreads(res.props.threads.data)
-                //     setThreadsNextPageUrl(res.props.threads?.links?.next)
-                // }
             }
         });
     }
@@ -130,14 +119,14 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
                     <div className={`${!userInfo?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{userInfo?.bio ? userInfo.bio : 'نبذة'}</div>
                     <div className={`flex justify-between `}>
                         <div>
-                            <span>{props.user?.data.followers_count} متابعين · </span>
-                            <span> يتابع {props.user?.data.follow_count}</span>
+                            <span>{followersCount} متابعين · </span>
+                            <span> يتابع {followCount}</span>
                         </div>
                         {userInfo?.id !== user?.id &&
                             <div className={`flex gap-x-2`}>
                                 <Button
                                     disabled={isFollowBtnDisabled}
-                                    onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
+                                    onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled, setFollowersCount)}
                                     content={isFollowed ? 'تمت المتابعة' : 'متابعة'}
                                     custom_styles={`border ${!isFollowed ? 'border-transparent' : 'bg-transparent'} `}
                                     isTypeFollow={true}
@@ -164,37 +153,30 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
                     <ProfileButton select={`answers`} custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.answers_count} إجابات`}/>
                     <ProfileButton select={`questions`} custom_styles={isActive.questions ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.questions_count} أسئلة`}/>
                     <ProfileButton select={`posts`} custom_styles={isActive.posts ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.posts_count} منشور`}/>
-                    <ProfileButton select={`followers`} custom_styles={isActive.followers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`0 متابعين`}/>
-                    <ProfileButton select={`following`} custom_styles={isActive.following ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`يتابع`}/>
                 </div>
 
                 <div className={`flex justify-between border-b border-[--theme-secondary-bg-color-hover] pb-3 min-h-10`}>
                     <div className={`flex gap-x-2`}>
-                        {(labels[active_label] !== 'الملف الشخصي' && labels[active_label] !== 'يتابع') && <span>112</span>}
+                        {labels[active_label] !== 'الملف الشخصي' && <span>112</span>}
                         <span>{labels[active_label]}</span>
-                        {labels[active_label] === 'يتابع' && <span>0</span>}
                     </div>
 
-                    {labels[active_label] !== 'يتابع' &&
-                        <div className={`relative`}>
-                            <Button
-                                content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
-                                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                                isDropDown={true}
-                                custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
-                            />
-                            <FilterPosts
-                                isFilterDropdownOpen={isFilterDropdownOpen}
-                                setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                                filterType={filterType}
-                                handleFilterTypeSelect={handleFilterTypeSelect}
-                                custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
-                            />
-                        </div>
-                    }
-                    {labels[active_label] === 'يتابع' &&
-                        <span className={`px-4 py-1`}>Spaces</span>
-                    }
+                    <div className={`relative`}>
+                        <Button
+                            content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
+                            onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                            isDropDown={true}
+                            custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
+                        />
+                        <FilterPosts
+                            isFilterDropdownOpen={isFilterDropdownOpen}
+                            setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                            filterType={filterType}
+                            handleFilterTypeSelect={handleFilterTypeSelect}
+                            custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
+                        />
+                    </div>
+
                 </div>
             </div>
         </>
