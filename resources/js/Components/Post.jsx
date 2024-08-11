@@ -192,7 +192,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                     </div>
                 </div>
                 <div onClick={() => setIsPostDropdownOpen(!isPostDropdownOpen)} className={`relative h-fit cursor-pointer`}>
-                    <div className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
+                    <div id={`postDropdownID`} className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
                         <RxDotsHorizontal className={`size-5`} />
                     </div>
                     {isPostDropdownOpen &&
@@ -202,6 +202,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                             id={thread.id}
                             setThreads={setThreads}
                             threads={threads}
+                            thread={thread}
                         />
                     }
                 </div>

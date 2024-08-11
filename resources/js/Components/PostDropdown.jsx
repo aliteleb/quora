@@ -1,14 +1,19 @@
 import React, {useEffect, useRef} from 'react'
 import {Transition, TransitionChild} from "@headlessui/react";
 import {router} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
+import {GoTrash} from "react-icons/go";
+import {TbMessageReport} from "react-icons/tb";
 
-export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, id, setThreads, threads}) {
+export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, id, setThreads, threads, thread}) {
+
+    const { user } = useApp()
 
     const postsDropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
             console.log(e.target.tagName)
-            if (!postsDropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown" && e.target.tagName !== 'DIV' && e.target.tagName !== 'path' && e.target.tagName !== 'svg') {
+            if (!postsDropDownRef.current?.contains(e.target) && e.target.id !== "postDropdownID" && e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
                 setIsPostDropdownOpen(false)
             }
         }
@@ -23,8 +28,7 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
             preserveScroll: true,
             preserveState: true,
 
-            onSuccess: (res) => {
-                console.log(res.props)
+            onSuccess: () => {
                 const filtered_threads = threads.filter(thread => thread.id !== id);
                 setThreads(filtered_threads)
             }
@@ -39,7 +43,7 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
         >
             <div
                 ref={postsDropDownRef}
-                className={`postsDropdown absolute left-1/2 -translate-x-1/2 top-9 border border-[--theme-default-border-color] rounded bg-[--theme-input-bg-color] pt-3 `}
+                className={`postsDropdown absolute left-1/2 -translate-x-1/2 top-9 border border-[--theme-default-border-color] rounded bg-[--theme-input-bg-color] pt-2 `}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
@@ -51,9 +55,18 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                     as="div"
                 >
                     <main id="drop">
-                        <button onClick={deletePost} className="w-40 hover:bg-[--theme-nav-bg-color-hover] h-10">
-                            Delete
-                        </button>
+                        {thread.user_id === user.id &&
+                            <button onClick={deletePost} className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                <GoTrash className={`size-5`}/>
+                                <span>حذف</span>
+                            </button>
+                        }
+                        {thread.user_id !== user.id &&
+                            <button onClick={deletePost} className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                <TbMessageReport className={`size-5`}/>
+                                <span>إبلاغ</span>
+                            </button>
+                        }
                     </main>
 
                 </TransitionChild>
