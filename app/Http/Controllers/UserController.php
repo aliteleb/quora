@@ -41,12 +41,13 @@ class UserController extends Controller
                     ->where('type', $thread_type)
                     ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3);
+                    ->paginate(5);
             } else {
                 $threads = Thread::where('user_id', $user_id)
                     ->where('type', $thread_type)
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3);
+                    ->paginate(5);
+                Log::info('posts', array($threads));
             }
         } else {
             if ($filter_type === 'most_popular') {
@@ -54,21 +55,16 @@ class UserController extends Controller
                     ->whereNull('space_id')
                     ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
                     ->orderBy('created_at', 'desc')
-//                    ->paginate(3);
-                    ->get();
-                Log::info('inside', array($threads));
-
+                    ->paginate(5);
             } else {
                 $threads = Thread::where('user_id', $user_id)
                     ->whereNull('space_id')
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3);
+                    ->paginate(5);
             }
         }
 
         $threads = ThreadResource::collection($threads);
-//        Log::info('th', array($threads));
-
         $data = ['threads' => $threads];
 
         return InertiaResponse::back($data);

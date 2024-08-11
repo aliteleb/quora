@@ -18,6 +18,7 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
     const [filterType, setFilterType] = useState('most_recent');
     const [sectionSelection, setSectionSelection] = useState('profile');
+    const [isBtnClicked, setIsBtnClicked] = useState(null);
 
 
     const blockUser = () => {
@@ -26,10 +27,9 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
             router.post(`/users/block/block/${userInfo?.id}`, {}, {
                 preserveScroll: true,
                 preserveState: true,
-
                 onSuccess: () => {
-                    setIsBlocked(true)
-                    setIsBlockedBtnDisabled(false)
+                    setIsBlocked(true);
+                    setIsBlockedBtnDisabled(false);
                 }
             })
         } else {
@@ -59,6 +59,8 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
             })
             setSectionSelection(button)
         }
+
+        setIsBtnClicked(true)
     }
 
     const labels = {
@@ -93,12 +95,19 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
     }
 
     const handleFilterTypeSelect = (e) => {
-        setFilterType(e.target.value);
+        setFilterType(e?.target.value);
         setIsFilterDropdownOpen(false);
         if (isActive.profile || isActive.posts || isActive.questions) {
-            e.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
+            e?.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
         }
     };
+
+    useEffect(() => {
+        if (isBtnClicked !== null) {
+            handleFilterTypeSelect()
+        }
+    }, [isActive]);
+
 
     return (
         <>
@@ -111,7 +120,7 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
                 <div className={`flex flex-col gap-y-2 w-full`}>
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
-                        {userInfo.id === user?.id &&
+                        {userInfo?.id === user?.id &&
                             <Button content={`تعديل`} custom_styles={`p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
                         }
                     </div>

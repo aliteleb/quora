@@ -36,7 +36,7 @@ export default function ProfileThreadsSection({threads, setThreads, threadsNextP
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isThreadsFetching && threadsNextPageUrl) {
-                // loadNextThreads(threadsNextPageUrl);
+                loadNextThreads(threadsNextPageUrl);
             }
         }, {
             threshold: 0.5 // Trigger when 50% of the last post is visible
