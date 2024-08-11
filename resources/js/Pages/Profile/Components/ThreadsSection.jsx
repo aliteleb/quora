@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import Post from "@/Components/Post.jsx";
 import {router} from "@inertiajs/react";
 
-export default function ProfileThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl}) {
+export default function ThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl}) {
 
     const [isThreadsFetching, setIsThreadsFetching] = useState(false);
 

@@ -20,7 +20,6 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
     const [sectionSelection, setSectionSelection] = useState('profile');
     const [isBtnClicked, setIsBtnClicked] = useState(null);
 
-
     const blockUser = () => {
         setIsBlockedBtnDisabled(true)
         if (!isBlocked) {
@@ -45,6 +44,8 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
         }
     }
 
+
+
     const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {
@@ -59,7 +60,6 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
             })
             setSectionSelection(button)
         }
-
         setIsBtnClicked(true)
     }
 
@@ -79,17 +79,19 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                console.log(res.props)
-                if (section === 'posts') {
-                    setPosts(res.props.threads.data)
-                    setPostsNextPageUrl(res.props.threads.links.next)
-                } else if (section === 'questions') {
-                    setQuestions(res.props.threads.data)
-                    setQuestionsNextPageUrl(res.props.threads.links.next)
-                } else {
-                    setThreads(res.props.threads.data)
-                    setThreadsNextPageUrl(res.props.threads?.links?.next)
-                }
+                setThreads(res.props.threads.data)
+                setThreadsNextPageUrl(res.props.threads?.links?.next)
+                // console.log(res.props)
+                // if (section === 'posts') {
+                //     setPosts(res.props.threads.data)
+                //     setPostsNextPageUrl(res.props.threads.links.next)
+                // } else if (section === 'questions') {
+                //     setQuestions(res.props.threads.data)
+                //     setQuestionsNextPageUrl(res.props.threads.links.next)
+                // } else {
+                //     setThreads(res.props.threads.data)
+                //     setThreadsNextPageUrl(res.props.threads?.links?.next)
+                // }
             }
         });
     }
@@ -106,6 +108,7 @@ export default function Header({isActive, setIsActive, setQuestions, setPosts, s
         if (isBtnClicked !== null) {
             handleFilterTypeSelect()
         }
+        setFilterType('most_recent')
     }, [isActive]);
 
 

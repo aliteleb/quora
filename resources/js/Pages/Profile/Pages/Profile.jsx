@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import Header from "@/Pages/Profile/Layouts/Header.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
-import ProfileThreadsSection from "@/Pages/Profile/Components/ProfileThreadsSection.jsx";
+import ThreadsSection from "@/Pages/Profile/Components/ThreadsSection.jsx";
 
 export default function Profile() {
 
@@ -19,12 +19,6 @@ export default function Profile() {
 
     const [threads, setThreads] = useState(props.threads?.data);
     const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links?.next);
-    const [posts, setPosts] = useState(props.threads?.data);
-    const [postsNextPageUrl, setPostsNextPageUrl] = useState('');
-    const [questions, setQuestions] = useState(props.threads?.data);
-    const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState('');
-
-    // const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
 
     return (
         <Master>
@@ -37,13 +31,9 @@ export default function Profile() {
                             isActive={isActive}
                             setIsActive={setIsActive}
                             setThreads={setThreads}
-                            setPosts={setPosts}
-                            setQuestions={setQuestions}
-                            setQuestionsNextPageUrl={setQuestionsNextPageUrl}
-                            setPostsNextPageUrl={setPostsNextPageUrl}
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
                         />
-                        <ProfileThreadsSection
+                        <ThreadsSection
                             threads={threads}
                             setThreads={setThreads}
                             threadsNextPageUrl={threadsNextPageUrl}
