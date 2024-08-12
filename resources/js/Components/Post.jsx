@@ -67,18 +67,21 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         }
     };
 
-    const getComments = (isReply = false, comment_id) => {
+    const getComments = (isReply = false, comment_id, replies = [], setReplies, isAddReplyToReply = false, reply) => {
         setOpenCommentsLoading(false)
         setFetched(true)
         router.get('/get-comments', {thread_id: thread.id}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                console.log(res.props)
-                if (isReply) {
-                    // setReplies()
-                    setShowReplies(true)
+                if (isReply && !isAddReplyToReply) {
+                    const parentComment = res.props.comments?.data.filter(comment => comment.id === comment_id)
+                    console.log(parentComment)
+                    setReplies(parentComment[0]?.replies)
+                } else if (isReply && isAddReplyToReply && reply) {
+                    setReplies([...replies, reply])
                 }
+
 
                 setOpenCommentsLoading(true)
                 setComments(res.props.comments.data)
@@ -93,7 +96,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             key={index}
             comment={comment}
             ref={index === comments.length - 1 ? lastCommentRef : null}
-            user={comment.user}
+            user={comment?.user}
             thread_id={thread.id}
             setComments={setComments}
             comments={comments}
@@ -110,10 +113,15 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
+            onSuccess: (res) => {
                 reset()
+                console.log(res.props)
+
                 setCommentsCount(commentsCount + 1)
-                getComments()
+                setComments(prevState => ([
+                    res.props.comment?.data,
+                    ...prevState
+                ]))
             },
         })
     }

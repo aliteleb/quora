@@ -32,6 +32,18 @@ class CommentController extends Controller implements HasMedia
         if ($request->hasFile('video')) {
             $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
+        if ($comment->comment_id) {
+            $data = [
+                'reply' => new CommentResource($comment),
+            ];
+            return InertiaResponse::back($data);
+        } else {
+            $data = [
+                'comment' => new CommentResource($comment),
+            ];
+            return InertiaResponse::back($data);
+        }
+
 
     }
 

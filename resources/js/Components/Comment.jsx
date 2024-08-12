@@ -22,8 +22,8 @@ const Comment = forwardRef(({
 }, ref) => {
 
     const [isVoted, setIsVoted] = useState(null);
-    const [voteUpCount, setVoteUpCount] = useState(comment.up_votes);
-    const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
+    const [voteUpCount, setVoteUpCount] = useState(comment?.up_votes);
+    const [voteDownCount, setVoteDownCount] = useState(comment?.down_votes);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
     const [replies, setReplies] = useState([]);
@@ -33,13 +33,13 @@ const Comment = forwardRef(({
         body: '',
         image: null,
         video: null,
-        comment_id: comment.id,
+        comment_id: comment?.id,
         thread_id: thread_id,
     });
 
     useEffect(() => {
-        setReplies(comment.replies)
-        setIsVoted(comment.vote)
+        setReplies(comment?.replies)
+        setIsVoted(comment?.vote)
     }, []);
 
     const show_replies = replies?.map((reply, index) => (
@@ -47,7 +47,7 @@ const Comment = forwardRef(({
             key={index}
             comment={reply}
             isReply={true}
-            user={reply.user}
+            user={reply?.user ? reply?.user : null}
             thread_id={thread_id}
             commentsCount={commentsCount}
             setCommentsCount={setCommentsCount}
@@ -122,8 +122,16 @@ const Comment = forwardRef(({
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
+                console.log(res.props)
+
                 reset()
-                getComments(true, data.comment_id)
+                if (res.props.comments) {
+                    getComments(true, data.comment_id, replies, setReplies)
+                } else {
+                    const reply = res.props.reply.data
+                    getComments(true, data.comment_id, replies, setReplies, true, reply)
+                }
+
                 setShowReplyInput(false)
             }
         })
@@ -139,7 +147,7 @@ const Comment = forwardRef(({
                 <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex items-center justify-between gap-x-3`}>
                     <div className={`flex items-center gap-x-3`}>
                         <DefaultUserIcon/>
-                        <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
+                        <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment?.created_at}</span></div>
                     </div>
 
                     <div className={`relative`}>
@@ -150,8 +158,8 @@ const Comment = forwardRef(({
                             <CommentDropdownMenu
                                 isCommentModalOpen={isCommentModalOpen}
                                 setIsCommentModalOpen={setIsCommentModalOpen}
-                                commentUserId={comment.user.id}
-                                commentId={comment.id}
+                                commentUserId={comment?.user.id}
+                                commentId={comment?.id}
                                 setComments={setComments}
                                 comments={comments}
                                 commentsCount={commentsCount}
@@ -162,17 +170,17 @@ const Comment = forwardRef(({
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
                     <div className={`flex flex-col justify-between px-12 gap-y-2`}>
-                        <div className={`mt-3 w-full break-words`}>{comment.body}</div>
+                        <div className={`mt-3 w-full break-words`}>{comment?.body}</div>
 
-                        {comment.media?.image &&
+                        {comment?.media?.image &&
                             <img className={`w-full max-h-[20rem] rounded object-cover`}
-                              src={comment.media?.image}
+                              src={comment?.media?.image}
                               alt="post-img"
                             />
                         }
-                        {comment.media?.video &&
+                        {comment?.media?.video &&
                             <video className={`w-full max-h-[20rem] rounded object-cover`}
-                                 src={comment.media?.video}
+                                 src={comment?.media?.video}
                             />
                         }
 
@@ -194,7 +202,7 @@ const Comment = forwardRef(({
                             </div>
                         </div>
                         <button onClick={toggleShowReplyInput} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
-                        {comment.replies?.length !== 0 && !isReply &&
+                        {comment?.replies?.length !== 0 && !isReply &&
                             <button
                                 onClick={toggleShowReplies}
                                 className={`hover:bg-[--theme-nav-bg-color-hover] text-[--theme-secondary-text-color] rounded-full px-4 py-2 cursor-pointer`}>
@@ -216,8 +224,8 @@ const Comment = forwardRef(({
                         customStyles={`!ps-20`}
                         placeholder={'أضف رد...'}
                         submitBtnText={'أضف رد'}
-                        replyTo={comment.user.name}
-                        comment_id={comment.id}
+                        replyTo={comment?.user.name}
+                        comment_id={comment?.id}
                         thread_id={thread_id}
                     />
                 }
