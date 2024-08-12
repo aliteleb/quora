@@ -57,7 +57,7 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
         >
             <div
                 ref={commentDropdownRef}
-                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] ${commentUserId !== user.id ? 'pt-0' : 'pt-3'} z-50`}
+                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] ${commentUserId !== user.id ? 'pt-0' : 'pt-1'} z-50`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
@@ -77,7 +77,7 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
                                     <GoTrash className={`size-5`}/>
                                     <span>حذف</span>
                                 </div>
-                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-full border-b border-[--theme-default-border-color]`}>
+                                <div className={`flex items-center gap-x-3 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3 pe-7 w-full`}>
                                     <FaRegEdit className={`size-5`}/>
                                     <span>تعديل</span>
                                 </div>

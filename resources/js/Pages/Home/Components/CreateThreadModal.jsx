@@ -177,7 +177,6 @@ export default function CreateThreadModal() {
                                     handleThreadChange={handleThreadChange}
                                 />
                             </div>
-
                         </button>
 
                     </div>

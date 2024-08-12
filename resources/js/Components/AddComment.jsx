@@ -4,6 +4,7 @@ import Input from "@/Core/Input.jsx";
 import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import {useForm} from "@inertiajs/react";
+import Button from "@/Core/Button.jsx";
 
 const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id, getComments}, ref) => {
 
@@ -61,8 +62,8 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
                 </div>
 
                 <div onClick={addComment}>
-                    <button className={`xs:block hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>{submitBtnText}</button>
-                    <button className={`block xs:hidden rounded-full px-4 py-1 bg-[--theme-button-border-color]`}>أضف</button>
+                    <Button disabled={!data.body && !data.image && !data.video} custom_styles={`xs:block hidden ${!data.body && !data.image && !data.video ? 'opacity-40' : ''} `} content={submitBtnText}/>
+                    <Button disabled={!data.body && !data.image && !data.video} custom_styles={`block xs:hidden ${!data.body && !data.image && !data.video ? 'opacity-40' : ''} `} content={`أضف`}/>
                 </div>
             </div>
         </div>
