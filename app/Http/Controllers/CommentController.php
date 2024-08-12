@@ -20,7 +20,7 @@ class CommentController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function addComment(CreateCommentRequest $request)
     {
-        $thread = Thread::where('id', $request->thread_id)->first(['type' ,'all_answers_count']);
+        $thread = Thread::where('id', $request->thread_id)->first();
         $comment = Comment::create([
             'type' => $request->comment_id ? 'reply' : (!$request->comment_id && $thread->type === 'question' ? 'answer' : 'comment'),
             'user_id' => $request->user_id,

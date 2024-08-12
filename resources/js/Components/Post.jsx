@@ -264,8 +264,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                             removeUploadedFile={removeUploadedFile}
                             data={data}
                             addComment={addComment}
-                            placeholder={'أضف تعليق...'}
-                            submitBtnText={`أضف تعليق`}
+                            placeholder={thread.type === 'post' ? 'أضف تعليق...' : 'أضف إجابة...'}
+                            submitBtnText={thread.type === 'post' ? 'أضف تعليق' : 'أضف إجابة'}
                         />
                     }
                     {openCommentsLoading ||
