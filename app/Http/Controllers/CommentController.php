@@ -6,6 +6,7 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
+use App\Models\Thread;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,7 +20,9 @@ class CommentController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function addComment(CreateCommentRequest $request)
     {
+        $thread = Thread::where('id', $request->thread_id)->first(['type' ,'all_answers_count']);
         $comment = Comment::create([
+            'type' => $request->comment_id ? 'reply' : (!$request->comment_id && $thread->type === 'question' ? 'answer' : 'comment'),
             'user_id' => $request->user_id,
             'body' => $request->body,
             'thread_id' => $request->thread_id,
@@ -32,6 +35,12 @@ class CommentController extends Controller implements HasMedia
         if ($request->hasFile('video')) {
             $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
+
+        if ($thread->type === 'question' && !$comment->comment_id) {
+            $thread->all_answers_count++;
+            $thread->save();
+        }
+
         if ($comment->comment_id) {
             $data = [
                 'reply' => new CommentResource($comment),
