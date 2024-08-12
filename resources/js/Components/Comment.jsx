@@ -6,7 +6,7 @@ import {router, useForm} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, getComments}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, getComments, commentsCount, setCommentsCount}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -31,7 +31,17 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     }, [comment]);
 
     const show_replies = replies?.map((reply, index) => (
-        <Comment key={index} comment={reply} customStyles={``} isReply={true} user={reply.user} thread_id={thread_id} getComments={getComments}/>
+        <Comment
+            key={index}
+            comment={reply}
+            isReply={true}
+            user={reply.user}
+            thread_id={thread_id}
+            getComments={getComments}
+            comments={comments}
+            commentsCount={commentsCount}
+            setCommentsCount={setCommentsCount}
+        />
     ))
 
     const toggleShowReplies = () => {
@@ -46,11 +56,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                 !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
                 setVoteUpCount(res.props.vote_count.all_up_votes_count)
                 setVoteDownCount(res.props.vote_count.all_down_votes_count)
-                window.history.replaceState({}, ``, `/`)
             },
-            onError: (err) => {
-                window.history.replaceState({}, ``, `/`)
-            }
         })
     }
 
@@ -101,8 +107,8 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                console.log(res.props)
                 reset()
+                setCommentsCount(commentsCount + 1)
                 setShowReplyInput(false)
                 getComments()
             },
@@ -137,6 +143,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                                 commentId={comment.id}
                                 setComments={setComments}
                                 comments={comments}
+                                setCommentsCount={setCommentsCount}
+                                commentsCount={commentsCount}
+                                comment={comment}
+                                replies={replies}
+                                setReplies={setReplies}
                             />
                         }
                     </div>

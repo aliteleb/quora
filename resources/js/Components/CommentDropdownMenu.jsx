@@ -1,14 +1,12 @@
 import React, {useEffect, useRef} from 'react'
 import {Transition, TransitionChild} from "@headlessui/react";
-import {BsQuestionSquare} from "react-icons/bs";
-import {BiCommentEdit} from "react-icons/bi";
-import {FaEdit, FaRegEdit, FaUsers} from "react-icons/fa";
+import {FaRegEdit} from "react-icons/fa";
 import {GoTrash} from "react-icons/go";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {TbMessageReport} from "react-icons/tb";
 import {router} from "@inertiajs/react";
 
-export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount}) {
+export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount, setReplies}) {
 
     const { user } = useApp()
 
@@ -26,20 +24,29 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
         };
     }, []);
 
+    const updateCommentsAfterDelete = () => {
+        const updatedComments = comments.filter(comment => comment.id !== commentId)
+        setComments(updatedComments)
+    }
+
+    const updateRepliesAfterDelete = () => {
+        const mainComment = comments?.filter(iterate_comment => iterate_comment.id === comment.comment_id)
+        const updatedReplies = mainComment[0].replies?.filter(reply => reply.id !== commentId)
+        setReplies(updatedReplies)
+    }
     const deleteComment = () => {
         router.delete(`delete-comment/${commentId}`, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-                updateCommentsAfterDelete()
+                if (!comment.comment_id) {
+                    updateCommentsAfterDelete()
+                } else {
+                    updateRepliesAfterDelete()
+                }
                 setCommentsCount(commentsCount - 1)
             },
         })
-    }
-
-    const updateCommentsAfterDelete = () => {
-        const updatedComments = comments.filter(comment => comment.id !== commentId)
-        setComments(updatedComments)
     }
 
     return (

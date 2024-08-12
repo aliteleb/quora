@@ -19,6 +19,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
     const [voteDownCount, setVoteDownCount] = useState();
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
+    const [commentsCount, setCommentsCount] = useState(thread.comments_count);
+    const [sharesCount, setSharesCount] = useState(thread.all_shares_count);
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
     const [isFetching, setIsFetching] = useState(false);
     const [nextPageUrl, setNextPageUrl] = useState('');
@@ -93,6 +95,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             comments={comments}
             customStyles={index === comments.length - 1 ? 'pb-3' : ''}
             getComments={getComments}
+            commentsCount={commentsCount}
+            setCommentsCount={setCommentsCount}
         />
     ));
 
@@ -102,12 +106,9 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             preserveState: true,
             onSuccess: () => {
                 reset()
-                window.history.replaceState({}, ``, `/`)
+                setCommentsCount(commentsCount + 1)
                 getComments()
             },
-            onError: () => {
-                window.history.replaceState({}, ``, `/`)
-            }
         })
     }
 
@@ -245,11 +246,11 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                             toggleComments()
                         }} className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
-                            <span>{thread.comments_count}</span>
+                            <span>{commentsCount}</span>
                         </div>
                         <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <CiShare2 />
-                            <span>{thread.all_shares_count}</span>
+                            <span>{sharesCount}</span>
                         </div>
                     </div>
                 </div>
