@@ -8,7 +8,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {TbMessageReport} from "react-icons/tb";
 import {router} from "@inertiajs/react";
 
-export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments}) {
+export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount}) {
 
     const { user } = useApp()
 
@@ -32,11 +32,8 @@ export default function CommentDropdownMenu({isCommentModalOpen, setIsCommentMod
             preserveState: true,
             onSuccess: () => {
                 updateCommentsAfterDelete()
-                window.history.replaceState({}, ``, `/`)
+                setCommentsCount(commentsCount - 1)
             },
-            onError: () => {
-                window.history.replaceState({}, ``, `/`)
-            }
         })
     }
 
