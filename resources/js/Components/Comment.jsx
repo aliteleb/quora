@@ -6,7 +6,7 @@ import {router, useForm} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, getComments}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -28,10 +28,10 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     useEffect(() => {
         setReplies(comment.replies)
         setIsVoted(comment.vote)
-    }, []);
+    }, [comment]);
 
-    const show_replies = replies?.map(reply => (
-        <Comment comment={reply} customStyles={``} isReply={true} user={reply.user} thread_id={thread_id}/>
+    const show_replies = replies?.map((reply, index) => (
+        <Comment key={index} comment={reply} customStyles={``} isReply={true} user={reply.user} thread_id={thread_id} getComments={getComments}/>
     ))
 
     const toggleShowReplies = () => {
@@ -100,14 +100,14 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
+            onSuccess: (res) => {
+                console.log(res.props)
                 reset()
                 setShowReplyInput(false)
-                window.history.replaceState({}, ``, `/`)
+                getComments()
             },
             onError: () => {
                 setShowReplyInput(false)
-                window.history.replaceState({}, ``, `/`)
             }
         })
     }
@@ -200,6 +200,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                         replyTo={comment.user.name}
                         comment_id={comment.id}
                         thread_id={thread_id}
+                        getComments={getComments}
                     />
                 }
 

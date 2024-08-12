@@ -64,6 +64,23 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         }
     };
 
+    const getComments = () => {
+        setOpenCommentsLoading(false)
+        setFetched(true)
+        router.get('/get-comments', {thread_id: thread.id}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setOpenCommentsLoading(true)
+                setComments(res.props.comments.data)
+                setNextPageUrl(res.props.next_page_url)
+            },
+            onError: () => {
+                setOpenCommentsLoading(true)
+            }
+        })
+    }
+
     const lastCommentRef = useRef(null);
     const show_comments = comments.map((comment, index) => (
         <Comment
@@ -75,6 +92,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             setComments={setComments}
             comments={comments}
             customStyles={index === comments.length - 1 ? 'pb-3' : ''}
+            getComments={getComments}
         />
     ));
 
@@ -157,23 +175,6 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             video: null,
         });
     };
-
-    const getComments = () => {
-        setOpenCommentsLoading(false)
-        setFetched(true)
-        router.get('/get-comments', {thread_id: thread.id}, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                setOpenCommentsLoading(true)
-                setComments(res.props.comments.data)
-                setNextPageUrl(res.props.next_page_url)
-            },
-            onError: () => {
-                setOpenCommentsLoading(true)
-            }
-        })
-    }
 
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
