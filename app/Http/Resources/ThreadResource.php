@@ -21,8 +21,8 @@ class ThreadResource extends JsonResource
         $user = User::where('id', $this->user_id)->first();
 
         $thread = Thread::where('id', $this->id)->first();
-        $thread_image = $thread->getFirstMediaUrl('threads_images');
-        $thread_video = $thread->getMedia('threads_videos');
+        $thread_image = $thread ? $thread->getFirstMediaUrl('threads_images') : '';
+        $thread_video = $thread ? $thread->getMedia('threads_videos') : '';
 
         $up_votes = $this->votes()->where('vote_type', 'up')->whereNull('comment_id')->count();
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();

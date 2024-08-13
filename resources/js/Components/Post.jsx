@@ -214,7 +214,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                 </div>
             </header>
             <main className={`flex flex-col gap-y-3`}>
-                <div className={`px-5`}>{thread.title}</div>
+                <div className={`px-5`}>{thread.title ? thread.title : thread.body}</div>
                 {thread.image &&
                     <img
                     src={thread.image}

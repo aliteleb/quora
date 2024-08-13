@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\ThreadResource;
+use App\Models\Comment;
 use App\Models\Thread;
 use Illuminate\Support\Facades\Log;
 
@@ -35,7 +37,10 @@ class UserController extends Controller
 
     protected function filterThreads($section, $thread_type, $filter_type, $user_id)
     {
-        if ($section !== 'profile') {
+        $threads = null;
+        $answers = null;
+
+        if ($section !== 'profile' && $section !== 'answers') {
             if ($filter_type === 'most_popular') {
                 $threads = Thread::where('user_id', $user_id)
                     ->where('type', $thread_type)
@@ -47,8 +52,12 @@ class UserController extends Controller
                     ->where('type', $thread_type)
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
-                Log::info('posts', array($threads));
             }
+        } elseif ($section === 'answers') {
+            $answers = Comment::where('user_id', $user_id)
+                ->where('type', 'answer')
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
         } else {
             if ($filter_type === 'most_popular') {
                 $threads = Thread::where('user_id', $user_id)
@@ -64,11 +73,15 @@ class UserController extends Controller
             }
         }
 
-        $threads = ThreadResource::collection($threads);
-        $data = ['threads' => $threads];
+        $threads = $threads ? ThreadResource::collection($threads) : null;
+        $answers = $answers ? ThreadResource::collection($answers) : null;
+
+        $data = $section !== 'answers' ? ['threads' => $threads] : ['answers' => $answers];
 
         return InertiaResponse::back($data);
     }
+
+
 
     public function callFilterThreadsFn($user_id, $section, $type)
     {
@@ -76,6 +89,8 @@ class UserController extends Controller
             $this->filterThreads($section, 'post', $type, $user_id);
         } elseif ($section === 'questions') {
             $this->filterThreads($section, 'question', $type, $user_id);
+        } elseif ($section === 'answers') {
+            $this->filterThreads($section, 'answer', $type, $user_id);
         } else {
             $this->filterThreads($section, 'thread', $type, $user_id);
         }

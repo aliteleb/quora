@@ -46,8 +46,6 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         }
     }
 
-
-
     const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {
@@ -79,8 +77,13 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                setThreads(res.props.threads.data)
-                setThreadsNextPageUrl(res.props.threads?.links?.next)
+                if (res.props.threads) {
+                    setThreads(res.props.threads.data)
+                    setThreadsNextPageUrl(res.props.threads?.links?.next)
+                } else {
+                    setThreads(res.props.answers.data)
+                    setThreadsNextPageUrl(res.props.answers?.links?.next)
+                }
             }
         });
     }
@@ -88,7 +91,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     const handleFilterTypeSelect = (e) => {
         setFilterType(e?.target.value);
         setIsFilterDropdownOpen(false);
-        if (isActive.profile || isActive.posts || isActive.questions) {
+        if (isActive.profile || isActive.posts || isActive.questions || isActive.answers) {
             e?.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
         }
     };
@@ -149,33 +152,55 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
             <div className={`flex flex-col gap-y-3`}>
                 <div className={`mt-5 flex border-b border-[--theme-secondary-bg-color-hover]`}>
-                    <ProfileButton select={`profile`} custom_styles={isActive.profile ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`الملف الشخصي`}/>
-                    <ProfileButton select={`answers`} custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.answers_count} إجابات`}/>
-                    <ProfileButton select={`questions`} custom_styles={isActive.questions ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.questions_count} أسئلة`}/>
-                    <ProfileButton select={`posts`} custom_styles={isActive.posts ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'} onClick={handleClickOnButton} content={`${userInfo?.posts_count} منشور`}/>
+                    <ProfileButton
+                        select={`profile`}
+                        custom_styles={isActive.profile ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
+                        onClick={handleClickOnButton}
+                        content={`الملف الشخصي`}
+                    />
+                    <ProfileButton
+                        select={`answers`}
+                        custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
+                        onClick={handleClickOnButton}
+                        content={`${userInfo?.answers_count} إجابات`}
+                    />
+                    <ProfileButton
+                        select={`questions`}
+                        custom_styles={isActive.questions ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
+                        onClick={handleClickOnButton}
+                        content={`${userInfo?.questions_count} أسئلة`}
+                    />
+                    <ProfileButton
+                        select={`posts`}
+                        custom_styles={isActive.posts ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
+                        onClick={handleClickOnButton}
+                        content={`${userInfo?.posts_count} منشور`}
+                    />
                 </div>
 
                 <div className={`flex justify-between border-b border-[--theme-secondary-bg-color-hover] pb-3 min-h-10`}>
                     <div className={`flex gap-x-2`}>
-                        {labels[active_label] !== 'الملف الشخصي' && <span>112</span>}
+                        {labels[active_label] !== 'الملف الشخصي' && <span>{isActive.answers ? userInfo?.answers_count : isActive.questions ? userInfo?.questions_count : isActive.posts ? userInfo?.posts_count : null}</span>}
                         <span>{labels[active_label]}</span>
                     </div>
 
-                    <div className={`relative`}>
-                        <Button
-                            content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
-                            onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                            isDropDown={true}
-                            custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
-                        />
-                        <FilterPosts
-                            isFilterDropdownOpen={isFilterDropdownOpen}
-                            setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                            filterType={filterType}
-                            handleFilterTypeSelect={handleFilterTypeSelect}
-                            custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
-                        />
-                    </div>
+                    {!isActive.answers &&
+                        <div className={`relative`}>
+                            <Button
+                                content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
+                                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                isDropDown={true}
+                                custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
+                            />
+                            <FilterPosts
+                                isFilterDropdownOpen={isFilterDropdownOpen}
+                                setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                                filterType={filterType}
+                                handleFilterTypeSelect={handleFilterTypeSelect}
+                                custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
+                            />
+                        </div>
+                    }
 
                 </div>
             </div>

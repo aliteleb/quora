@@ -52,7 +52,7 @@ class User extends Authenticatable
     }
     public function answers(): HasMany
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->where('type', 'answer');
     }
     public function followedSpaces()
     {
