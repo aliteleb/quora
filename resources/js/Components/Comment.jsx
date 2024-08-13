@@ -10,7 +10,20 @@ import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import Button from "@/Core/Button.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, commentsCount, setCommentsCount, setParentReplies, parentReplies}, ref) => {
+const Comment = forwardRef(({
+    comment,
+    customStyles,
+    isReply,
+    user,
+    thread_id,
+    setComments,
+    comments,
+    commentsCount,
+    setCommentsCount,
+    setParentReplies,
+    parentReplies,
+    parentComment,
+}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -33,6 +46,8 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
         setIsVoted(comment.vote)
     }, [comment]);
 
+    const parentCommentUser = parentReplies?.filter(reply => reply.comment_id === comment.comment_id)
+
     const show_replies = replies?.map((reply, index) => (
         <Comment
             key={index}
@@ -43,10 +58,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             comments={comments}
             commentsCount={commentsCount}
             setCommentsCount={setCommentsCount}
-            setParentReplies={setReplies}
             parentReplies={replies}
+            setParentReplies={setReplies}
+            parentComment={parentCommentUser}
         />
-    ))
+    ));
 
     const toggleShowReplies = () => {
         setShowReplies(!showReplies)
@@ -141,33 +157,38 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     return (
         <>
             <div ref={ref} className={`pt-3 flex flex-col gap-x-3 ${customStyles ? customStyles : ''}`}>
-                <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex items-center justify-between gap-x-3`}>
-                    <div className={`flex items-center gap-x-3`}>
-                        <DefaultUserIcon/>
-                        <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
+                <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex flex-col justify-between gap-x-3 gap-y-2`}>
+                    {/*{comment.comment_id && <div className={`px-5 py-1 rounded-full mt-1 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> رد على <button className={`font-bold`}>{parentComment?.user.name}</button></div>}*/}
+
+                    <div className={`flex justify-between`}>
+                        <div className={`flex items-center gap-x-3`}>
+                            <DefaultUserIcon/>
+                            <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
+                        </div>
+
+                        <div className={`relative`}>
+                            <div id={`commentDropdownMenu`} onClick={() => setIsCommentModalOpen(!isCommentModalOpen)} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
+                                <RxDotsHorizontal className={`size-5`}/>
+                            </div>
+                            {isCommentModalOpen &&
+                                <CommentDropdownMenu
+                                    isCommentModalOpen={isCommentModalOpen}
+                                    setIsCommentModalOpen={setIsCommentModalOpen}
+                                    commentUserId={comment.user.id}
+                                    commentId={!isReply ? comment.id : comment.comment_id }
+                                    setComments={setComments}
+                                    comments={comments}
+                                    setCommentsCount={setCommentsCount}
+                                    commentsCount={commentsCount}
+                                    comment={comment}
+                                    replies={replies}
+                                    setReplies={setParentReplies}
+                                    parentReplies={parentReplies}
+                                />
+                            }
+                        </div>
                     </div>
 
-                    <div className={`relative`}>
-                        <div id={`commentDropdownMenu`} onClick={() => setIsCommentModalOpen(!isCommentModalOpen)} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full p-2 h-fit cursor-pointer`}>
-                            <RxDotsHorizontal className={`size-5`}/>
-                        </div>
-                        {isCommentModalOpen &&
-                            <CommentDropdownMenu
-                                isCommentModalOpen={isCommentModalOpen}
-                                setIsCommentModalOpen={setIsCommentModalOpen}
-                                commentUserId={comment.user.id}
-                                commentId={!isReply ? comment.id : comment.comment_id }
-                                setComments={setComments}
-                                comments={comments}
-                                setCommentsCount={setCommentsCount}
-                                commentsCount={commentsCount}
-                                comment={comment}
-                                replies={replies}
-                                setReplies={setParentReplies}
-                                parentReplies={parentReplies}
-                            />
-                        }
-                    </div>
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
                     <div className={`flex flex-col justify-between px-12 gap-y-2`}>
