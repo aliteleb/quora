@@ -6,7 +6,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {TbMessageReport} from "react-icons/tb";
 import {router} from "@inertiajs/react";
 
-export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount, setReplies}) {
+export default function CommentDropdownMenu({parentReplies ,comment, isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount, setReplies}) {
 
     const { user } = useApp()
 
@@ -30,12 +30,13 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
     }
 
     const updateRepliesAfterDelete = () => {
-        const mainComment = comments?.filter(iterate_comment => iterate_comment.id === comment.comment_id)
-        const updatedReplies = mainComment[0].replies?.filter(reply => reply.id !== commentId)
+        const mainComment = comments?.filter(iterate_comment => iterate_comment.id === commentId)
+        console.log(parentReplies)
+        const updatedReplies = parentReplies?.filter(reply => reply.id !== comment.id)
         setReplies(updatedReplies)
     }
     const deleteComment = () => {
-        router.delete(`delete-comment/${commentId}`, {
+        router.delete(`delete-comment/${comment.id}`, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
@@ -57,7 +58,7 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
         >
             <div
                 ref={commentDropdownRef}
-                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] ${commentUserId !== user.id ? 'pt-0' : 'pt-1'} z-50`}
+                className={`dropdown-clip-path-responsive 2xl:commentDropdown-clip-path absolute left-1/2 top-10 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] ${commentUserId !== user.id ? 'pt-0' : 'pt-1'} z-50`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"

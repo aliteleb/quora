@@ -2,11 +2,15 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react'
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
-import {router, useForm} from "@inertiajs/react";
+import {router, useForm, usePage} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
+import Input from "@/Core/Input.jsx";
+import {RiImageAddLine} from "react-icons/ri";
+import {HiMiniXMark} from "react-icons/hi2";
+import Button from "@/Core/Button.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, getComments, commentsCount, setCommentsCount}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, commentsCount, setCommentsCount, setParentReplies, parentReplies}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -16,8 +20,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
-
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, reset } = useForm({
         body: '',
         image: null,
         video: null,
@@ -37,10 +40,11 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             isReply={true}
             user={reply.user}
             thread_id={thread_id}
-            getComments={getComments}
             comments={comments}
             commentsCount={commentsCount}
             setCommentsCount={setCommentsCount}
+            setParentReplies={setReplies}
+            parentReplies={replies}
         />
     ))
 
@@ -103,14 +107,25 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     };
 
     const addReply = () => {
+
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
                 reset()
                 setCommentsCount(commentsCount + 1)
+                if (comment.comment_id) {
+                    setParentReplies(prevState => ([
+                        ...prevState,
+                        res.props.reply.data
+                    ]))
+                } else {
+                    setReplies(prevState => ([
+                        ...prevState,
+                        res.props.reply.data
+                    ]))
+                }
                 setShowReplyInput(false)
-                getComments()
             },
             onError: () => {
                 setShowReplyInput(false)
@@ -140,14 +155,15 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                                 isCommentModalOpen={isCommentModalOpen}
                                 setIsCommentModalOpen={setIsCommentModalOpen}
                                 commentUserId={comment.user.id}
-                                commentId={comment.id}
+                                commentId={!isReply ? comment.id : comment.comment_id }
                                 setComments={setComments}
                                 comments={comments}
                                 setCommentsCount={setCommentsCount}
                                 commentsCount={commentsCount}
                                 comment={comment}
                                 replies={replies}
-                                setReplies={setReplies}
+                                setReplies={setParentReplies}
+                                parentReplies={parentReplies}
                             />
                         }
                     </div>
@@ -211,7 +227,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                         replyTo={comment.user.name}
                         comment_id={comment.id}
                         thread_id={thread_id}
-                        getComments={getComments}
                     />
                 }
 

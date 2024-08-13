@@ -104,10 +104,13 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
+            onSuccess: (res) => {
                 reset()
                 setCommentsCount(commentsCount + 1)
-                getComments()
+                setComments(prevState => ([
+                    res.props.comment.data,
+                    ...prevState
+                ]))
             },
         })
     }
@@ -242,7 +245,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                             </div>
                         </div>
                         <div onClick={() => {
-                            (!isCommentsOpen && !fetched) && getComments()
+                            (!isCommentsOpen && !fetched) &&
+                            getComments()
                             toggleComments()
                         }} className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                             <FaRegComment />
