@@ -2,11 +2,15 @@ import React, {forwardRef, useEffect, useRef, useState} from 'react'
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {RxDotsHorizontal} from "react-icons/rx";
 import {PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill} from "react-icons/pi";
-import {router, useForm} from "@inertiajs/react";
+import {router, useForm, usePage} from "@inertiajs/react";
 import AddComment from "@/Components/AddComment.jsx";
 import CommentDropdownMenu from "@/Components/CommentDropdownMenu.jsx";
+import Input from "@/Core/Input.jsx";
+import {RiImageAddLine} from "react-icons/ri";
+import {HiMiniXMark} from "react-icons/hi2";
+import Button from "@/Core/Button.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, getComments, commentsCount, setCommentsCount}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, commentsCount, setCommentsCount, setParentReplies}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -15,7 +19,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
-
 
     const { data, setData, post, errors, reset } = useForm({
         body: '',
@@ -37,15 +40,16 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             isReply={true}
             user={reply.user}
             thread_id={thread_id}
-            getComments={getComments}
             comments={comments}
             commentsCount={commentsCount}
             setCommentsCount={setCommentsCount}
+            setParentReplies={setReplies}
         />
     ))
 
     const toggleShowReplies = () => {
         setShowReplies(!showReplies)
+        // console.log(replies)
     }
 
     const vote = (voteType) => {
@@ -103,14 +107,18 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     };
 
     const addReply = () => {
+
         post('/add-comment', {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
                 reset()
                 setCommentsCount(commentsCount + 1)
+                setParentReplies(prevState => ([
+                    ...prevState,
+                    res.props.reply.data
+                ]))
                 setShowReplyInput(false)
-                getComments()
             },
             onError: () => {
                 setShowReplyInput(false)
@@ -211,7 +219,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                         replyTo={comment.user.name}
                         comment_id={comment.id}
                         thread_id={thread_id}
-                        getComments={getComments}
                     />
                 }
 

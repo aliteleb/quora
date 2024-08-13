@@ -6,7 +6,7 @@ import {HiMiniXMark} from "react-icons/hi2";
 import {useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
 
-const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id, getComments}, ref) => {
+const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id, replies, setReplies}, ref) => {
 
     return (
         <div className={`bg-[--theme-input-bg-color] mt-2`}>
