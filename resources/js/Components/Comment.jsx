@@ -20,7 +20,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
-    const { data, setData, post, errors, reset } = useForm({
+    const { data, setData, post, reset } = useForm({
         body: '',
         image: null,
         video: null,
@@ -49,7 +49,6 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
 
     const toggleShowReplies = () => {
         setShowReplies(!showReplies)
-        // console.log(replies)
     }
 
     const vote = (voteType) => {
@@ -148,14 +147,14 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                                 isCommentModalOpen={isCommentModalOpen}
                                 setIsCommentModalOpen={setIsCommentModalOpen}
                                 commentUserId={comment.user.id}
-                                commentId={comment.id}
+                                commentId={!isReply ? comment.id : comment.comment_id }
                                 setComments={setComments}
                                 comments={comments}
                                 setCommentsCount={setCommentsCount}
                                 commentsCount={commentsCount}
                                 comment={comment}
                                 replies={replies}
-                                setReplies={setReplies}
+                                setReplies={setParentReplies}
                             />
                         }
                     </div>

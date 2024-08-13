@@ -29,13 +29,15 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
         setComments(updatedComments)
     }
 
+    console.log(comment)
+
     const updateRepliesAfterDelete = () => {
-        const mainComment = comments?.filter(iterate_comment => iterate_comment.id === comment.comment_id)
-        const updatedReplies = mainComment[0].replies?.filter(reply => reply.id !== commentId)
+        const mainComment = comments?.filter(iterate_comment => iterate_comment.id === commentId)
+        const updatedReplies = mainComment[0]?.replies?.filter(reply => reply.id !== comment.id)
         setReplies(updatedReplies)
     }
     const deleteComment = () => {
-        router.delete(`delete-comment/${commentId}`, {
+        router.delete(`delete-comment/${comment.id}`, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
