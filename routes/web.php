@@ -56,6 +56,7 @@ Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
+Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quickSearch');
 
 // Public Routes
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {

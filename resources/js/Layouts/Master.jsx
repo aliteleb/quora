@@ -12,7 +12,7 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import Input from "@/Core/Input.jsx";
 import {RiGlobalLine} from "react-icons/ri";
-import Search from "@/Components/Search.jsx";
+import SearchInput from "@/Components/SearchInput.jsx";
 
 function Master({children}) {
 
@@ -55,7 +55,7 @@ function Master({children}) {
                                 </Link>
                             </div>
 
-                           <Search className={`flex-grow relative`}/>
+                           <SearchInput className={`flex-grow relative`}/>
 
                         </ul>
                         <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
