@@ -62,7 +62,7 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
                 </div>
 
                 <div onClick={addComment}>
-                    <Button disabled={!data.body && !data.image && !data.video} custom_styles={`xs:block hidden ${!data.body && !data.image && !data.video ? 'opacity-40' : ''} `} content={submitBtnText}/>
+                    <Button disabled={!data.body && !data.image && !data.video} custom_styles={`xs:block hidden ${!data.body && !data.image && !data.video ? 'opacity-40' : ''} `} content={data.image || data.video ? 'أضف' : submitBtnText}/>
                     <Button disabled={!data.body && !data.image && !data.video} custom_styles={`block xs:hidden ${!data.body && !data.image && !data.video ? 'opacity-40' : ''} `} content={`أضف`}/>
                 </div>
             </div>
