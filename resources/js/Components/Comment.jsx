@@ -124,6 +124,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                         ...prevState,
                         res.props.reply.data
                     ]))
+                    toggleShowReplies()
                 }
                 setShowReplyInput(false)
             },
@@ -202,7 +203,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                             </div>
                         </div>
                         <button onClick={toggleShowReplyInput} className={`hover:bg-[--theme-nav-bg-color-hover] rounded-full w-[40px] h-[40px] cursor-pointer`}>رد</button>
-                        {comment.replies?.length !== 0 && !isReply &&
+                        {replies?.length !== 0 && !isReply &&
                             <button
                                 onClick={toggleShowReplies}
                                 className={`hover:bg-[--theme-nav-bg-color-hover] text-[--theme-secondary-text-color] rounded-full px-4 py-2 cursor-pointer`}>

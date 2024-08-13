@@ -91,6 +91,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
             ref={index === comments.length - 1 ? lastCommentRef : null}
             user={comment.user}
             thread_id={thread.id}
+            isReply={false}
             setComments={setComments}
             comments={comments}
             customStyles={index === comments.length - 1 ? 'pb-3' : ''}
