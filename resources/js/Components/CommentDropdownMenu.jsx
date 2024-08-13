@@ -6,7 +6,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {TbMessageReport} from "react-icons/tb";
 import {router} from "@inertiajs/react";
 
-export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount, setReplies}) {
+export default function CommentDropdownMenu({parentReplies ,comment, isCommentModalOpen, setIsCommentModalOpen, commentUserId, commentId, setComments, comments, setCommentsCount, commentsCount, setReplies}) {
 
     const { user } = useApp()
 
@@ -29,11 +29,10 @@ export default function CommentDropdownMenu({comment, isCommentModalOpen, setIsC
         setComments(updatedComments)
     }
 
-    console.log(comment)
-
     const updateRepliesAfterDelete = () => {
         const mainComment = comments?.filter(iterate_comment => iterate_comment.id === commentId)
-        const updatedReplies = mainComment[0]?.replies?.filter(reply => reply.id !== comment.id)
+        console.log(parentReplies)
+        const updatedReplies = parentReplies?.filter(reply => reply.id !== comment.id)
         setReplies(updatedReplies)
     }
     const deleteComment = () => {

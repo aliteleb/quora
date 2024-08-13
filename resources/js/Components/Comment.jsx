@@ -10,7 +10,7 @@ import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import Button from "@/Core/Button.jsx";
 
-const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, commentsCount, setCommentsCount, setParentReplies}, ref) => {
+const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, setComments, comments, commentsCount, setCommentsCount, setParentReplies, parentReplies}, ref) => {
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -44,6 +44,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             commentsCount={commentsCount}
             setCommentsCount={setCommentsCount}
             setParentReplies={setReplies}
+            parentReplies={replies}
         />
     ))
 
@@ -113,10 +114,17 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
             onSuccess: (res) => {
                 reset()
                 setCommentsCount(commentsCount + 1)
-                setParentReplies(prevState => ([
-                    ...prevState,
-                    res.props.reply.data
-                ]))
+                if (comment.comment_id) {
+                    setParentReplies(prevState => ([
+                        ...prevState,
+                        res.props.reply.data
+                    ]))
+                } else {
+                    setReplies(prevState => ([
+                        ...prevState,
+                        res.props.reply.data
+                    ]))
+                }
                 setShowReplyInput(false)
             },
             onError: () => {
@@ -155,6 +163,7 @@ const Comment = forwardRef(({comment, customStyles, isReply, user, thread_id, se
                                 comment={comment}
                                 replies={replies}
                                 setReplies={setParentReplies}
+                                parentReplies={parentReplies}
                             />
                         }
                     </div>
