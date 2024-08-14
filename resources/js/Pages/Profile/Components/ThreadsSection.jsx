@@ -12,7 +12,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
             key={index}
             thread={thread}
             ref={index === threads.length - 1 ? lastThreadRef : null}
-            customStyles={`${index !== 0 ? `mt-3` : ''} ${index === threads.length - 1 ? 'pb-14 sm:pb-3' : ''}`}
+            customStyles={`${index !== 0 ? `mt-3` : ''} ${index === threads.length - 1 ? 'pb-16 sm:pb-3' : ''}`}
         />
     ))
     const loadNextThreads = (pageUrl) => {

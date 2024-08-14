@@ -28,12 +28,20 @@ class ProfileController extends Controller
     public function showUser($username)
     {
         $user = User::whereUsername($username)
-            ->select(['name', 'bio', 'username', 'id'])
             ->withCount('posts', 'answers', 'followedSpaces', 'questions')
-            ->first();
+            ->first(['name', 'bio', 'username', 'id', 'created_at']);
         if (!$user) {
             abort(404);
         }
+
+        $followed_spaces = $user->followedSpaces;
+        $followed_spaces = $followed_spaces->map(function ($space) {
+            $space->followers_count = $space->followers()->count();
+            if ($space->getFirstMediaUrl('spaces_poster_images')) {
+              $space->avatar = $space->getFirstMediaUrl('spaces_poster_images');
+            }
+            return $space->only(['name', 'followers_count', 'slug']);
+        });
 
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
         $is_blocked = $user->blockedUser()->where('user_id', auth()->id())->exists();
@@ -47,6 +55,10 @@ class ProfileController extends Controller
             'is_blocked' => $is_blocked,
             'threads' => $threads,
         ];
+
+        if ($followed_spaces->isNotEmpty()) {
+            $data['followed_spaces'] = $followed_spaces;
+        }
 
         return InertiaResponse::render('Profile/Pages/Profile', $data);
     }

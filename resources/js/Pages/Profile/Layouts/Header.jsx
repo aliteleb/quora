@@ -7,10 +7,10 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
-export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl}) {
-    const {props} = usePage()
+export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo}) {
     const { user } = useApp()
-    const [userInfo, setUserInfo] = useState(props?.user?.data);
+    const { props } = usePage()
+
     const [followersCount, setFollowersCount] = useState(props.user?.data.followers_count);
     const [followCount, setFollowCount] = useState(props.user?.data.follow_count);
     const [isFollowed, setIsFollowed] = useState(props.is_followed);
@@ -51,11 +51,8 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         if (!isActive.button) {
             setIsActive({
                 profile: false,
-                answers: false,
                 questions: false,
                 posts: false,
-                followers: false,
-                following: false,
                 [button]: true,
             })
             setSectionSelection(button)
@@ -77,13 +74,8 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                if (res.props.threads) {
-                    setThreads(res.props.threads.data)
-                    setThreadsNextPageUrl(res.props.threads?.links?.next)
-                } else {
-                    setThreads(res.props.answers.data)
-                    setThreadsNextPageUrl(res.props.answers?.links?.next)
-                }
+                setThreads(res.props.threads.data)
+                setThreadsNextPageUrl(res.props.threads?.links?.next)
             }
         });
     }
@@ -91,7 +83,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     const handleFilterTypeSelect = (e) => {
         setFilterType(e?.target.value);
         setIsFilterDropdownOpen(false);
-        if (isActive.profile || isActive.posts || isActive.questions || isActive.answers) {
+        if (isActive.profile || isActive.posts || isActive.questions) {
             e?.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
         }
     };
@@ -106,12 +98,14 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
     return (
         <>
-            <div className={`py-2 flex gap-x-4 w-full`}>
-                <img
-                    src="/auth-bg.webp"
-                    alt="avatat"
-                    className={`size-32 rounded-full object-cover`}
-                />
+            <div className={`pb-2 pt-8 flex gap-x-4 w-full`}>
+                {!userInfo.avatar &&
+                    <img
+                        src="/profile-default-svgrepo-com.svg"
+                        alt="avatat"
+                        className={`size-32 rounded-full object-cover`}
+                    />
+                }
                 <div className={`flex flex-col gap-y-2 w-full`}>
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
@@ -159,12 +153,6 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                         content={`الملف الشخصي`}
                     />
                     <ProfileButton
-                        select={`answers`}
-                        custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
-                        onClick={handleClickOnButton}
-                        content={`${userInfo?.answers_count} إجابات`}
-                    />
-                    <ProfileButton
                         select={`questions`}
                         custom_styles={isActive.questions ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
                         onClick={handleClickOnButton}
@@ -184,23 +172,21 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                         <span>{labels[active_label]}</span>
                     </div>
 
-                    {!isActive.answers &&
-                        <div className={`relative`}>
-                            <Button
-                                content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
-                                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                                isDropDown={true}
-                                custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
-                            />
-                            <FilterPosts
-                                isFilterDropdownOpen={isFilterDropdownOpen}
-                                setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                                filterType={filterType}
-                                handleFilterTypeSelect={handleFilterTypeSelect}
-                                custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
-                            />
-                        </div>
-                    }
+                    <div className={`relative`}>
+                        <Button
+                            content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
+                            onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                            isDropDown={true}
+                            custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
+                        />
+                        <FilterPosts
+                            isFilterDropdownOpen={isFilterDropdownOpen}
+                            setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                            filterType={filterType}
+                            handleFilterTypeSelect={handleFilterTypeSelect}
+                            custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
+                        />
+                    </div>
 
                 </div>
             </div>
