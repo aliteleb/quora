@@ -48,7 +48,7 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
-    Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
+
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -57,6 +57,8 @@ Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showS
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
 Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quickSearch');
+Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
+Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 
 // Public Routes
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {

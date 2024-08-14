@@ -46,18 +46,33 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         }
     }
 
-    const handleClickOnButton = (e) => {
+    const getAnswers = () => {
+        router.get(`/profile/answers/${userInfo?.id}/${filterType}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+
+            }
+        })
+    }
+
+    const handleClickOnButton = (e, isGetAnswers = false) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {
             setIsActive({
                 profile: false,
                 questions: false,
                 posts: false,
+                answers: false,
                 [button]: true,
             })
             setSectionSelection(button)
         }
         setIsBtnClicked(true)
+
+        if (isGetAnswers) {
+            getAnswers();
+        }
     }
 
     const labels = {
@@ -110,7 +125,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
                         {userInfo?.id === user?.id &&
-                            <Button content={`تعديل`} custom_styles={`hidden xxs:block p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
+                            <Button content={`تعديل`} custom_styles={`hidden xxs:block p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}/>
                         }
                     </div>
                     <div className={`${!userInfo?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{userInfo?.bio ? userInfo.bio : 'نبذة'}</div>
@@ -121,7 +136,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                                 <span> يتابع {followCount}</span>
                             </div>
                             {userInfo?.id === user?.id &&
-                                <Button content={`تعديل`} custom_styles={`block xxs:hidden p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
+                                <Button content={`تعديل`} custom_styles={`block xxs:hidden p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}/>
                             }
                         </div>
                         {userInfo?.id !== user?.id &&
@@ -156,6 +171,12 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                         custom_styles={isActive.profile ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
                         onClick={handleClickOnButton}
                         content={`الملف الشخصي`}
+                    />
+                    <ProfileButton
+                        select={`answers`}
+                        custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
+                        onClick={(e) => handleClickOnButton(e, true)}
+                        content={`${userInfo?.answers_count} إجابات`}
                     />
                     <ProfileButton
                         select={`questions`}

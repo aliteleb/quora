@@ -40,7 +40,7 @@ class UserController extends Controller
         $threads = null;
         $answers = null;
 
-        if ($section !== 'profile' && $section !== 'answers') {
+        if ($section !== 'profile') {
             if ($filter_type === 'most_popular') {
                 $threads = Thread::where('user_id', $user_id)
                     ->where('type', $thread_type)
@@ -53,11 +53,6 @@ class UserController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
             }
-        } elseif ($section === 'answers') {
-            $answers = Comment::where('user_id', $user_id)
-                ->where('type', 'answer')
-                ->orderBy('created_at', 'desc')
-                ->paginate(5);
         } else {
             if ($filter_type === 'most_popular') {
                 $threads = Thread::where('user_id', $user_id)
@@ -89,10 +84,20 @@ class UserController extends Controller
             $this->filterThreads($section, 'post', $type, $user_id);
         } elseif ($section === 'questions') {
             $this->filterThreads($section, 'question', $type, $user_id);
-        } elseif ($section === 'answers') {
-            $this->filterThreads($section, 'answer', $type, $user_id);
         } else {
             $this->filterThreads($section, 'thread', $type, $user_id);
         }
     }
+
+    public function getAnswers($id, $type)
+    {
+
+    }
+
 }
+
+
+//$answers = Comment::where('user_id', $user_id)
+//    ->where('type', 'answer')
+//    ->orderBy('created_at', 'desc')
+//    ->paginate(5);

@@ -12,6 +12,7 @@ export default function Profile() {
         profile: true,
         questions: false,
         posts: false,
+        answers: false,
     });
 
     const [userInfo, setUserInfo] = useState(props?.user?.data);
