@@ -5,9 +5,9 @@ import {usePage} from "@inertiajs/react";
 export default function UserActiveSpaces() {
 
     const {props} = usePage()
-    const [followedSpaces, setFollowedSpaces] = useState(props?.followed_spaces);
+    const [followedSpaces, setFollowedSpaces] = useState(props?.followed_spaces.data || props?.followed_spaces);
 
-    const show_followed_spaces = followedSpaces.map((space, index) => (
+    const show_followed_spaces = followedSpaces?.map((space, index) => (
         <FollowedSpace key={index} space={space}/>
     ))
 

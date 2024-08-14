@@ -19,7 +19,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
     const [voteDownCount, setVoteDownCount] = useState();
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
-    const [commentsCount, setCommentsCount] = useState(thread.comments_count);
+    const [commentsCount, setCommentsCount] = useState();
     const [sharesCount, setSharesCount] = useState(thread.all_shares_count);
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
     const [isFetching, setIsFetching] = useState(false);
@@ -34,6 +34,11 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         video: null,
         thread_id: thread.id
     });
+
+    useEffect(() => {
+        setCommentsCount(thread.comments_count)
+    }, [thread.comments_count]);
+
 
     useEffect(() => {
         setIsVoted(thread.vote)

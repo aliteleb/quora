@@ -37,9 +37,6 @@ class UserController extends Controller
 
     protected function filterThreads($section, $thread_type, $filter_type, $user_id)
     {
-        $threads = null;
-        $answers = null;
-
         if ($section !== 'profile') {
             if ($filter_type === 'most_popular') {
                 $threads = Thread::where('user_id', $user_id)
@@ -69,9 +66,10 @@ class UserController extends Controller
         }
 
         $threads = $threads ? ThreadResource::collection($threads) : null;
-        $answers = $answers ? ThreadResource::collection($answers) : null;
 
-        $data = $section !== 'answers' ? ['threads' => $threads] : ['answers' => $answers];
+        $data = [
+            'threads' => $threads
+        ];
 
         return InertiaResponse::back($data);
     }
@@ -91,13 +89,21 @@ class UserController extends Controller
 
     public function getAnswers($id, $type)
     {
+        if ($type === 'most_recent') {
+            $answers = Comment::where('user_id', $id)
+                ->where('type', 'answer')
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+        } else {
+            $answers = Comment::where('user_id', $id)
+                ->where('type', 'answer')
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+        }
 
     }
 
 }
 
 
-//$answers = Comment::where('user_id', $user_id)
-//    ->where('type', 'answer')
-//    ->orderBy('created_at', 'desc')
-//    ->paginate(5);
+
