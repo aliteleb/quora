@@ -110,17 +110,22 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
                         {userInfo?.id === user?.id &&
-                            <Button content={`تعديل`} custom_styles={`p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
+                            <Button content={`تعديل`} custom_styles={`hidden xxs:block p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
                         }
                     </div>
                     <div className={`${!userInfo?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{userInfo?.bio ? userInfo.bio : 'نبذة'}</div>
-                    <div className={`flex justify-between `}>
-                        <div>
-                            <span>{followersCount} متابعين · </span>
-                            <span> يتابع {followCount}</span>
+                    <div className={`flex flex-col xs:flex-row gap-y-2 justify-between `}>
+                        <div className={`flex justify-between items-center`}>
+                            <div>
+                                <span>{followersCount} متابعين · </span>
+                                <span> يتابع {followCount}</span>
+                            </div>
+                            {userInfo?.id === user?.id &&
+                                <Button content={`تعديل`} custom_styles={`block xxs:hidden p-1 bg-transparent hover:bg-[--theme-main-bg-color] transition rounded-full px-4 py-2`}/>
+                            }
                         </div>
                         {userInfo?.id !== user?.id &&
-                            <div className={`flex gap-x-2`}>
+                            <div className={`flex flex-wrap gap-y-2 gap-x-2`}>
                                 <Button
                                     disabled={isFollowBtnDisabled}
                                     onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled, setFollowersCount)}
@@ -184,7 +189,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                             setIsFilterDropdownOpen={setIsFilterDropdownOpen}
                             filterType={filterType}
                             handleFilterTypeSelect={handleFilterTypeSelect}
-                            custom_styles={`!left-1/2 -translate-x-1/2 right-auto filterThreadsInProfilePage w-max`}
+                            custom_styles={`!left-1/2 right-auto filterThreadsInProfilePage w-max`}
                         />
                     </div>
 

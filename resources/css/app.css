@@ -25,7 +25,7 @@
     }
 
     .filterThreadsInProfilePage {
-        clip-path: polygon(0% 6%, 45% 6%, 50% 0, 55% 6%, 100% 6%, 100% 100%, 0 100%);
+        clip-path: polygon(0% 6%, 0% 6%, 0% 0, 10% 6%, 100% 6%, 100% 100%, 0 100%);
     }
 
     .commentDropdown-clip-path {
