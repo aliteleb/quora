@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Resources\AnswerResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ThreadResource;
 use App\Models\Comment;
@@ -89,15 +90,26 @@ class UserController extends Controller
 
     public function getAnswers($id, $type)
     {
+
         if ($type === 'most_recent') {
-            $answers = Comment::where('user_id', $id)
-                ->where('type', 'answer')
-                ->orderBy('created_at', 'desc')
-                ->paginate(5);
+                $answers = Comment::where('user_id', $id)
+                    ->where('type', 'answer')
+                    ->with([
+                        'thread:id,title',
+                        'thread.media',
+                    ])
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(5);
+
+                $answers = AnswerResource::collection($answers);
+                Log::info('comments', array($answers));
+
         } else {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
-                ->orderBy('created_at', 'desc')
+                ->with('thread')
+                ->withCount('votes')
+                ->orderBy('votes_count', 'desc')
                 ->paginate(5);
         }
 
