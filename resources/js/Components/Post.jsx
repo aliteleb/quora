@@ -10,7 +10,7 @@ import AddComment from "@/Components/AddComment.jsx";
 import PostDropdown from "@/Components/PostDropdown.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 
-const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => {
+const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, userInfo }, ref) => {
 
     const { user } = useApp()
 
@@ -41,7 +41,11 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
 
 
     useEffect(() => {
-        setIsVoted(thread.vote)
+        if (isAnswer) {
+            setIsVoted(thread.vote?.vote_type)
+        } else {
+            setIsVoted(thread.vote)
+        }
     }, [thread.vote]);
 
     useEffect(() => {
@@ -61,7 +65,6 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                     setNextPageUrl(page.props.next_page_url);
                     setIsFetching(false);
                     setShowMoreCommentsLoading(false)
-                    window.history.replaceState({}, ``, `/`)
                 },
                 onError: () => {
                     setIsFetching(false);
@@ -190,13 +193,23 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
                 <div className={`flex gap-x-3`}>
-                    <Link href={`/profile/${thread.user?.username}`}>
-                        {thread.user?.avatar && <img src={``} className={`md:size-9 size-7 rounded-full cursor-pointer`} />}
-                        {(!thread.user?.avatar && thread.user) && <DefaultUserIcon />}
-                    </Link>
+                    {!isAnswer &&
+                        <Link href={`/profile/${thread.user?.username}`}>
+                            {thread.user?.avatar &&
+                                <img src={thread.user?.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`} alt={`avatar`}/>}
+                            {(!thread.user?.avatar && thread.user) && <DefaultUserIcon/>}
+                        </Link>
+                    }
+                    {isAnswer &&
+                        <Link href={`/profile/${userInfo?.username}`}>
+                            {userInfo?.avatar &&
+                                <img src={userInfo?.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`} alt={`avatar`}/>}
+                            {(!userInfo?.avatar && userInfo) && <DefaultUserIcon/>}
+                        </Link>
+                    }
                     <div>
                         <div className={`font-bold`}>
-                            <Link href={`/profile/${thread.user?.username}`} className={`cursor-pointer`}>{thread.user?.name} · </Link>
+                            <Link href={`/profile/${isAnswer ? userInfo?.username : thread.user?.username}`} className={`cursor-pointer`}>{isAnswer ? userInfo?.name : thread.user?.name} · </Link>
                             <span className={`text-[--theme-button-border-color] cursor-pointer hover:underline`}>متابعة</span>
                         </div>
                         <span>{thread.created_at}</span>
@@ -219,7 +232,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                 </div>
             </header>
             <main className={`flex flex-col gap-y-3`}>
-                <div className={`px-5`}>{thread.title ? thread.title : thread.body}</div>
+                <div className={`px-5`}>{thread.title ? thread?.title : thread?.thread?.title}</div>
                 {thread.image &&
                     <img
                     src={thread.image}
@@ -227,12 +240,28 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                     className={`w-full object-cover max-h-[30rem]`}
                     />
                 }
+            {/*  الإجابة على السؤال  */}
+                {isAnswer &&
+                    <div className={`px-5 mt-3`}>
+                        <div className={`font-bold`}>الإجابة:</div>
+                        <div>{thread.body}</div>
+                        {thread.media?.image &&
+                            <img
+                                src={thread.media.image}
+                                alt="answer-img"
+                                className={`w-full max-h-[20rem] rounded object-cover`}
+                            />
+                        }
+                    </div>
+                }
             </main>
             <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
-                <div>
-                    <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
-                    <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
-                </div>
+                {!isAnswer &&
+                    <div>
+                        <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
+                        <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
+                    </div>
+                }
                 <div className={`flex justify-between text-[--theme-body-color]`}>
                     <div className={`flex gap-x-1`}>
                         <div className={`flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
@@ -250,18 +279,23 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads }, ref) => 
                                 <span>{voteDownCount}</span>
                             </div>
                         </div>
-                        <div onClick={() => {
-                            (!isCommentsOpen && !fetched) &&
-                            getComments()
-                            toggleComments()
-                        }} className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
-                            <FaRegComment />
-                            <span>{commentsCount}</span>
-                        </div>
-                        <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
-                            <CiShare2 />
-                            <span>{sharesCount}</span>
-                        </div>
+                        {!isAnswer &&
+                            <>
+                                <div onClick={() => {
+                                    (!isCommentsOpen && !fetched) &&
+                                    getComments()
+                                    toggleComments()
+                                }}
+                                     className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                                    <FaRegComment/>
+                                    <span>{commentsCount}</span>
+                                </div>
+                                <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                                    <CiShare2/>
+                                    <span>{sharesCount}</span>
+                                </div>
+                            </>
+                        }
                     </div>
                 </div>
             </footer>

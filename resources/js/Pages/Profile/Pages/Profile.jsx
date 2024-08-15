@@ -18,8 +18,8 @@ export default function Profile() {
     const [userInfo, setUserInfo] = useState(props?.user?.data);
     const [threads, setThreads] = useState(props.threads?.data);
     const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links?.next);
+    const [isAnswers, setIsAnswers] = useState(false);
 
-    console.log(props)
 
     return (
         <Master>
@@ -34,12 +34,15 @@ export default function Profile() {
                             setThreads={setThreads}
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
                             userInfo={userInfo}
+                            setIsAnswers={setIsAnswers}
                         />
                         <ThreadsSection
                             threads={threads}
                             setThreads={setThreads}
                             threadsNextPageUrl={threadsNextPageUrl}
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
+                            isAnswers={isAnswers}
+                            userInfo={userInfo}
                         />
                     </div>
 

@@ -2,17 +2,19 @@ import React, {useEffect, useRef, useState} from 'react'
 import Post from "@/Components/Post.jsx";
 import {router} from "@inertiajs/react";
 
-export default function ThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl}) {
+export default function ThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl, isAnswers, userInfo}) {
 
     const [isThreadsFetching, setIsThreadsFetching] = useState(false);
 
     const lastThreadRef = useRef(null)
-    const show_threads = threads?.map((thread, index) => (
+    const show_threads = threads?.map((thread, index) =>  (
         <Post
             key={index}
             thread={thread}
             ref={index === threads.length - 1 ? lastThreadRef : null}
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === threads.length - 1 ? 'pb-16 sm:pb-3' : ''}`}
+            isAnswer={isAnswers}
+            userInfo={userInfo}
         />
     ))
     const loadNextThreads = (pageUrl) => {
@@ -22,11 +24,19 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    setThreads(prevState => ([
-                        ...prevState,
-                        ...res.props.threads.data,
-                    ]));
-                    setThreadsNextPageUrl(res.props.threads.links.next);
+                    if (res.props.answers) {
+                        setThreads(prevState => ([
+                            ...prevState,
+                            ...res.props.answers.data,
+                        ]));
+                        setThreadsNextPageUrl(res.props.answers.links.next);
+                    } else {
+                        setThreads(prevState => ([
+                            ...prevState,
+                            ...res.props.threads.data,
+                        ]));
+                        setThreadsNextPageUrl(res.props.threads.links.next);
+                    }
                     setIsThreadsFetching(false)
                 },
             });

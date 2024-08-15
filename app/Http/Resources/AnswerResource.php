@@ -39,7 +39,7 @@ class AnswerResource extends JsonResource
             'thread_id' => $this->thread_id,
             'body' => $this->body,
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at?->diffForHumans(),
             'updated_at' => $this->updated_at,
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,

@@ -7,7 +7,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
-export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo}) {
+export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setIsAnswers}) {
     const { user } = useApp()
     const { props } = usePage()
 
@@ -50,8 +50,9 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         router.get(`/profile/answers/${userInfo?.id}/${filterType}`, {}, {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
-
+            onSuccess: (res) => {
+                setThreads(res.props.answers.data)
+                setThreadsNextPageUrl(res.props.answers?.links?.next)
             }
         })
     }
@@ -72,6 +73,9 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
         if (isGetAnswers) {
             getAnswers();
+            setIsAnswers(true)
+        } else {
+            setIsAnswers(false)
         }
     }
 

@@ -92,26 +92,27 @@ class UserController extends Controller
     {
 
         if ($type === 'most_recent') {
-                $answers = Comment::where('user_id', $id)
-                    ->where('type', 'answer')
-                    ->with([
-                        'thread:id,title',
-                        'thread.media',
-                    ])
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
-
-                $answers = AnswerResource::collection($answers);
-                Log::info('comments', array($answers));
-
+            $answers = Comment::where('user_id', $id)
+                ->where('type', 'answer')
+                ->with([
+                    'thread:id,title,created_at',
+                    'thread.media',
+                ])
+                ->orderBy('created_at', 'desc')
+                ->paginate(2);
         } else {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
                 ->with('thread')
                 ->withCount('votes')
                 ->orderBy('votes_count', 'desc')
-                ->paginate(5);
+                ->paginate(2);
         }
+
+        $answers = AnswerResource::collection($answers);
+        $data = ['answers' => $answers];
+
+        return InertiaResponse::back($data);
 
     }
 

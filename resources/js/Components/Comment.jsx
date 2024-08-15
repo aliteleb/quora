@@ -197,7 +197,7 @@ const Comment = forwardRef(({
                         {comment.media?.image &&
                             <img className={`w-full max-h-[20rem] rounded object-cover`}
                               src={comment.media?.image}
-                              alt="post-img"
+                              alt="comment-img"
                             />
                         }
                         {comment.media?.video &&
