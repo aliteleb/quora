@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
-Route::middleware(['auth', 'select.topic'])->group(function () {
+Route::middleware(['select.topic', 'auth.redirect'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -41,7 +41,6 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
     Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
     Route::post('/vote-comment', [CommentController::class, 'vote'])->name('vote');
     Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
-    Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
     Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
@@ -51,6 +50,7 @@ Route::middleware(['auth', 'select.topic'])->group(function () {
 
 });
 
+// Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
@@ -59,8 +59,8 @@ Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name(
 Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quickSearch');
 Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
+Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
 
-// Public Routes
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::get('/account', [AuthController::class, 'index'])->name('account');
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');

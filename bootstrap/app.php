@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserAuthenticated;
 use App\Http\Middleware\EnsureUserSelectTopic;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,7 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->alias([
-            'select.topic' => EnsureUserSelectTopic::class
+            'select.topic' => EnsureUserSelectTopic::class,
+            'auth.redirect' => EnsureUserAuthenticated::class,
         ]);
 
         //
