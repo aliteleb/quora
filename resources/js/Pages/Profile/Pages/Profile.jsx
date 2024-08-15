@@ -19,6 +19,8 @@ export default function Profile() {
     const [threads, setThreads] = useState(props.threads?.data);
     const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links?.next);
     const [isAnswers, setIsAnswers] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     console.log(props)
     return (
@@ -35,15 +37,28 @@ export default function Profile() {
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
                             userInfo={userInfo}
                             setIsAnswers={setIsAnswers}
+                            setIsLoading={setIsLoading}
                         />
-                        <ThreadsSection
-                            threads={threads}
-                            setThreads={setThreads}
-                            threadsNextPageUrl={threadsNextPageUrl}
-                            setThreadsNextPageUrl={setThreadsNextPageUrl}
-                            isAnswers={isAnswers}
-                            userInfo={userInfo}
-                        />
+                        {!isLoading &&
+                            <ThreadsSection
+                                threads={threads}
+                                setThreads={setThreads}
+                                threadsNextPageUrl={threadsNextPageUrl}
+                                setThreadsNextPageUrl={setThreadsNextPageUrl}
+                                isAnswers={isAnswers}
+                                userInfo={userInfo}
+                            />
+                        }
+                        {isLoading &&
+                            <div className={`flex justify-center h-full py-5 mt-14`}>
+                                <div className='flex space-x-2 justify-center items-center'>
+                                    <span className='sr-only'>جاري التحميل</span>
+                                    <div className='h-2 w-2 bg-[--theme-secondary-text-color] rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+                                    <div className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+                                    <div className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce'></div>
+                                </div>
+                            </div>
+                        }
                     </div>
 
                     <div className={`relative w-[30%] hidden lg:block`}>

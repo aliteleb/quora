@@ -344,7 +344,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                                     className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce [animation-delay:-0.15s]'></div>
                                 <div className='h-2 w-2 bg-[--theme-secondary-text-color]  rounded-full animate-bounce'></div>
                             </div>
-                        </div>}
+                        </div>
+                    }
                     {/* عرض التعليقات */}
                     <div className={`bg-[--theme-input-bg-color] ${nextPageUrl ? 'pb-3' : ''}`}>
                         {show_comments}

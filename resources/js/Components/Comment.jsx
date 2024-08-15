@@ -144,9 +144,6 @@ const Comment = forwardRef(({
                 }
                 setShowReplyInput(false)
             },
-            onError: () => {
-                // setShowReplyInput(false)
-            }
         })
     }
 

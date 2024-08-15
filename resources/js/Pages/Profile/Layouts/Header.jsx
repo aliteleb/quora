@@ -7,7 +7,7 @@ import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 
-export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setIsAnswers}) {
+export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setIsAnswers, setIsLoading}) {
     const { user } = useApp()
     const { props } = usePage()
 
@@ -47,17 +47,19 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     }
 
     const getAnswers = () => {
+        setIsLoading(true)
         router.get(`/profile/answers/${userInfo?.id}/${filterType}`, {}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
                 setThreads(res.props.answers.data)
                 setThreadsNextPageUrl(res.props.answers?.links?.next)
+                setIsLoading(false)
             }
         })
     }
 
-    const handleClickOnButton = (e, isGetAnswers = false) => {
+    const handleClickOnButton = (e) => {
         const button = e.target.getAttribute('select')
         if (!isActive.button) {
             setIsActive({
@@ -84,6 +86,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     const active_label = Object.keys(isActive).find(key => isActive[key]);
 
     const filterThreads = (section, filter_type, isAnswer = false) => {
+        setIsLoading(true)
         if (!isAnswer) {
             router.get(`/users/${userInfo?.id}/${section}/${filter_type}`, {}, {
                 preserveScroll: true,
@@ -91,6 +94,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                 onSuccess: (res) => {
                     setThreads(res.props.threads.data)
                     setThreadsNextPageUrl(res.props.threads?.links?.next)
+                    setIsLoading(false)
                 }
             });
         } else {
@@ -100,6 +104,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                 onSuccess: (res) => {
                     setThreads(res.props.answers.data)
                     setThreadsNextPageUrl(res.props.answers?.links?.next)
+                    setIsLoading(false)
                 }
             });
         }
