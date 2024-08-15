@@ -99,14 +99,14 @@ class UserController extends Controller
                     'thread.media',
                 ])
                 ->orderBy('created_at', 'desc')
-                ->paginate(4);
+                ->paginate(5);
         } else {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
                 ->with('thread')
                 ->withCount('votes')
                 ->orderBy('votes_count', 'desc')
-                ->paginate(4);
+                ->paginate(5);
         }
 
         $answers = AnswerResource::collection($answers);

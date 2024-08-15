@@ -226,29 +226,39 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                         <span>{thread.created_at}</span>
                     </div>
                 </div>
-                <div onClick={() => setIsPostDropdownOpen(!isPostDropdownOpen)} className={`relative h-fit cursor-pointer`}>
-                    <div id={`postDropdownID`} className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
-                        <RxDotsHorizontal className={`size-5`} />
+                {!isAnswer &&
+                    <div onClick={() => setIsPostDropdownOpen(!isPostDropdownOpen)}
+                          className={`relative h-fit cursor-pointer`}>
+                        <div id={`postDropdownID`} className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
+                            <RxDotsHorizontal className={`size-5`}/>
+                        </div>
+                        {isPostDropdownOpen &&
+                            <PostDropdown
+                                isPostDropdownOpen={isPostDropdownOpen}
+                                setIsPostDropdownOpen={setIsPostDropdownOpen}
+                                id={thread.id}
+                                setThreads={setThreads}
+                                threads={threads}
+                                thread={thread}
+                            />
+                        }
                     </div>
-                    {isPostDropdownOpen &&
-                        <PostDropdown
-                            isPostDropdownOpen={isPostDropdownOpen}
-                            setIsPostDropdownOpen={setIsPostDropdownOpen}
-                            id={thread.id}
-                            setThreads={setThreads}
-                            threads={threads}
-                            thread={thread}
-                        />
-                    }
-                </div>
+                }
             </header>
             <main className={`flex flex-col gap-y-3`}>
                 <div className={`px-5`}>{thread.title ? thread?.title : thread?.thread?.title}</div>
-                {thread.image &&
+                {(!isAnswer && thread.image) &&
                     <img
-                    src={thread.image}
-                    alt="post-img"
-                    className={`w-full object-cover max-h-[30rem]`}
+                        src={thread.image}
+                        alt="post-img"
+                        className={`w-full object-cover max-h-[30rem]`}
+                    />
+                }
+                {(isAnswer && thread.thread?.media) &&
+                    <img
+                        src={thread.thread?.media}
+                        alt="post-img"
+                        className={`w-full object-cover max-h-[30rem]`}
                     />
                 }
             {/*  الإجابة على السؤال  */}
