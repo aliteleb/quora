@@ -20,7 +20,7 @@ export default function Profile() {
     const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.threads?.links?.next);
     const [isAnswers, setIsAnswers] = useState(false);
 
-
+    console.log(props)
     return (
         <Master>
             <Head title={``}/>

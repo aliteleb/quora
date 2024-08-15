@@ -17,7 +17,7 @@ class AnswerResource extends JsonResource
 
         $up_votes = $this->votes()->where('vote_type', 'up')->whereNull('thread_id')->count();
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('thread_id')->count();
-        $vote = $this->votes()->where('user_id', auth()->id())->whereNull('thread_id')->first(['vote_type']);
+        $vote = $this->votes()->where('user_id', auth()->id())->whereNull('thread_id')->first(['vote_type']) ?: null;
 
         $comment_image = $this->getFirstMediaUrl('comments_images');
         $comment_video = $this->getFirstMediaUrl('comments_videos');

@@ -74,8 +74,9 @@ class CommentController extends Controller implements HasMedia
     public function vote(Request $request)
     {
         $user_id = auth()->id();
-        $comment_id = $request->comment_id;
+        $comment_id = $request->comment_id ?: $request->thread_id;
         $vote_type = $request->vote_type;
+        Log::info('id', array($comment_id));
 
         $voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('comment_id', $comment_id);
         $voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('comment_id', $comment_id);

@@ -46,17 +46,26 @@ class ThreadController extends Controller implements HasMedia
         $thread_id = $request->thread_id;
         $thread = Thread::where('id', $thread_id)->first();
         $vote_type = $request->vote_type;
+        $is_answer = $request->isAnswer;
 
-        $user_has_voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('thread_id', $thread_id);
-        $user_has_voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('thread_id', $thread_id);
+        $up_vote_query = Vote::where('user_id', $user_id)->where('vote_type', 'up');
+        $down_vote_query = Vote::where('user_id', $user_id)->where('vote_type', 'down');
 
-        $vote = [];
+        $user_has_voted_up = $is_answer ? $up_vote_query->where('comment_id', $thread_id) : $up_vote_query->where('thread_id', $thread_id);
+        $user_has_voted_down = $is_answer ? $down_vote_query->where('comment_id', $thread_id) : $down_vote_query->where('thread_id', $thread_id);
+
         if ($vote_type === 'up' && $user_has_voted_up->exists()) {
             $user_has_voted_up->delete();
-            $this->updateVoteCounts($thread, $vote_type, true);
+            $this->getVotesCount('thread_id', $thread_id);
+            if (!$is_answer) {
+                $this->updateVoteCounts($thread, $vote_type, true);
+            }
         } else if ($vote_type === 'down' && $user_has_voted_down->exists()) {
             $user_has_voted_down->delete();
-            $this->updateVoteCounts($thread, $vote_type, true);
+            $this->getVotesCount('thread_id', $thread_id);
+            if (!$is_answer) {
+                $this->updateVoteCounts($thread, $vote_type, true);
+            }
         } else {
             if ($vote_type === 'up' || $vote_type === 'down') {
                 $opposite_vote = ($vote_type === 'up') ? $user_has_voted_down : $user_has_voted_up;
@@ -64,27 +73,31 @@ class ThreadController extends Controller implements HasMedia
                     $opposite_vote->delete();
                 }
 
-                $vote = Vote::create([
-                    'user_id' => $user_id,
-                    'vote_type' => $vote_type,
-                    'thread_id' => $thread_id
-                ]);
-                $opposite_vote = ($vote_type === 'up') ? 'down' : 'up';
+                if (!$is_answer) {
+                    $vote = Vote::create([
+                        'user_id' => $user_id,
+                        'vote_type' => $vote_type,
+                        'thread_id' => $thread_id
+                    ]);
+                    $opposite_vote = ($vote_type === 'up') ? 'down' : 'up';
+                    $this->updateVoteCounts($thread, $opposite_vote);
 
-                $this->updateVoteCounts($thread, $opposite_vote);
+                    $this->getVotesCount('thread_id', $thread_id, $vote);
+
+                } else {
+                    $vote = Vote::create([
+                        'user_id' => $user_id,
+                        'vote_type' => $vote_type,
+                        'comment_id' => $thread_id
+                    ]);
+                    $this->getVotesCount('comment_id', $thread_id, $vote);
+                }
             }
         }
-        $thread->save();
 
-        $thread_up_votes_count = Vote::where('thread_id', $thread_id)->where('vote_type', 'up')->count();
-        $thread_down_votes_count = Vote::where('thread_id', $thread_id)->where('vote_type', 'down')->count();
-
-        $vote_count = [
-            'all_up_votes_count' => $thread_up_votes_count,
-            'all_down_votes_count' => $thread_down_votes_count
-        ];
-
-        return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
+        if ($thread) {
+            $thread->save();
+        }
     }
     protected function updateVoteCounts($thread, $vote_type, $removeVote = false)
     {
@@ -101,6 +114,19 @@ class ThreadController extends Controller implements HasMedia
                 $thread->all_vote_down_count--;
             }
         }
+    }
+
+    protected function getVotesCount($type, $thread_id, $vote = null)
+    {
+        $thread_up_votes_count = Vote::where($type, $thread_id)->where('vote_type', 'up')->count();
+        $thread_down_votes_count = Vote::where($type, $thread_id)->where('vote_type', 'down')->count();
+
+        $vote_count = [
+            'all_up_votes_count' => $thread_up_votes_count,
+            'all_down_votes_count' => $thread_down_votes_count
+        ];
+
+        return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
     public function deletePost($id)

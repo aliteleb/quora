@@ -41,7 +41,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
 
 
     useEffect(() => {
-        if (isAnswer) {
+        if (isAnswer && thread.vote) {
             setIsVoted(thread.vote?.vote_type)
         } else {
             setIsVoted(thread.vote)
@@ -128,8 +128,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
         setIsVoted(thread.vote)
     }, []);
 
-    const vote = (voteType) => {
-        router.post('/vote', { thread_id: thread.id, vote_type: voteType }, {
+    const vote = (voteType, isAnswer = false) => {
+        router.post('/vote', { thread_id: thread.id, vote_type: voteType, isAnswer }, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
@@ -145,11 +145,19 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
     }
 
     const voteUp = () => {
-        vote('up')
+        if (isAnswer) {
+            vote('up', true)
+        } else {
+            vote('up', false)
+        }
     }
 
     const voteDown = () => {
-        vote('down')
+        if (isAnswer) {
+            vote('down', true)
+        } else {
+            vote('down', false)
+        }
     }
 
     const toggleComments = () => {
