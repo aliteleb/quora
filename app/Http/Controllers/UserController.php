@@ -91,7 +91,6 @@ class UserController extends Controller
 
     public function getAnswers($id, $type)
     {
-
         if ($type === 'most_recent') {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
@@ -100,14 +99,14 @@ class UserController extends Controller
                     'thread.media',
                 ])
                 ->orderBy('created_at', 'desc')
-                ->paginate(2);
+                ->paginate(4);
         } else {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
                 ->with('thread')
                 ->withCount('votes')
                 ->orderBy('votes_count', 'desc')
-                ->paginate(2);
+                ->paginate(4);
         }
 
         $answers = AnswerResource::collection($answers);
