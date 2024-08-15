@@ -48,8 +48,8 @@ export default function Profile() {
 
                     <div className={`relative w-[30%] hidden lg:block`}>
                         <Sidebar
-                            join_date={userInfo.created_at}
-                            followed_spaces_count={userInfo.followed_spaces_count}
+                            join_date={userInfo?.created_at}
+                            followed_spaces_count={userInfo?.followed_spaces_count}
                         />
                     </div>
                 </div>

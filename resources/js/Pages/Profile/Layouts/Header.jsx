@@ -70,13 +70,8 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
             setSectionSelection(button)
         }
         setIsBtnClicked(true)
+        setIsAnswers(false)
 
-        if (isGetAnswers) {
-            getAnswers();
-            setIsAnswers(true)
-        } else {
-            setIsAnswers(false)
-        }
     }
 
     const labels = {
@@ -108,8 +103,10 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     };
 
     useEffect(() => {
-        if (isBtnClicked !== null) {
+        if ((isActive.profile || isActive.posts || isActive.questions) && isBtnClicked) {
             handleFilterTypeSelect()
+        } else {
+            getAnswers()
         }
         setFilterType('most_recent')
     }, [isActive]);
@@ -118,7 +115,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     return (
         <>
             <div className={`pb-2 pt-8 flex gap-x-4 w-full`}>
-                {!userInfo.avatar &&
+                {!userInfo?.avatar &&
                     <img
                         src="/profile-default-svgrepo-com.svg"
                         alt="avatat"
@@ -179,7 +176,11 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                     <ProfileButton
                         select={`answers`}
                         custom_styles={isActive.answers ? 'border-[--theme-primary-button-color] text-[--theme-primary-button-color]' : 'border-transparent'}
-                        onClick={(e) => handleClickOnButton(e, true)}
+                        onClick={(e) => {
+                            handleClickOnButton(e)
+                            getAnswers()
+                            setIsAnswers(true)
+                        }}
                         content={`${userInfo?.answers_count} إجابات`}
                     />
                     <ProfileButton
