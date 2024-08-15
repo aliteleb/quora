@@ -103,10 +103,8 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     };
 
     useEffect(() => {
-        if ((isActive.profile || isActive.posts || isActive.questions) && isBtnClicked) {
+        if (isActive.profile || isActive.posts || isActive.questions) {
             handleFilterTypeSelect()
-        } else {
-            getAnswers()
         }
         setFilterType('most_recent')
     }, [isActive]);

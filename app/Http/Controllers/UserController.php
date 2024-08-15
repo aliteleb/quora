@@ -45,6 +45,7 @@ class UserController extends Controller
                     ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
+                Log::info('questions', array($threads));
             } else {
                 $threads = Thread::where('user_id', $user_id)
                     ->where('type', $thread_type)
