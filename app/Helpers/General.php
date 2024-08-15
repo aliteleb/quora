@@ -40,7 +40,6 @@ function flattenAllReplies(array $comments)
         $commentArray['up_votes'] = $comment->votes()->where('vote_type', 'up')->whereNull('thread_id')->count();
         $commentArray['down_votes'] = $comment->votes()->where('vote_type', 'down')->whereNull('thread_id')->count();
         $commentArray['vote'] = $comment->votes()->where('user_id', auth()->id())->whereNull('thread_id')->first(['vote_type'])?->vote_type;
-        $commentArray['mention'] = $comment->getMention()?->name;
 
         $flattened[] = $commentArray;
 
@@ -61,7 +60,7 @@ function flattenComments(Collection $comments)
         $comment['up_votes'] = $commentInstance->votes()->where('vote_type', 'up')->whereNull('thread_id')->count();
         $comment['down_votes'] = $commentInstance->votes()->where('vote_type', 'down')->whereNull('thread_id')->count();
         $comment['vote'] = $commentInstance->votes()->where('user_id', auth()->id())->whereNull('thread_id')->first(['vote_type'])?->vote_type;
-        $comment['mention'] = $commentInstance->getMention()?->name;
+
         if ($nestedComments) {
             $comment['replies'] = flattenAllReplies($nestedComments->toArray());
         }

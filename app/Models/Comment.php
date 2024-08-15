@@ -12,11 +12,15 @@ use Spatie\MediaLibrary\HasMedia;
 class Comment extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    protected $with = ['user'];
+    protected $with = ['user', 'mention'];
     protected $guarded = [];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function mention(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'mention_id')->select(['id', 'name']);
     }
 
     public function thread(): BelongsTo
@@ -37,10 +41,6 @@ class Comment extends Model implements HasMedia
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Comment::class, 'comment_id', 'id');
-    }
-    public function getMention()
-    {
-        return $this->parent?->user;
     }
 
     protected static function boot()

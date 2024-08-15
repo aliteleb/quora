@@ -24,7 +24,7 @@ class CommentController extends Controller implements HasMedia
         if(!$thread) {
             return InertiaResponse::error();
         }
-        $comment = Comment::where('id', $request->input('comment_id'))->first();
+        $comment = Comment::with(['user'])->where('id', $request->input('comment_id'))->first();
         if($request->has('comment_id') && !$comment) {
             return InertiaResponse::error();
         }
@@ -34,7 +34,8 @@ class CommentController extends Controller implements HasMedia
             'user_id' => $request->user_id,
             'body' => $request->body,
             'thread_id' => $request->thread_id,
-            'comment_id' => $comment?->id ?? null,
+            'comment_id' => $comment->id ?? null,
+            'mention_id' => $comment->user?->id ?? null,
         ]);
         if ($request->hasFile('image')) {
             $comment->addMediaFromRequest('image')->toMediaCollection('comments_images');
