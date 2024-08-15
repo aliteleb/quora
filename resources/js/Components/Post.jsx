@@ -121,6 +121,9 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                     ...prevState
                 ]))
             },
+            onError: () => {
+
+            }
         })
     }
 

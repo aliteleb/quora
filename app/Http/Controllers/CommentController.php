@@ -20,13 +20,21 @@ class CommentController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function addComment(CreateCommentRequest $request)
     {
-        $thread = Thread::where('id', $request->thread_id)->first();
+        $thread = Thread::where('id', $request->input('thread_id'))->first();
+        if(!$thread) {
+            return InertiaResponse::error();
+        }
+        $comment = Comment::where('id', $request->input('comment_id'))->first();
+        if($request->has('comment_id') && !$comment) {
+            return InertiaResponse::error();
+        }
+
         $comment = Comment::create([
             'type' => $request->comment_id ? 'reply' : (!$request->comment_id && $thread->type === 'question' ? 'answer' : 'comment'),
             'user_id' => $request->user_id,
             'body' => $request->body,
             'thread_id' => $request->thread_id,
-            'comment_id' => $request->comment_id ?: null,
+            'comment_id' => $comment?->id ?? null,
         ]);
         if ($request->hasFile('image')) {
             $comment->addMediaFromRequest('image')->toMediaCollection('comments_images');

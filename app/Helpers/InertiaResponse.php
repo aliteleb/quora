@@ -36,4 +36,13 @@ class InertiaResponse
         session()->flash('redirected_data', $data);
         return redirect()->back();
     }
+
+    public static function error($data = null): RedirectResponse
+    {
+        return redirect()->back()->withErrors($data ?? [
+            'message' => 'حدث خطأ غير متوقع!',
+        ]);
+    }
+
+
 }
