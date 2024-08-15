@@ -45,6 +45,7 @@ class UserController extends Controller
                     ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
                     ->orderBy('created_at', 'desc')
                     ->paginate(5);
+                Log::info('questions', array($threads));
             } else {
                 $threads = Thread::where('user_id', $user_id)
                     ->where('type', $thread_type)
@@ -90,7 +91,6 @@ class UserController extends Controller
 
     public function getAnswers($id, $type)
     {
-
         if ($type === 'most_recent') {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
@@ -99,14 +99,14 @@ class UserController extends Controller
                     'thread.media',
                 ])
                 ->orderBy('created_at', 'desc')
-                ->paginate(2);
+                ->paginate(4);
         } else {
             $answers = Comment::where('user_id', $id)
                 ->where('type', 'answer')
                 ->with('thread')
                 ->withCount('votes')
                 ->orderBy('votes_count', 'desc')
-                ->paginate(2);
+                ->paginate(4);
         }
 
         $answers = AnswerResource::collection($answers);

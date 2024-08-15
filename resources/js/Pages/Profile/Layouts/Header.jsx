@@ -83,15 +83,27 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
     const active_label = Object.keys(isActive).find(key => isActive[key]);
 
-    const filterThreads = (section, filter_type) => {
-        router.get(`/users/${userInfo?.id}/${section}/${filter_type}`, {}, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                setThreads(res.props.threads.data)
-                setThreadsNextPageUrl(res.props.threads?.links?.next)
-            }
-        });
+    const filterThreads = (section, filter_type, isAnswer = false) => {
+        if (!isAnswer) {
+            router.get(`/users/${userInfo?.id}/${section}/${filter_type}`, {}, {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    setThreads(res.props.threads.data)
+                    setThreadsNextPageUrl(res.props.threads?.links?.next)
+                }
+            });
+        } else {
+            router.get(`/${section}/${sectionSelection}/${userInfo?.id}/${filter_type}`, {}, {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    setThreads(res.props.answers.data)
+                    setThreadsNextPageUrl(res.props.answers?.links?.next)
+                }
+            });
+        }
+
     }
 
     const handleFilterTypeSelect = (e) => {
@@ -99,14 +111,14 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         setIsFilterDropdownOpen(false);
         if (isActive.profile || isActive.posts || isActive.questions) {
             e?.target.value === 'most_popular' ? filterThreads(sectionSelection, 'most_popular') : filterThreads(sectionSelection, 'most_recent');
+        } else {
+            e?.target.value === 'most_popular' ? filterThreads('profile', 'most_popular', true) : filterThreads('profile', 'most_recent', true)
         }
     };
 
     useEffect(() => {
         if ((isActive.profile || isActive.posts || isActive.questions) && isBtnClicked) {
             handleFilterTypeSelect()
-        } else {
-            getAnswers()
         }
         setFilterType('most_recent')
     }, [isActive]);
