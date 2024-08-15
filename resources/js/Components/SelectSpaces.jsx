@@ -55,7 +55,7 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
         }, 80)
     }
 
-    const display_spaces_in_select = spaces.map(space => (
+    const display_spaces_in_select = spaces?.map(space => (
         <SelectSpaceOption name={space.name} img={space.media[0]} setData={setData} handleCloseModelWhenSelect={handleCloseModelWhenSelect} setSelectedSpaceImg={setSelectedSpaceImg}/>
     ))
 

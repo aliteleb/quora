@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import {Transition, TransitionChild} from "@headlessui/react";
-import {router} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {GoTrash} from "react-icons/go";
 import {TbMessageReport} from "react-icons/tb";
@@ -55,17 +55,20 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                     as="div"
                 >
                     <main id="drop">
-                        {thread.user_id === user.id &&
+                        {thread?.user_id === user?.id &&
                             <button onClick={deletePost} className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
                                 <GoTrash className={`size-5`}/>
                                 <span>حذف</span>
                             </button>
                         }
-                        {thread.user_id !== user.id &&
-                            <button onClick={deletePost} className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                        {thread?.user_id !== user?.id &&
+                            <Link
+                                href={!user ? 'account' : ''}
+                                className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                            >
                                 <TbMessageReport className={`size-5`}/>
                                 <span>إبلاغ</span>
-                            </button>
+                            </Link>
                         }
                     </main>
 

@@ -302,19 +302,23 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                         </div>
                         {!isAnswer &&
                             <>
-                                <div onClick={() => {
-                                    (!isCommentsOpen && !fetched) &&
-                                    getComments()
-                                    toggleComments()
-                                }}
-                                     className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                                <div
+                                    className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}
+                                    onClick={() => {
+                                        (!isCommentsOpen && !fetched) &&
+                                        getComments()
+                                        toggleComments()
+                                    }}
+                                >
                                     <FaRegComment/>
                                     <span>{commentsCount}</span>
                                 </div>
-                                <div className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                                <Link
+                                    href={!user ? 'account' : ''}
+                                    className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
                                     <CiShare2/>
                                     <span>{sharesCount}</span>
-                                </div>
+                                </Link>
                             </>
                         }
                     </div>

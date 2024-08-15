@@ -9,6 +9,7 @@ import {BsQuestionSquare} from "react-icons/bs";
 import {BiCommentEdit} from "react-icons/bi";
 import {FaRegCircleUser} from "react-icons/fa6";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
+import {Link} from "@inertiajs/react";
 
 export default function CreateThread() {
 
@@ -19,42 +20,58 @@ export default function CreateThread() {
                 <div className={`${user ? 'grid' : ''}  grid-cols-[0.5fr_6fr] items-center`}>
                     {user?.avatar && <img src={``} className={`size-7 rounded-full cursor-pointer`}/>}
                     {(!user?.avatar && user) && <DefaultUserIcon/>}
-                    <div onClick={() => setIsCreatThreadModalOpen(true)} className={`cursor-pointer`}>
+                    <Link
+                        href={!user ? 'account' : ''}
+                        onClick={() => user && setIsCreatThreadModalOpen(true)}
+                        className={`cursor-pointer`}
+                    >
                         <input
                             type="text"
                             className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
                             placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
                         />
-                    </div>
+                    </Link>
                 </div>
 
                 <div className={`grid grid-cols-3`}>
-                    <div onClick={() => {
-                        setIsCreatThreadModalOpen(true)
-                        setIsPostActive(false)
-                    }} className={`cursor-pointer flex items-center gap-x-3`}>
+                    <Link
+                        href={!user ? 'account' : ''}
+                        className={`cursor-pointer flex items-center gap-x-3`}
+                        onClick={() => {
+                            if (user) {
+                                setIsCreatThreadModalOpen(true)
+                                setIsPostActive(false)
+                            }
+                        }}
+                    >
                         <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
                             <span>اسأل</span>
                         </div>
                         <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
-                    </div>
+                    </Link>
 
                     <div className={`cursor-pointer flex items-center gap-x-3 ms-3`}>
-                        <div className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                        <Link href={!user ? 'account' : ''} className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                             <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
                             أجب
-                        </div>
+                        </Link>
                         <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
                     </div>
 
-                    <div onClick={() => {
-                        setIsCreatThreadModalOpen(true)
-                        setIsPostActive(true)
-                    }} className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                    <Link
+                        href={!user ? 'account' : ''}
+                        className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
+                        onClick={() => {
+                            if (user) {
+                                setIsCreatThreadModalOpen(true)
+                                setIsPostActive(true)
+                            }
+                        }}
+                    >
                         <BiCommentEdit  className={`size-6 text-[--theme-placeholder-color]`}/>
                         نشر
-                    </div>
+                    </Link>
                 </div>
             </div>
     )
