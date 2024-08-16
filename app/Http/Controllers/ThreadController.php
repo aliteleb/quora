@@ -29,13 +29,11 @@ class ThreadController extends Controller implements HasMedia
             'space_id' => $space_id ? $space_id['id'] : null ,
         ]);
 
-        if ($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             $thread->addMediaFromRequest('image')->toMediaCollection('threads_images');
         }
 
-        if ($request->hasFile('video'))
-        {
+        if ($request->hasFile('video')) {
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
     }

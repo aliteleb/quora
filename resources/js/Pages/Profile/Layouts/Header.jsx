@@ -8,7 +8,7 @@ import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import EditInfoModal from "@/Pages/Profile/Components/EditInfoModal.jsx";
 
-export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setIsAnswers, setIsLoading}) {
+export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setUserInfo, setIsAnswers, setIsLoading}) {
     const { user } = useApp()
     const { props } = usePage()
 
@@ -137,13 +137,13 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     return (
         <>
             <div className={`pb-2 pt-8 flex gap-x-4 w-full`}>
-                {!userInfo?.avatar &&
-                    <img
-                        src="/profile-default-svgrepo-com.svg"
-                        alt="avatat"
-                        className={`size-32 rounded-full object-cover`}
-                    />
-                }
+
+                <img
+                    src={userInfo.avatar ? userInfo.avatar : '/profile-default-svgrepo-com.svg'}
+                    alt="avatat"
+                    className={`size-32 rounded-full object-cover`}
+                />
+
                 <div className={`flex flex-col gap-y-2 w-full`}>
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
@@ -254,6 +254,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                 setIsEditModalOpen={setIsEditModalOpen}
                 toggleEditModalOpen={toggleEditModalOpen}
                 userInfo={userInfo}
+                setUserInfo={setUserInfo}
             />
 
         </>

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Resources\FollowedSpacesResource;
+use App\Http\Resources\UserResource;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -44,7 +45,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => (new UserResource($request->user()))->resolve(),
             ],
             'settings' => $settings,
             'followed_spaces' => auth()->user() ? $followed_spaces : [],

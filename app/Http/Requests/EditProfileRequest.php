@@ -30,8 +30,9 @@ class EditProfileRequest extends FormRequest
                     $fail("كلمة المرور غير صحيحة");
                 }
             }],
-            'new_password' => ['min:8', 'max:64', 'confirmed', 'nullable'],
+            'new_password' => ['min:8', 'max:64', 'nullable'],
             'password_confirmation' => ['same:new_password', 'nullable'],
+            'avatar' => ['max:3072', 'file', 'mimes:jpeg,jpg,png,webp,tiff,bmp', 'nullable'],
         ];
     }
 }

@@ -34,6 +34,7 @@ export default function Profile() {
                             setThreads={setThreads}
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
                             userInfo={userInfo}
+                            setUserInfo={setUserInfo}
                             setIsAnswers={setIsAnswers}
                             setIsLoading={setIsLoading}
                         />

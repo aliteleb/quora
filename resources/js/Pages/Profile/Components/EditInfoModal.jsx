@@ -1,37 +1,65 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import Modal from "@/Components/Modal.jsx";
 import {HiMiniXMark} from "react-icons/hi2";
 import Input from "@/Core/Input.jsx";
 import {useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
+import {CiCamera} from "react-icons/ci";
 
-export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, userInfo}) {
+export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, userInfo, setUserInfo}) {
 
-    const { data, post, setData, errors } = useForm({
+    const { data, post, setData, errors, reset } = useForm({
         name: "",
         bio: "",
         old_password: "",
         new_password: "",
         password_confirmation: "",
+        avatar: null,
     })
 
-    const submitEdit = (e) => {
-        e.preventDefault()
-        post('/profile/edit', {
-            onSuccess: (res) => {
+    const [isLoading, setIsLoading] = useState(false);
 
-            },
-            onError: (response) => {
-                console.log(response)
-            },
-        })
+
+    const submitEdit = (e) => {
+
+        const hasGeneralInfoUpdates = data.name.length !== 0 || data.bio.length !== 0 || data.avatar
+        const hasPasswordUpdates = data.old_password.length !== 0 && data.new_password !== 0 && data.password_confirmation !== 0
+
+        if (hasGeneralInfoUpdates || hasPasswordUpdates) {
+            e.preventDefault()
+            post('/profile/edit', {
+                onSuccess: (res) => {
+                    setIsEditModalOpen(false)
+                    setUserInfo(res.props.user.data)
+                    reset()
+                },
+            })
+        }
     }
+
+    const handleFileChange =(e) => {
+        if (e.target.files[0].type.startsWith('image'))
+        {
+            setData('avatar', e.target.files[0])
+        }
+        e.target.value = null;
+    }
+
+    const onCloseModal = () => {
+        setIsEditModalOpen(false)
+        reset()
+    }
+
+    useEffect(() => {
+        console.log(data)
+    }, [data]);
+
 
     return (
         <Modal
             data={data}
             show={isEditModalOpen}
-            onClose={() => setIsEditModalOpen(false)}
+            onClose={onCloseModal}
             bgColor={`bg-black/30 backdrop-blur-[2px]`}
         >
             <div className={`flex flex-col gap-y-3 p-1 pb-3 h-fit text-[--theme-primary-text-color] bg-[--theme-body-bg] z-40 rounded border border-[--theme-default-border-color]`}>
@@ -50,12 +78,44 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                 </div>
 
 
-                <div className={`px-3`}>
-                    <img
-                        src="/profile-default-svgrepo-com.svg"
-                        alt="avatar"
-                        className={`size-32 object-cover rounded-full`}
-                    />
+                <div className={`px-3 flex items-end gap-x-3`}>
+                    <div className={`relative`}>
+                        {!data.avatar &&
+                            <img
+                                src={userInfo?.avatar ? userInfo?.avatar : '/profile-default-svgrepo-com.svg'}
+                                alt="avatar"
+                                className={`size-32 object-cover rounded-full`}
+                            />
+                        }
+                        {/* Preview uploaded avatar */}
+                        {data.avatar &&
+                            <div className={`${!data.avatar ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70'}`}>
+                                <img className={`size-32 rounded-full object-cover`}
+                                     src={data?.avatar ? URL.createObjectURL(data?.avatar) : ''}
+                                     alt="profile-avatar"/>
+                            </div>
+                        }
+                        <label
+                            htmlFor={`upload_profile_avatar`}
+                            className={`bg-black size-32 rounded-full flex justify-center items-center absolute top-0 bg-opacity-0 hover:bg-opacity-40 cursor-pointer group`}
+                        >
+                            <CiCamera className={`size-8 opacity-0 group-hover:opacity-80 `}/>
+                        </label>
+                        <Input
+                            type={'file'}
+                            id={'upload_profile_avatar'}
+                            visibility={'hidden'}
+                            onChange={handleFileChange}
+                        />
+                    </div>
+
+                    <div className={`flex flex-col gap-y-3`}>
+                        <div>الحد الأقصي للحجم: <span className={`text-[--theme-placeholder-color]`}>3 MB</span></div>
+                        <span>الإمتدادات المسوح بها هي:<br/>
+                           <span className={`text-[--theme-placeholder-color]`}>JPEG, JPG, PNG, WebP, TIFF, BMP</span>
+                        </span>
+                    </div>
+
                 </div>
 
                 <div className={`px-3 flex flex-col gap-y-4`}>

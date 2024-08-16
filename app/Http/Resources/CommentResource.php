@@ -27,7 +27,6 @@ class CommentResource extends JsonResource
 
         if ($comment_image) {
             $media['image'] = $comment_image;
-;
         }
 
         if ($comment_video) {

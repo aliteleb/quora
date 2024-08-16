@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react'
 import {IoHomeOutline, IoNotificationsOutline, IoSearchOutline} from "react-icons/io5";
 import { FaChevronDown, FaEdit, FaUsers} from "react-icons/fa";
-import {Link} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {AiOutlinePlus} from "react-icons/ai";
@@ -25,6 +25,8 @@ function Master({children}) {
         window.location = '/account'
     }, [])
 
+    const {props} = usePage()
+    console.log(props)
 
     return (
         <>
@@ -65,7 +67,7 @@ function Master({children}) {
                                     onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}
                                     className={`w-10`}
                                 >
-                                    {user?.avatar && <img src={``} className={`size-9 rounded-full cursor-pointer pointer-events-none`}/>}
+                                    {user?.avatar && <img src={user?.avatar} className={`size-9 rounded-full cursor-pointer pointer-events-none`}/>}
                                     {(!user?.avatar && user) && <DefaultUserIcon id={`userDropdown`}/>}
                                 </button>
 

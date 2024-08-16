@@ -7,12 +7,17 @@ use App\Http\Requests\EditProfileRequest;
 use App\Http\Resources\AnswerResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ThreadResource;
+use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Thread;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMedia
 {
+    use InteractsWithMedia;
     public function follow($type, $id)
     {
         $user = auth()->user();
@@ -118,7 +123,31 @@ class UserController extends Controller
 
     public function edit(EditProfileRequest $request)
     {
-        Log::info('edit');
+        $user = auth()->user();
+
+        $data = $request->only(['name', 'bio', 'new_password']);
+
+        if ($request->hasFile('avatar')) {
+            if ($user->hasMedia('users_avatars')) {
+                $user->clearMediaCollection('users_avatars');
+            }
+            $user->addMediaFromRequest('avatar')->toMediaCollection('users_avatars');
+        }
+
+        $data = array_filter($data, function ($value) {
+           return !is_null($value);
+        });
+
+        if (isset($data['new_password'])) {
+            $data['password'] = Hash::make($data['new_password']);
+            unset($data['new_password']);
+        }
+
+        $user->update($data);
+        $user->loadCount(['posts', 'answers', 'followedSpaces', 'questions']);
+        $user = new UserResource($user);
+
+        return InertiaResponse::back(['user' => $user]);
     }
 
 }

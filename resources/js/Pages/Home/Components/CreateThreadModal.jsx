@@ -152,7 +152,7 @@ export default function CreateThreadModal() {
                 <div className={`px-4`}>
                     <div className={`mt-5 flex gap-x-3`}>
                         <div className={`flex items-center ${isPostActive ? 'gap-x-3' : 'gap-x-1'} `}>
-                            {user?.avatar && <img src={``} className={`size-7 rounded-full cursor-pointer`}/>}
+                            {user?.avatar && <img src={user?.avatar} className={`size-7 rounded-full cursor-pointer`} alt={'user-avatar'}/>}
                             {(!user?.avatar && user) && <DefaultUserIcon className={`size-9 cursor-pointer text-[--theme-placeholder-color]`}/>}
                             {!isPostActive && <BiCaretLeft className={`size-5`}/>}
                             {isPostActive && <span>{user?.name}</span>}
