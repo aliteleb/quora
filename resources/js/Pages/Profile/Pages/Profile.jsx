@@ -21,8 +21,6 @@ export default function Profile() {
     const [isAnswers, setIsAnswers] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-
-    console.log(props)
     return (
         <Master>
             <Head title={``}/>

@@ -20,12 +20,10 @@ class EnsureUserSelectTopic
     {
         $user = auth()->user();
         if ($user) {
-
             $topics = $user->topics ?? collect();
             if ($topics->count() === 0) {
                 return InertiaResponse::route('select_topics');
             }
-
         }
 
         return $next($request);

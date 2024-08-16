@@ -6,6 +6,7 @@ import {router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
+import EditInfoModal from "@/Pages/Profile/Components/EditInfoModal.jsx";
 
 export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setIsAnswers, setIsLoading}) {
     const { user } = useApp()
@@ -21,6 +22,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
     const [filterType, setFilterType] = useState('most_recent');
     const [sectionSelection, setSectionSelection] = useState('profile');
     const [isBtnClicked, setIsBtnClicked] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const blockUser = () => {
         setIsBlockedBtnDisabled(true)
@@ -128,6 +130,9 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
         setFilterType('most_recent')
     }, [isActive]);
 
+    const toggleEditModalOpen = () => {
+        setIsEditModalOpen(!isEditModalOpen)
+    }
 
     return (
         <>
@@ -143,7 +148,11 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                     <div className={`flex justify-between`}>
                         <h1 className={`text-3xl font-bold`}>{userInfo?.name}</h1>
                         {userInfo?.id === user?.id &&
-                            <Button content={`تعديل`} custom_styles={`hidden xxs:block p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}/>
+                            <Button
+                                onClick={toggleEditModalOpen}
+                                content={`تعديل`}
+                                custom_styles={`hidden xxs:block p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}
+                            />
                         }
                     </div>
                     <div className={`${!userInfo?.bio ? 'text-[--theme-placeholder-color]' : ''}`}>{userInfo?.bio ? userInfo.bio : 'نبذة'}</div>
@@ -238,6 +247,14 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
                 </div>
             </div>
+
+
+            <EditInfoModal
+                isEditModalOpen={isEditModalOpen}
+                setIsModalOpen={setIsEditModalOpen}
+                toggleEditModalOpen={toggleEditModalOpen}
+            />
+
         </>
 
     )

@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Layouts/Footer.jsx";
 import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
-import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import { Head, router, usePage } from "@inertiajs/react";
 import Post from "@/Components/Post.jsx";
 import SelectTopicsModal from '../Components/SelectTopicsModal.jsx';

@@ -47,8 +47,8 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
-
 });
+
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -60,6 +60,7 @@ Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quick
 Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
+
 
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::get('/account', [AuthController::class, 'index'])->name('account');
