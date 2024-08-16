@@ -3,11 +3,11 @@ import Master from "@/Layouts/Master.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";
-import {Head, router, usePage} from "@inertiajs/react";
+import {Head, Link, router, usePage} from "@inertiajs/react";
 
 export default function Spaces() {
 
-    const {setIsSpaceModalOpen} = useApp()
+    const {setIsSpaceModalOpen, user} = useApp()
     const {props} = usePage()
 
     const [spaces, setSpaces] = useState([]);
@@ -52,10 +52,14 @@ export default function Spaces() {
                             <h1 className={`font-medium text-lg`}>مرحبا بك فى المساحات!</h1>
                             <h2 className={`text-[--theme-secondary-text-color]`}>تابع مساحات لتستكشف اهتماماتك.</h2>
                         </div>
-                        <button onClick={() => setIsSpaceModalOpen(true)} className={`text-right text-[--theme-button-border-color] hover:bg-[#287dff1f] border-2 border-[--theme-button-border-color] w-fit px-4 py-1 rounded-full flex items-center gap-x-2`}>
+                        <Link
+                            href={!user ? 'account' : ''}
+                            onClick={() => setIsSpaceModalOpen(true)}
+                            className={`text-right text-[--theme-button-border-color] hover:bg-[#287dff1f] border-2 border-[--theme-button-border-color] w-fit px-4 py-1 rounded-full flex items-center gap-x-2`}
+                        >
                             <IoIosAddCircleOutline className={`size-5`}/>
                             <span>إنشاء مساحة</span>
-                        </button>
+                        </Link>
                     </div>
                 </div>
 

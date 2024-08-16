@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
-import {Head, router, usePage} from "@inertiajs/react";
+import {Head, Link, router, usePage} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {IoIosTrendingUp, IoMdAddCircleOutline} from "react-icons/io";
 import SpaceAbout from "@/Pages/Spaces/Partials/SpaceAbout.jsx";
@@ -223,10 +223,14 @@ export default function ShowSpace() {
                             </span>
 
                         </div>
-                        <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}>
+                        <Link
+                            href={!user ? 'account' : ''}
+                            onClick={!checkIfUserIsOwner && user ? followSpace : null}
+                            className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
+                        >
                             {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
                             {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
-                        </button>
+                        </Link>
                     </div>
                 </header>
             </div>

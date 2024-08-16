@@ -31,14 +31,18 @@ class SpaceResource extends JsonResource
             $media['cover'] = $space_cover_image;
         }
 
-        $user_followed_spaces = auth()->user()->followedSpaces;
         $is_followed = false;
-        foreach ($user_followed_spaces as $space) {
-            if ($space->pivot->space_id === $this->id) {
-                $is_followed = true;
-                break;
+
+        if (auth()->check()) {
+            $user_followed_spaces = auth()->user()->followedSpaces;
+            foreach ($user_followed_spaces as $space) {
+                if ($space->pivot->space_id === $this->id) {
+                    $is_followed = true;
+                    break;
+                }
             }
         }
+
 
         $space_followers_count = $this->followers->count();
         $space_last_week_posts_count = $this->postsCount();
