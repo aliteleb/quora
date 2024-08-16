@@ -77,7 +77,10 @@ export default function SpaceModal() {
                         >
                             <ReactSelect options={options} handleSelectChange={handleSelectChange} errors={errors.topics} placeholder={'حدد المواضيع'}/>
                         </div>
-                        <InputError message={errors.topics} className={`!text-red-500`}/>
+                        <InputError
+                            message={errors.topics}
+                            className={`!text-red-500`}
+                        />
                     </div>
 
                     <h3 className={`p-2 font-bold text-lg`}>

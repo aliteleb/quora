@@ -33,9 +33,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
     Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
@@ -47,6 +44,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
+    Route::post('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
 });
 
 

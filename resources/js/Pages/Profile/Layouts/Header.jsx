@@ -251,8 +251,9 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
 
             <EditInfoModal
                 isEditModalOpen={isEditModalOpen}
-                setIsModalOpen={setIsEditModalOpen}
+                setIsEditModalOpen={setIsEditModalOpen}
                 toggleEditModalOpen={toggleEditModalOpen}
+                userInfo={userInfo}
             />
 
         </>

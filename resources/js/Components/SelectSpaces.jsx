@@ -85,7 +85,11 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
             {isSelectSpacesOpen &&
                 <div id={`spaceDropDown`} ref={spacesMenu} className={`animate-fade-in bg-[--theme-main-bg-color] pt-2 rounded absolute w-80 xxs:w-max top-12 left-0 ${data.space?.length > 12 ? 'lg:-left-96 xxs:-left-20' : 'lg:right-44 xxs:-right-24 left-0'} lg:top-0 border border-[--theme-select-space-border-color]`}>
                     <div className={`px-2`}>
-                        <Input placeholder={`اختر مساحة`} isSearch={'searchable'} inputClassStyle={`ps-8`}/>
+                        <Input
+                            placeholder={`اختر مساحة`}
+                            isSearch={'searchable'}
+                            inputClassStyle={`ps-8`}
+                        />
                     </div>
                     <div
                         onClick={handleSelectSpaceOption}

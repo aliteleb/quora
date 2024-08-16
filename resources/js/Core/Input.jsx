@@ -13,11 +13,11 @@ const Input = forwardRef(({
     visibility = "visible",
     required = false,
     helperText,
+    minLength = null,
     maxLength = null,
     parentClassStyle,
     inputClassStyle,
     isSearch,
-    defaultValue,
 }, ref) => {
 
     return (
@@ -41,9 +41,9 @@ const Input = forwardRef(({
                     onChange={onChange}
                     id={id}
                     required={required}
+                    minLength={minLength}
                     maxLength={maxLength}
                     ref={ref}
-                    defaultValue={defaultValue}
                 />
                 {maxLength && (
                     <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-body-color] opacity-70 text-[.7rem] ${maxLength === value?.length ? 'text-red-600 !opacity-100' : ''}`}>

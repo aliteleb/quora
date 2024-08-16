@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Requests\EditProfileRequest;
 use App\Http\Resources\AnswerResource;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\ThreadResource;
@@ -113,7 +114,11 @@ class UserController extends Controller
         $data = ['answers' => $answers];
 
         return InertiaResponse::back($data);
+    }
 
+    public function edit(EditProfileRequest $request)
+    {
+        Log::info('edit');
     }
 
 }

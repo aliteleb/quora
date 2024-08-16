@@ -25,8 +25,12 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
                     />
                     <label htmlFor={comment_id ? comment_id : 'upload_comment_img'}
                            className={`block w-fit absolute left-3 ${!data.image && !data.video ? 'top-1/2 -translate-y-1/2' : 'top-[11px]'} `}>
-                        <Input type={'file'} id={comment_id ? comment_id : 'upload_comment_img'} visibility={'hidden'}
-                               onChange={handleFileChange}/>
+                        <Input
+                            type={'file'}
+                            id={comment_id ? comment_id : 'upload_comment_img'}
+                            visibility={'hidden'}
+                           onChange={handleFileChange}
+                        />
                         <RiImageAddLine
                             className={`size-6 text-[--theme-secondary-text-color] cursor-pointer ${(data.image && !data.video) || (data.video && !data.image) ? 'pointer-events-none opacity-40' : ''}`}/>
                     </label>
