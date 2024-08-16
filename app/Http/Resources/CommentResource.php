@@ -47,6 +47,7 @@ class CommentResource extends JsonResource
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,
+            'mention' => $this->mention,
         ];
     }
 }

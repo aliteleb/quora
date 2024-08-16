@@ -22,7 +22,6 @@ const Comment = forwardRef(({
     setCommentsCount,
     setParentReplies,
     parentReplies,
-    parentComment,
 }, ref) => {
 
     const [replies, setReplies] = useState([]);
@@ -46,8 +45,6 @@ const Comment = forwardRef(({
         setIsVoted(comment.vote)
     }, [comment]);
 
-    const parentCommentUser = parentReplies?.filter(reply => reply.comment_id === comment.comment_id)
-
     const show_replies = replies?.map((reply, index) => (
         <Comment
             key={index}
@@ -60,7 +57,6 @@ const Comment = forwardRef(({
             setCommentsCount={setCommentsCount}
             parentReplies={replies}
             setParentReplies={setReplies}
-            parentComment={parentCommentUser}
         />
     ));
 
@@ -155,7 +151,7 @@ const Comment = forwardRef(({
         <>
             <div ref={ref} className={`pt-3 flex flex-col gap-x-3 ${customStyles ? customStyles : ''}`}>
                 <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex flex-col justify-between gap-x-3 gap-y-2`}>
-                    {/*{comment.comment_id && <div className={`px-5 py-1 rounded-full mt-1 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> رد على <button className={`font-bold`}>{parentComment?.user.name}</button></div>}*/}
+                    {comment.comment_id && <div className={`px-5 py-1 rounded-full mt-1 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> رد على <button className={`font-bold`}>{comment?.mention?.name}</button></div>}
 
                     <div className={`flex justify-between`}>
                         <div className={`flex items-center gap-x-3`}>
