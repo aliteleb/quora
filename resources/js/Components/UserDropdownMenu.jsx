@@ -14,7 +14,8 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
     const dropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown" && e.target.tagName !== 'A' && e.target.tagName !== 'IMG' && e.target.tagName !== 'SPAN') {
+            console.log(e.target.tagName)
+            if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown" && e.target.tagName !== 'A' && e.target.tagName !== 'IMG' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'BUTTON') {
                 setIsUserDropdownMenuOpen(false)
             }
         }

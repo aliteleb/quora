@@ -18,7 +18,13 @@ export default function CreateThread() {
     return (
         <div className={`z-10 bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] h-fit p-5 rounded flex flex-col gap-y-5`}>
                 <div className={`${user ? 'grid' : ''}  grid-cols-[0.5fr_6fr] items-center`}>
-                    {user?.avatar && <img src={user?.avatar} className={`size-9 rounded-full cursor-pointer`}/>}
+                    {user?.avatar &&
+                        <img
+                            src={user?.avatar}
+                            className={`size-9 rounded-full cursor-pointer`}
+                            alt={`user-avatar`}
+                        />
+                    }
                     {(!user?.avatar && user) && <DefaultUserIcon/>}
                     <Link
                         href={!user ? 'account' : ''}

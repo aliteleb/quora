@@ -62,13 +62,22 @@ function Master({children}) {
                         </ul>
                         <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
 
-                            <div className={`relative flex items-center`}>
+                            <div
+                                id={`userDropdown`}
+                                className={`relative flex items-center`}
+                            >
                                 <button
                                     onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}
                                     className={`w-10`}
                                 >
-                                    {user?.avatar && <img src={user?.avatar} className={`size-9 rounded-full cursor-pointer pointer-events-none`}/>}
-                                    {(!user?.avatar && user) && <DefaultUserIcon id={`userDropdown`}/>}
+                                    {user?.avatar &&
+                                        <img
+                                            src={user?.avatar}
+                                            className={`size-9 rounded-full cursor-pointer pointer-events-none`}
+                                            alt={'user-avatar'}
+                                        />
+                                    }
+                                    {(!user?.avatar && user) && <DefaultUserIcon/>}
                                 </button>
 
                                 <UserDropdownMenu

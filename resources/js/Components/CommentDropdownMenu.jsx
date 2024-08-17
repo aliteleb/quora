@@ -13,7 +13,7 @@ export default function CommentDropdownMenu({parentReplies ,comment, isCommentMo
     const commentDropdownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            if (!commentDropdownRef.current?.contains(e.target) && e.target.id !== 'commentDropdownMenu' && e.target.tagName !== 'path') {
+            if (!commentDropdownRef.current?.contains(e.target) && e.target.id !== 'commentDropdownMenu' && e.target.tagName !== 'path' && e.target.tagName !== 'svg') {
                 setIsCommentModalOpen(false);
             }
         };
