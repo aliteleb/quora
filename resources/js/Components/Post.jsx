@@ -207,14 +207,14 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                     {!isAnswer &&
                         <Link href={`/profile/${thread.user?.username}`}>
                             {thread.user?.avatar &&
-                                <img src={thread.user?.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`} alt={`avatar`}/>}
+                                <img src={thread.user?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                             {(!thread.user?.avatar && thread.user) && <DefaultUserIcon/>}
                         </Link>
                     }
                     {isAnswer &&
                         <Link href={`/profile/${userInfo?.username}`}>
                             {userInfo?.avatar &&
-                                <img src={userInfo?.avatar} className={`md:size-9 size-7 rounded-full cursor-pointer`} alt={`avatar`}/>}
+                                <img src={userInfo?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                             {(!userInfo?.avatar && userInfo) && <DefaultUserIcon/>}
                         </Link>
                     }

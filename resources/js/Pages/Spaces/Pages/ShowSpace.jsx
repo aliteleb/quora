@@ -11,6 +11,7 @@ import SpaceQuestions from "@/Pages/Spaces/Partials/SpaceQuestions.jsx";
 import RecommendedSpace from "@/Pages/Spaces/Components/RecommendedSpace.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import Button from "@/Core/Button.jsx";
+import {FaRegEdit} from "react-icons/fa";
 
 export default function ShowSpace() {
 
@@ -228,14 +229,14 @@ export default function ShowSpace() {
                             onClick={!checkIfUserIsOwner && user ? followSpace : null}
                             className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
                         >
-                            {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
-                            {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }
+                            {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'تعديل'}
+                            {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<FaRegEdit className={`text-2xl`}/>) }
                         </Link>
                     </div>
                 </header>
             </div>
             <main className={`h-[20rem] z-20 relative bg-[--theme-body-bg] w-full mt-10 px-2`}>
-                <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative gap-y-6`}>
+                <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative gap-y-6 py-3`}>
                     <header className={`flex border-b border-[--theme-main-bg-color] ${isActive.about ? 'w-[60%]' : 'w-full'} `}>
                         <button
                             onClick={handleClickOnAboutButton}

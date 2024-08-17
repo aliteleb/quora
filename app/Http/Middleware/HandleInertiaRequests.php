@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => (new UserResource($request->user()))->resolve(),
+                'user' => $request->user() ? (new UserResource($request->user()))->resolve() : null,
             ],
             'settings' => $settings,
             'followed_spaces' => auth()->user() ? $followed_spaces : [],

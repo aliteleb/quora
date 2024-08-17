@@ -27,7 +27,7 @@ export default function Profile() {
 
             <div className={`flex flex-col text-[--theme-body-color] container max-w-screen-xl mx-auto rounded z-10 relative px-3`}>
                 <div className={`flex justify-between gap-x-6 2xl:gap-x-10`}>
-                    <div className={`w-full lg:w-[70%]`}>
+                    <div className={`w-full md:w-[70%]`}>
                         <Header
                             isActive={isActive}
                             setIsActive={setIsActive}
@@ -60,7 +60,7 @@ export default function Profile() {
                         }
                     </div>
 
-                    <div className={`relative w-[30%] hidden lg:block`}>
+                    <div className={`relative w-[30%] hidden md:block`}>
                         <Sidebar
                             join_date={userInfo?.created_at}
                             followed_spaces_count={userInfo?.followed_spaces_count}

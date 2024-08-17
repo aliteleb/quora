@@ -3,7 +3,7 @@ import {IoMdAddCircleOutline} from "react-icons/io";
 import {MdDone} from "react-icons/md";
 import {IoPersonAddOutline} from "react-icons/io5";
 import {useApp} from "@/AppContext/AppContext.jsx";
-import {router} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 
 
 export default function RecommendedSpace({space, customStyles}) {
@@ -41,7 +41,10 @@ export default function RecommendedSpace({space, customStyles}) {
             />
             <div className={`bg-[--theme-main-bg-color] text-[--theme-primary-text-color] h-fit flex flex-col p-5 gap-y-3`}>
                 <div className={`flex justify-between z-10`}>
-                    <div className={`flex items-center gap-x-2`}>
+                    <Link
+                        href={`/spaces/${space.slug}`}
+                        className={`flex items-center gap-x-2`}
+                    >
                         {!space.poster &&
                             <img
                                 src="/spaces/space_default_image.webp"
@@ -57,7 +60,7 @@ export default function RecommendedSpace({space, customStyles}) {
                             />
                         }
                         <div className={`font-bold`}>{space.name}</div>
-                    </div>
+                    </Link>
                     <button onClick={!checkIfUserIsOwner ? followSpace : null} className={`flex items-center gap-x-2 border h-fit ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 font-bold`}>
                         {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'دعوة'}
                         {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<IoPersonAddOutline className={`text-2xl`}/>) }

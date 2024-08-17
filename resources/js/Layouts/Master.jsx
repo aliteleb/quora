@@ -41,18 +41,18 @@ function Master({children}) {
                                   className={`h-6`}
                             />
                         </Link>
-                        <ul className={`flex xl:gap-x-3 gap-x-1 text-2xl flex-grow `} data-select={true}>
+                        <ul className={`flex gap-x-3 text-2xl flex-grow `} data-select={true}>
                             <div className={`sm:flex gap-x-1 hidden`}>
-                                <Link href={`/`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link href={`/`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </Link>
-                                <Link href={`/spaces`} className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link href={`/spaces`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
                                 </Link>
-                                <Link className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaEdit />
                                 </Link>
-                                <Link className={`xl:px-5 md:px-3 lg:px-4 px-2 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoNotificationsOutline />
                                 </Link>
                             </div>
@@ -107,6 +107,10 @@ function Master({children}) {
                     </nav>
                 </div>
             </div>
+
+            {/*  left screen for simulate add padding  */}
+            <div className={`md:block hidden w-3 h-screen bg-[--theme-body-bg] fixed left-0 z-50`}></div>
+
             {location.pathname === '/' &&
                 <button onClick={() => setIsCreatThreadModalOpen(true)}
                         className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>

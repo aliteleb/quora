@@ -34,7 +34,7 @@ export default function Spaces() {
     }, []);
 
     const display_spaces = spaces.map(space => (
-        <RecommendedSpace name={space.name} description={space.description} slug={space.slug} status={space.status} cover={space?.cover} poster={space?.poster}/>
+        <RecommendedSpace space={space}/>
     ))
 
     return (

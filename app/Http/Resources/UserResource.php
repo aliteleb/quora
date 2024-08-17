@@ -16,20 +16,22 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'username' => $this->username,
-            'bio' => $this->bio,
-            'email' => $this->email,
-            'posts_count' => $this->posts_count,
-            'questions_count' => $this->questions_count,
-            'answers_count' => $this->answers_count,
-            'followed_spaces_count' => $this->followed_spaces_count,
-            'followers_count' => $this->followedUser->count(),
-            'follow_count' => $this->followerUser->count(),
-            'avatar' => $this->getFirstMediaUrl('users_avatars'),
-            'created_at' => Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y'),
-        ];
+        $response = [];
+
+        if (auth()->user()) {
+            $response['id'] = $this->id;
+            $response['name'] = $this->name;
+            $response['username'] = $this->username;
+            $response['bio'] = $this->bio;
+            $response['email'] = $this->email;
+            $response['posts_count'] = $this->posts_count;
+            $response['questions_count'] = $this->questions_count;
+            $response['answers_count'] = $this->answers_count;
+            $response['followed_spaces_count'] = $this->followed_spaces_count;
+            $response['followers_count'] = $this->followers_count;
+            $response['avatar'] = $this->getFirstMediaUrl('users_avatars');
+            $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
+        }
+        return $response;
     }
 }
