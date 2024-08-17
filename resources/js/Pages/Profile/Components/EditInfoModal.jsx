@@ -5,10 +5,11 @@ import Input from "@/Core/Input.jsx";
 import {useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
 import {CiCamera} from "react-icons/ci";
+import InputError from "@/Components/InputError.jsx";
 
 export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, userInfo, setUserInfo}) {
 
-    const { data, post, setData, errors, reset } = useForm({
+    const { data, post, setData, errors, clearErrors, reset } = useForm({
         name: "",
         bio: "",
         old_password: "",
@@ -48,11 +49,12 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
     const onCloseModal = () => {
         setIsEditModalOpen(false)
         reset()
+        clearErrors()
     }
 
     useEffect(() => {
-        console.log(data)
-    }, [data]);
+        console.log(errors)
+    }, [data, isEditModalOpen]);
 
 
     return (
@@ -78,7 +80,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                 </div>
 
 
-                <div className={`px-3 flex items-end gap-x-3`}>
+                <div className={`px-3 flex gap-x-3`}>
                     <div className={`relative`}>
                         {!data.avatar &&
                             <img
@@ -114,10 +116,13 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         <span>الإمتدادات المسوح بها هي:<br/>
                            <span className={`text-[--theme-placeholder-color]`}>JPEG, JPG, PNG, WebP, TIFF, BMP</span>
                         </span>
+                        <InputError
+                            message={errors.avatar}
+                            className={`!text-red-500`}
+                        />
                     </div>
 
                 </div>
-
                 <div className={`px-3 flex flex-col gap-y-4`}>
                     <Input
                         placeholder={`الإسم`}
@@ -129,6 +134,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         parentClassStyle={`-mt-2`}
                         minLength={3}
                         maxLength={20}
+                        id={"profile-name"}
                     />
                     <Input
                         placeholder={`نبذة`}
@@ -140,6 +146,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         parentClassStyle={`-mt-2`}
                         minLength={10}
                         maxLength={160}
+                        id={"profile-bio"}
                     />
                     <Input
                         placeholder={`كلمة المرور القديمة`}
@@ -152,6 +159,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         minLength={8}
                         maxLength={64}
                         parentClassStyle={`-mt-2`}
+                        id={"profile-old-password"}
                     />
                     <Input
                         placeholder={`كلمة المرور الجديدة`}
@@ -164,6 +172,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         minLength={8}
                         maxLength={64}
                         parentClassStyle={`-mt-2`}
+                        id={"profile-new_password"}
                     />
                     <Input
                         placeholder={`تأكيد كلمة المرور`}
@@ -176,6 +185,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         minLength={8}
                         maxLength={64}
                         parentClassStyle={`-mt-2`}
+                        id={"profile-password_confirmation"}
                     />
                 </div>
 
