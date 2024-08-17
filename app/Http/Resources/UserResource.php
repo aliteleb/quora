@@ -28,7 +28,8 @@ class UserResource extends JsonResource
             $response['questions_count'] = $this->questions_count;
             $response['answers_count'] = $this->answers_count;
             $response['followed_spaces_count'] = $this->followed_spaces_count;
-            $response['followers_count'] = $this->followers_count;
+            $response['followers_count'] = $this->followedUser->count();
+            $response['follow_count'] = $this->followerUser->count();
             $response['avatar'] = $this->getFirstMediaUrl('users_avatars');
             $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
         }
