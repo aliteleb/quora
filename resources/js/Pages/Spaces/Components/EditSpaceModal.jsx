@@ -7,30 +7,28 @@ import Button from "@/Core/Button.jsx";
 import {CiCamera} from "react-icons/ci";
 import InputError from "@/Components/InputError.jsx";
 
-export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, userInfo, setUserInfo}) {
+export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, space, setSpace}) {
 
     const { data, post, setData, errors, clearErrors, reset } = useForm({
         name: "",
-        bio: "",
-        old_password: "",
-        new_password: "",
-        password_confirmation: "",
+        description: "",
         avatar: null,
+        cover: null,
     })
+
     const [isLoading, setIsLoading] = useState(false);
 
     const submitEdit = (e) => {
         setIsLoading(true)
 
-        const hasGeneralInfoUpdates = data.name.length !== 0 || data.bio.length !== 0 || data.avatar
-        const hasPasswordUpdates = data.old_password.length !== 0 && data.new_password !== 0 && data.password_confirmation !== 0
+        const hasInfoUpdates = data.name.length !== 0 || data.description.length !== 0 || data.avatar || data.cover
 
-        if (hasGeneralInfoUpdates || hasPasswordUpdates) {
+        if (hasInfoUpdates) {
             e.preventDefault()
-            post('/profile/edit', {
+            post('/space/edit', {
                 onSuccess: (res) => {
                     setIsEditModalOpen(false)
-                    setUserInfo(res.props.user.data)
+                    setSpace(res.props.space.data)
                     reset()
                     setIsLoading(false)
                 },
@@ -38,10 +36,12 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
         }
     }
 
-    const handleFileChange =(e) => {
-        if (e.target.files[0].type.startsWith('image'))
+    const handleFileChange =(e, type) => {
+        if (e.target.files[0].type.startsWith('image') && type === 'avatar')
         {
             setData('avatar', e.target.files[0])
+        } else {
+            setData('cover', e.target.files[0])
         }
         e.target.value = null;
     }
@@ -50,10 +50,11 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
         setIsEditModalOpen(false)
         reset()
         clearErrors()
+        setIsLoading(false)
     }
 
     useEffect(() => {
-        console.log(errors)
+        console.log(data)
     }, [data, isEditModalOpen]);
 
 
@@ -79,35 +80,36 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                     />
                 </div>
 
-
-                <div className={`px-3 flex gap-x-3`}>
+                {/* Avatar section */}
+                <h1 className={`px-3`}>أيقونة</h1>
+                <section className={`px-3 flex gap-x-3`}>
                     <div className={`relative`}>
                         {!data.avatar &&
                             <img
-                                src={userInfo?.avatar ? userInfo?.avatar : '/profile-default-svgrepo-com.svg'}
+                                src={space?.avatar ? space?.avatar : '/spaces/space_default_image.webp'}
                                 alt="avatar"
                                 className={`size-32 object-cover rounded-full`}
                             />
                         }
                         {/* Preview uploaded avatar */}
                         {data.avatar &&
-                            <div className={`${!data.avatar ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70'}`}>
+                            <div className={`${!data.avatar ? 'invisible' : 'visible w-full border-zinc-700/70'}`}>
                                 <img className={`size-32 rounded-full object-cover`}
                                      src={data?.avatar ? URL.createObjectURL(data?.avatar) : ''}
-                                     alt="profile-avatar"/>
+                                     alt="space-avatar"/>
                             </div>
                         }
                         <label
-                            htmlFor={`upload_profile_avatar`}
+                            htmlFor={`upload_space_avatar`}
                             className={`bg-black size-32 rounded-full flex justify-center items-center absolute top-0 bg-opacity-0 hover:bg-opacity-40 cursor-pointer group`}
                         >
                             <CiCamera className={`size-8 opacity-0 group-hover:opacity-80 `}/>
                         </label>
                         <Input
                             type={'file'}
-                            id={'upload_profile_avatar'}
+                            id={'upload_space_avatar'}
                             visibility={'hidden'}
-                            onChange={handleFileChange}
+                            onChange={(e) => handleFileChange(e, 'avatar')}
                         />
                     </div>
 
@@ -122,8 +124,55 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         />
                     </div>
 
-                </div>
-                <div className={`px-3 flex flex-col gap-y-4`}>
+                </section>
+
+                {/* Cover section */}
+                <h1 className={`px-3 mt-3`}>صورة الغلاف</h1>
+                <section className={`px-3 flex flex-col gap-x-3`}>
+                    <div className={`relative`}>
+                        {!data.cover &&
+                            <img
+                                src={space?.cover ? space?.cover : '/spaces/space_cover_default_image_space_page.webp'}
+                                alt="cover"
+                                className={`w-full object-cover rounded`}
+                            />
+                        }
+                        {/* Preview uploaded cover */}
+                        {data.cover &&
+                            <div className={`${!data.cover ? 'hidden' : 'visible w-full border-zinc-700/70'}`}>
+                                <img className={`w-full h-[160px] rounded object-cover`}
+                                     src={data?.cover ? URL.createObjectURL(data?.cover) : ''}
+                                     alt="space-cover"/>
+                            </div>
+                        }
+                        <label
+                            htmlFor={`upload_space_cover`}
+                            className={`bg-black w-full h-full rounded flex justify-center items-center absolute top-0 bg-opacity-0 hover:bg-opacity-40 cursor-pointer group`}
+                        >
+                            <CiCamera className={`size-8 opacity-0 group-hover:opacity-80 `}/>
+                        </label>
+                        <Input
+                            type={'file'}
+                            id={'upload_space_cover'}
+                            visibility={'hidden'}
+                            onChange={(e) => handleFileChange(e, 'cover')}
+                        />
+                    </div>
+
+                    <div className={`flex flex-col gap-y-3`}>
+                        <div>الحد الأقصي للحجم: <span className={`text-[--theme-placeholder-color]`}>6 MB</span></div>
+                        <span>الإمتدادات المسوح بها هي:<br/>
+                           <span className={`text-[--theme-placeholder-color]`}>JPEG, JPG, PNG, WebP, TIFF, BMP</span>
+                        </span>
+                        <InputError
+                            message={errors.cover}
+                            className={`!text-red-500`}
+                        />
+                    </div>
+
+                </section>
+
+                <section className={`px-3 flex flex-col gap-y-4`}>
                     <Input
                         placeholder={`الإسم`}
                         onChange={e => setData('name', e.target.value)}
@@ -134,60 +183,21 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                         parentClassStyle={`-mt-2`}
                         minLength={3}
                         maxLength={20}
-                        id={"profile-name"}
+                        id={"space-avatar"}
                     />
                     <Input
-                        placeholder={`نبذة`}
-                        onChange={e => setData('bio', e.target.value)}
-                        value={data?.bio}
-                        name={'bio'}
+                        placeholder={`الوصف`}
+                        onChange={e => setData('description', e.target.value)}
+                        value={data?.description}
+                        name={'description'}
                         label={`نبذة`}
-                        error={errors?.bio}
+                        error={errors?.description}
                         parentClassStyle={`-mt-2`}
                         minLength={10}
                         maxLength={160}
-                        id={"profile-bio"}
+                        id={"space-description"}
                     />
-                    <Input
-                        placeholder={`كلمة المرور القديمة`}
-                        onChange={e => setData('old_password', e.target.value)}
-                        value={data?.old_password}
-                        name={'old_password'}
-                        type={'password'}
-                        label={`كلمة المرور القديمة`}
-                        error={errors?.old_password}
-                        minLength={8}
-                        maxLength={64}
-                        parentClassStyle={`-mt-2`}
-                        id={"profile-old-password"}
-                    />
-                    <Input
-                        placeholder={`كلمة المرور الجديدة`}
-                        onChange={e => setData('new_password', e.target.value)}
-                        value={data?.new_password}
-                        name={'new_password'}
-                        type={'password'}
-                        label={`كلمة المرور الجديدة`}
-                        error={errors?.new_password}
-                        minLength={8}
-                        maxLength={64}
-                        parentClassStyle={`-mt-2`}
-                        id={"profile-new_password"}
-                    />
-                    <Input
-                        placeholder={`تأكيد كلمة المرور`}
-                        onChange={e => setData('password_confirmation', e.target.value)}
-                        value={data?.password_confirmation}
-                        name={'password_confirmation'}
-                        type={'password'}
-                        label={`تأكيد كلمة المرور`}
-                        error={errors?.password_confirmation}
-                        minLength={8}
-                        maxLength={64}
-                        parentClassStyle={`-mt-2`}
-                        id={"profile-password_confirmation"}
-                    />
-                </div>
+                </section>
 
             </div>
         </Modal>

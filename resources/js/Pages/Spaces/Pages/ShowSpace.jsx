@@ -12,6 +12,7 @@ import RecommendedSpace from "@/Pages/Spaces/Components/RecommendedSpace.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import Button from "@/Core/Button.jsx";
 import {FaRegEdit} from "react-icons/fa";
+import EditSpaceModal from "@/Pages/Spaces/Components/EditSpaceModal.jsx";
 
 export default function ShowSpace() {
 
@@ -31,10 +32,12 @@ export default function ShowSpace() {
     const [isPostsFetching, setIsPostsFetching] = useState(false);
     const [isQuestionsFetching, setIsQuestionsFetching] = useState(false);
     const [recommendedSpaces, setRecommendedSpaces] = useState([]);
-    const [space] = useState(props.data?.space?.data);
+    const [space, setSpace] = useState(props.data?.space?.data);
     const [filterType, setFilterType] = useState('most_recent');
     const [filteredNextPageUrl, setFilteredNextPageUrl] = useState('');
     const [isFilterDropdownOpen, setIsFilterDropdownOpen] = useState(false);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
 
     useEffect(() => {
         setPosts(props.data?.posts?.data)
@@ -98,8 +101,6 @@ export default function ShowSpace() {
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && isActive.posts && !isPostsFetching) {
-                console.log('called')
-
                 loadNextPosts(postsNextPageUrl);
             }
         }, {
@@ -224,14 +225,27 @@ export default function ShowSpace() {
                             </span>
 
                         </div>
-                        <Link
-                            href={!user ? 'account' : ''}
-                            onClick={!checkIfUserIsOwner && user ? followSpace : null}
-                            className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
-                        >
-                            {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : 'تعديل'}
-                            {!checkIfUserIsOwner && !isFollowed ? (<IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (<MdDone className={`text-2xl`}/>) : (<FaRegEdit className={`text-2xl`}/>) }
-                        </Link>
+                        {!checkIfUserIsOwner &&
+                            <Link
+                                href={!user ? 'account' : ''}
+                                onClick={!checkIfUserIsOwner && user ? followSpace : null}
+                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
+                                >
+                                {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : ''}
+                                {!checkIfUserIsOwner && !isFollowed ? (
+                                    <IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (
+                                    <MdDone className={`text-2xl`}/>) : (<FaRegEdit className={`text-2xl`}/>)}
+                            </Link>
+                        }
+                        {checkIfUserIsOwner &&
+                            <button
+                                onClick={() => setIsEditModalOpen(!isEditModalOpen)}
+                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
+                                >
+                                {checkIfUserIsOwner ? 'تعديل' : ''}
+                                {checkIfUserIsOwner && <FaRegEdit className={`text-2xl`}/>}
+                            </button>
+                        }
                     </div>
                 </header>
             </div>
@@ -317,6 +331,14 @@ export default function ShowSpace() {
                     </div>
                 </div>
             </main>
+
+            <EditSpaceModal
+                isEditModalOpen={isEditModalOpen}
+                setIsEditModalOpen={setIsEditModalOpen}
+                space={space}
+                setSpace={setSpace}
+            />
+
         </Master>
     )
 }
