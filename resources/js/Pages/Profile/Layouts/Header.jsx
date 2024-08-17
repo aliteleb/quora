@@ -139,7 +139,7 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
             <div className={`pb-2 pt-8 flex gap-x-4 w-full`}>
 
                 <img
-                    src={userInfo.avatar ? userInfo.avatar : '/profile-default-svgrepo-com.svg'}
+                    src={userInfo?.avatar ? userInfo?.avatar : '/profile-default-svgrepo-com.svg'}
                     alt="avatat"
                     className={`size-32 rounded-full object-cover`}
                 />

@@ -3,14 +3,14 @@ import Master from "@/Layouts/Master.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";
-import {Head, Link, router, usePage} from "@inertiajs/react";
+import {Head, Link, router, usePage, useRemember} from "@inertiajs/react";
 
 export default function Spaces() {
 
     const {setIsSpaceModalOpen, user} = useApp()
     const {props} = usePage()
 
-    const [spaces, setSpaces] = useState([]);
+    const [spaces, setSpaces] = useState(null);
     const [nextPageUrl, setNextPageUrl] = useState('');
 
     const getSpaces = (pageUrl) => {
@@ -23,7 +23,6 @@ export default function Spaces() {
                     ...res.props.data.spaces.data
                 ]))
                 setNextPageUrl(res.props.data.next_page_url)
-                window.history.replaceState({}, ``, `/spaces`)
             }
         })
     }
@@ -33,7 +32,7 @@ export default function Spaces() {
         setNextPageUrl(props.data.next_page_url)
     }, []);
 
-    const display_spaces = spaces.map(space => (
+    const display_spaces = spaces?.map(space => (
         <RecommendedSpace space={space}/>
     ))
 

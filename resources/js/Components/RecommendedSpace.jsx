@@ -7,13 +7,13 @@ export default function RecommendedSpace({space}) {
         <Link href={`/spaces/${space.slug}`} className={`bg-[--theme-main-bg-color] relative pb-4 ${space.description?.length > 65 ? 'xs:pb-10 xl:pb-4' : ''} rounded hover:brightness-90`}>
 
             <img
-                src={`${space.cover ? space.cover : '/spaces/space_cover_default_image_discover_spaces.webp'}`}
+                src={`${space.media.cover ? space.media.cover : '/spaces/space_cover_default_image_discover_spaces.webp'}`}
                 alt="space-cover"
                 className={`h-1/2 rounded-t w-full`}
             />
 
             <img
-                src={`${space.poster ? space.poster : '/spaces/space_default_image.webp'}`}
+                src={`${space.media.poster ? space.media.poster : '/spaces/space_default_image.webp'}`}
                 alt="space-small-img"
                 className={`absolute w-20 h-20 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-3xl hover:brightness-90 cursor-pointer`}
             />

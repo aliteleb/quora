@@ -3,31 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Requests\EditSpaceRequest;
 use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\DiscoverSpaceResource;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
+use App\Http\Resources\UserResource;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Topic;
 use App\Triats\HttpResponses;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class SpaceController extends Controller
+class SpaceController extends Controller implements HasMedia
 {
-    use HttpResponses;
+    use HttpResponses, InteractsWithMedia;
     public function create(SpaceRequest $request)
     {
         $validated_data = $request->validated();
+
+        $user_id = $validated_data['user_id'];
+
         unset($validated_data['user_id']);
         $request_topics = $validated_data['topics'];
         $topics_ids = Topic::whereIn('name', $request_topics)->pluck('id');
 
         unset($validated_data['topics']);
         $space = Space::create($validated_data);
+        $space->followers()->attach($user_id);
 
         $space->topics()->attach($topics_ids);
         $space->user()->attach(auth()->id());
@@ -146,6 +155,44 @@ class SpaceController extends Controller
         }
     }
 
+    public function edit(EditSpaceRequest $request, $id)
+    {
+        $space = Space::find($id);
+
+        if (!$space) {
+            return redirect()->back()->withErrors(['error' => 'Space not found.']);
+        }
+
+        $data = $request->only(['name', 'description']);
+
+        if ($request->hasFile('avatar')) {
+            if ($space->hasMedia('spaces_avatars')) {
+                $space->clearMediaCollection('spaces_avatars');
+            }
+            $space->addMediaFromRequest('avatar')->toMediaCollection('spaces_avatars');
+        }
+
+        if ($request->hasFile('cover')) {
+            if ($space->hasMedia('spaces_covers')) {
+                $space->clearMediaCollection('spaces_covers');
+            }
+            $space->addMediaFromRequest('cover')->toMediaCollection('spaces_covers');
+        }
+
+        $data = array_filter($data, function ($value) {
+            return !is_null($value);
+        });
+
+
+        $space->update($data);
+        $space = new SpaceResource($space);
+
+        $data = [
+            'space' => $space
+        ];
+
+        return InertiaResponse::route('showSpace', ['slug' => $space->slug], $data);
+    }
 
 
 }

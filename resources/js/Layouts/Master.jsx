@@ -25,9 +25,6 @@ function Master({children}) {
         window.location = '/account'
     }, [])
 
-    const {props} = usePage()
-    console.log(props)
-
     return (
         <>
             <div className={`z-40 sticky w-full top-0 flex justify-center bg-[--theme-main-bg-color] backdrop-blur-sm`}>

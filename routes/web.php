@@ -45,11 +45,12 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
     Route::post('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/space/{id}/edit', [SpaceController::class, 'edit'])->name('space.edit');
 });
 
 
 // Public Routes
-Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('select.topic');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');

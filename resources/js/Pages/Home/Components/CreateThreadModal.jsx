@@ -139,7 +139,12 @@ export default function CreateThreadModal() {
                     </div>
 
                     <div className={`absolute z-50 mt-2 xxs:left-1/2 left-2 top-1/2 xxs:-translate-x-1/2 -translate-y-1/2`}>
-                        <SelectSpaces setData={setData} data={data} selectedSpaceImg={selectedSpaceImg} setSelectedSpaceImg={setSelectedSpaceImg}/>
+                        <SelectSpaces
+                            setData={setData}
+                            data={data}
+                            selectedSpaceImg={selectedSpaceImg}
+                            setSelectedSpaceImg={setSelectedSpaceImg}
+                        />
                     </div>
                 </div>
 

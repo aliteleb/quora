@@ -18,11 +18,15 @@ class EnsureUserSelectTopic
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $context = [
+           'topics' => TopicResource::collection(Topic::all())
+        ];
+
         $user = auth()->user();
         if ($user) {
             $topics = $user->topics ?? collect();
             if ($topics->count() === 0) {
-                return InertiaResponse::route('select_topics');
+                return InertiaResponse::route('select_topics', [], $context);
             }
         }
 

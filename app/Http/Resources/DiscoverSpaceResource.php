@@ -16,17 +16,17 @@ class DiscoverSpaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         $space = Space::where('id', $this->id)->first();
-        $space_image = $space->getFirstMediaUrl('spaces_poster_images');
-        $space_cover_image = $space->getFirstMediaUrl('spaces_cover_images');
+        $space_image = $space->getFirstMediaUrl('spaces_avatars');
+        $space_cover_image = $space->getFirstMediaUrl('spaces_covers');
 
         $media =[];
 
         if ($space_image) {
-            $media['poster_img'] = $space_image;
+            $media['poster'] = $space_image;
         }
 
         if ($space_cover_image) {
-            $media['cover_img'] = $space_cover_image;
+            $media['cover'] = $space_cover_image;
         }
 
         return [

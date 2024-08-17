@@ -18,8 +18,8 @@ class SpaceResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $space_image = $this->getFirstMediaUrl('spaces_poster_images');
-        $space_cover_image = $this->getFirstMediaUrl('spaces_cover_images');
+        $space_image = $this->getFirstMediaUrl('spaces_avatars');
+        $space_cover_image = $this->getFirstMediaUrl('spaces_covers');
 
         $media =[];
 

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Modal from "@/Components/Modal.jsx";
 import {HiMiniXMark} from "react-icons/hi2";
 import Input from "@/Core/Input.jsx";
-import {useForm} from "@inertiajs/react";
+import {useForm, usePage} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
 import {CiCamera} from "react-icons/ci";
 import InputError from "@/Components/InputError.jsx";
@@ -19,19 +19,20 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
     const [isLoading, setIsLoading] = useState(false);
 
     const submitEdit = (e) => {
-        setIsLoading(true)
-
         const hasInfoUpdates = data.name.length !== 0 || data.description.length !== 0 || data.avatar || data.cover
-
         if (hasInfoUpdates) {
+            setIsLoading(true)
             e.preventDefault()
-            post('/space/edit', {
+            post(`/space/${space?.id}/edit`, {
                 onSuccess: (res) => {
+                    setSpace(res.props.space?.data)
                     setIsEditModalOpen(false)
-                    setSpace(res.props.space.data)
                     reset()
                     setIsLoading(false)
                 },
+                onError: () => {
+                    setIsLoading(false)
+                }
             })
         }
     }
@@ -52,11 +53,6 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
         clearErrors()
         setIsLoading(false)
     }
-
-    useEffect(() => {
-        console.log(data)
-    }, [data, isEditModalOpen]);
-
 
     return (
         <Modal
@@ -82,11 +78,11 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
 
                 {/* Avatar section */}
                 <h1 className={`px-3`}>أيقونة</h1>
-                <section className={`px-3 flex gap-x-3`}>
+                <section className={`px-3 flex flex-col xxs:flex-row gap-y-3 gap-x-3`}>
                     <div className={`relative`}>
-                        {!data.avatar &&
+                        {!data.avatar && space.media.poster &&
                             <img
-                                src={space?.avatar ? space?.avatar : '/spaces/space_default_image.webp'}
+                                src={space?.media.poster ? space?.media.poster : '/spaces/space_default_image.webp'}
                                 alt="avatar"
                                 className={`size-32 object-cover rounded-full`}
                             />
@@ -130,11 +126,11 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                 <h1 className={`px-3 mt-3`}>صورة الغلاف</h1>
                 <section className={`px-3 flex flex-col gap-x-3`}>
                     <div className={`relative`}>
-                        {!data.cover &&
+                        {!data.cover && space?.media.cover &&
                             <img
-                                src={space?.cover ? space?.cover : '/spaces/space_cover_default_image_space_page.webp'}
+                                src={space?.media.cover ? space?.media.cover : '/spaces/space_cover_default_image_space_page.webp'}
                                 alt="cover"
-                                className={`w-full object-cover rounded`}
+                                className={`w-full h-[160px] object-cover rounded`}
                             />
                         }
                         {/* Preview uploaded cover */}
@@ -159,11 +155,14 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                         />
                     </div>
 
-                    <div className={`flex flex-col gap-y-3`}>
-                        <div>الحد الأقصي للحجم: <span className={`text-[--theme-placeholder-color]`}>6 MB</span></div>
-                        <span>الإمتدادات المسوح بها هي:<br/>
-                           <span className={`text-[--theme-placeholder-color]`}>JPEG, JPG, PNG, WebP, TIFF, BMP</span>
-                        </span>
+                    <div className={`flex gap-x-3 mt-2`}>
+                        <div className={`flex flex-col gap-y-3`}>
+                            <div>الحد الأقصي للحجم: <span className={`text-[--theme-placeholder-color]`}>6 MB</span></div>
+                            <span>الإمتدادات المسوح بها هي:<br/>
+                                <span className={`text-[--theme-placeholder-color]`}>JPEG, JPG, PNG, WebP, TIFF, BMP</span>
+                            </span>
+                        </div>
+
                         <InputError
                             message={errors.cover}
                             className={`!text-red-500`}
@@ -182,7 +181,7 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                         error={errors?.name}
                         parentClassStyle={`-mt-2`}
                         minLength={3}
-                        maxLength={20}
+                        maxLength={64}
                         id={"space-avatar"}
                     />
                     <Input
@@ -190,11 +189,10 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                         onChange={e => setData('description', e.target.value)}
                         value={data?.description}
                         name={'description'}
-                        label={`نبذة`}
+                        label={`الوصف`}
                         error={errors?.description}
                         parentClassStyle={`-mt-2`}
-                        minLength={10}
-                        maxLength={160}
+                        maxLength={250}
                         id={"space-description"}
                     />
                 </section>

@@ -240,7 +240,7 @@ export default function ShowSpace() {
                         {checkIfUserIsOwner &&
                             <button
                                 onClick={() => setIsEditModalOpen(!isEditModalOpen)}
-                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
+                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full text-sm xxs:text-md px-6 py-2 me-3 font-bold`}
                                 >
                                 {checkIfUserIsOwner ? 'تعديل' : ''}
                                 {checkIfUserIsOwner && <FaRegEdit className={`text-2xl`}/>}
