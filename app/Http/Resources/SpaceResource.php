@@ -52,6 +52,7 @@ class SpaceResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
+            'details' => $this->details,
             'status' => $this->status,
             'media' => $media,
             'created_at' => $this->created_at,

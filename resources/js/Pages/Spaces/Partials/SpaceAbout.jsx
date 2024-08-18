@@ -6,8 +6,9 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
 
     const [isTextAreaActive, setIsTextAreaActive] = useState(false);
     const { data, setData, post, reset, errors } = useForm({
-        text: '',
+        text: space.details || '',
     });
+    const [details, setDetails] = useState(space.details);
 
 
     const handleChange = (e) => {
@@ -22,7 +23,7 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: (res) => {
-
+                    setDetails(res.props.space.data.details)
                     reset()
                     setIsTextAreaActive(false)
                 }
@@ -40,31 +41,55 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
             <div className={`flex flex-col gap-y-3`}>
                 <div className={`flex justify-between items-center`}>
                     <h1>التفاصيل</h1>
-                    <Button
-                        content={`حفظ`}
-                        custom_styles={`w-fit px-6 bg-[--theme-space-owner-main-color] ${data.text.length === 0 ? 'brightness-50' : ''}`}
-                        onClick={submit}
-                        disabled={data.text.length === 0}
-                    />
+                    {isTextAreaActive &&
+                        <div className={`flex gap-x-2`}>
+                            <Button
+                                content={`إالغاء`}
+                                custom_styles={`w-fit px-6 bg-[--theme-space-owner-main-color]`}
+                                onClick={() => setIsTextAreaActive(false)}
+                            />
+                            <Button
+                                content={`حفظ`}
+                                custom_styles={`w-fit px-6 bg-[--theme-space-owner-main-color] ${data.text.length === 0 ? 'brightness-50' : ''}`}
+                                onClick={submit}
+                                disabled={data.text.length === 0}
+                            />
+                        </div>
+                    }
+                    {details && !isTextAreaActive &&
+                        <Button
+                            content={`تعديل`}
+                            custom_styles={`w-fit px-6 bg-[--theme-space-owner-main-color]`}
+                            onClick={() => setIsTextAreaActive(true)}
+                        />
+                    }
                 </div>
 
                 {!isTextAreaActive &&
-                    <div
-                        className={`w-full bg-[--theme-main-bg-color] flex flex-col justify-center items-center gap-y-2 py-24 rounded`}>
-                        <img
-                            src="/spaces/no-details.webp"
-                            alt=""
-                            className={`w-16`}
-                        />
-                        <h2>لا توجد تفاصيل حتى الآن</h2>
-                        {checkIfUserIsOwner &&
-                            <button
-                                className={`outline-0 bg-[--theme-space-owner-main-color] text-[--theme-body-color] w-fit flex items-center gap-x-2 py-2 px-4 mt-2 rounded-full`}
-                                onClick={() => setIsTextAreaActive(!isTextAreaActive)}
-                            >
-                                أضف تفاصيل
-                            </button>
+                    <div className={`w-full bg-[--theme-main-bg-color] rounded ${details ? 'p-4 min-h-48' : 'py-24'}`}>
+                        {!details &&
+                            <div className={`flex flex-col justify-center items-center gap-y-2 `}>
+                                <img
+                                    src="/spaces/no-details.webp"
+                                    alt=""
+                                    className={`w-16`}
+                                />
+                                <h2>لا توجد تفاصيل حتى الآن</h2>
+                                {checkIfUserIsOwner &&
+                                    <button
+                                        className={`outline-0 bg-[--theme-space-owner-main-color] text-[--theme-body-color] w-fit flex items-center gap-x-2 py-2 px-4 mt-2 rounded-full`}
+                                        onClick={() => setIsTextAreaActive(!isTextAreaActive)}
+                                    >
+                                        أضف تفاصيل
+                                    </button>
+                                }
+                            </div>
                         }
+
+                        {details &&
+                            <div>{details}</div>
+                        }
+
                     </div>
                 }
             </div>
@@ -86,7 +111,6 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
                     </span>
 
                 </div>
-
             }
 
 

@@ -84,7 +84,7 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                 <h1 className={`px-3`}>أيقونة</h1>
                 <section className={`px-3 flex flex-col xxs:flex-row gap-y-3 gap-x-3`}>
                     <div className={`relative`}>
-                        {!data.avatar && space.media.poster &&
+                        {!data.avatar && !space.media.poster &&
                             <img
                                 src={space?.media.poster ? space?.media.poster : '/spaces/space_default_image.webp'}
                                 alt="avatar"
@@ -130,7 +130,7 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                 <h1 className={`px-3 mt-3`}>صورة الغلاف</h1>
                 <section className={`px-3 flex flex-col gap-x-3`}>
                     <div className={`relative`}>
-                        {!data.cover && space?.media.cover &&
+                        {!data.cover && !space?.media.cover &&
                             <img
                                 src={space?.media.cover ? space?.media.cover : '/spaces/space_cover_default_image_space_page.webp'}
                                 alt="cover"
