@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useForm} from "@inertiajs/react";
+import Button from "@/Core/Button.jsx";
 
 export default function SpaceAbout({checkIfUserIsOwner, space}) {
 
@@ -13,6 +14,22 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
         setData(e.target.name, e.target.value)
     }
 
+    const submit = (e) => {
+        e.preventDefault()
+
+        if (data.text.length > 0) {
+            post(`/space/${space.id}/about`, {
+                preserveState: true,
+                preserveScroll: true,
+                onSuccess: (res) => {
+
+                    reset()
+                    setIsTextAreaActive(false)
+                }
+            })
+        }
+    }
+
     useEffect(() => {
         console.log(data)
     }, [data]);
@@ -21,7 +38,16 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
         <main className={`w-full flex flex-col ${isTextAreaActive ? 'gap-y-3' : 'gap-y-4'} pb-10`}>
 
             <div className={`flex flex-col gap-y-3`}>
-                <h1>التفاصيل</h1>
+                <div className={`flex justify-between items-center`}>
+                    <h1>التفاصيل</h1>
+                    <Button
+                        content={`حفظ`}
+                        custom_styles={`w-fit px-6 bg-[--theme-space-owner-main-color] ${data.text.length === 0 ? 'brightness-50' : ''}`}
+                        onClick={submit}
+                        disabled={data.text.length === 0}
+                    />
+                </div>
+
                 {!isTextAreaActive &&
                     <div
                         className={`w-full bg-[--theme-main-bg-color] flex flex-col justify-center items-center gap-y-2 py-24 rounded`}>

@@ -93,7 +93,7 @@ class SpaceController extends Controller implements HasMedia
     {
         $space = Space::where('slug', $slug)->first();
         if (!$space) {
-            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
+            return InertiaResponse::error(['error' => 'تعذر العثور على المساحة.']);
         }
         $space = new SpaceResource($space);
 
@@ -164,7 +164,7 @@ class SpaceController extends Controller implements HasMedia
         $space = Space::find($id);
 
         if (!$space) {
-            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
+            return InertiaResponse::error(['error' => 'تعذر العثور على المساحة.']);
         }
 
         $data = $request->only(['name', 'description']);
@@ -203,13 +203,12 @@ class SpaceController extends Controller implements HasMedia
         $space = Space::find($id);
 
         if (!$space) {
-            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
+            return InertiaResponse::error(['error' => 'تعذر العثور على المساحة.']);
         }
 
         $details = $request->text;
-        $space->detials = $details;
+        $space->details = $details;
         $space->update();
-
     }
 
 
