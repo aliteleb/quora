@@ -21,15 +21,10 @@ class SpaceResource extends JsonResource
         $space_image = $this->getFirstMediaUrl('spaces_avatars');
         $space_cover_image = $this->getFirstMediaUrl('spaces_covers');
 
-        $media =[];
+        $media = [];
 
-        if ($space_image) {
-            $media['poster'] = $space_image;
-        }
-
-        if ($space_cover_image) {
-            $media['cover'] = $space_cover_image;
-        }
+        $media['poster'] = $space_image !== "" ? $space_image : null;
+        $media['cover'] = $space_cover_image !== "" ? $space_cover_image : null;
 
         $is_followed = false;
 

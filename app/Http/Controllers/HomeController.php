@@ -46,4 +46,26 @@ class HomeController extends Controller
         return InertiaResponse::back(['search' => $data]);
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->input('q');
+
+        dd($keyword);
+        if(!$keyword) {
+            return InertiaResponse::back();
+        }
+
+        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->limit(5)->get();
+        $spaces = Space::where('name', 'LIKE', "%$keyword%")->limit(5)->get();
+        $threads = Thread::where('title', 'LIKE', "%$keyword%")->limit(5)->get();
+
+        $data = [
+            'users' => UserResource::collection($users),
+            'spaces' => SpaceResource::collection($spaces),
+            'threads' => ThreadResource::collection($threads),
+        ];
+
+        return InertiaResponse::back(['search' => $data]);
+    }
+
 }
