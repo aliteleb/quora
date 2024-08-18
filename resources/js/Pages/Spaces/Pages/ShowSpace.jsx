@@ -240,7 +240,7 @@ export default function ShowSpace() {
                         {checkIfUserIsOwner &&
                             <button
                                 onClick={() => setIsEditModalOpen(!isEditModalOpen)}
-                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full text-sm xxs:text-md px-6 py-2 me-3 font-bold`}
+                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full text-sm xxs:text-md px-6 py-2 font-bold`}
                                 >
                                 {checkIfUserIsOwner ? 'تعديل' : ''}
                                 {checkIfUserIsOwner && <FaRegEdit className={`text-2xl`}/>}
@@ -271,21 +271,23 @@ export default function ShowSpace() {
 
                     <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'}`}>
                         <div className={`w-full flex flex-col gap-y-3`}>
-                            <div className={`relative`}>
-                                <Button
-                                    content={filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}
-                                    onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                                    isDropDown={true}
-                                    custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
-                                />
+                            {!isActive.about &&
+                                <div className={`relative`}>
+                                    <Button
+                                        content={filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}
+                                        onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                        isDropDown={true}
+                                        custom_styles={`bg-transparent hover:bg-[--theme-main-bg-color]`}
+                                    />
 
-                                <FilterPosts
-                                    isFilterDropdownOpen={isFilterDropdownOpen}
-                                    setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                                    filterType={filterType}
-                                    handleFilterTypeSelect={handleFilterTypeSelect}
-                                />
-                            </div>
+                                    <FilterPosts
+                                        isFilterDropdownOpen={isFilterDropdownOpen}
+                                        setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                                        filterType={filterType}
+                                        handleFilterTypeSelect={handleFilterTypeSelect}
+                                    />
+                                </div>
+                            }
                             <div className={`flex flex-col-reverse gap-y-10 ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'} `}>
                                 {isActive.about &&
                                     <SpaceAbout

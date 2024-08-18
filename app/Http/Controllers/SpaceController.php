@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Requests\EditSpaceAboutRequest;
 use App\Http\Requests\EditSpaceRequest;
 use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\DiscoverSpaceResource;
@@ -91,6 +92,9 @@ class SpaceController extends Controller implements HasMedia
     public function showSpace($slug)
     {
         $space = Space::where('slug', $slug)->first();
+        if (!$space) {
+            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
+        }
         $space = new SpaceResource($space);
 
         $posts = $this->getThreadsByType($space->id, 'post');
@@ -160,7 +164,7 @@ class SpaceController extends Controller implements HasMedia
         $space = Space::find($id);
 
         if (!$space) {
-            return redirect()->back()->withErrors(['error' => 'Space not found.']);
+            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
         }
 
         $data = $request->only(['name', 'description']);
@@ -192,6 +196,20 @@ class SpaceController extends Controller implements HasMedia
         ];
 
         return InertiaResponse::route('showSpace', ['slug' => $space->slug], $data);
+    }
+
+    public function about(EditSpaceAboutRequest $request, $id)
+    {
+        $space = Space::find($id);
+
+        if (!$space) {
+            return redirect()->back()->withErrors(['error' => 'تعذر العثور على المساحة.']);
+        }
+
+        $details = $request->text;
+        $space->detials = $details;
+        $space->update();
+
     }
 
 

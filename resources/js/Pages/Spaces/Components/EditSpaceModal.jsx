@@ -54,6 +54,10 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
         setIsLoading(false)
     }
 
+    const handleChange = (e) => {
+        setData(e.target.name, e.target.value)
+    }
+
     return (
         <Modal
             data={data}
@@ -84,20 +88,20 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                             <img
                                 src={space?.media.poster ? space?.media.poster : '/spaces/space_default_image.webp'}
                                 alt="avatar"
-                                className={`size-32 object-cover rounded-full`}
+                                className={`size-32 object-cover rounded-3xl`}
                             />
                         }
                         {/* Preview uploaded avatar */}
                         {data.avatar &&
                             <div className={`${!data.avatar ? 'invisible' : 'visible w-full border-zinc-700/70'}`}>
-                                <img className={`size-32 rounded-full object-cover`}
+                                <img className={`size-32 rounded-3xl object-cover`}
                                      src={data?.avatar ? URL.createObjectURL(data?.avatar) : ''}
                                      alt="space-avatar"/>
                             </div>
                         }
                         <label
                             htmlFor={`upload_space_avatar`}
-                            className={`bg-black size-32 rounded-full flex justify-center items-center absolute top-0 bg-opacity-0 hover:bg-opacity-40 cursor-pointer group`}
+                            className={`bg-black size-32 rounded-3xl flex justify-center items-center absolute top-0 bg-opacity-0 hover:bg-opacity-40 cursor-pointer group`}
                         >
                             <CiCamera className={`size-8 opacity-0 group-hover:opacity-80 `}/>
                         </label>
@@ -174,7 +178,7 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                 <section className={`px-3 flex flex-col gap-y-4`}>
                     <Input
                         placeholder={`الإسم`}
-                        onChange={e => setData('name', e.target.value)}
+                        onChange={handleChange}
                         value={data?.name}
                         name={'name'}
                         label={`الاسم`}
@@ -186,7 +190,7 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                     />
                     <Input
                         placeholder={`الوصف`}
-                        onChange={e => setData('description', e.target.value)}
+                        onChange={handleChange}
                         value={data?.description}
                         name={'description'}
                         label={`الوصف`}

@@ -105,9 +105,6 @@ function Master({children}) {
                 </div>
             </div>
 
-            {/*  left screen for simulate add padding  */}
-            <div className={`md:block hidden w-3 h-screen bg-[--theme-body-bg] fixed left-0 z-50`}></div>
-
             {location.pathname === '/' &&
                 <button onClick={() => setIsCreatThreadModalOpen(true)}
                         className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
