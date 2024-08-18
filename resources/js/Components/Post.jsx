@@ -42,7 +42,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
 
     useEffect(() => {
         if (isAnswer && thread.vote) {
-            setIsVoted(thread.vote?.vote_type)
+            setIsVoted(thread.vote.vote_type)
         } else {
             setIsVoted(thread.vote)
         }
@@ -126,10 +126,6 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
             }
         })
     }
-
-    useEffect(() => {
-        setIsVoted(thread.vote)
-    }, []);
 
     const vote = (voteType, isAnswer = false) => {
         router.post('/vote', { thread_id: thread.id, vote_type: voteType, isAnswer }, {
