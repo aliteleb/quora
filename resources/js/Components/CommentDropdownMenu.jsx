@@ -32,7 +32,8 @@ export default function CommentDropdownMenu({parentReplies ,comment, isCommentMo
     const updateRepliesAfterDelete = () => {
         const mainComment = comments?.filter(iterate_comment => iterate_comment.id === commentId)
         console.log(parentReplies)
-        const updatedReplies = parentReplies?.filter(reply => reply.id !== comment.id)
+        let updatedReplies = parentReplies?.filter(reply => reply.id !== comment.id)
+        updatedReplies = updatedReplies?.filter(reply => reply.comment_id !== comment.id)
         setReplies(updatedReplies)
     }
     const deleteComment = () => {
