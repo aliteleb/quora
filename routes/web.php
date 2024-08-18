@@ -57,6 +57,7 @@ Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showS
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
 Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quickSearch');
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');

@@ -1,7 +1,7 @@
 import {RxMagnifyingGlass} from "react-icons/rx";
 import {IoSearchOutline} from "react-icons/io5";
 import React, {useEffect, useRef, useState} from "react";
-import {router} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 
 export default function SearchInput({className}) {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -18,7 +18,9 @@ export default function SearchInput({className}) {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (response) => {
-                console.log(response)
+                setUsersResult(response.props.search?.users?.data ?? [])
+                setSpacesResult(response.props.search?.spaces?.data ?? [])
+                setThreadsResult(response.props.search?.threads?.data ?? [])
             }
         })
 
@@ -56,28 +58,40 @@ export default function SearchInput({className}) {
             <div id={`spaceDropDown`}
                  className={`animate-fade-in bg-[--theme-main-bg-color] absolute w-full top-[42px] left-0 border border-[--theme-select-space-border-color] ${!showDropDown && 'hidden'}`}>
                 <ul className={`divide-y divide-[--theme-select-space-border-color]`}>
-                    <li className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
-                        <div className={`flex items-center gap-x-1 py-1 px-2`}>
-                            <IoSearchOutline className={`size-5 text-white/80`}/>
-                            <span className={`text-[.9rem] text-white px-1`}>{keyword}</span>
-                        </div>
-                        <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>بحث ...</span>
+                    <li>
+                        <Link href={`/search?q=${keyword}`} className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
+                            <div className={`flex items-center gap-x-1 py-1 px-2`}>
+                                <IoSearchOutline className={`size-5 text-white/80`}/>
+                                <span className={`text-[.9rem] text-white px-1`}>{keyword}</span>
+                            </div>
+                            <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>بحث ...</span>
+                        </Link>
                     </li>
-                    <li className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
-                        <div className={`flex items-center gap-x-1 py-1 px-2`}>
-                            <img src="/profile-default-svgrepo-com.svg" className="size-5 rounded-full cursor-pointer text-[--theme-placeholder-color]" alt={``}/>
-                            <span className={`text-[.9rem] text-white px-1`}>اسم الشخص</span>
-                        </div>
-                        <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>ملف شخصي</span>
-                    </li>
-                    <li className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
-                        <div className={`flex items-center gap-x-1 py-1 px-2`}>
-                            <img src="https://qph.cf2.quoracdn.net/main-thumb-ti-186577-100-ejuoadvdybaqjgqmtdhzqwfbohzluqgg.jpeg"
-                                 className="size-5 rounded-lg cursor-pointer text-[--theme-placeholder-color]" alt={``}/>
-                            <span className={`text-[.9rem] text-white px-1`}>اسم المساحة</span>
-                        </div>
-                        <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>مساحة</span>
-                    </li>
+                    {usersResult.map((user, index) => {
+                        return <li key={index}>
+                            <Link href={`/profile/${user?.username}`}  className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
+                                <div className={`flex items-center gap-x-1 py-1 px-2`}>
+                                    <img src={user?.avatar ?? `/profile-default-svgrepo-com.svg`} className="size-5 rounded-full cursor-pointer text-[--theme-placeholder-color]"
+                                         alt={``}/>
+                                    <span className={`text-[.9rem] text-white px-1`}>{user?.name}</span>
+                                </div>
+                                <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>ملف شخصي</span>
+                            </Link>
+                        </li>
+                    })}
+                    {spacesResult.map((space, index) => {
+                        return <li key={index}>
+                            <Link href={`/spaces/${space?.slug}`} className={`flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]`}>
+                                <div className={`flex items-center gap-x-1 py-1 px-2`}>
+                                    <img src={space?.media?.poster ?? 'https://qph.cf2.quoracdn.net/main-thumb-ti-186577-100-ejuoadvdybaqjgqmtdhzqwfbohzluqgg.jpeg'}
+                                         className="size-5 rounded-lg cursor-pointer text-[--theme-placeholder-color]" alt={``}/>
+                                    <span className={`text-[.9rem] text-white px-1`}>{space?.name}</span>
+                                </div>
+                                <span className={`text-[.9rem] text-[--theme-placeholder-color] pe-3`}>مساحة</span>
+                            </Link>
+                        </li>
+                    })}
+
                 </ul>
             </div>
         </div>

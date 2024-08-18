@@ -18,6 +18,10 @@ class UserResource extends JsonResource
     {
         $response = [];
 
+        $avatar = $this->getFirstMediaUrl('users_avatars');
+        if ($avatar === "") {
+            $avatar = null;
+        }
         if (auth()->user()) {
             $response['id'] = $this->id;
             $response['name'] = $this->name;
@@ -30,7 +34,7 @@ class UserResource extends JsonResource
             $response['followed_spaces_count'] = $this->followed_spaces_count;
             $response['followers_count'] = $this->followedUser->count();
             $response['follow_count'] = $this->followerUser->count();
-            $response['avatar'] = $this->getFirstMediaUrl('users_avatars');
+            $response['avatar'] = $avatar;
             $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
         }
         return $response;
