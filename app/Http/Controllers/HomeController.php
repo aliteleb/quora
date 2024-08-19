@@ -7,18 +7,39 @@ use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
+use App\Models\Comment;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $blocked_user_ids = auth()->user()?->blockedUser()->pluck('block_user.blocked_id')->toArray() ?? [];
-        $threads = Thread::where('user_id', '!=', auth()->id())->whereNotIn('user_id', $blocked_user_ids)->latest()->paginate(5);
+        $blocked_user_ids = auth()->user()
+            ?->blockedUser()
+            ->pluck('block_user.blocked_id')
+            ->toArray() ?? [];
+
+        $user_commented_threads = Comment::where('user_id', auth()->id())
+            ->distinct()
+            ->pluck('thread_id');
+
+        $user_voted_threads = Vote::where('user_id', auth()->id())
+            ->whereNotNull('thread_id')
+            ->pluck('thread_id');
+
+        $threads = Thread::where('user_id', '!=', auth()->id())
+            ->whereNotIn('user_id', $blocked_user_ids)
+            ->whereNotIn('id', $user_commented_threads)
+            ->whereNotIn('id', $user_voted_threads)
+            ->latest()
+            ->paginate(5);
+
         $data = [
             'threads' => ThreadResource::collection($threads),
         ];
