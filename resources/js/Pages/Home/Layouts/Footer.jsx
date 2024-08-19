@@ -1,13 +1,14 @@
-import {memo} from 'react';
+import {memo, useState} from 'react';
 import { LuPlus } from "react-icons/lu";
 import { useApp } from "@/AppContext/AppContext.jsx";
-import {Link} from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
+import FollowedSpace from "@/Pages/Profile/Components/FollowedSpace.jsx";
 
 function Footer() {
     const { setIsSpaceModalOpen, user } = useApp();
 
     return (
-        <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-7 md:flex hidden flex-col`}>
+        <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-4 lg:flex hidden flex-col`}>
             {!user &&
                 <Link
                     href={'account'}
@@ -27,7 +28,6 @@ function Footer() {
                     <span>إنشاء مساحة</span>
                 </button>
             }
-
             <div className={`text-[--theme-secondary-text-color]`}>
                 <div>
                     <a href="" className={`hover:underline`}>حول . </a>

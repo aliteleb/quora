@@ -54,10 +54,23 @@ class HomeController extends Controller
             ->latest()
             ->paginate(5);
 
+        $user_created_spaces = $this->getUserSpaces();
+
         $data = [
             'threads' => ThreadResource::collection($threads),
+            'user_created_spaces' => $user_created_spaces,
         ];
         return InertiaResponse::render('Home/Pages/Home', $data);
+    }
+
+    protected function getUserSpaces()
+    {
+        $user = auth()->user();
+        $spaces = $user->space()
+            ->with('media')
+            ->withCount('followers')
+            ->paginate(5);
+        return SpaceResource::collection($spaces);
     }
 
     public function quickSearch(Request $request)

@@ -35,7 +35,7 @@ export default function RecommendedSpace({space, customStyles}) {
     return (
         <div className={`relative rounded ${customStyles}`}>
             <img
-                src={space.cover ? space.cover : '/spaces/space_cover_default_image_space_page.webp'}
+                src={space.media.cover ? space.media.cover : '/spaces/space_cover_default_image_space_page.webp'}
                 alt="cover"
                 className={`absolute h-full rounded brightness-50 w-full`}
             />
@@ -45,18 +45,18 @@ export default function RecommendedSpace({space, customStyles}) {
                         href={`/spaces/${space.slug}`}
                         className={`flex items-center gap-x-2`}
                     >
-                        {!space.poster &&
+                        {!space.media.poster &&
                             <img
                                 src="/spaces/space_default_image.webp"
                                 alt="space-img"
-                                className={`w-8 rounded-xl`}
+                                className={`size-8 rounded-xl`}
                             />
                         }
-                        {space.poster &&
+                        {space.media.poster &&
                             <img
-                                src={space.poster}
+                                src={space.media.poster}
                                 alt="space-img"
-                                className={`w-8 rounded-xl`}
+                                className={`size-8 object-cover rounded-xl`}
                             />
                         }
                         <div className={`font-bold`}>{space.name}</div>

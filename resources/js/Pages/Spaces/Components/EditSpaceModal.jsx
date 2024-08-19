@@ -86,7 +86,14 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                     <div className={`relative`}>
                         {!data.avatar && !space.media.poster &&
                             <img
-                                src={space?.media.poster ? space?.media.poster : '/spaces/space_default_image.webp'}
+                                src={'/spaces/space_default_image.webp'}
+                                alt="avatar"
+                                className={`size-32 object-cover rounded-3xl`}
+                            />
+                        }
+                        {!data.avatar && space.media.poster &&
+                            <img
+                                src={space.media.poster}
                                 alt="avatar"
                                 className={`size-32 object-cover rounded-3xl`}
                             />
@@ -132,7 +139,14 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                     <div className={`relative`}>
                         {!data.cover && !space?.media.cover &&
                             <img
-                                src={space?.media.cover ? space?.media.cover : '/spaces/space_cover_default_image_space_page.webp'}
+                                src={'/spaces/space_cover_default_image_space_page.webp'}
+                                alt="cover"
+                                className={`w-full h-[160px] object-cover rounded`}
+                            />
+                        }
+                        {!data.cover && space?.media.cover &&
+                            <img
+                                src={space.media.cover}
                                 alt="cover"
                                 className={`w-full h-[160px] object-cover rounded`}
                             />

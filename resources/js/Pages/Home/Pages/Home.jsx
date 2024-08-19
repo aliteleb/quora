@@ -5,6 +5,8 @@ import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
 import { Head, router, usePage } from "@inertiajs/react";
 import Post from "@/Components/Post.jsx";
 import SelectTopicsModal from '../Components/SelectTopicsModal.jsx';
+import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
+import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
 
 export default function Home() {
     const { props } = usePage();
@@ -70,13 +72,18 @@ export default function Home() {
     return (
         <Master>
             <Head title='الرئيسية' />
-            <div className={`flex container max-w-screen-xl mx-auto gap-x-10 px-2`}>
+            <div className={`flex container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2`}>
                 <Footer />
-                <div className={`w-40 hidden md:block`}></div> {/* Footer Simulation */}
+                <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
                 <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-0`}>
                     <CreateThread />
                     {show_threads}
                 </div>
+                <div className={`relative w-[50%] lg:w-[30%] hidden md:block`}>
+                    <HomeSidebar/>
+                </div>
+                {/*  left screen for simulate add padding  */}
+                <div className={`md:block hidden w-3 h-screen bg-[--theme-body-bg] fixed left-0 z-50`}></div>
             </div>
 
             {isSelectTopicsModalOpen && <SelectTopicsModal setIsSelectTopicsModalOpen={setIsSelectTopicsModalOpen} />}

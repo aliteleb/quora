@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Thread;
@@ -35,13 +36,7 @@ class ProfileController extends Controller
         }
 
         $followed_spaces = $user->followedSpaces;
-        $followed_spaces = $followed_spaces->map(function ($space) {
-            $space->followers_count = $space->followers()->count();
-            if ($space->getFirstMediaUrl('spaces_poster_images')) {
-              $space->avatar = $space->getFirstMediaUrl('spaces_poster_images');
-            }
-            return $space->only(['name', 'followers_count', 'slug']);
-        });
+        $followed_spaces = SpaceResource::collection($followed_spaces);
 
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
         $is_blocked = $user->blockedUser()->where('user_id', auth()->id())->exists();
