@@ -26,58 +26,120 @@ export default function CreateThread() {
                         />
                     }
                     {(!user?.avatar && user) && <DefaultUserIcon/>}
-                    <Link
-                        href={!user ? 'account' : ''}
-                        onClick={() => user && setIsCreatThreadModalOpen(true)}
-                        className={`cursor-pointer`}
-                    >
-                        <input
-                            type="text"
-                            className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
-                            placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
-                        />
-                    </Link>
+                    {!user &&
+                        <Link
+                            href={'account'}
+                            onClick={() => user && setIsCreatThreadModalOpen(true)}
+                            className={`cursor-pointer`}
+                        >
+                            <input
+                                type="text"
+                                className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
+                                placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
+                            />
+                        </Link>
+                    }
+                    {user &&
+                        <button
+                            onClick={() => user && setIsCreatThreadModalOpen(true)}
+                            className={`cursor-pointer`}
+                        >
+                            <input
+                                type="text"
+                                className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
+                                placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
+                            />
+                        </button>
+                    }
                 </div>
 
                 <div className={`grid grid-cols-3`}>
-                    <Link
-                        href={!user ? 'account' : ''}
-                        className={`cursor-pointer flex items-center gap-x-3`}
-                        onClick={() => {
-                            if (user) {
-                                setIsCreatThreadModalOpen(true)
-                                setIsPostActive(false)
-                            }
-                        }}
-                    >
-                        <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
-                            <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
-                            <span>اسأل</span>
-                        </div>
-                        <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
-                    </Link>
+                    {!user &&
+                        <Link
+                            href={'account'}
+                            className={`cursor-pointer flex items-center gap-x-3`}
+                            onClick={() => {
+                                if (user) {
+                                    setIsCreatThreadModalOpen(true)
+                                    setIsPostActive(false)
+                                }
+                            }}
+                        >
+                            <div
+                                className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                                <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
+                                <span>اسأل</span>
+                            </div>
+                            <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
+                        </Link>
+                    }
+                    {user &&
+                        <button
+                            className={`cursor-pointer flex items-center gap-x-3`}
+                            onClick={() => {
+                                if (user) {
+                                    setIsCreatThreadModalOpen(true)
+                                    setIsPostActive(false)
+                                }
+                            }}
+                        >
+                            <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                                <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
+                                <span>اسأل</span>
+                            </div>
+                            <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
+                        </button>
+                    }
 
                     <div className={`cursor-pointer flex items-center gap-x-3 ms-3`}>
-                        <Link href={!user ? 'account' : ''} className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
-                            <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
-                            أجب
-                        </Link>
+                        {!user &&
+                            <Link
+                                href={'account'}
+                                className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
+                            >
+                                <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
+                                أجب
+                            </Link>
+                        }
+                        {user &&
+                            <button
+                                className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                                <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
+                                أجب
+                            </button>
+                        }
                         <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
                     </div>
 
-                    <Link
-                        href={!user ? 'account' : ''}
-                        className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
-                        onClick={() => {
-                            if (user) {
-                                setIsCreatThreadModalOpen(true)
-                                setIsPostActive(true)
-                            }
-                        }}
-                    >
-                        <BiCommentEdit  className={`size-6 text-[--theme-placeholder-color]`}/>
-                        نشر
-                    </Link>
+                    {!user &&
+                        <Link
+                            href={'account'}
+                            className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
+                            onClick={() => {
+                                if (user) {
+                                    setIsCreatThreadModalOpen(true)
+                                    setIsPostActive(true)
+                                }
+                            }}
+                        >
+                            <BiCommentEdit className={`size-6 text-[--theme-placeholder-color]`}/>
+                            نشر
+                        </Link>
+                    }
+                    {user &&
+                        <button
+                            className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
+                            onClick={() => {
+                                if (user) {
+                                    setIsCreatThreadModalOpen(true)
+                                    setIsPostActive(true)
+                                }
+                            }}
+                        >
+                            <BiCommentEdit className={`size-6 text-[--theme-placeholder-color]`}/>
+                            نشر
+                        </button>
+                    }
                 </div>
             </div>
     )

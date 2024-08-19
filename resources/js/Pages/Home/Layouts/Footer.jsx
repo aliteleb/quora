@@ -8,14 +8,25 @@ function Footer() {
 
     return (
         <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-7 md:flex hidden flex-col`}>
-            <Link
-                href={!user ? 'account' : ''}
-                onClick={() => user && setIsSpaceModalOpen(true)}
-                className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
-            >
-                <LuPlus className={`bg-[#262626] p-1 rounded text-xl`} />
-                <span>إنشاء مساحة</span>
-            </Link>
+            {!user &&
+                <Link
+                    href={'account'}
+                    onClick={() => user && setIsSpaceModalOpen(true)}
+                    className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
+                >
+                    <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
+                    <span>إنشاء مساحة</span>
+                </Link>
+            }
+            {user &&
+                <button
+                    onClick={() => user && setIsSpaceModalOpen(true)}
+                    className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
+                >
+                    <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
+                    <span>إنشاء مساحة</span>
+                </button>
+            }
 
             <div className={`text-[--theme-secondary-text-color]`}>
                 <div>
@@ -38,4 +49,4 @@ function Footer() {
     );
 }
 
-export default memo(Footer);
+export default Footer;
