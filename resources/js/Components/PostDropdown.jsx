@@ -26,13 +26,23 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
         }
     }, []);
     const deletePost = () => {
-        router.delete(`/posts/${id}`, {
+        router.delete(`/threads/${id}`, {
             preserveScroll: true,
             preserveState: true,
 
             onSuccess: () => {
                 const filtered_threads = threads.filter(thread => thread.id !== id);
                 setThreads(filtered_threads)
+            }
+        })
+    }
+
+    const hideThread = () => {
+        router.post(`threads/${thread.id}/hide`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+
             }
         })
     }

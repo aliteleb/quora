@@ -34,31 +34,32 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::post('/thread/create', [ThreadController::class, 'create'])->name('thread.create');
+    Route::post('/threads/{id}/hide', [ThreadController::class, 'hideThread'])->name('thread.hide');
+    Route::delete('/threads/{id}', [ThreadController::class, 'deleteThread'])->name('thread.delete');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
-    Route::post('/vote', [ThreadController::class, 'vote'])->name('vote');
-    Route::post('/vote-comment', [CommentController::class, 'vote'])->name('vote');
-    Route::post('/add-comment', [CommentController::class, 'addComment'])->name('addComment');
-    Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('deleteComment');
+    Route::post('/space/{id}/edit', [SpaceController::class, 'edit'])->name('space.edit');
+    Route::post('/space/{id}/about', [SpaceController::class, 'about'])->name('space.about');
+    Route::post('/vote', [ThreadController::class, 'vote'])->name('vote.add');
+    Route::post('/vote-comment', [CommentController::class, 'vote'])->name('vote.comment');
+    Route::post('/add-comment', [CommentController::class, 'addComment'])->name('comment.add');
+    Route::delete('/delete-comment/{id}', [CommentController::class, 'deleteComment'])->name('comment.delete');
     Route::post('/follow-space/{id}', [SpaceController::class, 'followSpace'])->name('followSpace');
     Route::post('/unfollow-space/{id}', [SpaceController::class, 'unFollowSpace'])->name('unFollowSpace');
-    Route::delete('/posts/{id}', [ThreadController::class, 'deletePost'])->name('deletePost');
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
     Route::post('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
-    Route::post('/space/{id}/edit', [SpaceController::class, 'edit'])->name('space.edit');
-    Route::post('/space/{id}/about', [SpaceController::class, 'about'])->name('space.about');
 });
 
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('select.topic');
 Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
-Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('showSpace');
-Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
-Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('showUser');
+Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('space.show');
+Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('space.thread.filter');
+Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('user.show');
 Route::get('/quick-search', [HomeController::class, 'quickSearch'])->name('quickSearch');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
-Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('callFilterThreadsFn');
+Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('profile.thread.filter');
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
 

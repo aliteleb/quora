@@ -195,7 +195,7 @@ class SpaceController extends Controller implements HasMedia
             'space' => $space
         ];
 
-        return InertiaResponse::route('showSpace', ['slug' => $space->slug], $data);
+        return InertiaResponse::route('space.show', ['slug' => $space->slug], $data);
     }
 
     public function about(EditSpaceAboutRequest $request, $id)

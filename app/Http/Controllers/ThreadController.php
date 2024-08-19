@@ -127,7 +127,7 @@ class ThreadController extends Controller implements HasMedia
         return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
-    public function deletePost($id)
+    public function deleteThread($id)
     {
         $thread = Thread::find($id);
         if ($thread) {
