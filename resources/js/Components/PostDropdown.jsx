@@ -4,8 +4,10 @@ import {Link, router} from "@inertiajs/react";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {GoTrash} from "react-icons/go";
 import {TbMessageReport} from "react-icons/tb";
+import {BiHide} from "react-icons/bi";
+import {MdNotInterested} from "react-icons/md";
 
-export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, id, setThreads, threads, thread}) {
+export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, id, setThreads, threads, thread, isProfilePage = false}) {
 
     const { user } = useApp()
 
@@ -43,7 +45,7 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
         >
             <div
                 ref={postsDropDownRef}
-                className={`postsDropdown absolute left-1/2 -translate-x-1/2 top-9 border border-[--theme-default-border-color] rounded bg-[--theme-input-bg-color] pt-2 `}
+                className={`${thread?.user_id === user?.id ? `${isProfilePage ? 'postsDropdownResponsive md:postsDropdownOwner' : 'postsDropdownResponsive lg:postsDropdownOwner'} ` : ` ${isProfilePage ? 'postsDropdownResponsive md:postsDropdownNotOwner' : 'postsDropdownResponsive lg:postsDropdownNotOwner'}`} absolute left-1/2 ${isProfilePage ? 'md:-translate-x-1/2' : 'lg:-translate-x-1/2'} top-9 border border-[--theme-default-border-color] rounded bg-[--theme-input-bg-color] pt-2 z-50`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
@@ -57,18 +59,34 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                     <main id="drop">
                         {thread?.user_id === user?.id &&
                             <button onClick={deletePost} className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
-                                <GoTrash className={`size-5`}/>
+                                <GoTrash className={`size-5 text-[--theme-placeholder-color]`}/>
                                 <span>حذف</span>
                             </button>
                         }
                         {thread?.user_id !== user?.id &&
-                            <Link
-                                href={!user ? 'account' : ''}
-                                className="flex justify-center items-center gap-x-2 w-fit px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
-                            >
-                                <TbMessageReport className={`size-5`}/>
-                                <span>إبلاغ</span>
-                            </Link>
+                            <div className={`pt-1`}>
+                                <Link
+                                    href={!user ? 'account' : ''}
+                                    className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                >
+                                    <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
+                                    <span>إبلاغ</span>
+                                </Link>
+                                <Link
+                                    href={!user ? 'account' : ''}
+                                    className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                >
+                                    <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
+                                    <span>إخفاء</span>
+                                </Link>
+                                <Link
+                                    href={!user ? 'account' : ''}
+                                    className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                >
+                                    <MdNotInterested className={`size-5 text-[--theme-placeholder-color]`}/>
+                                    <span>غير مهتم</span>
+                                </Link>
+                            </div>
                         }
                     </main>
 

@@ -10,7 +10,7 @@ import AddComment from "@/Components/AddComment.jsx";
 import PostDropdown from "@/Components/PostDropdown.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 
-const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, userInfo }, ref) => {
+const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage }, ref) => {
 
     const { user } = useApp()
 
@@ -236,6 +236,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                                 setThreads={setThreads}
                                 threads={threads}
                                 thread={thread}
+                                isProfilePage={isProfilePage}
                             />
                         }
                     </div>

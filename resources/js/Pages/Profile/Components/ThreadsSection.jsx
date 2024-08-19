@@ -15,6 +15,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === threads.length - 1 ? 'pb-16 sm:pb-3' : ''}`}
             isAnswer={isAnswers}
             userInfo={userInfo}
+            isProfilePage={true}
         />
     ))
     const loadNextThreads = (pageUrl) => {

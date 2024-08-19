@@ -20,8 +20,15 @@
         clip-path: polygon(0% 6%, 70% 6%, 75% 0, 80% 6%, 100% 6%, 100% 100%, 0 100%);
     }
 
-    .postsDropdown {
+    .postsDropdownOwner {
         clip-path: polygon(0 17%, 45% 17%, 50% 0, 58% 17%, 100% 17%, 100% 100%, 0 100%);
+    }
+    .postsDropdownNotOwner {
+        clip-path: polygon(0 10%, 45% 10%, 50% 0, 58% 10%, 100% 10%, 100% 100%, 0 100%)
+    }
+
+    .postsDropdownResponsive {
+        clip-path: polygon(0 10%, 0% 10%, 0% 0, 10% 10%, 100% 10%, 100% 100%, 0 100%)
     }
 
     .filterThreadsInProfilePage {
