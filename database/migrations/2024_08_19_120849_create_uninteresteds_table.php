@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('uninterested', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['hide', 'uninterested'])->default('hide');
+            $table->enum('type', ['hide', 'uninterested', 'save'])->default('hide');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('thread_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 

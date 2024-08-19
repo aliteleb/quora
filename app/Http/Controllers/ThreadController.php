@@ -138,11 +138,32 @@ class ThreadController extends Controller implements HasMedia
 
     public function hideThread($id)
     {
-        Uninterested::create([
-            'type' => 'hide',
-            'user_id' => auth()->id(),
-            'thread_id' => $id,
-        ]);
+        $exist_Thread = Uninterested::where('thread_id', $id)
+            ->where('type', 'hide')
+            ->first();
+
+        if (!$exist_Thread) {
+            Uninterested::create([
+                'type' => 'hide',
+                'user_id' => auth()->id(),
+                'thread_id' => $id,
+            ]);
+        }
+    }
+
+    public function saveThread($id)
+    {
+        $exist_Thread = Uninterested::where('thread_id', $id)
+            ->where('type', 'save')
+            ->first();
+
+        if (!$exist_Thread) {
+            Uninterested::create([
+                'type' => 'save',
+                'user_id' => auth()->id(),
+                'thread_id' => $id,
+            ]);
+        }
     }
 
 }

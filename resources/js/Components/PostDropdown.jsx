@@ -6,6 +6,7 @@ import {GoTrash} from "react-icons/go";
 import {TbMessageReport} from "react-icons/tb";
 import {BiHide} from "react-icons/bi";
 import {MdNotInterested} from "react-icons/md";
+import {IoSaveOutline} from "react-icons/io5";
 
 export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, setThreads, threads, thread, isProfilePage = false}) {
 
@@ -38,12 +39,21 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
     }
 
     const hideThread = () => {
-        router.post(`threads/${thread.id}/hide`, {}, {
+        router.post(`/threads/${thread.id}/hide`, {}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
                 const filtered_threads = threads.filter(iterator_thread => iterator_thread.id !== thread.id);
                 setThreads(filtered_threads)
+            }
+        })
+    }
+    const saveThread = () => {
+        router.post(`/threads/${thread.id}/save`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: () => {
+
             }
         })
     }
@@ -102,7 +112,7 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                                     </div>
                                 }
                                 {user &&
-                                    <ul className={`pt-1`}>
+                                    <ul className={`pt-2`}>
                                         <li className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
                                             <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
                                             <span>إبلاغ</span>
@@ -113,9 +123,15 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                                             <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
                                             <span>إخفاء</span>
                                         </li>
-                                        <li className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                        <li className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10 cursor-not-allowed pointer-events-none">
                                             <MdNotInterested className={`size-5 text-[--theme-placeholder-color]`}/>
                                             <span>غير مهتم</span>
+                                        </li>
+                                        <li
+                                            onClick={saveThread}
+                                            className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                            <IoSaveOutline className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>حفظ</span>
                                         </li>
                                     </ul>
                                 }

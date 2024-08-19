@@ -35,16 +35,22 @@ class HomeController extends Controller
             ->whereNotNull('thread_id')
             ->pluck('thread_id');
 
-        $user_hide_threads = Uninterested::where('user_id', $user->id)
-            ->where('type', 'hide')
+        $user_hide_and_saved_threads = Uninterested::where('user_id', $user->id)
+            ->whereIn('type', ['hide', 'save'])
             ->whereNotNull('thread_id')
             ->pluck('thread_id');
 
+        Log::info('save', array($user_hide_and_saved_threads));
+
+        $excluded_thread_ids = array_merge(
+            $user_commented_threads->toArray(),
+            $user_voted_threads->toArray(),
+            $user_hide_and_saved_threads->toArray(),
+        );
+
         $threads = Thread::where('user_id', '!=', $user->id)
             ->whereNotIn('user_id', $blocked_user_ids)
-            ->whereNotIn('id', $user_commented_threads)
-            ->whereNotIn('id', $user_voted_threads)
-            ->whereNotIn('id', $user_hide_threads)
+            ->whereNotIn('id', $excluded_thread_ids)
             ->latest()
             ->paginate(5);
 
