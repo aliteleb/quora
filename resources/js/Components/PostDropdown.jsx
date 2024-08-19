@@ -64,29 +64,49 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                             </button>
                         }
                         {thread?.user_id !== user?.id &&
-                            <div className={`pt-1`}>
-                                <Link
-                                    href={!user ? 'account' : ''}
-                                    className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
-                                >
-                                    <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
-                                    <span>إبلاغ</span>
-                                </Link>
-                                <Link
-                                    href={!user ? 'account' : ''}
-                                    className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
-                                >
-                                    <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
-                                    <span>إخفاء</span>
-                                </Link>
-                                <Link
-                                    href={!user ? 'account' : ''}
-                                    className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
-                                >
-                                    <MdNotInterested className={`size-5 text-[--theme-placeholder-color]`}/>
-                                    <span>غير مهتم</span>
-                                </Link>
-                            </div>
+                            <>
+                                {!user &&
+                                    <div className={`pt-1`}>
+                                        <Link
+                                            href={'account'}
+                                            className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                        >
+                                            <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>إبلاغ</span>
+                                        </Link>
+                                        <Link
+                                            href={'account'}
+                                            className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                        >
+                                            <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>إخفاء</span>
+                                        </Link>
+                                        <Link
+                                            href={'account'}
+                                            className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10"
+                                        >
+                                            <MdNotInterested className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>غير مهتم</span>
+                                        </Link>
+                                    </div>
+                                }
+                                {user &&
+                                    <ul className={`pt-1`}>
+                                        <li className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                            <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>إبلاغ</span>
+                                        </li>
+                                        <li className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                            <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>إخفاء</span>
+                                        </li>
+                                        <li className="flex justify-center items-center gap-x-2 w-max px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                            <MdNotInterested className={`size-5 text-[--theme-placeholder-color]`}/>
+                                            <span>غير مهتم</span>
+                                        </li>
+                                    </ul>
+                                }
+                            </>
                         }
                     </main>
 
