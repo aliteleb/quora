@@ -3,15 +3,16 @@ import { PiArrowFatDown, PiArrowFatDownFill, PiArrowFatUp, PiArrowFatUpFill } fr
 import { FaRegComment } from "react-icons/fa";
 import { CiShare2 } from "react-icons/ci";
 import { RxDotsHorizontal } from "react-icons/rx";
-import {Link, router, useForm} from "@inertiajs/react";
+import {Link, router, useForm, usePage} from "@inertiajs/react";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Comment from "@/Components/Comment.jsx";
 import AddComment from "@/Components/AddComment.jsx";
 import PostDropdown from "@/Components/PostDropdown.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
+import {followUser} from "@/Utilities/followUser.js";
 
 const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage }, ref) => {
-
+    const { props } = usePage()
     const { user } = useApp()
 
     const [isVoted, setIsVoted] = useState();
@@ -27,6 +28,9 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
     const [isPostDropdownOpen, setIsPostDropdownOpen] = useState(false);
+    const [isFollowed, setIsFollowed] = useState(thread.is_followed);
+    const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
+
 
     const { data, setData, post, reset } = useForm({
         body: '',
@@ -216,8 +220,16 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                     }
                     <div>
                         <div className={`font-bold`}>
-                            <Link href={`/profile/${isAnswer ? userInfo?.username : thread.user?.username}`} className={`cursor-pointer`}>{isAnswer ? userInfo?.name : thread.user?.name} · </Link>
-                            <span className={`text-[--theme-button-border-color] cursor-pointer hover:underline`}>متابعة</span>
+                            <Link href={`/profile/${isAnswer ? userInfo?.username : thread.user?.username}`}
+                                  className={`cursor-pointer`}>{isAnswer ? userInfo?.name : thread.user?.name} {`· `}
+                            </Link>
+                            <button
+                                disabled={isFollowBtnDisabled}
+                                onClick={() => followUser(thread.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
+                                className={`${isFollowed ? 'text-[--theme-secondary-text-color]' : 'text-[--theme-button-border-color]'} cursor-pointer hover:underline`}
+                            >
+                                {isFollowed ? 'تمت المتابعة' : 'متابعة'}
+                            </button>
                         </div>
                         <span>{thread.created_at}</span>
                     </div>
@@ -279,7 +291,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                         <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
                     </div>
                 }
-                <div className={`flex justify-between text-[--theme-body-color]`}>
+                <div className={`flex justify-between text-[--theme-primary-text-color]`}>
                     <div className={`flex gap-x-1`}>
                         <div className={`flex items-center bg-[--theme-nav-bg-color-hover] border border-[--theme-secondary-bg-color-hover] rounded-full`}>
                             <div onClick={voteUp} className={`flex items-center gap-x-1 px-4 py-1 border-e border-[--theme-secondary-bg-color-hover] hover:bg-[--theme-secondary-bg-color-hover] rounded-r-full cursor-pointer`}>

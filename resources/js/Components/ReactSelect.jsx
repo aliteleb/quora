@@ -28,7 +28,7 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
 
         dropdownIndicator: (defaultStyles, {isFocused}) => ({
             ...defaultStyles,
-            color: cssVariables.getPropertyValue('--theme-body-color'),
+            color: cssVariables.getPropertyValue('--theme-primary-text-color'),
         }),
 
         input: (defaultStyles) => ({
@@ -81,14 +81,14 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
         },
         multiValueLabel: (styles, { data }) => ({
             ...styles,
-            color: cssVariables.getPropertyValue('--theme-body-color'),
+            color: cssVariables.getPropertyValue('--theme-primary-text-color'),
         }),
         multiValueRemove: (styles, { data }) => ({
             ...styles,
-            color: cssVariables.getPropertyValue('--theme-body-color'),
+            color: cssVariables.getPropertyValue('--theme-primary-text-color'),
             ':hover': {
                 backgroundColor: cssVariables.getPropertyValue('--theme-secondary-bg-color-hover'),
-                color: cssVariables.getPropertyValue('--theme-body-color'),
+                color: cssVariables.getPropertyValue('--theme-primary-text-color'),
             },
             borderRadius: '50%',
             padding: '0 6px'
@@ -96,13 +96,13 @@ export default function ReactSelect({options, handleSelectChange, selectedSpaces
 
         clearIndicator: (defaultStyles) => ({
             ...defaultStyles,
-            color: cssVariables.getPropertyValue('--theme-body-color'),
+            color: cssVariables.getPropertyValue('--theme-primary-text-color'),
         }),
 
         noOptionsMessage: (defaultStyles) => ({
             ...defaultStyles,
             backgroundColor: cssVariables.getPropertyValue('--theme-body-bg'),
-            color: cssVariables.getPropertyValue('--theme-body-color'),
+            color: cssVariables.getPropertyValue('--theme-primary-text-color'),
             padding: '8px',
         }),
     }

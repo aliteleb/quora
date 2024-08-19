@@ -77,7 +77,7 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
                                 <h2>لا توجد تفاصيل حتى الآن</h2>
                                 {checkIfUserIsOwner &&
                                     <button
-                                        className={`outline-0 bg-[--theme-space-owner-main-color] text-[--theme-body-color] w-fit flex items-center gap-x-2 py-2 px-4 mt-2 rounded-full`}
+                                        className={`outline-0 bg-[--theme-space-owner-main-color] text-[--theme-primary-text-color] w-fit flex items-center gap-x-2 py-2 px-4 mt-2 rounded-full`}
                                         onClick={() => setIsTextAreaActive(!isTextAreaActive)}
                                     >
                                         أضف تفاصيل
@@ -95,9 +95,9 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
             </div>
 
             {isTextAreaActive &&
-                <div className={`min-h-[344px] bg-[--theme-main-bg-color] text-[--theme-body-color] border-0 focus:ring-0 rounded relative overflow-hidden`}>
+                <div className={`min-h-[344px] bg-[--theme-main-bg-color] text-[--theme-primary-text-color] border-0 focus:ring-0 rounded relative overflow-hidden`}>
                     <textarea
-                        className={`min-h-full w-full bg-[--theme-main-bg-color] text-[--theme-body-color] border-0 focus:ring-0 p-5 pt-7 rounded`}
+                        className={`min-h-full w-full bg-[--theme-main-bg-color] text-[--theme-primary-text-color] border-0 focus:ring-0 p-5 pt-7 rounded`}
                         autoFocus={true}
                         name={'text'}
                         value={data.text}

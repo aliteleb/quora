@@ -28,7 +28,7 @@ const Input = forwardRef(({
                         {label}{required && <span className="text-red-600">*</span>}
                     </div>
                 )}
-                {helperText && <div className="text-sm text-[--theme-body-color] opacity-80">{helperText}</div>}
+                {helperText && <div className="text-sm text-[--theme-primary-text-color] opacity-80">{helperText}</div>}
             </div>
 
             <div className={`relative ${parentClassStyle}`}>
@@ -46,7 +46,7 @@ const Input = forwardRef(({
                     ref={ref}
                 />
                 {maxLength && (
-                    <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-body-color] opacity-70 text-[.7rem] ${maxLength === value?.length ? 'text-red-600 !opacity-100' : ''}`}>
+                    <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-primary-text-color] opacity-70 text-[.7rem] ${maxLength === value?.length ? 'text-red-600 !opacity-100' : ''}`}>
                         {value?.length}
                     </span>
                 )}

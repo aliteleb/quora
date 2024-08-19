@@ -43,7 +43,7 @@ export default function SelectTopicsModal({setIsSelectTopicsModalOpen}) {
 
     return (
         <div className="bg-[--theme-main-bg-color] rounded absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 z-50">
-            <header className={`border-b border-[--theme-nav-bg-color-hover] p-4 font-bold text-lg text-[--theme-body-color]`}>ما هي اهتماماتك؟</header>
+            <header className={`border-b border-[--theme-nav-bg-color-hover] p-4 font-bold text-lg text-[--theme-primary-text-color]`}>ما هي اهتماماتك؟</header>
             {topics?.length === 0 && (
                 <div className={`text-center w-full py-6 px-48`}>
                     <IoWarningOutline className={`block mx-auto text-4xl my-6`}/>

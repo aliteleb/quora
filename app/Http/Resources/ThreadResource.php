@@ -28,6 +28,8 @@ class ThreadResource extends JsonResource
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
 
+        $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
+
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -41,6 +43,7 @@ class ThreadResource extends JsonResource
             'scheduled' => $this->scheduled,
             'image' => $thread_image,
             'video' => $thread_video,
+            'is_followed' => $is_followed,
             'user' => new UserResource($user),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,

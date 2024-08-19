@@ -38,7 +38,7 @@ export default function Auth() {
                 className={`object-cover w-full h-svh absolute`}
             />
 
-            <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-body-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
+            <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-primary-text-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>
 
                     <div className={`flex items-center flex-col pb-6`}>
                         <img
@@ -64,7 +64,7 @@ export default function Auth() {
                             <div className={`mt-6 flex flex-col gap-y-3`}>
                                 <button
                                     className={`border border-[--theme-default-border-color] flex items-center py-3 gap-x-4 px-4 bg-[--theme-body-bg] hover:bg-[--theme-button-bg-color-hover]`}>
-                                    <FaFacebook className={`size-6 text-[--theme-body-color]]`}/>
+                                    <FaFacebook className={`size-6 text-[--theme-primary-text-color]]`}/>
                                     <span>المتابعة عن طريق Facebook</span>
                                 </button>
                             </div>

@@ -26,7 +26,7 @@ export default function Profile() {
             <Head title={``}/>
             {/*  left screen for simulate add padding  */}
             <div className={`md:block hidden w-3 h-screen bg-[--theme-body-bg] fixed left-0 z-50`}></div>
-            <div className={`flex flex-col text-[--theme-body-color] container max-w-screen-xl mx-auto rounded z-10 relative px-3`}>
+            <div className={`flex flex-col text-[--theme-primary-text-color] container max-w-screen-xl mx-auto rounded z-10 relative px-3`}>
                 <div className={`flex justify-between gap-x-6 2xl:gap-x-10`}>
                     <div className={`w-full md:w-[70%]`}>
                         <Header

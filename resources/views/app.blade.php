@@ -23,7 +23,6 @@
                 --theme-react-select-error-color: {{ settings('theme-react-select-error-color', '#ef4444') }};
                 --theme-space-owner-main-color: {{ settings('theme-space-owner-main-color', '#D17078') }};
                 --theme-select-space-border-color: {{ settings('theme-select-space-border-color', '#393839') }};
-
             }
 
         </style>
@@ -40,7 +39,7 @@
         @inertiaHead
 
     </head>
-    <body class="font-sans antialiased bg-[--theme-body-bg] text-[--theme-body-color]">
+    <body class="font-sans antialiased bg-[--theme-body-bg] text-[--theme-primary-text-color]">
         @inertia
     </body>
 </html>

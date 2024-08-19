@@ -107,12 +107,12 @@ function Master({children}) {
 
             {location.pathname === '/' &&
                 <button onClick={() => setIsCreatThreadModalOpen(true)}
-                        className={`fixed md:hidden size-14 text-[--theme-body-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
+                        className={`fixed md:hidden size-14 text-[--theme-primary-text-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
                         <AiOutlinePlus/>
                 </button>
             }
             {/*  Bottom Nav  */}
-            <nav className={`bg-[#141414] sm:hidden z-50 fixed bottom-0 flex w-full justify-between text-3xl text-[--theme-body-color]`}>
+            <nav className={`bg-[#141414] sm:hidden z-50 fixed bottom-0 flex w-full justify-between text-3xl text-[--theme-primary-text-color]`}>
                 <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoHomeOutline />
                 </Link>

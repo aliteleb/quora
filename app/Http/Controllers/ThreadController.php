@@ -21,7 +21,6 @@ class ThreadController extends Controller implements HasMedia
     public function create(CreateThreadRequest $request)
     {
         $space_id = Space::where('name', $request->space)->first('id');
-        Log::info('id', array($space_id));
         $thread = Thread::create([
             'type' => $request->type,
             'title' => $request->title,
