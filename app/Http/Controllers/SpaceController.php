@@ -81,7 +81,6 @@ class SpaceController extends Controller implements HasMedia
 
                 return $space->slug !== $slug && $space->user[0]->id !== auth()->id() && !$spaceArray['is_followed'];
             });
-
         if ($recommended_spaces->count() > 3) {
             $recommended_spaces = $recommended_spaces->random(3);
         }

@@ -188,7 +188,7 @@ export default function ShowSpace() {
             }
         });
     };
-
+    console.log(props)
     return (
         <Master>
             <Head title={space?.name}/>
@@ -271,7 +271,7 @@ export default function ShowSpace() {
 
                     <div className={`flex flex-col-reverse gap-y-10 lg:gap-y-0 lg:grid grid-cols-[4fr_2.5fr] ${isActive.about ? 'gap-x-[32px]' : 'gap-x-10'}`}>
                         <div className={`w-full flex flex-col gap-y-3`}>
-                            {!isActive.about &&
+                            {(!isActive.about && (isActive.posts && posts.length > 0) || (isActive.questions && questions.length > 0)) &&
                                 <div className={`relative`}>
                                     <Button
                                         content={filterType === 'most_popular' ? 'الأكثر تفاعلا' : 'الأحدث'}
@@ -322,7 +322,7 @@ export default function ShowSpace() {
 
 
 
-                        {(isActive.posts || isActive.questions) &&
+                        {(isActive.posts || isActive.questions) && recommendedSpaces.length > 0 &&
                             <div>
                                 <h1>مساحات قد تعجبك</h1>
                                 <div className={`grid grid-cols-1 sm:grid-cols-2 lg:flex flex-col gap-x-3 gap-y-3 mt-3`}>
