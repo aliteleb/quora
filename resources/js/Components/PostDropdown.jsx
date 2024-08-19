@@ -7,7 +7,7 @@ import {TbMessageReport} from "react-icons/tb";
 import {BiHide} from "react-icons/bi";
 import {MdNotInterested} from "react-icons/md";
 
-export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, id, setThreads, threads, thread, isProfilePage = false}) {
+export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen, setThreads, threads, thread, isProfilePage = false}) {
 
     const { user } = useApp()
 
@@ -26,12 +26,12 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
         }
     }, []);
     const deletePost = () => {
-        router.delete(`/threads/${id}`, {
+        router.delete(`/threads/${thread.id}`, {
             preserveScroll: true,
             preserveState: true,
 
             onSuccess: () => {
-                const filtered_threads = threads.filter(thread => thread.id !== id);
+                const filtered_threads = threads.filter(iterator_thread => iterator_thread.id !== thread.id);
                 setThreads(filtered_threads)
             }
         })
@@ -42,7 +42,8 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-
+                const filtered_threads = threads.filter(iterator_thread => iterator_thread.id !== thread.id);
+                setThreads(filtered_threads)
             }
         })
     }
@@ -106,7 +107,9 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
                                             <TbMessageReport className={`size-5 text-[--theme-placeholder-color]`}/>
                                             <span>إبلاغ</span>
                                         </li>
-                                        <li className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
+                                        <li
+                                            onClick={hideThread}
+                                            className="flex justify-center items-center gap-x-2 w-full px-10 hover:bg-[--theme-nav-bg-color-hover] h-10">
                                             <BiHide className={`size-5 text-[--theme-placeholder-color]`}/>
                                             <span>إخفاء</span>
                                         </li>

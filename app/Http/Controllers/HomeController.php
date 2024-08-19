@@ -10,6 +10,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Space;
 use App\Models\Thread;
+use App\Models\Uninterested;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
@@ -20,23 +21,30 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $blocked_user_ids = auth()->user()
+        $user = auth()->user();
+        $blocked_user_ids = $user
             ?->blockedUser()
             ->pluck('block_user.blocked_id')
             ->toArray() ?? [];
 
-        $user_commented_threads = Comment::where('user_id', auth()->id())
+        $user_commented_threads = Comment::where('user_id', $user->id)
             ->distinct()
             ->pluck('thread_id');
 
-        $user_voted_threads = Vote::where('user_id', auth()->id())
+        $user_voted_threads = Vote::where('user_id', $user->id)
             ->whereNotNull('thread_id')
             ->pluck('thread_id');
 
-        $threads = Thread::where('user_id', '!=', auth()->id())
+        $user_hide_threads = Uninterested::where('user_id', $user->id)
+            ->where('type', 'hide')
+            ->whereNotNull('thread_id')
+            ->pluck('thread_id');
+
+        $threads = Thread::where('user_id', '!=', $user->id)
             ->whereNotIn('user_id', $blocked_user_ids)
             ->whereNotIn('id', $user_commented_threads)
             ->whereNotIn('id', $user_voted_threads)
+            ->whereNotIn('id', $user_hide_threads)
             ->latest()
             ->paginate(5);
 

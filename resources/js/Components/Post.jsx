@@ -232,7 +232,6 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                             <PostDropdown
                                 isPostDropdownOpen={isPostDropdownOpen}
                                 setIsPostDropdownOpen={setIsPostDropdownOpen}
-                                id={thread.id}
                                 setThreads={setThreads}
                                 threads={threads}
                                 thread={thread}

@@ -6,6 +6,7 @@ use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
 use App\Models\Space;
 use App\Models\Thread;
+use App\Models\Uninterested;
 use App\Models\Vote;
 use App\Triats\HttpResponses;
 use Illuminate\Http\Request;
@@ -135,5 +136,13 @@ class ThreadController extends Controller implements HasMedia
         }
     }
 
+    public function hideThread($id)
+    {
+        Uninterested::create([
+            'type' => 'hide',
+            'user_id' => auth()->id(),
+            'thread_id' => $id,
+        ]);
+    }
 
 }
