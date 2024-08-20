@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
+use App\Http\Resources\ThreadResource;
 use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
@@ -137,31 +138,50 @@ class ThreadController extends Controller implements HasMedia
 
     public function hideThread($id)
     {
-        $exist_Thread = PostAction::where('thread_id', $id)
-            ->where('type', 'hide')
-            ->first();
-
-        if (!$exist_Thread) {
-            PostAction::create([
-                'type' => 'hide',
-                'user_id' => auth()->id(),
-                'thread_id' => $id,
-            ]);
-        }
+        $this->postAction('hide', $id);
     }
 
     public function saveThread($id)
     {
+        $this->postAction('save', $id);
+    }
+
+    public function shareThread($id, $share_type)
+    {
+        $thread = Thread::find($id);
+
+        if ($share_type === 'share') {
+            $this->postAction('share', $id);
+            $thread->all_shares_count++;
+        } else {
+            $this->postAction('share', $id, true);
+            $thread->all_shares_count--;
+        }
+
+        $thread->update();
+        $thread = new ThreadResource($thread);
+        $data = [
+          'thread' => $thread
+        ];
+        return InertiaResponse::back($data);
+    }
+
+    protected function postAction($type, $id, $remove_share = false)
+    {
         $exist_Thread = PostAction::where('thread_id', $id)
-            ->where('type', 'save')
+            ->where('type', $type)
             ->first();
 
-        if (!$exist_Thread) {
-            PostAction::create([
-                'type' => 'save',
-                'user_id' => auth()->id(),
-                'thread_id' => $id,
-            ]);
+        if ($remove_share) {
+            $exist_Thread->delete();
+        } else {
+            if (!$exist_Thread) {
+                PostAction::create([
+                    'type' => $type,
+                    'user_id' => auth()->id(),
+                    'thread_id' => $id,
+                ]);
+            }
         }
     }
 

@@ -10,7 +10,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
     const show_threads = threads?.map((thread, index) =>  (
         <Post
             key={index}
-            thread={thread}
+            passed_thread={thread}
             ref={index === threads.length - 1 ? lastThreadRef : null}
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === threads.length - 1 ? 'pb-16 sm:pb-3' : ''}`}
             isAnswer={isAnswers}

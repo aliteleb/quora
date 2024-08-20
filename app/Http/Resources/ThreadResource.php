@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\PostAction;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class ThreadResource extends JsonResource
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
 
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
+        $is_shared = PostAction::where('user_id', auth()->id())->where('type', 'share')->where('thread_id', $this->id)->exists();
 
         return [
             'id' => $this->id,
@@ -44,6 +46,7 @@ class ThreadResource extends JsonResource
             'image' => $thread_image,
             'video' => $thread_video,
             'is_followed' => $is_followed,
+            'is_shared' => $is_shared,
             'user' => new UserResource($user),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,

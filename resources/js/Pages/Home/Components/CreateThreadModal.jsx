@@ -85,7 +85,7 @@ export default function CreateThreadModal() {
 
     const submitForm = (e) => {
         e.preventDefault()
-        post('/thread/create', {
+        post('/threads/create', {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {

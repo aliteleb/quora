@@ -11,10 +11,11 @@ import PostDropdown from "@/Components/PostDropdown.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 
-const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage }, ref) => {
+const Post = forwardRef(({ passed_thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage }, ref) => {
     const { props } = usePage()
     const { user } = useApp()
 
+    const [thread, setThread] = useState(passed_thread);
     const [isVoted, setIsVoted] = useState();
     const [voteUpCount, setVoteUpCount] = useState();
     const [voteDownCount, setVoteDownCount] = useState();
@@ -30,7 +31,8 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
     const [isPostDropdownOpen, setIsPostDropdownOpen] = useState(false);
     const [isFollowed, setIsFollowed] = useState(thread.is_followed);
     const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
-
+    const [isShared, setIsShard] = useState(thread.is_shared);
+    const [isSharedBtnDisabled, setIsSharedBtnDisabled] = useState(false);
 
     const { data, setData, post, reset } = useForm({
         body: '',
@@ -204,6 +206,17 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
         });
     };
 
+    const shareThread = () => {
+        router.post(`/threads/${thread.id}/${isShared ? 'un_share' : 'share'}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setThread(res.props.thread.data)
+                setIsShard(res.props.thread.data.is_shared)
+            }
+        })
+    }
+
     return (
         <div ref={ref} className={`bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] rounded ${!isCommentsOpen ? 'py-3' : 'pt-3'} ${customStyles} flex flex-col gap-y-4`}>
             <header className={`flex justify-between px-5`}>
@@ -334,7 +347,9 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                                     </Link>
                                 }
                                 {user &&
-                                    <button className={`flex items-center justify-center gap-x-1  hover:bg-[--theme-nav-bg-color-hover] rounded-full px-3 cursor-pointer`}>
+                                    <button
+                                        onClick={shareThread}
+                                        className={`flex items-center justify-center gap-x-1  hover:bg-[--theme-nav-bg-color-hover] rounded-full px-3 cursor-pointer`}>
                                         <CiShare2/>
                                         <span>{sharesCount}</span>
                                     </button>

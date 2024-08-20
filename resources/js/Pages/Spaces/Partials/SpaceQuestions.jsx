@@ -54,7 +54,7 @@ const SpaceQuestions = forwardRef(({questions, filterType, filteredNextPageUrl, 
     const show_questions = questions.map((question, index) => (
         <Post
             key={question.id}
-            thread={question}
+            passed_thread={question}
             ref={index === questions.length - 1 ? ref : null}
             customStyles={index !== 0 ? `mt-3` : ''}
         />

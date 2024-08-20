@@ -52,7 +52,7 @@ const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilte
     const show_posts = posts.map((post, index) => (
         <Post
             key={index}
-            thread={post}
+            passed_thread={post}
             ref={index === posts.length - 1 ? ref : null}
             customStyles={`${index !== 0 ? `mt-3` : ''} ${index === posts.length - 1 ? 'pb-14 sm:pb-3' : ''}`}
         />

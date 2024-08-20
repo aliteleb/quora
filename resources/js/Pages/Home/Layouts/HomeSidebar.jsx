@@ -1,13 +1,12 @@
 import React, {useState} from 'react'
 import {router, usePage} from "@inertiajs/react";
 import FollowedSpace from "@/Pages/Profile/Components/FollowedSpace.jsx";
-import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 
 export default function HomeSidebar() {
 
     const { props } = usePage()
-    const [spaces, setSpaces] = useState(props.user_created_spaces.data);
-    const [spaces_next_page_url, setSpaces_next_page_url] = useState(props.user_created_spaces.links.next);
+    const [spaces, setSpaces] = useState(props.user_created_spaces?.data);
+    const [spaces_next_page_url, setSpaces_next_page_url] = useState(props.user_created_spaces?.links.next);
 
     const show_spaces = spaces.map((space, index) => (
         <FollowedSpace key={index} space={space}/>
@@ -20,9 +19,9 @@ export default function HomeSidebar() {
             onSuccess: (res) => {
                 setSpaces(prevState => ([
                     ...prevState,
-                    ...res.props.user_created_spaces.data
+                    ...res.props.user_created_spaces?.data
                 ]))
-                setSpaces_next_page_url(res.props.user_created_spaces.links.next)
+                setSpaces_next_page_url(res.props.user_created_spaces?.links.next)
             }
         })
     }
