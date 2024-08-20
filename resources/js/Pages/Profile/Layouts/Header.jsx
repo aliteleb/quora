@@ -8,7 +8,7 @@ import {followUser} from "@/Utilities/followUser.js";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import EditInfoModal from "@/Pages/Profile/Components/EditInfoModal.jsx";
 
-export default function Header({isActive, setIsActive, setThreads, setThreadsNextPageUrl, userInfo, setUserInfo, setIsAnswers, setIsLoading}) {
+export default function Header({isActive, setIsActive, threads, setThreads, setThreadsNextPageUrl, userInfo, setUserInfo, setIsAnswers, setIsLoading}) {
     const { user } = useApp()
     const { props } = usePage()
 
@@ -229,21 +229,23 @@ export default function Header({isActive, setIsActive, setThreads, setThreadsNex
                         <span>{labels[active_label]}</span>
                     </div>
 
-                    <div className={`relative`}>
-                        <Button
-                            content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
-                            onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
-                            isDropDown={true}
-                            custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
-                        />
-                        <FilterPosts
-                            isFilterDropdownOpen={isFilterDropdownOpen}
-                            setIsFilterDropdownOpen={setIsFilterDropdownOpen}
-                            filterType={filterType}
-                            handleFilterTypeSelect={handleFilterTypeSelect}
-                            custom_styles={`!left-1/2 right-auto filterThreadsInProfilePage w-max`}
-                        />
-                    </div>
+                    {threads.length > 0 &&
+                        <div className={`relative`}>
+                            <Button
+                                content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
+                                onClick={() => setIsFilterDropdownOpen(!isFilterDropdownOpen)}
+                                isDropDown={true}
+                                custom_styles={`justify-center bg-transparent hover:bg-[--theme-main-bg-color] min-w-[115px]`}
+                            />
+                            <FilterPosts
+                                isFilterDropdownOpen={isFilterDropdownOpen}
+                                setIsFilterDropdownOpen={setIsFilterDropdownOpen}
+                                filterType={filterType}
+                                handleFilterTypeSelect={handleFilterTypeSelect}
+                                custom_styles={`!left-1/2 right-auto filterThreadsInProfilePage w-max`}
+                            />
+                        </div>
+                    }
 
                 </div>
             </div>

@@ -43,6 +43,10 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
         setCommentsCount(thread.comments_count)
     }, [thread.comments_count]);
 
+    useEffect(() => {
+        setSharesCount(thread.shares_count)
+    }, [thread.shares_count]);
+
 
     useEffect(() => {
         if (isAnswer && thread.vote) {
@@ -288,7 +292,7 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                 {!isAnswer &&
                     <div>
                         <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>
-                        <span className={`hover:underline cursor-pointer`}> {thread.all_shares_count} مشاركة</span>
+                        <span className={`hover:underline cursor-pointer`}> {sharesCount} مشاركة</span>
                     </div>
                 }
                 <div className={`flex justify-between text-[--theme-primary-text-color]`}>
@@ -321,12 +325,21 @@ const Post = forwardRef(({ thread, customStyles, setThreads, threads, isAnswer, 
                                     <FaRegComment/>
                                     <span>{commentsCount}</span>
                                 </div>
-                                <Link
-                                    href={!user ? 'account' : ''}
-                                    className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
-                                    <CiShare2/>
-                                    <span>{sharesCount}</span>
-                                </Link>
+                                {!user &&
+                                    <Link
+                                        href={'account'}
+                                        className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
+                                        <CiShare2/>
+                                        <span>{sharesCount}</span>
+                                    </Link>
+                                }
+                                {user &&
+                                    <button className={`flex items-center justify-center gap-x-1  hover:bg-[--theme-nav-bg-color-hover] rounded-full px-3 cursor-pointer`}>
+                                        <CiShare2/>
+                                        <span>{sharesCount}</span>
+                                    </button>
+                                }
+
                             </>
                         }
                     </div>

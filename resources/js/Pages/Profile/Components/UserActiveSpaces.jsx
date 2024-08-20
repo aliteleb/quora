@@ -16,7 +16,7 @@ export default function UserActiveSpaces() {
             <div className={`flex flex-col gap-y-2 mt-3`}>
                 {show_followed_spaces}
                 {followedSpaces?.length === 0 &&
-                    <h1>لا يتابع {props.user.data.name} أى مساحة</h1>
+                    <h1>لا يتابع {props.user?.data?.name} أى مساحة</h1>
                 }
             </div>
         </div>

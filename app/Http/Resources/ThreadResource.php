@@ -49,6 +49,7 @@ class ThreadResource extends JsonResource
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,
             'comments_count' => count($this->comments),
+            'shares_count' => $this->all_shares_count,
         ];
     }
 }

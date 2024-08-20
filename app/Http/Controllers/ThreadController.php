@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
+use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
-use App\Models\Uninterested;
 use App\Models\Vote;
 use App\Triats\HttpResponses;
 use Illuminate\Http\Request;
@@ -137,12 +137,12 @@ class ThreadController extends Controller implements HasMedia
 
     public function hideThread($id)
     {
-        $exist_Thread = Uninterested::where('thread_id', $id)
+        $exist_Thread = PostAction::where('thread_id', $id)
             ->where('type', 'hide')
             ->first();
 
         if (!$exist_Thread) {
-            Uninterested::create([
+            PostAction::create([
                 'type' => 'hide',
                 'user_id' => auth()->id(),
                 'thread_id' => $id,
@@ -152,12 +152,12 @@ class ThreadController extends Controller implements HasMedia
 
     public function saveThread($id)
     {
-        $exist_Thread = Uninterested::where('thread_id', $id)
+        $exist_Thread = PostAction::where('thread_id', $id)
             ->where('type', 'save')
             ->first();
 
         if (!$exist_Thread) {
-            Uninterested::create([
+            PostAction::create([
                 'type' => 'save',
                 'user_id' => auth()->id(),
                 'thread_id' => $id,

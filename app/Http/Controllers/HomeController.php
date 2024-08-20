@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
-use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
+use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
-use App\Models\Uninterested;
 use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
@@ -35,7 +34,7 @@ class HomeController extends Controller
             ->whereNotNull('thread_id')
             ->pluck('thread_id');
 
-        $user_hide_and_saved_threads = Uninterested::where('user_id', $user->id)
+        $user_hide_and_saved_threads = PostAction::where('user_id', $user->id)
             ->whereIn('type', ['hide', 'save'])
             ->whereNotNull('thread_id')
             ->pluck('thread_id');

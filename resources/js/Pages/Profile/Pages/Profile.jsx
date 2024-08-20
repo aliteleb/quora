@@ -32,6 +32,7 @@ export default function Profile() {
                         <Header
                             isActive={isActive}
                             setIsActive={setIsActive}
+                            threads={threads}
                             setThreads={setThreads}
                             setThreadsNextPageUrl={setThreadsNextPageUrl}
                             userInfo={userInfo}
