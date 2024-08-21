@@ -10,6 +10,7 @@ use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Thread;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
@@ -20,14 +21,21 @@ class UserController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function follow($type, $id)
     {
+        $follower = User::find($id);
+        $follower = new UserResource($follower);
         $user = auth()->user();
-        Log::info('called');
 
         if ($type !== 'unfollow') {
             $user->followerUser()->syncWithoutDetaching($id);
         } else {
             $user->followerUser()->detach($id);
         }
+
+        $data = [
+          'user' => $follower
+        ];
+
+        return InertiaResponse::back($data);
     }
 
     public function block($type, $id)

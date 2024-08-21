@@ -50,7 +50,7 @@ class SearchController extends Controller
             return InertiaResponse::back();
         }
 
-        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->limit(5)->get();
+        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->where('id', '!=', auth()->id())->limit(5)->get();
         $spaces = Space::where('name', 'LIKE', "%$keyword%")->limit(5)->get();
         $threads = Thread::where('title', 'LIKE', "%$keyword%")->limit(5)->get();
 
@@ -58,8 +58,9 @@ class SearchController extends Controller
             'users' => UserResource::collection($users),
             'spaces' => SpaceResource::collection($spaces),
             'threads' => ThreadResource::collection($threads),
+            'user_created_spaces' => $this->getUserSpaces(),
         ];
 
-        return InertiaResponse::route('search.index', [], ['search' => $data]);
+        return InertiaResponse::route('search.index', [], $data);
     }
 }

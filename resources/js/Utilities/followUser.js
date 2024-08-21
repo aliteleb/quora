@@ -11,6 +11,8 @@ export function followUser(id, setIsFollowed, isFollowed, setIsDisabled, setFoll
                 console.log(res.props)
                 setIsFollowed(true)
                 setIsDisabled(false)
+                setFollowersCount(res.props.user.data.followers_count)
+
                 if (setFollowersCount) {
                     setFollowersCount(res.props.user.data.followers_count)
                 }
@@ -26,7 +28,8 @@ export function followUser(id, setIsFollowed, isFollowed, setIsDisabled, setFoll
                 setIsDisabled(false)
                 if (setFollowersCount) {
                     setFollowersCount(res.props.user.data.followers_count)
-                }            }
+                }
+            }
         })
     }
 

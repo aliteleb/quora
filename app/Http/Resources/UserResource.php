@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -16,6 +17,10 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+//        $user = $this->id ? User::find($this->id) : null;
+        $user = $this->resource;
+        $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
+
         $response = [];
 
         $avatar = $this->getFirstMediaUrl('users_avatars');
@@ -34,6 +39,7 @@ class UserResource extends JsonResource
             $response['followed_spaces_count'] = $this->followed_spaces_count;
             $response['followers_count'] = $this->followedUser->count();
             $response['follow_count'] = $this->followerUser->count();
+            $response['is_followed'] = $is_followed;
             $response['avatar'] = $avatar;
             $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
         }

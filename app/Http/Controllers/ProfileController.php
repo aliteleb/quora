@@ -23,8 +23,6 @@ class ProfileController extends Controller
     protected function getProfileThreads($id)
     {
         $user = User::find($id);
-        $shard_threads = $user->sharedThreads($id);
-        Log::info('shares', array($shard_threads));
 
         $threads = Thread::where('user_id', $id)
             ->whereNull('space_id')
