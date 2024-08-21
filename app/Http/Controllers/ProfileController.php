@@ -22,8 +22,14 @@ class ProfileController extends Controller
 {
     protected function getProfileThreads($id)
     {
+        $user = User::find($id);
+        $shard_threads = $user->sharedThreads($id);
+        Log::info('shares', array($shard_threads));
+
         $threads = Thread::where('user_id', $id)
-            ->whereNull('space_id')->orderBy('created_at', 'desc')->paginate(5);
+            ->whereNull('space_id')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         return ThreadResource::collection($threads);
     }
     public function showUser($username)

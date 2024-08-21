@@ -77,11 +77,10 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsToMany(User::class, 'block_user', 'user_id', 'blocked_id');
     }
 
-//    public function isFollowedSpace()
-//    {
-//        return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id')
-//            ->where('user_id', auth()->id());
-//    }
+    public function sharedThreads($user_id)
+    {
+        return $this->hasMany(PostAction::class)->where('type', 'share')->where('user_id', $user_id)->pluck('thread_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -35,11 +35,9 @@ class HomeController extends Controller
             ->pluck('thread_id');
 
         $user_hide_and_saved_threads = PostAction::where('user_id', $user->id)
-            ->whereIn('type', ['hide', 'save'])
+            ->whereIn('type', ['hide', 'save', 'share'])
             ->whereNotNull('thread_id')
             ->pluck('thread_id');
-
-        Log::info('save', array($user_hide_and_saved_threads));
 
         $excluded_thread_ids = array_merge(
             $user_commented_threads->toArray(),

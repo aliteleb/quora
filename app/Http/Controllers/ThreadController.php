@@ -151,7 +151,7 @@ class ThreadController extends Controller implements HasMedia
         $thread = Thread::find($id);
 
         if ($share_type === 'share') {
-            $this->postAction('share', $id);
+            $this->postAction('share', $id, false);
             $thread->all_shares_count++;
         } else {
             $this->postAction('share', $id, true);
@@ -172,7 +172,7 @@ class ThreadController extends Controller implements HasMedia
             ->where('type', $type)
             ->first();
 
-        if ($remove_share) {
+        if ($remove_share && $exist_Thread) {
             $exist_Thread->delete();
         } else {
             if (!$exist_Thread) {
