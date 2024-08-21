@@ -30,7 +30,7 @@ class ThreadResource extends JsonResource
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
 
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
-        $is_shared = PostAction::where('user_id', auth()->id())->where('type', 'share')->where('thread_id', $this->id)->exists();
+        $is_shared = Thread::where('user_id', auth()->id())->where('share_to', $this->id)->exists();
 
         return [
             'id' => $this->id,

@@ -16,14 +16,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
     const {user} = useApp()
 
     const [thread, setThread] = useState(null);
-    const [mainThread] = useState(passed_thread);
+    const [mainThread, setMainThread] = useState(passed_thread);
     const [isVoted, setIsVoted] = useState();
     const [voteUpCount, setVoteUpCount] = useState();
     const [voteDownCount, setVoteDownCount] = useState();
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
     const [comments, setComments] = useState([]);
     const [commentsCount, setCommentsCount] = useState();
-    const [sharesCount, setSharesCount] = useState(mainThread?.all_shares_count);
+    const [sharesCount, setSharesCount] = useState(mainThread?.shares_count);
     const [fetched, setFetched] = useState(false); // This state for controlling making requests when toggle the comment button
     const [isFetching, setIsFetching] = useState(false);
     const [nextPageUrl, setNextPageUrl] = useState('');
@@ -220,7 +220,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                setThread(res.props.thread?.data)
+                setMainThread(res.props.thread?.data)
                 setIsShard(res.props.thread?.data.is_shared)
             }
         })
@@ -346,7 +346,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                 </div>
             </main>
 
-            <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5`}>
+            <footer className={`flex flex-col gap-y-2 text-[--theme-secondary-text-color] px-5 mt-2`}>
                 {!isAnswer &&
                     <div>
                         <span className={`hover:underline cursor-pointer`}> {voteUpCount} تأييد · </span>

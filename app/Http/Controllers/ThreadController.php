@@ -9,16 +9,14 @@ use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Vote;
-use App\Triats\HttpResponses;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class ThreadController extends Controller implements HasMedia
 {
     use InteractsWithMedia;
+
     public function create(CreateThreadRequest $request)
     {
         $space_id = Space::where('name', $request->space)->first('id');
@@ -27,7 +25,7 @@ class ThreadController extends Controller implements HasMedia
             'title' => $request->title,
             'visibility' => $request->visibility,
             'user_id' => $request->user_id,
-            'space_id' => $space_id ? $space_id['id'] : null ,
+            'space_id' => $space_id ? $space_id['id'] : null,
         ]);
 
         if ($request->hasFile('image')) {
@@ -98,6 +96,7 @@ class ThreadController extends Controller implements HasMedia
             $thread->save();
         }
     }
+
     protected function updateVoteCounts($thread, $vote_type, $removeVote = false)
     {
         if ($vote_type === 'up') {
@@ -150,19 +149,23 @@ class ThreadController extends Controller implements HasMedia
     {
         $thread = Thread::find($id);
 
+        $shares_count = $thread->shares()->where('user_id', auth()->user()->id)->count();
         if ($share_type === 'share') {
-            $thread->shares()->create(['user_id' => auth()->user()->id]);
-            $thread->all_shares_count++;
+            if ($shares_count === 0) {
+                $thread->shares()->create(['user_id' => auth()->user()->id]);
+                $thread->all_shares_count++;
+            }
         } else {
             $thread->shares()->where(['user_id' => auth()->user()->id])->delete();
-            $thread->all_shares_count--;
+            $thread->all_shares_count -= $shares_count;
         }
 
         $thread->update();
+        $thread = $thread->fresh();
         $thread = new ThreadResource($thread);
 
         $data = [
-          'thread' => $thread
+            'thread' => $thread
         ];
         return InertiaResponse::back($data);
     }
