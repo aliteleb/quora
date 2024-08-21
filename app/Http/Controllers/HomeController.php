@@ -12,12 +12,14 @@ use App\Models\Space;
 use App\Models\Thread;
 use App\Models\User;
 use App\Models\Vote;
+use App\Traits\GetUserSpaces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 
 class HomeController extends Controller
 {
+    use GetUserSpaces;
     public function index()
     {
         $user = auth()->user();
@@ -58,58 +60,6 @@ class HomeController extends Controller
             'user_created_spaces' => $user_created_spaces,
         ];
         return InertiaResponse::render('Home/Pages/Home', $data);
-    }
-
-    protected function getUserSpaces()
-    {
-        $user = auth()->user();
-        $spaces = $user->space()
-            ->with('media')
-            ->withCount('followers')
-            ->paginate(5);
-        return SpaceResource::collection($spaces);
-    }
-
-    public function quickSearch(Request $request)
-    {
-        $keyword = $request->input('q');
-
-        if(!$keyword) {
-            return InertiaResponse::back();
-        }
-
-        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->limit(5)->get();
-        $spaces = Space::where('name', 'LIKE', "%$keyword%")->limit(5)->get();
-        $threads = Thread::where('title', 'LIKE', "%$keyword%")->limit(5)->get();
-
-        $data = [
-            'users' => UserResource::collection($users),
-            'spaces' => SpaceResource::collection($spaces),
-            'threads' => ThreadResource::collection($threads),
-        ];
-
-        return InertiaResponse::back(['search' => $data]);
-    }
-
-    public function search(Request $request)
-    {
-        $keyword = $request->input('q');
-
-        if(!$keyword) {
-            return InertiaResponse::back();
-        }
-
-        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->limit(5)->get();
-        $spaces = Space::where('name', 'LIKE', "%$keyword%")->limit(5)->get();
-        $threads = Thread::where('title', 'LIKE', "%$keyword%")->limit(5)->get();
-
-        $data = [
-            'users' => UserResource::collection($users),
-            'spaces' => SpaceResource::collection($spaces),
-            'threads' => ThreadResource::collection($threads),
-        ];
-
-        return InertiaResponse::back(['search' => $data]);
     }
 
 }

@@ -9,22 +9,16 @@ use App\Http\Requests\SpaceRequest;
 use App\Http\Resources\DiscoverSpaceResource;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
-use App\Http\Resources\UserResource;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Topic;
-use App\Triats\HttpResponses;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Inertia\Response;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class SpaceController extends Controller implements HasMedia
 {
-    use HttpResponses, InteractsWithMedia;
+    use InteractsWithMedia;
     public function create(SpaceRequest $request)
     {
         $validated_data = $request->validated();

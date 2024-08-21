@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
-use App\Triats\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-    use HttpResponses;
    public function index ()
    {
        return Inertia::render('Auth/Pages/Auth');
