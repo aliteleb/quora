@@ -38,7 +38,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
         body: '',
         image: null,
         video: null,
-        thread_id: thread?.id
+        thread_id: mainThread?.id
     });
 
     useEffect(() => {
