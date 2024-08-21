@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react'
 import Post from "@/Components/Post.jsx";
-import {router} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 
 export default function ThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl, isAnswers, userInfo}) {
 
+    const user = usePage().props.auth?.user
     const [isThreadsFetching, setIsThreadsFetching] = useState(false);
 
     const lastThreadRef = useRef(null)
@@ -16,7 +17,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
             isAnswer={isAnswers}
             userInfo={userInfo}
             isProfilePage={true}
-            canShare={false}
+            canShare={user?.id !== thread?.user_id}
         />
     ))
     const loadNextThreads = (pageUrl) => {
