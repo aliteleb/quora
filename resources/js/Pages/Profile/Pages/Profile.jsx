@@ -66,6 +66,7 @@ export default function Profile() {
                         <Sidebar
                             join_date={userInfo?.created_at}
                             followed_spaces_count={userInfo?.followed_spaces_count}
+                            name={userInfo.name}
                         />
                     </div>
                 </div>
