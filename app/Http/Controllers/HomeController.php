@@ -95,7 +95,6 @@ class HomeController extends Controller
     {
         $keyword = $request->input('q');
 
-        dd($keyword);
         if(!$keyword) {
             return InertiaResponse::back();
         }

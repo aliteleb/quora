@@ -8,7 +8,7 @@ export default function HomeSidebar() {
     const [spaces, setSpaces] = useState(props.user_created_spaces?.data);
     const [spaces_next_page_url, setSpaces_next_page_url] = useState(props.user_created_spaces?.links.next);
 
-    const show_spaces = spaces.map((space, index) => (
+    const show_spaces = spaces?.map((space, index) => (
         <FollowedSpace key={index} space={space}/>
     ))
     console.log(props)
