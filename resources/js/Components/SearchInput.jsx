@@ -2,6 +2,7 @@ import {RxMagnifyingGlass} from "react-icons/rx";
 import {IoSearchOutline} from "react-icons/io5";
 import React, {useEffect, useRef, useState} from "react";
 import {Link, router} from "@inertiajs/react";
+import useDebounce from "@/Hooks/useDebounce.jsx";
 
 export default function SearchInput({className}) {
     const [showDropDown, setShowDropDown] = useState(false)
@@ -11,10 +12,19 @@ export default function SearchInput({className}) {
     const [spacesResult, setSpacesResult] = useState([])
     const [threadsResult, setThreadsResult] = useState([])
 
+    const debounceKeyword =  useDebounce(keyword)
+
     function handleKeywordChange(e) {
         setKeyword(e.target.value)
 
-        router.get(`/quick-search?q=${e.target.value}`, {}, {
+        if (e.target?.value?.length > 0)
+            setShowDropDown(true)
+        else
+            setShowDropDown(false)
+    }
+
+    const searchKeyword = () => {
+        router.get(`/quick-search?q=${debounceKeyword}`, {}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (response) => {
@@ -23,12 +33,14 @@ export default function SearchInput({className}) {
                 setThreadsResult(response.props.search?.threads?.data ?? [])
             }
         })
-
-        if (e.target.value.length > 0)
-            setShowDropDown(true)
-        else
-            setShowDropDown(false)
     }
+
+    useEffect(() => {
+        if (debounceKeyword !== '') {
+            searchKeyword()
+        }
+    }, [debounceKeyword]);
+
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -51,7 +63,10 @@ export default function SearchInput({className}) {
         <div ref={searchRef} className={`${className}`}>
             <RxMagnifyingGlass className={`pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-[--theme-placeholder-color]`}/>
             <input
-                type="text" onChange={handleKeywordChange} onClick={handleSearchClick} value={keyword}
+                type="text"
+                onChange={handleKeywordChange}
+                onClick={handleSearchClick}
+                value={keyword}
                 className={`shadow-none !ring-0 focus:shadow-none focus:border-red-600 hover:border-red-600 ps-8 w-full bg-[--theme-body-bg] rounded-sm border-1 border-[--theme-default-border-color] placeholder:absolute placeholder:right-8 placeholder:text-[--theme-placeholder-color]`}
                 placeholder={'البحث عن Quora'}
             />
