@@ -16,6 +16,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
             isAnswer={isAnswers}
             userInfo={userInfo}
             isProfilePage={true}
+            canShare={false}
         />
     ))
     const loadNextThreads = (pageUrl) => {

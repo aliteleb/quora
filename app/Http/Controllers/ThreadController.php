@@ -151,15 +151,16 @@ class ThreadController extends Controller implements HasMedia
         $thread = Thread::find($id);
 
         if ($share_type === 'share') {
-            $this->postAction('share', $id, false);
+            $thread->shares()->create(['user_id' => auth()->user()->id]);
             $thread->all_shares_count++;
         } else {
-            $this->postAction('share', $id, true);
+            $thread->shares()->where(['user_id' => auth()->user()->id])->delete();
             $thread->all_shares_count--;
         }
 
         $thread->update();
         $thread = new ThreadResource($thread);
+
         $data = [
           'thread' => $thread
         ];
