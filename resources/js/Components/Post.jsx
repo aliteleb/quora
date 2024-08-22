@@ -436,9 +436,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                     {/* عرض التعليقات */}
                     <div className={`bg-[--theme-input-bg-color] ${nextPageUrl ? 'pb-3' : ''}`}>
                         {show_comments}
-                        {nextPageUrl && <button onClick={() => loadMoreComments(nextPageUrl)} className={`bg-[--theme-main-bg-color] w-full py-3 mt-3`}>
-                            {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}
-                        </button>}
+                        {nextPageUrl &&
+                            <button
+                                onClick={() => loadMoreComments(nextPageUrl)}
+                                className={`bg-[--theme-main-bg-color] w-full py-3 mt-3`}
+                            >
+                                {showMoreCommentsLoading ? 'جارٍ التحميل...' : 'عرض المزيد'}
+                            </button>
+                        }
                     </div>
 
                 </div>}
