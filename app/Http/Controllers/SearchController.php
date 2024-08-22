@@ -11,6 +11,7 @@ use App\Models\Thread;
 use App\Models\User;
 use App\Traits\GetUserSpaces;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -50,8 +51,11 @@ class SearchController extends Controller
             return InertiaResponse::back();
         }
 
-        $users = User::whereAny(['name', 'username',], 'LIKE', "%$keyword%")->where('id', '!=', auth()->id())->limit(5)->get();
-        $spaces = Space::where('name', 'LIKE', "%$keyword%")->limit(5)->get();
+        $user = auth()->user();
+        $user_space_ids = $user->space()->pluck('spaces.id');
+
+        $users = User::whereAny(['name'], 'LIKE', "%$keyword%")->where('id', '!=', auth()->id())->limit(5)->get();
+        $spaces = Space::where('name', 'LIKE', "%$keyword%")->whereNotIn('id', $user_space_ids)->limit(5)->get();
         $threads = Thread::where('title', 'LIKE', "%$keyword%")->limit(5)->get();
 
         $data = [

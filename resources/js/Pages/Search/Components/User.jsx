@@ -18,25 +18,25 @@ export default function User({user}) {
                         <img
                             src="/profile-default-svgrepo-com.svg"
                             alt="avatar"
-                            className={`size-16`}
+                            className={`size-12`}
                         />
                     }
                     {user.avatar &&
                         <img
                             src={user.avatar}
                             alt="avatar"
-                            className={`size-16 rounded-full`}
+                            className={`size-12 rounded-full`}
                         />
                     }
                     <div>
-                        <span className={`text-2xl font-bold`}>{user.name}</span>
+                        <span className={`text-xl font-bold`}>{user.name}</span>
                         <div>{user.created_at}</div>
                     </div>
 
                 </div>
             </div>
 
-            <div className={`flex flex-col gap-y-3 items-end`}>
+            <div className={`flex flex-col gap-y-2 items-end`}>
                 <span>عدد المتابعين {followersCount}</span>
                 <Button
                     disabled={isFollowBtnDisabled}

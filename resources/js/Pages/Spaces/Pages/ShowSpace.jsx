@@ -225,9 +225,9 @@ export default function ShowSpace() {
                             </span>
 
                         </div>
-                        {!checkIfUserIsOwner &&
+                        {!checkIfUserIsOwner && !user &&
                             <Link
-                                href={!user ? 'account' : ''}
+                                href={'account'}
                                 onClick={!checkIfUserIsOwner && user ? followSpace : null}
                                 className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
                                 >
@@ -236,6 +236,17 @@ export default function ShowSpace() {
                                     <IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (
                                     <MdDone className={`text-2xl`}/>) : (<FaRegEdit className={`text-2xl`}/>)}
                             </Link>
+                        }
+                        {!checkIfUserIsOwner && user &&
+                            <button
+                                onClick={!checkIfUserIsOwner && user ? followSpace : null}
+                                className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
+                            >
+                                {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : ''}
+                                {!checkIfUserIsOwner && !isFollowed ? (
+                                    <IoMdAddCircleOutline className={`text-2xl`}/>) : !checkIfUserIsOwner && isFollowed ? (
+                                    <MdDone className={`text-2xl`}/>) : (<FaRegEdit className={`text-2xl`}/>)}
+                            </button>
                         }
                         {checkIfUserIsOwner &&
                             <button
