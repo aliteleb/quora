@@ -16,13 +16,7 @@ use Illuminate\Support\Facades\Log;
 class SearchController extends Controller
 {
     use GetUserSpaces;
-    public function index()
-    {
-        $user_created_spaces = $this->getUserSpaces();
-        $data = ['user_created_spaces' => $user_created_spaces];
 
-        return InertiaResponse::render('Search/Pages/SearchResults', $data);
-    }
     public function quickSearch(Request $request)
     {
         $keyword = $request->input('q');
@@ -68,6 +62,6 @@ class SearchController extends Controller
             'user_created_spaces' => $this->getUserSpaces(),
         ];
 
-        return InertiaResponse::route('search.index', [], $data);
+        return InertiaResponse::render('Search/Pages/SearchResults', $data);
     }
 }
