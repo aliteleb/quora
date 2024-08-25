@@ -38,6 +38,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::post('/threads/{id}/hide', [ThreadController::class, 'hideThread'])->name('thread.hide');
     Route::delete('/threads/{id}', [ThreadController::class, 'deleteThread'])->name('thread.delete');
     Route::post('/threads/{id}/save', [ThreadController::class, 'saveThread'])->name('thread.save');
+    Route::get('/threads/saved', [SearchController::class, 'savedThreads'])->name('thread.savedThreads');
     Route::post('/threads/{id}/{share_type}', [ThreadController::class, 'shareThread'])->name('thread.share');
     Route::post('/space/create', [SpaceController::class, 'create'])->name('space.create');
     Route::post('/space/{id}/edit', [SpaceController::class, 'edit'])->name('space.edit');

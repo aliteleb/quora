@@ -7,6 +7,7 @@ use App\Http\Resources\FollowedSpacesResource;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
+use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\User;
@@ -76,5 +77,19 @@ class SearchController extends Controller
         ];
 
         return InertiaResponse::back($data);
+    }
+
+    public function savedThreads()
+    {
+        $saved_threads_ids = PostAction::where('type', 'save')
+            ->where('user_id', auth()->id())
+            ->pluck('thread_id');
+        $saved_threads = Thread::whereIn('id', $saved_threads_ids)->paginate(3);
+        $saved_threads = ThreadResource::collection($saved_threads);
+        $data = [
+            'saved_threads' => $saved_threads
+        ];
+
+        return InertiaResponse::render('Bookmarks/Pages/Bookmarks', $data);
     }
 }

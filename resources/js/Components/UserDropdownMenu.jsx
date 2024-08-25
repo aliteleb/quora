@@ -10,11 +10,11 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropdownMenuOpen}) {
 
     const { user } = useApp()
+    const { setIsSpaceModalOpen } = useApp()
 
     const dropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            // console.log(e.target.tagName)
             if (!dropDownRef.current?.contains(e.target) && e.target.id !== "userDropdown" && e.target.tagName !== 'A' && e.target.tagName !== 'SPAN' && e.target.tagName !== 'BUTTON') {
                 setIsUserDropdownMenuOpen(false)
             }
@@ -30,6 +30,10 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
         router.get('/logout')
     }
 
+    const handleOpenSpaceModal = () => {
+        setIsUserDropdownMenuOpen(false)
+        setIsSpaceModalOpen(true)
+    }
 
     return (
         <Transition show={isUserDropdownMenuOpen} leave="duration-200 transition-all">
@@ -71,11 +75,13 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                             <BsBarChart className={`size-6`}/>
                             <span>المحتوي والإحصاءات الخاصة بك</span>
                         </div>
-                        <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
+                        <Link
+                            href={`/threads/saved`}
+                            className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
                             <FaRegBookmark className={`size-6`}/>
                             <span>إشارات مرجعية</span>
-                        </div>
-                        <div className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
+                        </Link>
+                        <div onClick={handleOpenSpaceModal} className={`flex items-center gap-x-5 hover:bg-[--theme-nav-bg-color-hover] cursor-pointer py-3 px-3`}>
                             <FaUsers className={`size-6`}/>
                             <span>إنشاء مساحة</span>
                         </div>

@@ -1,8 +1,6 @@
-import {memo, useState} from 'react';
 import { LuPlus } from "react-icons/lu";
 import { useApp } from "@/AppContext/AppContext.jsx";
-import {Link, usePage} from "@inertiajs/react";
-import FollowedSpace from "@/Pages/Profile/Components/FollowedSpace.jsx";
+import {Link} from "@inertiajs/react";
 
 function Footer() {
     const { setIsSpaceModalOpen, user } = useApp();
