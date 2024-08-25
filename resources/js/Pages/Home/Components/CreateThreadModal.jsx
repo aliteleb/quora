@@ -247,7 +247,12 @@ export default function CreateThreadModal() {
                     </div>
 
                     <label htmlFor="upload_post_img" className={`block w-fit`}>
-                        <Input type={'file'} id={'upload_post_img'} visibility={'hidden'} onChange={handleFileChange}/>
+                        <Input
+                            type={'file'}
+                            id={'upload_post_img'}
+                            visibility={'hidden'}
+                            onChange={handleFileChange}
+                        />
                         <RiImageAddLine className={`size-9 p-1 text-[--theme-secondary-text-color] top-1/2 -translate-y-1/2 absolute rounded border border-transparent hover:border-[--theme-button-border-color] transition cursor-pointer`}/>
                     </label>
                 </div>

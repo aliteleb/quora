@@ -4,16 +4,43 @@ import {AiOutlineGlobal} from "react-icons/ai";
 import Input from "@/Core/Input.jsx";
 import {RiGlobalLine} from "react-icons/ri";
 import SelectSpaceOption from "@/Components/SelectSpaceOption.jsx";
-import {usePage} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
+import useDebounce from "@/Hooks/useDebounce.jsx";
 
 export default function SelectSpaces({setData, data, selectedSpaceImg, setSelectedSpaceImg}) {
     const {props} = usePage()
     const [isSelectSpacesOpen, setIsSelectSpacesOpen] = useState(false);
-    const [spaces, setSpaces] = useState([]);
+    const [spaces, setSpaces] = useState(props.followed_spaces.data);
+    const [keyword, setKeyword] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const debounceKeyword = useDebounce(keyword);
+
+    const handleChange = (e) => {
+        setKeyword(e.target.value)
+    }
+
+    const search = () => {
+        setIsLoading(true)
+        router.get(`/search/spaces/${keyword}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setSearchResults(res.props.followed_spaces.data)
+                setIsLoading(false)
+            }
+        })
+    }
 
     useEffect(() => {
-        setSpaces(props.followed_spaces.data)
-    }, []);
+        if (debounceKeyword !== '') {
+            search();
+        }
+    }, [debounceKeyword]);
+
+
 
 
     const spacesMenu = useRef(null);
@@ -55,9 +82,27 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
         }, 80)
     }
 
-    const display_spaces_in_select = spaces?.map(space => (
-        <SelectSpaceOption name={space.name} img={space.media[0]} setData={setData} handleCloseModelWhenSelect={handleCloseModelWhenSelect} setSelectedSpaceImg={setSelectedSpaceImg}/>
+    const display_spaces_in_select =
+        spaces?.map(space => (
+        <SelectSpaceOption
+            name={space.name}
+            img={space.media?.avatar}
+            setData={setData}
+            handleCloseModelWhenSelect={handleCloseModelWhenSelect}
+            setSelectedSpaceImg={setSelectedSpaceImg}
+        />
     ))
+
+    const display_results_in_select =
+        searchResults?.map(result => (
+            <SelectSpaceOption
+                name={result.name}
+                img={result.media?.avatar}
+                setData={setData}
+                handleCloseModelWhenSelect={handleCloseModelWhenSelect}
+                setSelectedSpaceImg={setSelectedSpaceImg}
+            />
+        ))
 
     const  handleSelectSpaceOption = () => {
         setData(previousData => ({
@@ -73,9 +118,9 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
                 {data.space ===  'الملف الشخصي' && <RiGlobalLine className={`size-5`}/>}
                 {selectedSpaceImg && data.space !==  'الملف الشخصي' &&
                     <img
-                        src="/spaces/space_default_image.webp"
+                        src={selectedSpaceImg ? selectedSpaceImg : `/spaces/space_default_image.webp`}
                         alt="space-img"
-                        className={`w-7 rounded-xl`}
+                        className={`size-8 rounded-xl`}
                     />
                 }
                 <span>{data.space}</span>
@@ -86,9 +131,13 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
                 <div id={`spaceDropDown`} ref={spacesMenu} className={`animate-fade-in bg-[--theme-main-bg-color] pt-2 rounded absolute w-80 xxs:w-max top-12 left-0 ${data.space?.length > 12 ? 'lg:-left-96 xxs:-left-20' : 'lg:right-44 xxs:-right-24 left-0'} lg:top-0 border border-[--theme-select-space-border-color]`}>
                     <div className={`px-2`}>
                         <Input
-                            placeholder={`اختر مساحة`}
+                            placeholder={`البحث عن مساحة...`}
                             isSearch={'searchable'}
                             inputClassStyle={`ps-8`}
+                            onChange={handleChange}
+                            name={'keyword'}
+                            value={keyword}
+                            autoFocus={true}
                         />
                     </div>
                     <div
@@ -97,12 +146,15 @@ export default function SelectSpaces({setData, data, selectedSpaceImg, setSelect
                         <RiGlobalLine className={`size-5 text-[--theme-button-border-color]`}/>
                         <span>الملف الشخصي</span>
                     </div>
-                    <div
-                        className={`border-t border-[--theme-nav-bg-color-hover] py-3 px-2 cursor-pointer font-bold`}>المساحات
-                        المقترحة
-                    </div>
+                    <div className={`border-t border-[--theme-nav-bg-color-hover] py-3 px-2 font-bold`}>المساحات المقترحة</div>
                     <div>
-                        {display_spaces_in_select}
+                        {keyword.length === 0 && !isLoading && display_spaces_in_select}
+                        {keyword.length !== 0 && !isLoading  && display_results_in_select}
+                        {(spaces.length === 0 || (searchResults.length === 0 && keyword.length !== 0) && !isLoading) &&
+                            <h1 className={`py-3 px-2`}>
+                                {searchResults.length === 0 && keyword.length !== 0 ? 'لا توجد نتائج' : 'لا تتابع اى مساحات'}
+                            </h1>
+                        }
                     </div>
                 </div>
             }

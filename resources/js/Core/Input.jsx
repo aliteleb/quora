@@ -18,6 +18,7 @@ const Input = forwardRef(({
     parentClassStyle,
     inputClassStyle,
     isSearch,
+    autoFocus = false,
 }, ref) => {
 
     return (
@@ -44,6 +45,7 @@ const Input = forwardRef(({
                     minLength={minLength}
                     maxLength={maxLength}
                     ref={ref}
+                    autoFocus={autoFocus}
                 />
                 {maxLength && (
                     <span className={`absolute left-[.6rem] top-1/2 -translate-y-1/2 text-[--theme-primary-text-color] opacity-70 text-[.7rem] ${maxLength === value?.length ? 'text-red-600 !opacity-100' : ''}`}>

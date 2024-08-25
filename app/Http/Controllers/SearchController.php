@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
+use App\Http\Resources\FollowedSpacesResource;
 use App\Http\Resources\SpaceResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
@@ -63,5 +64,17 @@ class SearchController extends Controller
         ];
 
         return InertiaResponse::render('Search/Pages/SearchResults', $data);
+    }
+
+    public function searchInSpaces($keyword)
+    {
+        $followed_spaces_ids = auth()->user()->followedSpaces()->pluck('follow_space.space_id');
+        $spaces = Space::where('name', 'LIKE', "%$keyword%")->whereIn('id', $followed_spaces_ids)->limit(6)->get();
+        $spaces = FollowedSpacesResource::collection($spaces);
+        $data = [
+            'followed_spaces' => $spaces
+        ];
+
+        return InertiaResponse::back($data);
     }
 }

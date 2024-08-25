@@ -17,14 +17,14 @@ export default function SelectSpaceOption({name, img, setData, handleCloseModelW
                 <img
                     src="/spaces/space_default_image.webp"
                     alt="space-img"
-                    className={`w-8 rounded-xl`}
+                    className={`size-8 rounded-xl`}
                 />
             }
             {img &&
                 <img
                     src={img}
                     alt="space-img"
-                    className={`w-8 rounded-xl`}
+                    className={`size-8 rounded-xl`}
                 />
             }
             <span>{name}</span>

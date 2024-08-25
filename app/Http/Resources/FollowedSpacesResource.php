@@ -14,10 +14,10 @@ class FollowedSpacesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $space_poster = $this->getFirstMediaUrl('spaces_posters');
+        $space_poster = $this->getFirstMediaUrl('spaces_avatars');
         $media = [];
         if ($space_poster) {
-            $media['poster'] = $space_poster;
+            $media['avatar'] = $space_poster;
         }
 
         return [
