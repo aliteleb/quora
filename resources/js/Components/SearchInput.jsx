@@ -97,7 +97,7 @@ export default function SearchInput({ className }) {
             <div id="spaceDropDown" className={`animate-fade-in bg-[--theme-main-bg-color] absolute w-full top-[42px] left-0 border border-[--theme-select-space-border-color] ${!showDropDown && 'hidden'}`}>
                 <ul className="divide-y divide-[--theme-select-space-border-color]">
                     <li>
-                        <Link href={`/search-keyword?q=${keyword}`} className="flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]">
+                        <Link href={`/search?q=${keyword}`} className="flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]">
                             <div className="flex items-center gap-x-1 py-1 px-2">
                                 <IoSearchOutline className="size-5 text-white/80" />
                                 <span className="text-[.9rem] text-white px-1">{keyword}</span>

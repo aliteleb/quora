@@ -41,7 +41,7 @@ export default function SearchResults() {
     const loadMoreThreads = (pageUrl) => {
         if (pageUrl && !isFetching) {
             setIsFetching(true);
-            router.get(pageUrl, {}, {
+            router.get(pageUrl + '&q=m', {}, {
                 preserveScroll: true,
                 preserveState: true,
                 only: ['threads'],
