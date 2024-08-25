@@ -10,17 +10,20 @@ export default function SearchInput({ className }) {
     const searchRef = useRef(null);
     const [usersResult, setUsersResult] = useState([]);
     const [spacesResult, setSpacesResult] = useState([]);
-    const [threadsResult, setThreadsResult] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const debounceKeyword = useDebounce(keyword);
 
     function handleKeywordChange(e) {
         setKeyword(e.target.value);
 
-        if (e.target?.value?.length > 0)
-            setShowDropDown(true);
-        else
+        if (e.target.value.length > 0) {
+            setShowDropDown(true)
+        }
+        else {
             setShowDropDown(false);
+        }
     }
 
     const searchKeyword = () => {
@@ -30,7 +33,7 @@ export default function SearchInput({ className }) {
             onSuccess: (response) => {
                 setUsersResult(response.props.search?.users?.data ?? []);
                 setSpacesResult(response.props.search?.spaces?.data ?? []);
-                setThreadsResult(response.props.search?.threads?.data ?? []);
+                setIsLoading(true)
             }
         });
     };
@@ -96,15 +99,19 @@ export default function SearchInput({ className }) {
             />
             <div id="spaceDropDown" className={`animate-fade-in bg-[--theme-main-bg-color] absolute w-full top-[42px] left-0 border border-[--theme-select-space-border-color] ${!showDropDown && 'hidden'}`}>
                 <ul className="divide-y divide-[--theme-select-space-border-color]">
-                    <li>
-                        <Link href={`/search?q=${keyword}`} className="flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]">
-                            <div className="flex items-center gap-x-1 py-1 px-2">
-                                <IoSearchOutline className="size-5 text-white/80" />
-                                <span className="text-[.9rem] text-white px-1">{keyword}</span>
-                            </div>
-                            <span className="text-[.9rem] text-[--theme-placeholder-color] pe-3">بحث ...</span>
-                        </Link>
-                    </li>
+                    {isLoading &&
+                        <li>
+                            <Link href={`/search?q=${keyword}`}
+                                  className="flex justify-between items-center cursor-pointer hover:bg-[--theme-select-space-border-color]">
+                                <div className="flex items-center gap-x-1 py-1 px-2">
+                                    <IoSearchOutline className="size-5 text-white/80"/>
+                                    <span className="text-[.9rem] text-white px-1">{keyword}</span>
+                                </div>
+                                <span className="text-[.9rem] text-[--theme-placeholder-color] pe-3">بحث ...</span>
+                            </Link>
+                        </li>
+                    }
+
                     {show_users_result}
                     {show_spaces_result}
                 </ul>

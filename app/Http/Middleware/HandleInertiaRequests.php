@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
     {
         $user = auth()->user();
         if ($user) {
-            $followed_spaces = $user->followedSpaces->take(6);
+            $followed_spaces = $user->followedSpaces->shuffle()->take(6);
             $followed_spaces = FollowedSpacesResource::collection($followed_spaces);
         }
 

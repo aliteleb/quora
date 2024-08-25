@@ -60,7 +60,6 @@ export default function FollowedSpace({space, img_style, can_follow = false}) {
 
             {can_follow &&
                 <div className={`flex flex-col items-end gap-y-2`}>
-                    <span>عدد المتابعين {space.followers_count}</span>
                     <Button
                         disabled={isFollowBtnDisabled}
                         onClick={followSpace}

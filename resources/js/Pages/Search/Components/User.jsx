@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import Button from "@/Core/Button.jsx";
 import {followUser} from "@/Utilities/followUser.js";
-import {usePage} from "@inertiajs/react";
 
 export default function User({user}) {
 
@@ -18,18 +17,18 @@ export default function User({user}) {
                         <img
                             src="/profile-default-svgrepo-com.svg"
                             alt="avatar"
-                            className={`size-12`}
+                            className={`size-10`}
                         />
                     }
                     {user.avatar &&
                         <img
                             src={user.avatar}
                             alt="avatar"
-                            className={`size-12 rounded-full`}
+                            className={`size-10 rounded-full`}
                         />
                     }
                     <div>
-                        <span className={`text-xl font-bold`}>{user.name}</span>
+                        <span>{user.name}</span>
                         <div>{user.created_at}</div>
                     </div>
 
