@@ -6,8 +6,11 @@ import {useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
 import {CiCamera} from "react-icons/ci";
 import InputError from "@/Components/InputError.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, userInfo, setUserInfo}) {
+
+    const { setUser } = useApp()
 
     const { data, post, setData, errors, clearErrors, reset } = useForm({
         name: "",
@@ -23,7 +26,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
         setIsLoading(true)
 
         const hasGeneralInfoUpdates = data.name.length !== 0 || data.bio.length !== 0 || data.avatar
-        const hasPasswordUpdates = data.old_password.length !== 0 && data.new_password !== 0 && data.password_confirmation !== 0
+        const hasPasswordUpdates = data.old_password.length !== 0 || data.new_password.length !== 0 || data.password_confirmation.length !== 0
 
         if (hasGeneralInfoUpdates || hasPasswordUpdates) {
             e.preventDefault()
@@ -31,11 +34,13 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                 onSuccess: (res) => {
                     setIsEditModalOpen(false)
                     setUserInfo(res.props.user.data)
+                    setUser(res.props.user.data)
                     reset()
                     setIsLoading(false)
                 },
             })
         }
+        setIsLoading(false)
     }
 
     const handleFileChange =(e) => {

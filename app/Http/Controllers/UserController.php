@@ -54,30 +54,39 @@ class UserController extends Controller implements HasMedia
     {
         if ($section !== 'profile') {
             if ($filter_type === 'most_popular') {
-                $threads = Thread::where('user_id', $user_id)
-                    ->where('type', $thread_type)
-                    ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
-                Log::info('questions', array($threads));
+                if (!auth()->id() !== $user_id) {
+                    $threads = Thread::where('user_id', $user_id)
+                        ->where('visibility', 'public')
+                        ->where('type', $thread_type)
+                        ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(5);
+                }
             } else {
-                $threads = Thread::where('user_id', $user_id)
-                    ->where('type', $thread_type)
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+                if (!auth()->id() !== $user_id) {
+                    $threads = Thread::where('user_id', $user_id)
+                        ->where('visibility', 'public')
+                        ->where('type', $thread_type)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(5);
+                }
             }
         } else {
             if ($filter_type === 'most_popular') {
-                $threads = Thread::where('user_id', $user_id)
-                    ->whereNull('space_id')
-                    ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+                if (!auth()->id() !== $user_id) {
+                    $threads = Thread::where('user_id', $user_id)
+                        ->whereNull('space_id')
+                        ->orderByRaw('(all_vote_up_count + all_vote_down_count) desc')
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(5);
+                }
             } else {
-                $threads = Thread::where('user_id', $user_id)
-                    ->whereNull('space_id')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(5);
+                if (!auth()->id() !== $user_id) {
+                    $threads = Thread::where('user_id', $user_id)
+                        ->whereNull('space_id')
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(5);
+                }
             }
         }
 
@@ -155,7 +164,11 @@ class UserController extends Controller implements HasMedia
         $user->loadCount(['posts', 'answers', 'followedSpaces', 'questions']);
         $user = new UserResource($user);
 
-        return InertiaResponse::back(['user' => $user]);
+        $data = [
+          'user' => $user
+        ];
+
+        return InertiaResponse::back($data);
     }
 
 }

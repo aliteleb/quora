@@ -1,13 +1,8 @@
-import React, {useState} from 'react'
-import {CiEdit, CiSquareQuestion} from "react-icons/ci";
-import {IoPencil} from "react-icons/io5";
-import {LuFileEdit} from "react-icons/lu";
+import React from 'react'
 import {useApp} from "@/AppContext/AppContext.jsx";
-import {RiQuestionAnswerLine, RiQuestionnaireLine} from "react-icons/ri";
-import {AiOutlineQuestion} from "react-icons/ai";
+import {RiQuestionAnswerLine} from "react-icons/ri";
 import {BsQuestionSquare} from "react-icons/bs";
 import {BiCommentEdit} from "react-icons/bi";
-import {FaRegCircleUser} from "react-icons/fa6";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import {Link} from "@inertiajs/react";
 
@@ -15,17 +10,28 @@ export default function CreateThread() {
 
     const {setIsCreatThreadModalOpen, setIsPostActive, user } = useApp();
 
+    const handleAskButtonClick = () => {
+        setIsCreatThreadModalOpen(true)
+        setIsPostActive(false)
+    }
+
     return (
         <div className={`z-10 bg-[--theme-main-bg-color] w-full text-[--theme-primary-text-color] h-fit p-5 rounded flex flex-col gap-y-5`}>
                 <div className={`${user ? 'grid' : ''}  grid-cols-[0.5fr_6fr] items-center`}>
                     {user?.avatar &&
-                        <img
-                            src={user?.avatar}
-                            className={`size-9 rounded-full cursor-pointer`}
-                            alt={`user-avatar`}
-                        />
+                        <Link href={`/profile/${user?.username}`}>
+                            <img
+                                src={user?.avatar}
+                                className={`size-9 rounded-full cursor-pointer`}
+                                alt={`user-avatar`}
+                            />
+                        </Link>
                     }
-                    {(!user?.avatar && user) && <DefaultUserIcon/>}
+                    {(!user?.avatar && user) &&
+                        <Link href={`/profile/${user?.username}`}>
+                            <DefaultUserIcon/>
+                        </Link>
+                    }
                     {!user &&
                         <Link
                             href={'account'}
@@ -58,12 +64,6 @@ export default function CreateThread() {
                         <Link
                             href={'account'}
                             className={`cursor-pointer flex items-center gap-x-3`}
-                            onClick={() => {
-                                if (user) {
-                                    setIsCreatThreadModalOpen(true)
-                                    setIsPostActive(false)
-                                }
-                            }}
                         >
                             <div
                                 className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
@@ -76,12 +76,7 @@ export default function CreateThread() {
                     {user &&
                         <button
                             className={`cursor-pointer flex items-center gap-x-3`}
-                            onClick={() => {
-                                if (user) {
-                                    setIsCreatThreadModalOpen(true)
-                                    setIsPostActive(false)
-                                }
-                            }}
+                            onClick={handleAskButtonClick}
                         >
                             <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                                 <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>

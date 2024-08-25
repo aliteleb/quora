@@ -48,6 +48,8 @@ class HomeController extends Controller
         );
 
         $threads = Thread::where('user_id', '!=', $user->id)
+            ->where('visibility', 'public')
+            ->whereNull('share_to')
             ->whereNotIn('user_id', $blocked_user_ids)
             ->whereNotIn('id', $excluded_thread_ids)
             ->latest()
