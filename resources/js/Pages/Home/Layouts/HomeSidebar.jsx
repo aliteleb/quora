@@ -30,7 +30,7 @@ export default function HomeSidebar() {
         <>
             <div className={`fixed w-full xl:w-[347px] py-2 flex flex-col gap-y-3 overflow-y-scroll h-svh`}>
                 <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3`}>مساحاتك</h1>
-                {spaces?.length === 0 || !spaces &&
+                {(spaces?.length === 0 || !spaces) &&
                     <span>لا توجد لديك مساحات</span>
                 }
                 {show_spaces}

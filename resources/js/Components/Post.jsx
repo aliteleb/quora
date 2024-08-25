@@ -248,15 +248,17 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                     <div>
                         <div className={`font-bold`}>
                             <Link href={`/profile/${isAnswer ? userInfo?.username : mainThread?.user?.username}`}
-                                  className={`cursor-pointer`}>{isAnswer ? userInfo?.name : mainThread?.user?.name} {`· `}
+                                  className={`cursor-pointer`}>{isAnswer ? userInfo?.name : mainThread?.user?.name} {user?.id !== userInfo?.id && `· `}
                             </Link>
-                            <button
-                                disabled={isFollowBtnDisabled}
-                                onClick={() => followUser(mainThread?.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
-                                className={`${isFollowed ? 'text-[--theme-secondary-text-color]' : 'text-[--theme-button-border-color]'} cursor-pointer hover:underline`}
-                            >
+                            {user?.id !== userInfo?.id &&
+                                <button
+                                    disabled={isFollowBtnDisabled}
+                                    onClick={() => followUser(mainThread?.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
+                                    className={`${isFollowed ? 'text-[--theme-secondary-text-color]' : 'text-[--theme-button-border-color]'} cursor-pointer hover:underline`}
+                                >
                                 {isFollowed ? 'تمت المتابعة' : 'متابعة'}
-                            </button>
+                                </button>
+                            }
                         </div>
                         <span>{mainThread?.created_at}</span>
                     </div>
