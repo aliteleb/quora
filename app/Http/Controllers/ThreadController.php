@@ -45,6 +45,7 @@ class ThreadController extends Controller implements HasMedia
                     'type' => $request->input('type'),
                     'user_id' => $follower_id,
                     'thread_id' => $thread->id,
+                    'notification_maker_id' => auth()->id(),
                 ]);
             }
         }
