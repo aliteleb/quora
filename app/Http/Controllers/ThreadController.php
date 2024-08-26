@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateThreadRequest;
 use App\Http\Resources\ThreadResource;
+use App\Models\Notification;
 use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
 use App\Models\Vote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -34,6 +36,17 @@ class ThreadController extends Controller implements HasMedia
 
         if ($request->hasFile('video')) {
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
+        }
+
+        $followers_ids = auth()->user()->followedUser()->pluck('follow_user.user_id');
+        if ($followers_ids->count() > 0) {
+            foreach ($followers_ids as $follower_id) {
+                Notification::create([
+                    'type' => $request->input('type'),
+                    'user_id' => $follower_id,
+                    'thread_id' => $thread->id,
+                ]);
+            }
         }
     }
 

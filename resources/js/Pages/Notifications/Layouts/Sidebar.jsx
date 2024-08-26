@@ -5,7 +5,7 @@ export default function Sidebar() {
     const [isActive, setIsActive] = useState({
         all: true,
         questions: false,
-        spaces: false,
+        posts: false,
         reactions: false,
         comments: false,
     });
@@ -13,7 +13,7 @@ export default function Sidebar() {
     const labels = {
         all: 'all',
         questions: 'questions',
-        spaces: 'spaces',
+        posts: 'posts',
         reactions: 'reactions',
         comments: 'comments'
     }
@@ -22,7 +22,7 @@ export default function Sidebar() {
         setIsActive({
             all: false,
             questions: false,
-            spaces: false,
+            posts: false,
             reactions: false,
             comments: false,
             [e.target.value]: true,
@@ -35,7 +35,7 @@ export default function Sidebar() {
             <ul className={`flex flex-col items-start gap-y-1`}>
                 <button onClick={handleClick} value={labels.all} className={`cursor-pointer px-3 py-1 ${isActive.all ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>كل الإشعارات</button>
                 <button onClick={handleClick} value={labels.questions} className={`cursor-pointer px-3 py-1 ${isActive.questions ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>الأسئلة</button>
-                <button onClick={handleClick} value={labels.spaces} className={`cursor-pointer px-3 py-1 ${isActive.spaces ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>المساحات</button>
+                <button onClick={handleClick} value={labels.posts} className={`cursor-pointer px-3 py-1 ${isActive.posts ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>المنشورات</button>
                 <button onClick={handleClick} value={labels.reactions} className={`cursor-pointer px-3 py-1 ${isActive.reactions ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>التفاعلات</button>
                 <button onClick={handleClick} value={labels.comments} className={`cursor-pointer px-3 py-1 ${isActive.comments ? 'bg-red-600/10 text-[--theme-primary-button-color] w-full rounded text-right' : ''}`}>التعلقيات</button>
             </ul>
