@@ -19,8 +19,8 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
     const [isLoading, setIsLoading] = useState(false);
 
     const submitEdit = (e) => {
-        const hasInfoUpdates = data.name.length !== 0 || data.description.length !== 0 || data.avatar || data.cover
-        if (hasInfoUpdates) {
+        const hasInfoUpdated = data.name.length !== 0 || data.description.length !== 0 || data.avatar || data.cover
+        if (hasInfoUpdated) {
             setIsLoading(true)
             e.preventDefault()
             post(`/space/${space?.id}/edit`, {

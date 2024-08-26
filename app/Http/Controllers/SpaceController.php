@@ -181,8 +181,8 @@ class SpaceController extends Controller implements HasMedia
             return !is_null($value);
         });
 
-
         $space->update($data);
+        $space = $space->fresh();
         $space = new SpaceResource($space);
 
         $data = [

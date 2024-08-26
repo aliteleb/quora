@@ -189,8 +189,6 @@ export default function ShowSpace() {
         });
     };
 
-
-
     return (
         <Master>
             <Head title={space?.name}/>
