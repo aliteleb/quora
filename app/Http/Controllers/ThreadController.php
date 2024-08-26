@@ -189,4 +189,18 @@ class ThreadController extends Controller implements HasMedia
         }
     }
 
+    public function getQuestions()
+    {
+        $questions = Thread::where('user_id', '!=', auth()->id())
+            ->where('visibility', 'public')
+            ->where('type', 'question')
+            ->paginate(5);
+        $questions = ThreadResource::collection($questions);
+        $data = [
+            'questions' => $questions
+        ];
+
+        return InertiaResponse::render('Questions/Pages/Questions', $data);
+    }
+
 }

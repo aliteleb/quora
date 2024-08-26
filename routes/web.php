@@ -67,6 +67,7 @@ Route::get('/search/spaces/{keyword}', [SearchController::class, 'searchInSpaces
 Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterThreadsFn'])->name('profile.thread.filter');
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
+Route::get('/threads/questions', [ThreadController::class, 'getQuestions'])->name('thread.questions');
 
 
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {

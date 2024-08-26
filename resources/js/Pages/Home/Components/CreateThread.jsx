@@ -33,11 +33,7 @@ export default function CreateThread() {
                         </Link>
                     }
                     {!user &&
-                        <Link
-                            href={'account'}
-                            onClick={() => user && setIsCreatThreadModalOpen(true)}
-                            className={`cursor-pointer`}
-                        >
+                        <Link href={'account'}>
                             <input
                                 type="text"
                                 className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
@@ -97,11 +93,12 @@ export default function CreateThread() {
                             </Link>
                         }
                         {user &&
-                            <button
+                            <Link
+                                href={'/threads/questions'}
                                 className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
                                 <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
                                 أجب
-                            </button>
+                            </Link>
                         }
                         <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
                     </div>
