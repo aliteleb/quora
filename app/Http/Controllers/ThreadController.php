@@ -9,6 +9,7 @@ use App\Models\Notification;
 use App\Models\PostAction;
 use App\Models\Space;
 use App\Models\Thread;
+use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -38,42 +39,64 @@ class ThreadController extends Controller implements HasMedia
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
 
-        $followers_ids = auth()->user()->followedUser()->pluck('follow_user.user_id');
-        if ($followers_ids->count() > 0) {
-            foreach ($followers_ids as $follower_id) {
+        $this->addThreadNotification($request->input('type'), $thread->id);
+    }
+
+    protected function addThreadNotification($type, $thread_id, $add_type = '', $thread_user_id = null): void
+    {
+        if ($add_type === 'vote') {
+            $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
+            $notification_exists = Notification::where('type', $vote_type)
+                ->where('user_id', $thread_user_id)
+                ->where('thread_id', $thread_id)
+                ->exists();
+            if (!$notification_exists) {
                 Notification::create([
-                    'type' => $request->input('type'),
-                    'user_id' => $follower_id,
-                    'thread_id' => $thread->id,
+                    'type' => $vote_type,
+                    'user_id' => $thread_user_id,
+                    'thread_id' => $thread_id,
                     'notification_maker_id' => auth()->id(),
                 ]);
             }
+
+        } else {
+            $followers_ids = auth()->user()->followedUser()->pluck('follow_user.user_id');
+            if ($followers_ids->count() > 0) {
+                foreach ($followers_ids as $follower_id) {
+                    Notification::create([
+                        'type' => $type,
+                        'user_id' => $follower_id,
+                        'thread_id' => $thread_id,
+                        'notification_maker_id' => auth()->id(),
+                    ]);
+                }
+            }
         }
+
     }
 
     public function vote(Request $request)
     {
         $user_id = auth()->id();
-        $thread_id = $request->thread_id;
-        $thread = Thread::where('id', $thread_id)->first();
+        $thread = Thread::where('id', $request->thread_id)->first();
         $vote_type = $request->vote_type;
         $is_answer = $request->isAnswer;
 
         $up_vote_query = Vote::where('user_id', $user_id)->where('vote_type', 'up');
         $down_vote_query = Vote::where('user_id', $user_id)->where('vote_type', 'down');
 
-        $user_has_voted_up = $is_answer ? $up_vote_query->where('comment_id', $thread_id) : $up_vote_query->where('thread_id', $thread_id);
-        $user_has_voted_down = $is_answer ? $down_vote_query->where('comment_id', $thread_id) : $down_vote_query->where('thread_id', $thread_id);
+        $user_has_voted_up = $is_answer ? $up_vote_query->where('comment_id', $thread->id) : $up_vote_query->where('thread_id', $thread->id);
+        $user_has_voted_down = $is_answer ? $down_vote_query->where('comment_id', $thread->id) : $down_vote_query->where('thread_id', $thread->id);
 
         if ($vote_type === 'up' && $user_has_voted_up->exists()) {
             $user_has_voted_up->delete();
-            $this->getVotesCount('thread_id', $thread_id);
+            $this->getVotesCount('thread_id', $thread->id);
             if (!$is_answer) {
                 $this->updateVoteCounts($thread, $vote_type, true);
             }
         } else if ($vote_type === 'down' && $user_has_voted_down->exists()) {
             $user_has_voted_down->delete();
-            $this->getVotesCount('thread_id', $thread_id);
+            $this->getVotesCount('thread_id', $thread->id);
             if (!$is_answer) {
                 $this->updateVoteCounts($thread, $vote_type, true);
             }
@@ -88,22 +111,24 @@ class ThreadController extends Controller implements HasMedia
                     $vote = Vote::create([
                         'user_id' => $user_id,
                         'vote_type' => $vote_type,
-                        'thread_id' => $thread_id
+                        'thread_id' => $thread->id
                     ]);
                     $opposite_vote = ($vote_type === 'up') ? 'down' : 'up';
                     $this->updateVoteCounts($thread, $opposite_vote);
 
-                    $this->getVotesCount('thread_id', $thread_id, $vote);
+                    $this->getVotesCount('thread_id', $thread->id, $vote);
 
                 } else {
                     $vote = Vote::create([
                         'user_id' => $user_id,
                         'vote_type' => $vote_type,
-                        'comment_id' => $thread_id
+                        'comment_id' => $thread->id
                     ]);
-                    $this->getVotesCount('comment_id', $thread_id, $vote);
+                    $this->getVotesCount('comment_id', $thread->id, $vote);
                 }
             }
+            $thread_user_id = User::find($thread->user_id)->id;
+            $this->addThreadNotification($vote_type, $thread->id, 'vote', $thread_user_id);
         }
 
         if ($thread) {
