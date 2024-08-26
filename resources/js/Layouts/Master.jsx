@@ -40,16 +40,22 @@ function Master({children}) {
                         </Link>
                         <ul className={`flex gap-x-3 text-2xl flex-grow `} data-select={true}>
                             <div className={`sm:flex gap-x-1 hidden`}>
-                                <Link href={`/`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link
+                                    href={`/`}
+                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </Link>
                                 <Link href={`/spaces`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
                                 </Link>
-                                <Link className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link
+                                    href={`/threads/questions`}
+                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaEdit />
                                 </Link>
-                                <Link className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link
+                                    href={`/notifications`}
+                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoNotificationsOutline />
                                 </Link>
                             </div>

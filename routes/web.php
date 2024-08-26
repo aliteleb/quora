@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SpaceController;
@@ -34,7 +35,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
-    Route::post('/threads/create', [ThreadController::class, 'create'])->name('threads.create');
+    Route::post('/threads/create', [ThreadController::class, 'create'])->name('thread.create');
     Route::post('/threads/{id}/hide', [ThreadController::class, 'hideThread'])->name('thread.hide');
     Route::delete('/threads/{id}', [ThreadController::class, 'deleteThread'])->name('thread.delete');
     Route::post('/threads/{id}/save', [ThreadController::class, 'saveThread'])->name('thread.save');
@@ -52,6 +53,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::post('/users/follow/{type}/{id}', [UserController::class, 'follow'])->name('user.follow');
     Route::post('/users/block/{type}/{id}', [UserController::class, 'block'])->name('user.block');
     Route::post('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
+    Route::get('/notifications', [NotificationController::class, 'getNotifications'])->name('notification.index');
 });
 
 

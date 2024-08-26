@@ -65,7 +65,7 @@ export default function Questions() {
 
     return (
         <Master>
-            <Head title='إشارات مرجعية' />
+            <Head title='أسئلة' />
             <div className={`flex container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2`}>
                 <Footer />
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
