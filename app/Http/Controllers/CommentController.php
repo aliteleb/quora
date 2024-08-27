@@ -41,11 +41,11 @@ class CommentController extends Controller implements HasMedia
         ]);
 
         if ($request->hasFile('image')) {
-            $comment->addMediaFromRequest('image')->toMediaCollection('comments_images');
+            $created_comment->addMediaFromRequest('image')->toMediaCollection('comments_images');
         }
 
         if ($request->hasFile('video')) {
-            $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
+            $created_comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
 
         if ($thread->type === 'question' && !$created_comment->comment_id) {
@@ -54,10 +54,8 @@ class CommentController extends Controller implements HasMedia
         }
         if ($created_comment->comment_id) {
             $this->addCommentNotification($created_comment->comment_id, $thread->user_id, true);
-            Log::info('reply');
         } else {
             $this->addCommentNotification($created_comment->id, $thread->user_id);
-            Log::info('comment');
         }
 
         if ($created_comment->comment_id) {
