@@ -17,9 +17,12 @@ import SearchInput from "@/Components/SearchInput.jsx";
 function Master({children}) {
 
     const {settings, user, setIsSpaceModalOpen, isSpaceModalOpen, setIsCreatThreadModalOpen} = useApp()
+    const { props } = usePage()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
+    const [notificationsCount, setNotificationsCount] = useState(props.notifications_count);
+
 
     const redirectToLogin =  useCallback(() => {
         window.location = '/account'
@@ -55,8 +58,11 @@ function Master({children}) {
                                 </Link>
                                 <Link
                                     href={`/notifications`}
-                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer relative`}>
                                     <IoNotificationsOutline />
+                                    <span className={`absolute text-xs bg-[--theme-primary-button-color] ${notificationsCount < 10 ? 'size-4' : 'size-5'} flex justify-center items-center rounded-full top-0 left-4`}>
+                                        {notificationsCount}
+                                    </span>
                                 </Link>
                             </div>
 

@@ -123,7 +123,7 @@ export default function Auth() {
                         </div>
                     </div>
 
-                    <div className={`w-full bg-[--theme-body-bg] mt-5 py-4 px-8 text-sm text-center`}>
+                    <div className={`w-full bg-[--theme-body-bg] mt-5 py-4 px-8 text-sm text-center rounded-b`}>
                         <span className={`hover:underline cursor-pointer`}>حول . </span>
                         <span className={`hover:underline cursor-pointer`}>الوظائف . </span>
                         <span className={`hover:underline cursor-pointer`}>الخصوصية . </span>

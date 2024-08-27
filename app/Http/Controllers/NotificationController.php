@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\InertiaResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Traits\GetUserSpaces;
+
 
 class NotificationController extends Controller
 {
+    use GetUserSpaces;
     public function getNotifications()
     {
-//        $followers = auth()->user()->followedUser()->pluck('follow_user.user_id')->count();
-//        Log::info('f', array($followers));
-        $user = auth()->user();
-        return InertiaResponse::render('Notifications/Pages/Notifications');
+        $user_created_spaces = $this->getUserSpaces();
+        $data = [
+            'user_created_spaces' => $user_created_spaces
+        ];
+        return InertiaResponse::render('Notifications/Pages/Notifications', $data);
     }
 }

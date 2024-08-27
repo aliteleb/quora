@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Http\Resources\FollowedSpacesResource;
 use App\Http\Resources\UserResource;
+use App\Models\Notification;
 use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,6 +43,8 @@ class HandleInertiaRequests extends Middleware
             $followed_spaces = FollowedSpacesResource::collection($followed_spaces);
         }
 
+        $notifications_count = Notification::where('user_id', auth()->id())->count();
+
         $settings = settings();
         return [
             ...parent::share($request),
@@ -50,6 +53,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'settings' => $settings,
             'followed_spaces' => $user ? $followed_spaces : [],
+            'notifications_count' => $notifications_count,
         ];
     }
 }
