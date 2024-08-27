@@ -42,7 +42,7 @@ class CommentResource extends JsonResource
             'media' => $media,
             'created_at' => $this->created_at?->diffForHumans(),
             'replies' => flattenComments(collect($this->replies)),
-            'user' => $this->user,
+            'user' => new UserResource($this->user),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,

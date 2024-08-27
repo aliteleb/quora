@@ -155,7 +155,14 @@ const Comment = forwardRef(({
 
                     <div className={`flex justify-between`}>
                         <div className={`flex items-center gap-x-3`}>
-                            <DefaultUserIcon/>
+                            {!user.avatar && <DefaultUserIcon/>}
+                            {user.avatar &&
+                                <img
+                                    src={user.avatar}
+                                    alt="avatar"
+                                    className={`size-9 rounded-full`}
+                                />
+                            }
                             <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
                         </div>
 
@@ -185,7 +192,7 @@ const Comment = forwardRef(({
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
                     <div className={`flex flex-col justify-between px-12 gap-y-2`}>
-                        <div className={`mt-3 w-full break-words`}>{comment.body}</div>
+                        <div className={`w-full break-words`}>{comment.body}</div>
 
                         {comment.media?.image &&
                             <img className={`w-full max-h-[20rem] rounded object-cover`}

@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 function settings (string|null $key = null, $default = null) {
@@ -37,6 +39,8 @@ function flattenAllReplies(array $comments)
         $nestedComments = $commentArray['replies'];
         $commentArray['created_at'] = Carbon::parse($commentArray['created_at'])->diffForHumans();
         unset($commentArray['replies']);
+        unset($commentArray['user']);
+        $commentArray['user'] = new UserResource($comment->user);
         $commentArray['up_votes'] = $comment->votes()->where('vote_type', 'up')->whereNull('thread_id')->count();
         $commentArray['down_votes'] = $comment->votes()->where('vote_type', 'down')->whereNull('thread_id')->count();
         $commentArray['vote'] = $comment->votes()->where('user_id', auth()->id())->whereNull('thread_id')->first(['vote_type'])?->vote_type;

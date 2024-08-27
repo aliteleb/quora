@@ -5,14 +5,24 @@ import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import {useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUploadedFile, data, addComment, customStyles, placeholder, submitBtnText, replyTo, comment_id, thread_id, replies, setReplies}, ref) => {
+
+    const { user } = useApp()
 
     return (
         <div className={`bg-[--theme-input-bg-color] mt-2`}>
             {replyTo && <div className={`px-5 py-1 rounded-full mt-1 ms-20 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> الرد على <button className={`font-bold`}>{replyTo}</button></div>}
             <div className={`flex items-center gap-x-3 flex-grow px-5 py-3 ${customStyles ? customStyles : ''}`}>
-                <DefaultUserIcon/>
+                {!user && <DefaultUserIcon/>}
+                {user.avatar &&
+                    <img
+                        src={user.avatar}
+                        alt="avatar"
+                        className={`size-9 rounded-full`}
+                    />
+                }
                 <div className={`relative flex-grow flex flex-col items-center`}>
                     <textarea
                         className={`w-full h-[45px] ${data.body.length < 67 ? '!h-[45px]' : ''} pl-[38px] rounded resize-none bg-[--theme-body-bg] border-[--theme-secondary-bg-color-hover]`}

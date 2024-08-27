@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\InertiaResponse;
 use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Thread;
 use App\Models\Vote;
@@ -67,10 +68,14 @@ class CommentController extends Controller implements HasMedia
 
     public function getComments(Request $request)
     {
-        $comments = Comment::where(['thread_id' => $request->thread_id])->whereNull('comment_id')->with(['replies', 'replies.user'])->latest()->paginate(5);
+        $comments = Comment::where(['thread_id' => $request->thread_id])
+            ->whereNull('comment_id')
+            ->with(['replies', 'replies.user'])
+            ->latest()
+            ->paginate(5);
+
         $next_page_url = $comments->nextPageUrl();
         $comments = $comments->getCollection();
-
         $comments = flattenComments($comments);
         $comments = CommentResource::collection($comments);
         $data = [

@@ -23,7 +23,7 @@ class UserResource extends JsonResource
 
         $response = [];
 
-        $avatar = $this->getFirstMediaUrl('users_avatars');
+        $avatar = $user->getFirstMediaUrl('users_avatars');
         if ($avatar === "") {
             $avatar = null;
         }
