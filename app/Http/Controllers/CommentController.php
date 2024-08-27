@@ -88,6 +88,22 @@ class CommentController extends Controller implements HasMedia
             ]);
         }
     }
+    protected function addVotingCommentNotification($type, $comment_id, $comment_user_id = null): void
+    {
+        $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
+        $notification_exists = Notification::where('type', $vote_type)
+            ->where('user_id', $comment_user_id)
+            ->where('comment_id', $comment_id)
+            ->exists();
+        if (!$notification_exists) {
+            Notification::create([
+                'type' => $vote_type,
+                'user_id' => $comment_user_id,
+                'comment_id' => $comment_id,
+                'notification_maker_id' => auth()->id(),
+            ]);
+        }
+    }
     public function getComments(Request $request)
     {
         $comments = Comment::where(['thread_id' => $request->thread_id])
@@ -134,6 +150,8 @@ class CommentController extends Controller implements HasMedia
                     'vote_type' => $vote_type,
                     'comment_id' => $comment_id,
                 ]);
+                $comment = Comment::find($comment_id);
+                $this->addVotingCommentNotification($vote_type, $comment_id, $comment->user_id);
             }
         }
 
@@ -144,7 +162,6 @@ class CommentController extends Controller implements HasMedia
             'all_up_votes_count' => $comment_up_votes_count,
             'all_down_votes_count' => $comment_down_votes_count,
         ];
-
         return InertiaResponse::back(['vote' => $vote ?: null, 'vote_count' => $vote_count]);
     }
 
