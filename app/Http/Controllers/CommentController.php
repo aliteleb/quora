@@ -7,6 +7,7 @@ use App\Http\Requests\CreateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Thread;
 use App\Models\Vote;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class CommentController extends Controller implements HasMedia
             return InertiaResponse::error();
         }
 
-        $comment = Comment::create([
+        $created_comment = Comment::create([
             'type' => $request->comment_id ? 'reply' : (!$request->comment_id && $thread->type === 'question' ? 'answer' : 'comment'),
             'user_id' => $request->user_id,
             'body' => $request->body,
@@ -38,6 +39,7 @@ class CommentController extends Controller implements HasMedia
             'comment_id' => $comment->id ?? null,
             'mention_id' => $comment->user?->id ?? null,
         ]);
+
         if ($request->hasFile('image')) {
             $comment->addMediaFromRequest('image')->toMediaCollection('comments_images');
         }
@@ -46,26 +48,48 @@ class CommentController extends Controller implements HasMedia
             $comment->addMediaFromRequest('video')->toMediaCollection('comments_videos');
         }
 
-        if ($thread->type === 'question' && !$comment->comment_id) {
+        if ($thread->type === 'question' && !$created_comment->comment_id) {
             $thread->all_answers_count++;
             $thread->save();
         }
+        if ($created_comment->comment_id) {
+            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, true);
+            Log::info('reply');
+        } else {
+            $this->addCommentNotification($created_comment->id, $thread->user_id);
+            Log::info('comment');
+        }
 
-        if ($comment->comment_id) {
+        if ($created_comment->comment_id) {
             $data = [
-                'reply' => new CommentResource($comment),
+                'reply' => new CommentResource($created_comment),
             ];
             return InertiaResponse::back($data);
         } else {
             $data = [
-                'comment' => new CommentResource($comment),
+                'comment' => new CommentResource($created_comment),
             ];
             return InertiaResponse::back($data);
         }
-
-
     }
-
+    protected function addCommentNotification($comment_id, $user_id, $is_reply = false )
+    {
+        if ($is_reply && $comment_id) {
+            Notification::create([
+                'type' => 'reply',
+                'user_id' => $user_id,
+                'comment_id' => $comment_id,
+                'notification_maker_id' => auth()->id()
+            ]);
+        } else {
+            Notification::create([
+                'type' => 'comment',
+                'user_id' => $user_id,
+                'comment_id' => $comment_id,
+                'notification_maker_id' => auth()->id()
+            ]);
+        }
+    }
     public function getComments(Request $request)
     {
         $comments = Comment::where(['thread_id' => $request->thread_id])

@@ -27,8 +27,8 @@ const Comment = forwardRef(({
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
     const [isVoted, setIsVoted] = useState(null);
-    const [voteUpCount, setVoteUpCount] = useState(comment.up_votes);
-    const [voteDownCount, setVoteDownCount] = useState(comment.down_votes);
+    const [voteUpCount, setVoteUpCount] = useState(comment?.up_votes);
+    const [voteDownCount, setVoteDownCount] = useState(comment?.down_votes);
     const [showReplyInput, setShowReplyInput] = useState(false);
     const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
@@ -36,13 +36,13 @@ const Comment = forwardRef(({
         body: '',
         image: null,
         video: null,
-        comment_id: comment.id,
+        comment_id: comment?.id,
         thread_id: thread_id,
     });
 
     useEffect(() => {
-        setReplies(comment.replies)
-        setIsVoted(comment.vote)
+        setReplies(comment?.replies)
+        setIsVoted(comment?.vote)
     }, [comment]);
 
     const show_replies = replies?.map((reply, index) => (
@@ -50,7 +50,7 @@ const Comment = forwardRef(({
             key={index}
             comment={reply}
             isReply={true}
-            user={reply.user}
+            user={reply?.user}
             thread_id={thread_id}
             comments={comments}
             commentsCount={commentsCount}
@@ -65,13 +65,13 @@ const Comment = forwardRef(({
     }
 
     const vote = (voteType) => {
-        router.post('/vote-comment', { comment_id: comment.id, vote_type: voteType }, {
+        router.post('/vote-comment', { comment_id: comment?.id, vote_type: voteType }, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
-                setVoteUpCount(res.props.vote_count.all_up_votes_count)
-                setVoteDownCount(res.props.vote_count.all_down_votes_count)
+                !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote?.vote_type)
+                setVoteUpCount(res.props.vote_count?.all_up_votes_count)
+                setVoteDownCount(res.props.vote_count?.all_down_votes_count)
             },
         })
     }
@@ -126,15 +126,15 @@ const Comment = forwardRef(({
             onSuccess: (res) => {
                 reset()
                 setCommentsCount(commentsCount + 1)
-                if (comment.comment_id) {
+                if (comment?.comment_id) {
                     setParentReplies(prevState => ([
                         ...prevState,
-                        res.props.reply.data
+                        res.props.reply?.data
                     ]))
                 } else {
                     setReplies(prevState => ([
                         ...prevState,
-                        res.props.reply.data
+                        res.props.reply?.data
                     ]))
                     toggleShowReplies()
                 }
@@ -151,19 +151,19 @@ const Comment = forwardRef(({
         <>
             <div ref={ref} className={`pt-3 flex flex-col gap-x-3 ${customStyles ? customStyles : ''}`}>
                 <div className={`${isReply ? 'ps-20 pe-5' : 'px-5'} flex flex-col justify-between gap-x-3 gap-y-2`}>
-                    {comment.comment_id && <div className={`px-5 py-1 rounded-full mt-1 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> رد على <button className={`font-bold`}>{comment?.mention?.name}</button></div>}
+                    {comment?.comment_id && <div className={`px-5 py-1 rounded-full mt-1 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> رد على <button className={`font-bold`}>{comment?.mention?.name}</button></div>}
 
                     <div className={`flex justify-between`}>
                         <div className={`flex items-center gap-x-3`}>
-                            {!user.avatar && <DefaultUserIcon/>}
-                            {user.avatar &&
+                            {!user?.avatar && <DefaultUserIcon/>}
+                            {user?.avatar &&
                                 <img
-                                    src={user.avatar}
+                                    src={user?.avatar}
                                     alt="avatar"
                                     className={`size-9 rounded-full`}
                                 />
                             }
-                            <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment.created_at}</span></div>
+                            <div className={`font-bold cursor-pointer w-fit`}>{user?.name}<span className={`font-medium cursor-auto text-[--theme-secondary-text-color]`}> · {comment?.created_at}</span></div>
                         </div>
 
                         <div className={`relative`}>
@@ -192,17 +192,17 @@ const Comment = forwardRef(({
                 </div>
                 <div className={`flex flex-col gap-y-2 w-full ${isReply ? 'ps-20' : 'px-5'}`}>
                     <div className={`flex flex-col justify-between px-12 gap-y-2`}>
-                        <div className={`w-full break-words`}>{comment.body}</div>
+                        <div className={`w-full break-words`}>{comment?.body}</div>
 
-                        {comment.media?.image &&
+                        {comment?.media?.image &&
                             <img className={`w-full max-h-[20rem] rounded object-cover`}
-                              src={comment.media?.image}
+                              src={comment?.media?.image}
                               alt="comment-img"
                             />
                         }
-                        {comment.media?.video &&
+                        {comment?.media?.video &&
                             <video className={`w-full max-h-[20rem] rounded object-cover`}
-                                 src={comment.media?.video}
+                                 src={comment?.media?.video}
                             />
                         }
 
