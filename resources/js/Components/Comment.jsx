@@ -65,7 +65,7 @@ const Comment = forwardRef(({
     }
 
     const vote = (voteType) => {
-        router.post('/vote-comment', { comment_id: comment?.id, vote_type: voteType }, {
+        router.post('/vote-comment', { comment_id: comment?.id, vote_type: voteType, thread_id: thread_id }, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {

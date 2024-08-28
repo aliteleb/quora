@@ -53,11 +53,11 @@ class CommentController extends Controller implements HasMedia
             $thread->save();
         }
         if ($created_comment->comment_id) {
-            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, $thread->type, $created_comment->mention_id, true);
+            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id, true);
         } else {
-            $this->addCommentNotification($created_comment->id, $thread->user_id, $thread->type, $created_comment->mention_id);
+            $this->addCommentNotification($created_comment->id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id);
         }
-        Log::info('sdsd', array($created_comment));
+        Log::info('sdsd', array($thread));
 
         if ($created_comment->comment_id) {
             $data = [
@@ -71,7 +71,7 @@ class CommentController extends Controller implements HasMedia
             return InertiaResponse::back($data);
         }
     }
-    protected function addCommentNotification($comment_id, $user_id, $thread_type, $reply_to, $is_reply = false )
+    protected function addCommentNotification($comment_id, $user_id, $thread_type, $thread_id, $reply_to, $is_reply = false )
     {
         if ($is_reply && $comment_id) {
             if ($user_id !== $reply_to) {
@@ -79,6 +79,8 @@ class CommentController extends Controller implements HasMedia
                     'type' => 'reply',
                     'user_id' => $user_id,
                     'comment_id' => $comment_id,
+                    'question_id' => $thread_type === 'question' ? $thread_id : null,
+                    'post_id' => $thread_type === 'post' ? $thread_id : null,
                     'notification_maker_id' => auth()->id(),
                     'reply_to_comment' => true,
                 ]);
@@ -88,22 +90,30 @@ class CommentController extends Controller implements HasMedia
                     'type' => 'reply',
                     'user_id' => $reply_to,
                     'comment_id' => $comment_id,
+                    'question_id' => $thread_type === 'question' ? $thread_id : null,
+                    'post_id' => $thread_type === 'post' ? $thread_id : null,
                     'notification_maker_id' => auth()->id()
                 ]);
             }
 
         } else {
+            Log::info('aa', array([
+                'thread_type' => $thread_type,
+                'thread_id' => $thread_id
+            ]));
             Notification::create([
                 'type' => $thread_type === 'question' && !$is_reply ? 'answer' : 'comment',
                 'user_id' => $user_id,
+                'question_id' => $thread_type === 'question' ? $thread_id : null,
+                'post_id' => $thread_type === 'post' ? $thread_id : null,
                 'comment_id' => $comment_id,
                 'notification_maker_id' => auth()->id(),
             ]);
         }
     }
-    protected function addVotingCommentNotification($type, $comment_id, $comment_user_id = null): void
+    protected function addVotingCommentNotification($type, $thread_type, $thread_id, $comment_id, $comment_user_id = null): void
     {
-        Log::info('sd', array($comment_id));
+
         $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
         $notification_exists = Notification::where('type', $vote_type)
             ->where('user_id', $comment_user_id)
@@ -115,6 +125,8 @@ class CommentController extends Controller implements HasMedia
                 'type' => $vote_type,
                 'user_id' => $comment_user_id,
                 'comment_id' => $comment_id,
+                'question_id' => $thread_type === 'question' ? $thread_id : null,
+                'post_id' => $thread_type === 'post' ? $thread_id : null,
                 'notification_maker_id' => auth()->id(),
             ]);
         }
@@ -143,8 +155,12 @@ class CommentController extends Controller implements HasMedia
         $user_id = auth()->id();
         $comment_id = $request->comment_id ?: $request->thread_id;
         $vote_type = $request->vote_type;
-        Log::info('id', array($comment_id));
-
+        $thread = Thread::where('id', $request->thread_id)->first();
+        Log::info('ff', array([
+            'type' => $request->thread_id,
+//            'thread_type' => $thread,
+//            '$thread_id' => $thread->id
+        ]));
         $voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('comment_id', $comment_id);
         $voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('comment_id', $comment_id);
 
@@ -166,7 +182,8 @@ class CommentController extends Controller implements HasMedia
                     'comment_id' => $comment_id,
                 ]);
                 $comment = Comment::find($comment_id);
-                $this->addVotingCommentNotification($vote_type, $comment_id, $comment->user_id);
+
+                $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id, $comment->user_id);
             }
         }
 

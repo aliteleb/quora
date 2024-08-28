@@ -64,7 +64,7 @@ export default function Notifications() {
             <div className={`container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2 flex`}>
                 <Sidebar/>
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
-                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-0`}>
+                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-2`}>
                     <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3 w-full`}>الإشعارات</h1>
                     {show_all_notifications}
                 </div>

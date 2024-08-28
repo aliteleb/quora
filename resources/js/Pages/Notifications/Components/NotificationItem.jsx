@@ -1,9 +1,9 @@
 import React, {forwardRef} from 'react'
 import {IoCheckmarkDone} from "react-icons/io5";
 
-const NotificationItem = forwardRef(({notification}, ref) => {
+const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
     return (
-        <div ref={ref} className="w-full flex items-center justify-between bg-[--theme-nav-bg-color-hover] p-4 shadow-md rounded-lg">
+        <div ref={ref} className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-nav-bg-color-hover] p-4 shadow-md rounded-lg`}>
             <div className={`flex items-center gap-x-3`}>
                 <img
                     src={notification.notification_maker.avatar ? notification.notification_maker.avatar : '/profile-default-svgrepo-com.svg'}
