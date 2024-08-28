@@ -39,10 +39,14 @@ class ThreadController extends Controller implements HasMedia
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
 
-        $this->addThreadNotification($request->input('type'), $thread->id, $thread->type);
+        if ($request->visibility === 'public') {
+            $this->addThreadNotification($request->input('type'), $thread->id, $thread->type, 'public');
+        } else {
+            $this->addThreadNotification($request->input('type'), $thread->id, $thread->type, 'private');
+        }
     }
 
-    protected function addThreadNotification($type, $thread_id, $thread_type, $add_type = '', $thread_user_id = null): void
+    protected function addThreadNotification($type, $thread_id, $thread_type, $visibility = null, $add_type = '', $thread_user_id = null): void
     {
         if ($add_type === 'vote') {
             $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
@@ -76,12 +80,13 @@ class ThreadController extends Controller implements HasMedia
 
         } else {
             $followers_ids = auth()->user()->followedUser()->pluck('follow_user.user_id');
-            if ($followers_ids->count() > 0) {
+            if ($followers_ids->count() > 0 && (!$visibility || $visibility === 'public')) {
                 foreach ($followers_ids as $follower_id) {
                     Notification::create([
                         'type' => $type,
                         'user_id' => $follower_id,
-                        'thread_id' => $thread_id,
+                        'question_id' => $thread_type === 'question' ? $thread_id : null,
+                        'post_id' => $thread_type === 'post' ? $thread_id : null,
                         'notification_maker_id' => auth()->id(),
                     ]);
                 }

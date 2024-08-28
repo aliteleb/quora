@@ -14,16 +14,6 @@ class NotificationController extends Controller
     public function getNotifications()
     {
         $user_created_spaces = $this->getUserSpaces();
-
-//        $created_posts_notifications = Notification::where('user_id', auth()->id())
-//            ->where('type', 'post')
-//            ->where('is_read', false)
-//            ->get();
-//        $created_questions_notifications = Notification::where('user_id', auth()->id())
-//            ->where('type', 'question')
-//            ->where('is_read', false)
-//            ->get();
-
         $all_notifications = Notification::where('user_id', auth()->id())
             ->where('is_read', false)
             ->orderBy('created_at', 'desc')
@@ -36,4 +26,19 @@ class NotificationController extends Controller
         ];
         return InertiaResponse::render('Notifications/Pages/Notifications', $data);
     }
+//    public function getNotificationsQuestions()
+//    {
+//        $questions_notifications = Notification::where('user_id', auth()->id())
+//            ->where('is_read', false)
+//            ->whereNotNull('question_id')
+//            ->where('type')
+//            ->orderBy('created_at', 'desc')
+//            ->paginate(10);
+//        $all_notifications = NotificationResource::collection($all_notifications);
+//
+//        $data = [
+//            'user_created_spaces' => $user_created_spaces,
+//            'all_notifications' => $all_notifications
+//        ];
+//    }
 }
