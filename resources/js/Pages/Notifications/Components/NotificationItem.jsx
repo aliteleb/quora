@@ -17,9 +17,16 @@ const NotificationItem = forwardRef(({notification}, ref) => {
                         <span className={`font-semibold`}>{` ${notification.notification_maker.name} `}</span>
                         {` ${notification.type === 'up_vote' ? 'بتأييد ' : notification.type === 'down_vote' ? 'بالإعتراض على ' :
                             notification.type === 'question' ? 'بنشر سؤال ' : notification.type === 'comment' ? 'بالتعليق على ' :
+                            notification.type === 'answer' && notification.comment_id ? 'بالإجابة على ' :
                             notification.type === 'post' ? 'بنشر منشور ' : 'بالرد على '}
                         `}
-                        {` ${notification.type !== 'comment' && notification.comment_id ? 'تعليقك.' : ''} `}
+
+                        {` ${notification.type === 'reply' && notification.comment_id && !notification.reply_to_comment ? 'تعليقك.' : ''} `}
+                        {` ${notification.type === 'reply' && notification.reply_to_comment ? 'تعليق على منشورك.' : ''} `}
+                        {` ${notification.type === 'comment' && notification.post_id ? 'منشورك.' : ''} `}
+                        {` ${notification.type === 'answer' && notification.comment_id ? 'سؤالك.' : ''} `}
+                        {` ${notification.type === 'down_vote' && notification.question_id ? 'إجابتك.' : ''} `}
+
                     </span>
                 </div>
             </div>

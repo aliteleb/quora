@@ -79,7 +79,8 @@ class CommentController extends Controller implements HasMedia
                     'type' => 'reply',
                     'user_id' => $user_id,
                     'comment_id' => $comment_id,
-                    'notification_maker_id' => auth()->id()
+                    'notification_maker_id' => auth()->id(),
+                    'reply_to_comment' => true,
                 ]);
             }
             if ($reply_to !== auth()->id()) {
