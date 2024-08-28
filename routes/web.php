@@ -55,6 +55,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::post('/profile/edit', [UserController::class, 'edit'])->name('profile.edit');
     Route::get('/notifications', [NotificationController::class, 'getNotifications'])->name('notification.index');
     Route::get('/notifications/questions', [NotificationController::class, 'getNotificationsQuestions'])->name('notification.questions');
+    Route::get('/notifications/posts', [NotificationController::class, 'getNotificationsPosts'])->name('notification.posts');
 });
 
 

@@ -111,7 +111,7 @@ class CommentController extends Controller implements HasMedia
             ]);
         }
     }
-    protected function addVotingCommentNotification($type, $thread_type, $thread_id, $comment_id, $comment_user_id = null): void
+    protected function addVotingCommentNotification($type, $thread_type, $thread_id, $comment_id, $is_answer, $comment_user_id = null): void
     {
 
         $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
@@ -128,6 +128,7 @@ class CommentController extends Controller implements HasMedia
                 'question_id' => $thread_type === 'question' ? $thread_id : null,
                 'post_id' => $thread_type === 'post' ? $thread_id : null,
                 'notification_maker_id' => auth()->id(),
+                'is_answer' => $is_answer
             ]);
         }
     }
@@ -156,11 +157,6 @@ class CommentController extends Controller implements HasMedia
         $comment_id = $request->comment_id ?: $request->thread_id;
         $vote_type = $request->vote_type;
         $thread = Thread::where('id', $request->thread_id)->first();
-        Log::info('ff', array([
-            'type' => $request->thread_id,
-//            'thread_type' => $thread,
-//            '$thread_id' => $thread->id
-        ]));
         $voted_up = Vote::where('user_id', $user_id)->where('vote_type', 'up')->where('comment_id', $comment_id);
         $voted_down = Vote::where('user_id', $user_id)->where('vote_type', 'down')->where('comment_id', $comment_id);
 
@@ -182,8 +178,19 @@ class CommentController extends Controller implements HasMedia
                     'comment_id' => $comment_id,
                 ]);
                 $comment = Comment::find($comment_id);
+                Log::info('answer', [
+                    'thread_id' => $request->thread_id,
+                    'type' => $thread->type
+                ]);
 
-                $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id, $comment->user_id);
+                if ($request->thread_id && $thread->type === 'question') {
+                    Log::info('answer');
+                    $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,true, $comment->user_id);
+
+                } else {
+                    Log::info('reply');
+                    $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,false, $comment->user_id);
+                }
             }
         }
 

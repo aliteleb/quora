@@ -8,8 +8,8 @@ import NotificationItem from "@/Pages/Notifications/Components/NotificationItem.
 export default function Notifications() {
 
     const { props } = usePage()
-    const [allNotifications, setAllNotifications] = useState(props.all_notifications.data);
-    const [allNotificationsNextPageUrl, setAllNotificationsNextPageUrl] = useState(props.all_notifications.links.next);
+    const [allNotifications, setAllNotifications] = useState(props.all_notifications?.data);
+    const [allNotificationsNextPageUrl, setAllNotificationsNextPageUrl] = useState(props.all_notifications?.links.next);
     const [isFetching, setIsFetching] = useState(false);
 
     const lastNotificationRef = useRef(null);
@@ -58,11 +58,24 @@ export default function Notifications() {
         };
     }, [allNotificationsNextPageUrl, isFetching]);
 
+    const getNotifications = (endPoint, dataKey) => {
+        router.get(endPoint, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setAllNotifications(res.props[dataKey].data)
+                setAllNotificationsNextPageUrl(res.props[dataKey].links.next)
+            }
+        })
+    }
+
     return (
         <Master>
             <Head title='الاشعارات' />
             <div className={`container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2 flex`}>
-                <Sidebar/>
+                <Sidebar
+                    getNotifications={getNotifications}
+                />
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
                 <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-2`}>
                     <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3 w-full`}>الإشعارات</h1>

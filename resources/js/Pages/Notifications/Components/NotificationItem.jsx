@@ -2,6 +2,29 @@ import React, {forwardRef} from 'react'
 import {IoCheckmarkDone} from "react-icons/io5";
 
 const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
+    const getNotificationMessage = (notification) => {
+        const { type, comment_id, post_id, question_id, is_answer, reply_to_comment } = notification;
+
+        if (type === 'up_vote') return 'بتأييد ';
+        if (type === 'down_vote') return 'بالإعتراض على ';
+        if (type === 'question') return 'بنشر سؤال ';
+        if (type === 'comment') return 'بالتعليق على ';
+        if (type === 'answer' && comment_id) return 'بالإجابة على ';
+        if (type === 'post') return 'بنشر منشور ';
+        if (type === 'reply' && comment_id && !reply_to_comment) return 'بالرد على ';
+    };
+
+    const getTargetMessage = (notification) => {
+        const { type, comment_id, post_id, question_id, is_answer, reply_to_comment } = notification;
+
+        if (type === 'reply' && comment_id && !reply_to_comment) return 'تعليقك.';
+        if (type === 'reply' && reply_to_comment) return 'تعليق على منشورك.';
+        if (type === 'comment' && post_id) return 'منشورك.';
+        if (type === 'answer' && comment_id) return 'سؤالك.';
+        if (type === 'down_vote' && question_id) return 'إجابتك.';
+        if ((type === 'up_vote' || type === 'down_vote') && !is_answer) return 'تعليقك.';
+    };
+
     return (
         <div ref={ref} className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-nav-bg-color-hover] p-4 shadow-md rounded-lg`}>
             <div className={`flex items-center gap-x-3`}>
@@ -15,17 +38,8 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
                     <span>
                         قام
                         <span className={`font-semibold`}>{` ${notification.notification_maker.name} `}</span>
-                        {` ${notification.type === 'up_vote' ? 'بتأييد ' : notification.type === 'down_vote' ? 'بالإعتراض على ' :
-                            notification.type === 'question' ? 'بنشر سؤال ' : notification.type === 'comment' ? 'بالتعليق على ' :
-                            notification.type === 'answer' && notification.comment_id ? 'بالإجابة على ' :
-                            notification.type === 'post' ? 'بنشر منشور ' : 'بالرد على '}
-                        `}
-
-                        {` ${notification.type === 'reply' && notification.comment_id && !notification.reply_to_comment ? 'تعليقك.' : ''} `}
-                        {` ${notification.type === 'reply' && notification.reply_to_comment ? 'تعليق على منشورك.' : ''} `}
-                        {` ${notification.type === 'comment' && notification.post_id ? 'منشورك.' : ''} `}
-                        {` ${notification.type === 'answer' && notification.comment_id ? 'سؤالك.' : ''} `}
-                        {` ${notification.type === 'down_vote' && notification.question_id ? 'إجابتك.' : ''} `}
+                        {getNotificationMessage(notification)}
+                        {getTargetMessage(notification)}
 
                     </span>
                 </div>
