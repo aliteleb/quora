@@ -15,7 +15,7 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
         <div className={`bg-[--theme-input-bg-color] mt-2`}>
             {replyTo && <div className={`px-5 py-1 rounded-full mt-1 ms-20 bg-[--theme-body-bg] text-[--theme-secondary-text-color] w-fit`}> الرد على <button className={`font-bold`}>{replyTo}</button></div>}
             <div className={`flex items-center gap-x-3 flex-grow px-5 py-3 ${customStyles ? customStyles : ''}`}>
-                {!user && <DefaultUserIcon/>}
+                {!user.avatar && <DefaultUserIcon/>}
                 {user.avatar &&
                     <img
                         src={user.avatar}

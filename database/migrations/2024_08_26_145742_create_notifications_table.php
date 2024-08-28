@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['question', 'post', 'up_vote', 'down_vote', 'comment', 'reply']);
+            $table->enum('type', ['question', 'post', 'up_vote', 'down_vote', 'comment', 'reply', 'answer']);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('question_id')->nullable();
             $table->unsignedBigInteger('post_id')->nullable();

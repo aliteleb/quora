@@ -53,10 +53,11 @@ class CommentController extends Controller implements HasMedia
             $thread->save();
         }
         if ($created_comment->comment_id) {
-            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, true);
+            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, $thread->type, $created_comment->mention_id, true);
         } else {
-            $this->addCommentNotification($created_comment->id, $thread->user_id);
+            $this->addCommentNotification($created_comment->id, $thread->user_id, $thread->type, $created_comment->mention_id);
         }
+        Log::info('sdsd', array($created_comment));
 
         if ($created_comment->comment_id) {
             $data = [
@@ -70,21 +71,32 @@ class CommentController extends Controller implements HasMedia
             return InertiaResponse::back($data);
         }
     }
-    protected function addCommentNotification($comment_id, $user_id, $is_reply = false )
+    protected function addCommentNotification($comment_id, $user_id, $thread_type, $reply_to, $is_reply = false )
     {
         if ($is_reply && $comment_id) {
-            Notification::create([
-                'type' => 'reply',
-                'user_id' => $user_id,
-                'comment_id' => $comment_id,
-                'notification_maker_id' => auth()->id()
-            ]);
+            if ($user_id !== $reply_to) {
+                Notification::create([
+                    'type' => 'reply',
+                    'user_id' => $user_id,
+                    'comment_id' => $comment_id,
+                    'notification_maker_id' => auth()->id()
+                ]);
+            }
+            if ($reply_to !== auth()->id()) {
+                Notification::create([
+                    'type' => 'reply',
+                    'user_id' => $reply_to,
+                    'comment_id' => $comment_id,
+                    'notification_maker_id' => auth()->id()
+                ]);
+            }
+
         } else {
             Notification::create([
-                'type' => 'comment',
+                'type' => $thread_type === 'question' && !$is_reply ? 'answer' : 'comment',
                 'user_id' => $user_id,
                 'comment_id' => $comment_id,
-                'notification_maker_id' => auth()->id()
+                'notification_maker_id' => auth()->id(),
             ]);
         }
     }
