@@ -60,9 +60,12 @@ function Master({children}) {
                                     href={`/notifications`}
                                     className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer relative`}>
                                     <IoNotificationsOutline />
-                                    <span className={`absolute text-xs bg-[--theme-primary-button-color] ${notificationsCount < 10 ? 'size-4' : 'size-5'} flex justify-center items-center rounded-full top-0 left-4`}>
-                                        {notificationsCount}
-                                    </span>
+                                    {notificationsCount > 0 &&
+                                        <span
+                                            className={`absolute text-xs bg-[--theme-primary-button-color] ${notificationsCount < 10 ? 'size-4' : 'size-5'} flex justify-center items-center rounded-full top-0 left-4`}>
+                                            {notificationsCount}
+                                        </span>
+                                    }
                                 </Link>
                             </div>
 

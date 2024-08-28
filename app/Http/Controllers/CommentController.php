@@ -90,9 +90,11 @@ class CommentController extends Controller implements HasMedia
     }
     protected function addVotingCommentNotification($type, $comment_id, $comment_user_id = null): void
     {
+        Log::info('sd', array($comment_id));
         $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
         $notification_exists = Notification::where('type', $vote_type)
             ->where('user_id', $comment_user_id)
+            ->where('notification_maker_id', auth()->id())
             ->where('comment_id', $comment_id)
             ->exists();
         if (!$notification_exists) {

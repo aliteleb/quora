@@ -39,24 +39,39 @@ class ThreadController extends Controller implements HasMedia
             $thread->addMediaFromRequest('video')->toMediaCollection('threads_videos');
         }
 
-        $this->addThreadNotification($request->input('type'), $thread->id);
+        $this->addThreadNotification($request->input('type'), $thread->id, $thread->type);
     }
 
-    protected function addThreadNotification($type, $thread_id, $add_type = '', $thread_user_id = null): void
+    protected function addThreadNotification($type, $thread_id, $thread_type, $add_type = '', $thread_user_id = null): void
     {
         if ($add_type === 'vote') {
             $vote_type = $type === 'up' ? 'up_vote' : 'down_vote';
-            $notification_exists = Notification::where('type', $vote_type)
-                ->where('user_id', $thread_user_id)
-                ->where('thread_id', $thread_id)
-                ->exists();
-            if (!$notification_exists) {
-                Notification::create([
-                    'type' => $vote_type,
-                    'user_id' => $thread_user_id,
-                    'thread_id' => $thread_id,
-                    'notification_maker_id' => auth()->id(),
-                ]);
+            if ($thread_type === 'question') {
+                $notification_exists = Notification::where('type', $vote_type)
+                    ->where('user_id', $thread_user_id)
+                    ->where('question_id', $thread_id)
+                    ->exists();
+                if (!$notification_exists) {
+                    Notification::create([
+                        'type' => $vote_type,
+                        'user_id' => $thread_user_id,
+                        'question_id' => $thread_id,
+                        'notification_maker_id' => auth()->id(),
+                    ]);
+                }
+            } else if ($thread_type === 'post'){
+                $notification_exists = Notification::where('type', $vote_type)
+                    ->where('user_id', $thread_user_id)
+                    ->where('post_id', $thread_id)
+                    ->exists();
+                if (!$notification_exists) {
+                    Notification::create([
+                        'type' => $vote_type,
+                        'user_id' => $thread_user_id,
+                        'post_id' => $thread_id,
+                        'notification_maker_id' => auth()->id(),
+                    ]);
+                }
             }
 
         } else {
@@ -128,7 +143,7 @@ class ThreadController extends Controller implements HasMedia
                 }
             }
             $thread_user_id = User::find($thread->user_id)->id;
-            $this->addThreadNotification($vote_type, $thread->id, 'vote', $thread_user_id);
+            $this->addThreadNotification($vote_type, $thread->id, $thread->type, 'vote', $thread_user_id);
         }
 
         if ($thread) {
