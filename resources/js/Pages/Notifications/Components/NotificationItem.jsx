@@ -24,7 +24,8 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
         if (type === 'comment') return 'بالتعليق على ';
         if (type === 'answer' && comment_id) return 'بالإجابة على ';
         if (type === 'post') return 'بنشر منشور ';
-        if (type === 'reply' && comment_id || !reply_to_comment) return 'بالرد على ';
+        if (type === 'reply' && (comment_id || !reply_to_comment)) return 'بالرد على ';
+        if (type === 'follow') return 'بمتابعتك.'
     };
 
     const getTargetMessage = (notification) => {

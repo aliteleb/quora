@@ -9,6 +9,7 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\ThreadResource;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
+use App\Models\Notification;
 use App\Models\Thread;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -21,18 +22,23 @@ class UserController extends Controller implements HasMedia
     use InteractsWithMedia;
     public function follow($type, $id)
     {
-        $follower = User::find($id);
-        $follower = new UserResource($follower);
+        $followed_user = User::find($id);
+        $followed_user = new UserResource($followed_user);
         $user = auth()->user();
 
         if ($type !== 'unfollow') {
             $user->followerUser()->syncWithoutDetaching($id);
+            Notification::create([
+                'type' => 'follow',
+                'user_id' => $followed_user->id,
+                'notification_maker_id' => $user->id,
+            ]);
         } else {
             $user->followerUser()->detach($id);
         }
 
         $data = [
-          'user' => $follower
+          'user' => $followed_user
         ];
 
         return InertiaResponse::back($data);
