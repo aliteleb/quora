@@ -62,7 +62,7 @@ export default function Sidebar({getNotifications}) {
                 </button>
                 <button
                     onClick={(e) => {
-
+                        getNotifications('/notifications/reactions', 'reactions_notifications')
                         handleClick(e)
                     }}
                     value={labels.reactions}
@@ -71,7 +71,7 @@ export default function Sidebar({getNotifications}) {
                 </button>
                 <button
                     onClick={(e) => {
-
+                        getNotifications('/notifications/comments', 'comments_notifications')
                         handleClick(e)
                     }}
                     value={labels.comments}
