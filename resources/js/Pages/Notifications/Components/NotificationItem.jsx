@@ -3,7 +3,7 @@ import {IoCheckmarkDone} from "react-icons/io5";
 
 const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
     const getNotificationMessage = (notification) => {
-        const { type, comment_id, post_id, question_id, is_answer, reply_to_comment } = notification;
+        const { type, comment_id, reply_to_comment } = notification;
 
         if (type === 'up_vote') return 'بتأييد ';
         if (type === 'down_vote') return 'بالإعتراض على ';
@@ -11,18 +11,19 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
         if (type === 'comment') return 'بالتعليق على ';
         if (type === 'answer' && comment_id) return 'بالإجابة على ';
         if (type === 'post') return 'بنشر منشور ';
-        if (type === 'reply' && comment_id && !reply_to_comment) return 'بالرد على ';
+        if (type === 'reply' && comment_id || !reply_to_comment) return 'بالرد على ';
     };
 
     const getTargetMessage = (notification) => {
         const { type, comment_id, post_id, question_id, is_answer, reply_to_comment } = notification;
 
         if (type === 'reply' && comment_id && !reply_to_comment) return 'تعليقك.';
-        if (type === 'reply' && reply_to_comment) return 'تعليق على منشورك.';
-        if (type === 'comment' && post_id) return 'منشورك.';
-        if (type === 'answer' && comment_id) return 'سؤالك.';
-        if (type === 'down_vote' && question_id) return 'إجابتك.';
-        if ((type === 'up_vote' || type === 'down_vote') && !is_answer) return 'تعليقك.';
+        if (type === 'reply' && reply_to_comment && post_id) return 'تعليق على منشورك.';
+        if (type === 'reply' && reply_to_comment && !question_id) return 'إجابة على سؤالك.';
+        if ((type === 'comment' || type === 'up_vote' || type === 'down_vote') && post_id && !is_answer) return 'منشورك.';
+        if ((type === 'up_vote' || type === 'down_vote' || comment_id) && (!is_answer && question_id) || type === 'answer') return 'سؤالك.';
+        if ((type === 'down_vote' || type === 'up_vote') && question_id && is_answer) return 'إجابتك.';
+        if ((type === 'up_vote' || type === 'down_vote') && !is_answer && comment_id) return 'تعليقك.';
     };
 
     return (
