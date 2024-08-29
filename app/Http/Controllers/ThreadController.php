@@ -148,7 +148,7 @@ class ThreadController extends Controller implements HasMedia
                 }
             }
             $thread_user_id = User::find($thread->user_id)->id;
-            $this->addThreadNotification($vote_type, $thread->id, $thread->type, 'vote', $thread_user_id);
+            $this->addThreadNotification($vote_type, $thread->id, $thread->type, $thread->visibility, 'vote', $thread_user_id);
         }
 
         if ($thread) {

@@ -195,14 +195,14 @@ export default function ShowSpace() {
             <img
                 src={space?.media?.cover ? space?.media?.cover : '/spaces/space_cover_default_image_space_page.webp'}
                 alt="space-blur-cover"
-                className={`h-[27rem] w-full blur-lg absolute`}
+                className={`h-[27rem] w-full blur-lg absolute object-cover`}
             />
             <div className={`flex flex-col container max-w-screen-xl mx-auto rounded z-10 relative`}>
                 <div className={`relative`}>
                     <img
                         src={space?.media?.cover ? space?.media?.cover : '/spaces/space_cover_default_image_space_page.webp'}
                         alt="space-cover"
-                        className={`h-[14rem] w-full rounded-b-xl`}
+                        className={`h-[14rem] w-full rounded-b-xl object-cover`}
                     />
                     <img
                         src={space?.media?.poster ? space?.media?.poster : '/spaces/space_default_image.webp'}

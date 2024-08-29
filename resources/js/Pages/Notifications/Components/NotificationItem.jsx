@@ -19,8 +19,8 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
 
         if (type === 'reply' && comment_id && !reply_to_comment) return 'تعليقك.';
         if (type === 'reply' && reply_to_comment && post_id) return 'تعليق على منشورك.';
-        if (type === 'reply' && reply_to_comment && !question_id) return 'إجابة على سؤالك.';
-        if ((type === 'comment' || type === 'up_vote' || type === 'down_vote') && post_id && !is_answer) return 'منشورك.';
+        if (type === 'reply' && reply_to_comment && question_id) return 'إجابة على سؤالك.';
+        if ((type === 'up_vote' || type === 'down_vote') && !comment_id && !question_id && !is_answer || (comment_id && type === 'comment')) return 'منشورك.';
         if ((type === 'up_vote' || type === 'down_vote' || comment_id) && (!is_answer && question_id) || type === 'answer') return 'سؤالك.';
         if ((type === 'down_vote' || type === 'up_vote') && question_id && is_answer) return 'إجابتك.';
         if ((type === 'up_vote' || type === 'down_vote') && !is_answer && comment_id) return 'تعليقك.';

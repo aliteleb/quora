@@ -141,7 +141,7 @@ export default function Header({isActive, setIsActive, threads, setThreads, setT
                 <img
                     src={userInfo?.avatar ? userInfo?.avatar : '/profile-default-svgrepo-com.svg'}
                     alt="avatat"
-                    className={`size-32 rounded-full object-cover`}
+                    className={`size-32 rounded-full`}
                 />
 
                 <div className={`flex flex-col gap-y-2 w-full`}>
