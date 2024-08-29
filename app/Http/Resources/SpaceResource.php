@@ -23,7 +23,7 @@ class SpaceResource extends JsonResource
 
         $media = [];
 
-        $media['poster'] = $space_image !== "" ? $space_image : null;
+        $media['avatar'] = $space_image !== "" ? $space_image : null;
         $media['cover'] = $space_cover_image !== "" ? $space_cover_image : null;
 
         $is_followed = false;

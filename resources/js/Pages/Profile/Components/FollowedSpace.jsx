@@ -32,7 +32,7 @@ export default function FollowedSpace({space, img_style, can_follow = false}) {
     return (
         <div className={`flex justify-between gap-x-3`}>
             <div className={`flex gap-x-3`}>
-                {!space.media?.poster &&
+                {!space.media?.avatar &&
                     <Link href={`/spaces/${space.slug}`}>
                         <img
                             src="/spaces/space_default_image.webp"
@@ -41,10 +41,10 @@ export default function FollowedSpace({space, img_style, can_follow = false}) {
                         />
                     </Link>
                 }
-                {space.media?.poster &&
+                {space.media?.avatar &&
                     <Link href={`/spaces/${space.slug}`}>
                         <img
-                            src={space.media?.poster}
+                            src={space.media?.avatar}
                             alt="followed-space"
                             className={`size-10 rounded-2xl ${img_style}`}
                         />
