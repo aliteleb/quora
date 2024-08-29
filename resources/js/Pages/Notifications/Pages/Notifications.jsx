@@ -35,7 +35,6 @@ export default function Notifications() {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    console.log(dataKey)
                     setAllNotifications(prevNotifications => [...prevNotifications, ...res.props[dataKey]?.data]);
                     setAllNotificationsNextPageUrl(res.props[dataKey]?.links.next);
                     setIsFetching(false)

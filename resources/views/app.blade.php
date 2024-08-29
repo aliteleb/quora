@@ -23,6 +23,7 @@
                 --theme-react-select-error-color: {{ settings('theme-react-select-error-color', '#ef4444') }};
                 --theme-space-owner-main-color: {{ settings('theme-space-owner-main-color', '#D17078') }};
                 --theme-select-space-border-color: {{ settings('theme-select-space-border-color', '#393839') }};
+                --theme-unread_notification_bg: {{ settings('theme-unread_notification_bg', '#28456563') }};
             }
 
         </style>

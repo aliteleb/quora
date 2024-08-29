@@ -3,6 +3,7 @@ import {IoCheckmarkDone} from "react-icons/io5";
 import {HiMiniHandThumbDown} from "react-icons/hi2";
 import {AiFillDislike, AiFillLike} from "react-icons/ai";
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from "react-icons/fa";
+import {Link} from "@inertiajs/react";
 
 const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
 
@@ -49,7 +50,7 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
     };
 
     return (
-        <div ref={ref} className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-nav-bg-color-hover] p-4 shadow-md rounded-lg`}>
+        <Link href={`/notifications/`} ref={ref} className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-unread_notification_bg] p-4 shadow-md rounded-lg`}>
             <div className={`flex items-center gap-x-3`}>
                 <img
                     src={notification.notification_maker.avatar ? notification.notification_maker.avatar : '/profile-default-svgrepo-com.svg'}
@@ -75,10 +76,10 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
                 >
                     <IoCheckmarkDone size={24} />
                 </button>
-                <div className="text-xs text-gray-400">11 يناير 2024</div>
+                <div className="text-xs text-gray-400">{notification.created_at}</div>
             </div>
 
-        </div>
+        </Link>
     );
 })
 

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,7 @@ class NotificationResource extends JsonResource
             'notification_maker' => new UserResource($notification_maker),
             'reply_to_comment' => $this->reply_to_comment === 1,
             'is_answer' => $this->is_answer === 1,
+            'created_at' => Carbon::make($this->created_at)->locale('ar')->translatedFormat('d F Y')
         ];
     }
 }
