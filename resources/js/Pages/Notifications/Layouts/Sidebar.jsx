@@ -1,14 +1,6 @@
 import React, {useState} from 'react'
 
-export default function Sidebar({getNotifications}) {
-
-    const [isActive, setIsActive] = useState({
-        all: true,
-        questions: false,
-        posts: false,
-        reactions: false,
-        comments: false,
-    });
+export default function Sidebar({isActive, setIsActive, getNotifications}) {
 
     const labels = {
         all: 'all',

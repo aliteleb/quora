@@ -8,6 +8,13 @@ import NotificationItem from "@/Pages/Notifications/Components/NotificationItem.
 export default function Notifications() {
 
     const { props } = usePage()
+    const [isActive, setIsActive] = useState({
+        all: true,
+        questions: false,
+        posts: false,
+        reactions: false,
+        comments: false,
+    });
     const [allNotifications, setAllNotifications] = useState(props.all_notifications?.data);
     const [allNotificationsNextPageUrl, setAllNotificationsNextPageUrl] = useState(props.all_notifications?.links.next);
     const [isFetching, setIsFetching] = useState(false);
@@ -21,15 +28,16 @@ export default function Notifications() {
         />
     ))
 
-    const loadMoreNotifications = (pageUrl) => {
+    const loadMoreNotifications = (pageUrl, dataKey) => {
         if (pageUrl && !isFetching) {
             setIsFetching(true)
             router.get(pageUrl, {}, {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    setAllNotifications(prevNotifications => [...prevNotifications, ...res.props.all_notifications?.data]);
-                    setAllNotificationsNextPageUrl(res.props.all_notifications?.links.next);
+                    console.log(dataKey)
+                    setAllNotifications(prevNotifications => [...prevNotifications, ...res.props[dataKey]?.data]);
+                    setAllNotificationsNextPageUrl(res.props[dataKey]?.links.next);
                     setIsFetching(false)
                 },
             });
@@ -39,7 +47,18 @@ export default function Notifications() {
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isFetching) {
-                loadMoreNotifications(allNotificationsNextPageUrl);
+                if (isActive.questions) {
+                    loadMoreNotifications(allNotificationsNextPageUrl, 'questions_notifications');
+                } else if (isActive.posts) {
+                    loadMoreNotifications(allNotificationsNextPageUrl, 'posts_notifications');
+                } else if (isActive.reactions) {
+                    loadMoreNotifications(allNotificationsNextPageUrl, 'reactions_notifications');
+                } else if (isActive.comments) {
+                    loadMoreNotifications(allNotificationsNextPageUrl, 'comments_notifications');
+                } else {
+                    loadMoreNotifications(allNotificationsNextPageUrl, 'all_notifications');
+                }
+
             }
         }, {
             threshold: 0.5 // Trigger when 50% of the last thread is visible
@@ -63,8 +82,8 @@ export default function Notifications() {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                setAllNotifications(res.props[dataKey].data)
-                setAllNotificationsNextPageUrl(res.props[dataKey].links.next)
+                setAllNotifications(res.props[dataKey]?.data)
+                setAllNotificationsNextPageUrl(res.props[dataKey]?.links.next)
             }
         })
     }
@@ -74,6 +93,8 @@ export default function Notifications() {
             <Head title='الاشعارات' />
             <div className={`container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2 flex`}>
                 <Sidebar
+                    setIsActive={setIsActive}
+                    isActive={isActive}
                     getNotifications={getNotifications}
                 />
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
