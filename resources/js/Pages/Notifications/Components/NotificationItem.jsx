@@ -49,8 +49,14 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
         );
     };
 
+    const Wrapper = notification.type === 'follow' ? 'div' : Link;
+
     return (
-        <Link href={`/notifications/`} ref={ref} className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-unread_notification_bg] p-4 shadow-md rounded-lg`}>
+        <Wrapper
+            {...(notification.type !== 'follow' && { href: `/notifications/` })}
+            ref={ref}
+            className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-unread_notification_bg] p-4 shadow-md rounded-lg`}
+        >
             <div className={`flex items-center gap-x-3`}>
                 <img
                     src={notification.notification_maker.avatar ? notification.notification_maker.avatar : '/profile-default-svgrepo-com.svg'}
@@ -64,14 +70,12 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
                         <span className={`font-semibold`}>{` ${notification.notification_maker.name} `}</span>
                         {getNotificationMessage(notification)}
                         {getTargetMessage(notification)}
-
                     </span>
                 </div>
             </div>
 
             <div className={`flex flex-col items-center gap-y-1`}>
                 <button
-                    // onClick={onMarkAsRead}
                     className="text-green-500 hover:text-green-600 transition duration-200"
                 >
                     <IoCheckmarkDone size={24} />
@@ -79,7 +83,7 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
                 <div className="text-xs text-gray-400">{notification.created_at}</div>
             </div>
 
-        </Link>
+        </Wrapper>
     );
 })
 

@@ -27,6 +27,7 @@ class NotificationResource extends JsonResource
             'notification_maker' => new UserResource($notification_maker),
             'reply_to_comment' => $this->reply_to_comment === 1,
             'is_answer' => $this->is_answer === 1,
+            'thread_slug' => $this->thread_slug,
             'created_at' => Carbon::make($this->created_at)->locale('ar')->translatedFormat('d F Y')
         ];
     }
