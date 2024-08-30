@@ -58,6 +58,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
     Route::get('/notifications/posts', [NotificationController::class, 'getNotificationsPosts'])->name('notification.posts');
     Route::get('/notifications/reactions', [NotificationController::class, 'getNotificationsReactions'])->name('notification.reactions');
     Route::get('/notifications/comments', [NotificationController::class, 'getNotificationsComments'])->name('notification.comments');
+    Route::post('/notifications/{id}', [NotificationController::class, 'markAsRead'])->name('notification.mark');
 });
 
 

@@ -24,6 +24,7 @@ class NotificationResource extends JsonResource
             'question_id' => $this->question_id,
             'post_id' => $this->post_id,
             'comment_id' => $this->comment_id,
+            'is_read' => $this->is_read,
             'notification_maker' => new UserResource($notification_maker),
             'reply_to_comment' => $this->reply_to_comment === 1,
             'is_answer' => $this->is_answer === 1,

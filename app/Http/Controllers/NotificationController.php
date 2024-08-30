@@ -17,7 +17,6 @@ class NotificationController extends Controller
     {
         $user_created_spaces = $this->getUserSpaces();
         $all_notifications = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
             ->orderBy('created_at', 'desc')
             ->paginate(15);
         $all_notifications = NotificationResource::collection($all_notifications);
@@ -31,7 +30,6 @@ class NotificationController extends Controller
     public function getNotificationsQuestions(): RedirectResponse
     {
         $questions_notifications = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
             ->whereNotNull('question_id')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -46,7 +44,6 @@ class NotificationController extends Controller
     public function getNotificationsPosts(): RedirectResponse
     {
         $posts_notifications = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
             ->whereNotIn('type', ['reply', 'comment'])
             ->whereNotNull('post_id')
             ->whereNull('comment_id')
@@ -63,7 +60,6 @@ class NotificationController extends Controller
     public function getNotificationsReactions(): RedirectResponse
     {
         $reactions_notifications = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
             ->whereIn('type', ['up_vote', 'down_vote'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -78,7 +74,6 @@ class NotificationController extends Controller
     public function getNotificationsComments(): RedirectResponse
     {
         $comments_notifications = Notification::where('user_id', auth()->id())
-            ->where('is_read', false)
             ->whereIn('type', ['reply', 'comment', 'answer'])
             ->orderBy('created_at', 'desc')
             ->paginate(15);
@@ -88,6 +83,19 @@ class NotificationController extends Controller
             'comments_notifications' => $comments_notifications
         ];
 
+        return InertiaResponse::back($data);
+    }
+    public function markAsRead($id)
+    {
+        $notification = Notification::find($id);
+        if (!$notification) {
+            return InertiaResponse::error(['error' => 'تعذر العثور على الإشعار.']);
+        }
+        $notification->is_read = true;
+        $notification->update();
+        $data = [
+            'notification' => new NotificationResource($notification),
+        ];
         return InertiaResponse::back($data);
     }
 }

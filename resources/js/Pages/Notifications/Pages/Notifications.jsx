@@ -26,6 +26,8 @@ export default function Notifications() {
             key={index}
             notification={notification}
             ref={index === allNotifications.length - 1 ? lastNotificationRef : null}
+            allNotifications={allNotifications}
+            setAllNotifications={setAllNotifications}
         />
     ))
 

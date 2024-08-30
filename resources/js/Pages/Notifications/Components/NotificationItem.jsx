@@ -1,11 +1,13 @@
-import React, {forwardRef} from 'react'
+import React, {forwardRef, useEffect, useState} from 'react'
 import {IoCheckmarkDone} from "react-icons/io5";
 import {HiMiniHandThumbDown} from "react-icons/hi2";
 import {AiFillDislike, AiFillLike} from "react-icons/ai";
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from "react-icons/fa";
-import {Link} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 
-const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
+const NotificationItem = forwardRef(({notification, custom_styles, allNotifications, setAllNotifications}, ref) => {
+
+    const [isLinkActive, setIsLinkActive] = useState(true);
 
     const loadIconAfterMsg = (type ,msg) => {
         return (
@@ -49,25 +51,46 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
         );
     };
 
-    const Wrapper = notification.type === 'follow' ? 'div' : Link;
+    const markAsRead = () => {
+        router.post(`/notifications/${notification.id}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                const updatedNotification = res.props.notification?.data
+                let outDatedNotificationIndex = null
+
+                let filteredNotifications = allNotifications.filter((notificationItem, index) => {
+                    if (notificationItem.id === updatedNotification.id) {
+                        outDatedNotificationIndex = index
+                    }
+                    return notificationItem.id !== updatedNotification.id
+                })
+                filteredNotifications.splice(outDatedNotificationIndex, 0, updatedNotification)
+                setAllNotifications(filteredNotifications)
+                console.log('index', outDatedNotificationIndex, 'filtered', filteredNotifications, updatedNotification)
+            }
+        })
+    }
+
+    const Wrapper = notification.type === 'follow' || !isLinkActive ? 'div' : Link;
 
     return (
         <Wrapper
-            {...(notification.type !== 'follow' && { href: `/threads/show/${notification.thread_slug}` })}
+            {...(isLinkActive && notification.type !== 'follow' && { href: `/threads/show/${notification.thread_slug}` })}
             ref={ref}
-            className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-unread_notification_bg] p-4 shadow-md rounded-lg`}
+            className={`${custom_styles} w-full flex items-center justify-between ${notification.is_read ? 'bg-[--theme-main-bg-color]' : 'bg-[--theme-unread_notification_bg]'} p-4 shadow-md rounded-lg`}
         >
-            <div className={`flex items-center gap-x-3`}>
+            <div className="flex items-center gap-x-3">
                 <img
                     src={notification.notification_maker.avatar ? notification.notification_maker.avatar : '/profile-default-svgrepo-com.svg'}
-                    alt={`avatar`}
+                    alt="avatar"
                     className="w-12 h-12 rounded-full"
                 />
 
                 <div className="flex-grow">
-                    <span className={`flex gap-x-1 flex-wrap`}>
+                    <span className="flex gap-x-1 flex-wrap">
                         قام
-                        <span className={`font-semibold`}>{` ${notification.notification_maker.name} `}</span>
+                        <span className="font-semibold">{` ${notification.notification_maker.name} `}</span>
                         <span className="flex gap-x-1">
                             {getNotificationMessage(notification)}
                             {getTargetMessage(notification)}
@@ -77,9 +100,15 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
 
             </div>
 
-            <div className={`flex flex-col items-center gap-y-1`}>
+            <div className="flex flex-col items-center gap-y-1">
                 <button
-                    className="text-green-500 hover:text-green-600 transition duration-200"
+                    onMouseEnter={() => setIsLinkActive(false)}
+                    onMouseLeave={() => setIsLinkActive(true)}
+                    onClick={(e) => {
+                        e.stopPropagation(); // Prevent navigation
+                        markAsRead();
+                    }}
+                    className={`${notification.is_read ? '' : 'text-green-500'}  hover:text-green-600 transition duration-200`}
                 >
                     <IoCheckmarkDone size={24} />
                 </button>
