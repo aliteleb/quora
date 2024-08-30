@@ -74,7 +74,7 @@ Route::get('/users/{id}/{section}/{type}', [UserController::class, 'callFilterTh
 Route::get('/profile/answers/{id}/{type}', [UserController::class, 'getAnswers'])->name('getAnswers');
 Route::get('/get-comments', [CommentController::class, 'getComments'])->name('getComments');
 Route::get('/threads/questions', [ThreadController::class, 'getQuestions'])->name('thread.questions');
-
+Route::get('/threads/show/{slug}', [ThreadController::class, 'showThread'])->name('thread.show');
 
 Route::middleware(RedirectWhenAuthenticated::class)->group(function () {
     Route::get('/account', [AuthController::class, 'index'])->name('account');

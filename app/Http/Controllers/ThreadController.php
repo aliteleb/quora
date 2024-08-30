@@ -247,7 +247,6 @@ class ThreadController extends Controller implements HasMedia
             }
         }
     }
-
     public function getQuestions()
     {
         $questions = Thread::where('user_id', '!=', auth()->id())
@@ -261,5 +260,14 @@ class ThreadController extends Controller implements HasMedia
 
         return InertiaResponse::render('Questions/Pages/Questions', $data);
     }
+    public function showThread($slug)
+    {
+        $thread = Thread::where('slug', $slug)->first();
+        $thread = new ThreadResource($thread);
+        $data = [
+            'thread' => $thread
+        ];
 
+        return InertiaResponse::render('ShowThread/Pages/ShowThread', $data);
+    }
 }

@@ -53,7 +53,7 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
 
     return (
         <Wrapper
-            {...(notification.type !== 'follow' && { href: `/notifications/` })}
+            {...(notification.type !== 'follow' && { href: `/threads/show/${notification.thread_slug}` })}
             ref={ref}
             className={`${custom_styles} w-full flex items-center justify-between bg-[--theme-unread_notification_bg] p-4 shadow-md rounded-lg`}
         >
