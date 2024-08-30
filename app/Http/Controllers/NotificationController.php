@@ -93,8 +93,10 @@ class NotificationController extends Controller
         }
         $notification->is_read = true;
         $notification->update();
+        $notifications_count = Notification::where('user_id', auth()->id())->where('is_read', false)->count();
         $data = [
             'notification' => new NotificationResource($notification),
+            'notifications_count' => $notifications_count,
         ];
         return InertiaResponse::back($data);
     }

@@ -16,13 +16,10 @@ import SearchInput from "@/Components/SearchInput.jsx";
 
 function Master({children}) {
 
-    const {settings, user, setIsSpaceModalOpen, isSpaceModalOpen, setIsCreatThreadModalOpen} = useApp()
-    const { props } = usePage()
+    const {settings, user, setIsSpaceModalOpen, isSpaceModalOpen, setIsCreatThreadModalOpen, notificationsCount, setNotificationsCount} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
-    const [notificationsCount, setNotificationsCount] = useState(props.notifications_count);
-
 
     const redirectToLogin =  useCallback(() => {
         window.location = '/account'

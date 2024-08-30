@@ -1,4 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
+import {usePage} from "@inertiajs/react";
 
 const AppContext = createContext(null);
 
@@ -10,6 +11,7 @@ const AppProvider = ({children}) => {
     const [isCreatThreadModalOpen, setIsCreatThreadModalOpen] = useState(false)
     const [isSpaceModalOpen, setIsSpaceModalOpen] = useState(false)
     const [isPostActive, setIsPostActive] = useState(false)
+    const [notificationsCount, setNotificationsCount] = useState(null);
     const setSettings = (newState) => {
         setAppInfo(prevState => ({
             ...prevState,
@@ -34,6 +36,8 @@ const AppProvider = ({children}) => {
                 setIsCreatThreadModalOpen,
                 isSpaceModalOpen,
                 setIsSpaceModalOpen,
+                notificationsCount,
+                setNotificationsCount,
 
                 isPostActive,
                 setIsPostActive,

@@ -104,7 +104,7 @@ export default function Notifications() {
                     <div className={`relative`}>
                         <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3`}>الإشعارات</h1>
                         <Button
-                            content={`قم بتعليم الجميع كمقروء`}
+                            content={`قراءة الكل`}
                             custom_styles={`absolute top-0 left-0 w-max`}
                         />
                     </div>

@@ -4,10 +4,14 @@ import {HiMiniHandThumbDown} from "react-icons/hi2";
 import {AiFillDislike, AiFillLike} from "react-icons/ai";
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from "react-icons/fa";
 import {Link, router} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 const NotificationItem = forwardRef(({notification, custom_styles, allNotifications, setAllNotifications}, ref) => {
 
+    const { setNotificationsCount } = useApp()
     const [isLinkActive, setIsLinkActive] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const loadIconAfterMsg = (type ,msg) => {
         return (
@@ -52,6 +56,7 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
     };
 
     const markAsRead = () => {
+        setIsLoading(true)
         router.post(`/notifications/${notification.id}`, {}, {
             preserveScroll: true,
             preserveState: true,
@@ -67,7 +72,8 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
                 })
                 filteredNotifications.splice(outDatedNotificationIndex, 0, updatedNotification)
                 setAllNotifications(filteredNotifications)
-                console.log('index', outDatedNotificationIndex, 'filtered', filteredNotifications, updatedNotification)
+                setNotificationsCount(res.props.notifications_count)
+                setIsLoading(false)
             }
         })
     }
@@ -102,11 +108,12 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
 
             <div className="flex flex-col items-center gap-y-1">
                 <button
+                    disabled={isLoading}
                     onMouseEnter={() => setIsLinkActive(false)}
                     onMouseLeave={() => setIsLinkActive(true)}
                     onClick={(e) => {
                         e.stopPropagation(); // Prevent navigation
-                        markAsRead();
+                        !notification.is_read && markAsRead();
                     }}
                     className={`${notification.is_read ? '' : 'text-green-500'}  hover:text-green-600 transition duration-200`}
                 >
