@@ -65,13 +65,16 @@ const NotificationItem = forwardRef(({notification, custom_styles}, ref) => {
                 />
 
                 <div className="flex-grow">
-                    <span className={`flex gap-x-1`}>
+                    <span className={`flex gap-x-1 flex-wrap`}>
                         قام
                         <span className={`font-semibold`}>{` ${notification.notification_maker.name} `}</span>
-                        {getNotificationMessage(notification)}
-                        {getTargetMessage(notification)}
+                        <span className="flex gap-x-1">
+                            {getNotificationMessage(notification)}
+                            {getTargetMessage(notification)}
+                        </span>
                     </span>
                 </div>
+
             </div>
 
             <div className={`flex flex-col items-center gap-y-1`}>

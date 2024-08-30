@@ -4,6 +4,7 @@ import {Head, router, usePage} from "@inertiajs/react";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
 import Sidebar from "@/Pages/Notifications/Layouts/Sidebar.jsx";
 import NotificationItem from "@/Pages/Notifications/Components/NotificationItem.jsx";
+import Button from "@/Core/Button.jsx";
 
 export default function Notifications() {
 
@@ -97,8 +98,14 @@ export default function Notifications() {
                     getNotifications={getNotifications}
                 />
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
-                <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-2`}>
-                    <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3 w-full`}>الإشعارات</h1>
+                <div className={`lg:w-[750px] w-full flex flex-col gap-y-2 py-2 pb-16 sm:pb-2`}>
+                    <div className={`relative`}>
+                        <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3`}>الإشعارات</h1>
+                        <Button
+                            content={`قم بتعليم الجميع كمقروء`}
+                            custom_styles={`absolute top-0 left-0 w-max`}
+                        />
+                    </div>
                     {show_all_notifications}
                 </div>
                 <div className={`relative w-[50%] lg:w-[30%] hidden md:block`}>
