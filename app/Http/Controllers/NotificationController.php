@@ -7,6 +7,7 @@ use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
 use App\Traits\GetUserSpaces;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Inertia\Response;
 
 
@@ -100,4 +101,29 @@ class NotificationController extends Controller
         ];
         return InertiaResponse::back($data);
     }
+    public function markAllAsRead()
+    {
+        Log::info('sd');
+
+        Notification::where('user_id', auth()->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+        $all_notifications = Notification::where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->paginate(15);
+
+        $all_notifications = NotificationResource::collection($all_notifications);
+        $notifications_count = Notification::where('user_id', auth()->id())
+            ->where('is_read', false)
+            ->count();
+
+        $data = [
+            'all_notifications' => $all_notifications,
+            'notifications_count' => $notifications_count,
+        ];
+
+        return InertiaResponse::back($data);
+    }
+
 }

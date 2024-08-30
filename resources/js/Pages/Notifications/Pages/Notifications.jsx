@@ -5,10 +5,12 @@ import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
 import Sidebar from "@/Pages/Notifications/Layouts/Sidebar.jsx";
 import NotificationItem from "@/Pages/Notifications/Components/NotificationItem.jsx";
 import Button from "@/Core/Button.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function Notifications() {
 
     const { props } = usePage()
+    const { setNotificationsCount } = useApp()
     const [isActive, setIsActive] = useState({
         all: true,
         questions: false,
@@ -19,6 +21,7 @@ export default function Notifications() {
     const [allNotifications, setAllNotifications] = useState(props.all_notifications?.data);
     const [allNotificationsNextPageUrl, setAllNotificationsNextPageUrl] = useState(props.all_notifications?.links.next);
     const [isFetching, setIsFetching] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const lastNotificationRef = useRef(null);
     const show_all_notifications = allNotifications?.map((notification, index) => (
@@ -90,6 +93,19 @@ export default function Notifications() {
         })
     }
 
+    const markAllAsRead = () => {
+        setIsLoading(true)
+        router.post('/notifications/mark-all-as-read', {}, {
+            preserveScroll: true,
+            preserveState: true,
+            onSuccess: (res) => {
+                setAllNotifications(res.props.all_notifications?.data)
+                setNotificationsCount(res.props.notifications_count)
+                setIsLoading(false)
+            }
+        })
+    }
+
     return (
         <Master>
             <Head title='الاشعارات' />
@@ -104,6 +120,8 @@ export default function Notifications() {
                     <div className={`relative`}>
                         <h1 className={`border-b border-[--theme-secondary-bg-color-hover] pb-3`}>الإشعارات</h1>
                         <Button
+                            disabled={isLoading}
+                            onClick={markAllAsRead}
                             content={`قراءة الكل`}
                             custom_styles={`absolute top-0 left-0 w-max`}
                         />

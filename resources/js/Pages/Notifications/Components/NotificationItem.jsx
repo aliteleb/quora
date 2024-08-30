@@ -57,7 +57,7 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
 
     const markAsRead = () => {
         setIsLoading(true)
-        router.post(`/notifications/${notification.id}`, {}, {
+        router.post(`/notifications/mark-as-read/${notification.id}`, {}, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
