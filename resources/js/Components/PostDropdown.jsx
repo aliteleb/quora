@@ -16,7 +16,7 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
     useEffect(() => {
         const handleClickOutside = (e) => {
             console.log(e.target.tagName)
-            if (!postsDropDownRef.current?.contains(e.target) && e.target.id !== "postDropdownID" && e.target.tagName !== 'svg' && e.target.tagName !== 'path') {
+            if (!postsDropDownRef.current?.contains(e.target) && e.target.id !== "postDropdownID") {
                 setIsPostDropdownOpen(false)
             }
         }

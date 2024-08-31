@@ -264,10 +264,12 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                     </div>
                 </div>
                 {!isAnswer &&
-                    <div onClick={() => setIsPostDropdownOpen(!isPostDropdownOpen)}
+                    <div onClick={() => {
+                        setIsPostDropdownOpen(!isPostDropdownOpen)
+                    }}
                          className={`relative h-fit cursor-pointer`}>
                         <div id={`postDropdownID`} className={`hover:bg-[--theme-nav-bg-color-hover] p-2 rounded-full`}>
-                            <RxDotsHorizontal className={`size-5`}/>
+                            <RxDotsHorizontal className={`size-5 pointer-events-none`}/>
                         </div>
                         {isPostDropdownOpen &&
                             <PostDropdown

@@ -55,7 +55,7 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
         );
     };
 
-    const markAsRead = () => {
+    const markAsRead = (e) => {
         setIsLoading(true)
         router.post(`/notifications/mark-as-read/${notification.id}`, {}, {
             preserveScroll: true,
@@ -112,7 +112,7 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
                     onMouseEnter={() => setIsLinkActive(false)}
                     onMouseLeave={() => setIsLinkActive(true)}
                     onClick={(e) => {
-                        e.stopPropagation(); // Prevent navigation
+                        e.stopPropagation()
                         !notification.is_read && markAsRead();
                     }}
                     className={`${notification.is_read ? '' : 'text-green-500'}  hover:text-green-600 transition duration-200`}
