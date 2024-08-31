@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import Master from "@/Layouts/Master.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
@@ -7,29 +7,45 @@ import {Head, Link, router, usePage, useRemember} from "@inertiajs/react";
 
 export default function Spaces() {
 
-    const {setIsSpaceModalOpen, user} = useApp()
+    const {setIsSpaceModalOpen, user, setPages, pages} = useApp()
     const {props} = usePage()
 
     const [spaces, setSpaces] = useState(null);
     const [nextPageUrl, setNextPageUrl] = useState('');
+
+    const storeData = (updatedSpaces, updatedNextPageUrl) => {
+        const data = {
+            spaces: {
+                spaces: updatedSpaces,
+                nextPageUrl: updatedNextPageUrl,
+            }
+        }
+        setPages(data)
+    }
 
     const getSpaces = (pageUrl) => {
         router.visit(pageUrl, {
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                setSpaces(prevState => ([
-                    ...prevState,
-                    ...res.props.data.spaces.data
-                ]))
-                setNextPageUrl(res.props.data.next_page_url)
+                setSpaces(prevState => {
+                    const updatedSpaces = [...prevState, ...res.props.data.spaces.data];
+                    setNextPageUrl(res.props.data.next_page_url);
+                    storeData(updatedSpaces, res.props.data.next_page_url);
+                    return updatedSpaces;
+                });
             }
         })
     }
 
     useEffect(() => {
-        setSpaces(props.data.spaces.data)
-        setNextPageUrl(props.data.next_page_url)
+        if (pages?.spaces) {
+            setSpaces(pages?.spaces.spaces)
+            setNextPageUrl(pages?.spaces.nextPageUrl)
+        } else {
+            setSpaces(props.data.spaces.data)
+            setNextPageUrl(props.data.next_page_url)
+        }
     }, []);
 
     const display_spaces = spaces?.map(space => (

@@ -205,7 +205,7 @@ export default function ShowSpace() {
                         className={`h-[14rem] w-full rounded-b-xl object-cover`}
                     />
                     <img
-                        src={space?.media?.poster ? space?.media?.poster : '/spaces/space_default_image.webp'}
+                        src={space?.media?.avatar ? space?.media?.avatar : '/spaces/space_default_image.webp'}
                         alt="space-poster"
                         className={`w-36 h-36 absolute right-8 sm:right-16 top-1/2 rounded-3xl`}
                     />

@@ -5,7 +5,8 @@ const AppContext = createContext(null);
 
 const AppProvider = ({children}) => {
     const [appInfo, setAppInfo] = useState({
-        settings: {}
+        settings: {},
+        pages: {},
     })
 
     const [isCreatThreadModalOpen, setIsCreatThreadModalOpen] = useState(false)
@@ -25,6 +26,12 @@ const AppProvider = ({children}) => {
             user: newState
         }))
     }
+    const setPages = (newState) => {
+        setAppInfo(prevState => ({
+            ...prevState,
+            pages: newState
+        }))
+    }
 
     return (
         <AppContext.Provider
@@ -38,6 +45,8 @@ const AppProvider = ({children}) => {
                 setIsSpaceModalOpen,
                 notificationsCount,
                 setNotificationsCount,
+                pages: appInfo.pages,
+                setPages: setPages,
 
                 isPostActive,
                 setIsPostActive,
