@@ -42,7 +42,9 @@ const Comment = forwardRef(({
 
     useEffect(() => {
         setReplies(comment?.replies)
-        setIsVoted(comment?.vote)
+        if (comment?.vote) {
+            setIsVoted(comment?.vote)
+        }
     }, [comment]);
 
     const show_replies = replies?.map((reply, index) => (

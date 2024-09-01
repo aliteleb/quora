@@ -17,7 +17,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
 
     const [thread, setThread] = useState(null);
     const [mainThread, setMainThread] = useState(passed_thread);
-    const [isVoted, setIsVoted] = useState();
+    const [isVoted, setIsVoted] = useState(null);
     const [voteUpCount, setVoteUpCount] = useState();
     const [voteDownCount, setVoteDownCount] = useState();
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
@@ -60,10 +60,12 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
 
 
     useEffect(() => {
-        if (isAnswer && mainThread?.vote) {
-            setIsVoted(mainThread?.vote.vote_type)
-        } else {
-            setIsVoted(mainThread?.vote)
+        if (mainThread?.vote) {
+            if (isAnswer && mainThread?.vote.vote_type) {
+                setIsVoted(mainThread?.vote.vote_type)
+            } else {
+                setIsVoted(mainThread?.vote)
+            }
         }
     }, [mainThread?.vote]);
 
@@ -248,9 +250,9 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                     <div>
                         <div className={`font-bold`}>
                             <Link href={`/profile/${isAnswer ? userInfo?.username : mainThread?.user?.username}`}
-                                  className={`cursor-pointer`}>{isAnswer ? userInfo?.name : mainThread?.user?.name} {user?.id !== userInfo?.id && `· `}
+                                  className={`cursor-pointer`}>{isAnswer ? userInfo?.name : mainThread?.user?.name} {user?.id !== thread?.user?.id && `· `}
                             </Link>
-                            {user?.id !== userInfo?.id &&
+                            {user?.id !== thread?.user?.id &&
                                 <button
                                     disabled={isFollowBtnDisabled}
                                     onClick={() => followUser(mainThread?.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}

@@ -17,7 +17,6 @@ class UserResource extends BaseResource
      */
     protected function resourceToArray(Request $request): array
     {
-//        $user = $this->id ? User::find($this->id) : null;
         $user = $this->resource;
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
 

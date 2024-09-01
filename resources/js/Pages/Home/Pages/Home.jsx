@@ -75,7 +75,7 @@ export default function Home() {
     }, [nextPaginationLink, isFetching]);
 
     return (
-        <Master>
+        <Master threads={threads} setThreads={setThreads}>
             <Head title='الرئيسية' />
             <div className={`flex container max-w-screen-xl mx-auto lg:gap-x-10 gap-x-3 px-2`}>
                 <Footer />

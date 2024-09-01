@@ -9,6 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Thread;
+use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -52,12 +53,14 @@ class CommentController extends Controller implements HasMedia
             $thread->all_answers_count++;
             $thread->save();
         }
-        if ($created_comment->comment_id) {
-            $this->addCommentNotification($created_comment->comment_id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id, true);
-        } else {
-            $this->addCommentNotification($created_comment->id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id);
+        $comment_user_id = User::find($created_comment->user_id)->id;
+        if ($comment_user_id !== auth()->id()) {
+            if ($created_comment->comment_id) {
+                $this->addCommentNotification($created_comment->comment_id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id, true);
+            } else {
+                $this->addCommentNotification($created_comment->id, $thread->user_id, $thread->type, $thread->id, $created_comment->mention_id);
+            }
         }
-        Log::info('sdsd', array($thread));
 
         if ($created_comment->comment_id) {
             $data = [
@@ -178,19 +181,16 @@ class CommentController extends Controller implements HasMedia
                     'comment_id' => $comment_id,
                 ]);
                 $comment = Comment::find($comment_id);
-                Log::info('answer', [
-                    'thread_id' => $request->thread_id,
-                    'type' => $thread->type
-                ]);
 
-                if ($request->thread_id && $thread->type === 'question') {
-                    Log::info('answer');
-                    $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,true, $comment->user_id);
-
-                } else {
-                    Log::info('reply');
-                    $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,false, $comment->user_id);
+                $comment_user_id = User::find($comment->user_id)->id;
+                if ($comment_user_id !== $user_id) {
+                    if ($request->thread_id && $thread->type === 'question') {
+                        $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,true, $comment->user_id);
+                    } else {
+                        $this->addVotingCommentNotification($vote_type, $thread->type, $thread->id, $comment_id,false, $comment->user_id);
+                    }
                 }
+
             }
         }
 

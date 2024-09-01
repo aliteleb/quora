@@ -44,6 +44,13 @@ class ThreadController extends Controller implements HasMedia
         } else {
             $this->addThreadNotification($request->input('type'), $thread->id, $thread->type, 'private');
         }
+
+        $data = [
+            'thread' => new ThreadResource($thread)
+        ];
+        if ($thread->visibility === 'public') {
+            return InertiaResponse::back($data);
+        }
     }
 
     protected function addThreadNotification($type, $thread_id, $thread_type, $visibility = null, $add_type = '', $thread_user_id = null): void
@@ -148,7 +155,9 @@ class ThreadController extends Controller implements HasMedia
                 }
             }
             $thread_user_id = User::find($thread->user_id)->id;
-            $this->addThreadNotification($vote_type, $thread->id, $thread->type, $thread->visibility, 'vote', $thread_user_id);
+            if ($thread_user_id !== auth()->id()) {
+                $this->addThreadNotification($vote_type, $thread->id, $thread->type, $thread->visibility, 'vote', $thread_user_id);
+            }
         }
 
         if ($thread) {

@@ -13,7 +13,7 @@ import SelectSpaces from "@/Components/SelectSpaces.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Button from "@/Core/Button.jsx";
 
-export default function CreateThreadModal() {
+export default function CreateThreadModal({threads, setThreads}) {
     const { isCreatThreadModalOpen, setIsCreatThreadModalOpen, isPostActive, setIsPostActive, user } = useApp();
 
     const [isPublicOrPrivateDropdownOpen, setIsPublicOrPrivateDropdownOpen] = useState(false)
@@ -88,9 +88,13 @@ export default function CreateThreadModal() {
         post('/threads/create', {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
+            onSuccess: (res) => {
                 setIsCreatThreadModalOpen(false)
                 reset()
+                setThreads(prevState => ([
+                    res.props.thread.data,
+                    ...prevState
+                ]))
             },
             onError: (response) => {
                 console.log(response)
