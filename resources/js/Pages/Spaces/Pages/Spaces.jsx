@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import {IoIosAddCircleOutline} from "react-icons/io";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import RecommendedSpace from "@/Components/RecommendedSpace.jsx";
-import {Head, Link, router, usePage, useRemember} from "@inertiajs/react";
+import {Head, Link, router, usePage} from "@inertiajs/react";
 
 export default function Spaces() {
 

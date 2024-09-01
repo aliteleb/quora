@@ -17,7 +17,6 @@ function settings (string|null $key = null, $default = null) {
         $all_settings['icon'] = Storage::disk('public')->url($all_settings['icon'] ?? null);
         $all_settings['logo'] = Storage::disk('public')->url($all_settings['logo'] ?? null);
         $all_settings['background'] = Storage::disk('public')->url($all_settings['background'] ?? null);
-
         return $all_settings;
     });
 

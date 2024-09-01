@@ -115,7 +115,7 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
                         e.stopPropagation()
                         !notification.is_read && markAsRead();
                     }}
-                    className={`${notification.is_read ? '' : 'text-green-500'}  hover:text-green-600 transition duration-200`}
+                    className={`${notification.is_read ? 'text-green-500 hover:text-green-600' : 'hover:text-stone-300'} transition duration-200`}
                 >
                     <IoCheckmarkDone size={24} />
                 </button>
