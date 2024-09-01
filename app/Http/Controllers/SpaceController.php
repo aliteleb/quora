@@ -89,7 +89,6 @@ class SpaceController extends Controller implements HasMedia
             return InertiaResponse::error(['error' => 'تعذر العثور على المساحة.']);
         }
         $space = new SpaceResource($space);
-        Log::info('spacew', array($space));
 
         $posts = $this->getThreadsByType($space->id, 'post');
         $questions = $this->getThreadsByType($space->id, 'question');

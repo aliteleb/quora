@@ -7,14 +7,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotificationResource extends JsonResource
+class NotificationResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    protected function resourceToArray(Request $request): array
     {
         $notification_maker = User::find($this->notification_maker_id);
         return [

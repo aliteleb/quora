@@ -6,14 +6,14 @@ use App\Models\Space;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DiscoverSpaceResource extends JsonResource
+class DiscoverSpaceResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    protected function resourceToArray(Request $request): array
     {
         $space = Space::where('id', $this->id)->first();
         $space_image = $space->getFirstMediaUrl('spaces_avatars');

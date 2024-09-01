@@ -10,14 +10,14 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
-class ThreadResource extends JsonResource
+class ThreadResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    protected function resourceToArray(Request $request): array
     {
         $user = User::where('id', $this->user_id)->first();
 

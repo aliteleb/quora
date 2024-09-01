@@ -6,14 +6,14 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CommentResource extends JsonResource
+class CommentResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    protected function resourceToArray(Request $request): array
     {
         $comment = Comment::where('id', $this->id)->first();
         $comment_image = $comment->getFirstMediaUrl('comments_images');

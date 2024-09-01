@@ -23,7 +23,6 @@ export default function Home() {
             setNextPaginationLink(props.threads?.links.next)
         }
     }, []);
-
     const loadMoreThreads = (pageUrl) => {
         if (pageUrl && !isFetching) {
             setIsFetching(true); // Set fetch status to true

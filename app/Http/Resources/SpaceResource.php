@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
 
-class SpaceResource extends JsonResource
+class SpaceResource extends BaseResource
 {
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
-    public function toArray(Request $request): array
+    protected function resourceToArray(Request $request): array
     {
 
         $space_image = $this->getFirstMediaUrl('spaces_avatars');
@@ -56,5 +56,6 @@ class SpaceResource extends JsonResource
             'followers_count' => $space_followers_count,
             'last_week_posts_count' => $space_last_week_posts_count,
         ];
+
     }
 }

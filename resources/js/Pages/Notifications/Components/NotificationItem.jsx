@@ -13,10 +13,9 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
     const [isLoading, setIsLoading] = useState(false);
 
 
-    const loadIconAfterMsg = (type ,msg) => {
+    const loadIconAfterMsg = (type) => {
         return (
             <div className={`flex items-center gap-x-2`}>
-                {msg}
                 {type === 'down_vote' && <FaArrowAltCircleDown className={`size-6 text-red-500`}/>}
                 {type === 'up_vote' && <FaArrowAltCircleUp className={`size-6 text-blue-600`}/>}
             </div>
@@ -41,21 +40,13 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
         if (type === 'reply' && comment_id && !reply_to_comment) return 'تعليقك.';
         if (type === 'reply' && reply_to_comment && post_id) return 'تعليق على منشورك.';
         if (type === 'reply' && reply_to_comment && question_id) return 'إجابة على سؤالك.';
-        if ((type === 'up_vote' || type === 'down_vote') && !comment_id && !question_id && !is_answer || (comment_id && type === 'comment')) return (
-            loadIconAfterMsg(type, 'منشورك.')
-        );
-        if ((type === 'up_vote' || type === 'down_vote' || comment_id) && (!is_answer && question_id) || type === 'answer') return (
-            loadIconAfterMsg(type, 'سؤالك.')
-        );
-        if ((type === 'down_vote' || type === 'up_vote') && question_id && is_answer) return (
-            loadIconAfterMsg(type, 'إجابتك.')
-        );
-        if ((type === 'up_vote' || type === 'down_vote') && !is_answer && comment_id) return (
-            loadIconAfterMsg(type, 'تعليقك.')
-        );
+        if ((type === 'up_vote' || type === 'down_vote') && !comment_id && !question_id && !is_answer || (comment_id && type === 'comment')) return 'منشورك.';
+        if ((type === 'up_vote' || type === 'down_vote' || comment_id) && (!is_answer && question_id) || type === 'answer') return 'سؤالك.';
+        if ((type === 'down_vote' || type === 'up_vote') && question_id && is_answer) return 'إجابتك.';
+        if ((type === 'up_vote' || type === 'down_vote') && !is_answer && comment_id) return 'تعليقك.';
     };
 
-    const markAsRead = (e) => {
+    const markAsRead = () => {
         setIsLoading(true)
         router.post(`/notifications/mark-as-read/${notification.id}`, {}, {
             preserveScroll: true,
@@ -106,20 +97,26 @@ const NotificationItem = forwardRef(({notification, custom_styles, allNotificati
 
             </div>
 
-            <div className="flex flex-col items-center gap-y-1">
-                <button
-                    disabled={isLoading}
-                    onMouseEnter={() => setIsLinkActive(false)}
-                    onMouseLeave={() => setIsLinkActive(true)}
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        !notification.is_read && markAsRead();
-                    }}
-                    className={`${notification.is_read ? 'text-green-500 hover:text-green-600' : 'hover:text-stone-300'} transition duration-200`}
-                >
-                    <IoCheckmarkDone size={24} />
-                </button>
-                <div className="text-xs text-gray-400">{notification.created_at}</div>
+            <div className="flex items-center gap-y-1 gap-x-1">
+                <div>
+                    {notification.type === 'up_vote' && loadIconAfterMsg('up_vote', '')}
+                    {notification.type === 'down_vote' && loadIconAfterMsg('down_vote', '')}
+                </div>
+                <div className={`flex flex-col items-center`}>
+                    <button
+                        disabled={isLoading}
+                        onMouseEnter={() => setIsLinkActive(false)}
+                        onMouseLeave={() => setIsLinkActive(true)}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            !notification.is_read && markAsRead();
+                        }}
+                        className={`${notification.is_read ? 'text-green-500 hover:text-green-600' : 'hover:text-stone-300'} transition duration-200`}
+                    >
+                        <IoCheckmarkDone size={24} />
+                    </button>
+                    <div className="text-xs text-gray-400">{notification.created_at}</div>
+                </div>
             </div>
 
         </Wrapper>
