@@ -28,11 +28,9 @@ class TopicController extends Controller
         auth()->user()->topics()->syncWithoutDetaching($topics_ids);
 
         $threads = [
-            'links' => ['url' =>  "https:\/\/quora.test?page=2", 'label' =>  "2", 'active' =>  true],
+            'links' => ['url' => "/test?page=2", 'label' =>  "2", 'active' =>  true],
             'threads' => ThreadResource::collection(Thread::latest()->paginate(5)),
         ];
-
-
 
         return InertiaResponse::route('index', [], ['threads' => $threads]);
     }

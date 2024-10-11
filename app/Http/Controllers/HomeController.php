@@ -28,32 +28,45 @@ class HomeController extends Controller
             ->pluck('block_user.blocked_id')
             ->toArray() ?? [];
 
-        $user_commented_threads = Comment::where('user_id', $user->id)
-            ->distinct()
-            ->pluck('thread_id');
+        if($user)
+        {
+            $user_commented_threads = Comment::where('user_id', $user->id)
+                ->distinct()
+                ->pluck('thread_id');
 
-        $user_voted_threads = Vote::where('user_id', $user->id)
-            ->whereNotNull('thread_id')
-            ->pluck('thread_id');
+            $user_voted_threads = Vote::where('user_id', $user->id)
+                ->whereNotNull('thread_id')
+                ->pluck('thread_id');
 
-        $user_hide_and_saved_threads = PostAction::where('user_id', $user->id)
-            ->whereIn('type', ['hide', 'save', 'share'])
-            ->whereNotNull('thread_id')
-            ->pluck('thread_id');
+            $user_hide_and_saved_threads = PostAction::where('user_id', $user->id)
+                ->whereIn('type', ['hide', 'save', 'share'])
+                ->whereNotNull('thread_id')
+                ->pluck('thread_id');
 
-        $excluded_thread_ids = array_merge(
-            $user_commented_threads->toArray(),
-            $user_voted_threads->toArray(),
-            $user_hide_and_saved_threads->toArray(),
-        );
+            $excluded_thread_ids = array_merge(
+                $user_commented_threads->toArray(),
+                $user_voted_threads->toArray(),
+                $user_hide_and_saved_threads->toArray(),
+            );
+        }
 
-        $threads = Thread::where('user_id', '!=', $user->id)
-            ->where('visibility', 'public')
-            ->whereNull('share_to')
-            ->whereNotIn('user_id', $blocked_user_ids)
-            ->whereNotIn('id', $excluded_thread_ids)
-            ->latest()
-            ->paginate(5);
+
+        if ($user)
+        {
+            $threads = Thread::where('user_id', '!=', $user->id)
+                ->where('visibility', 'public')
+                ->whereNull('share_to')
+                ->whereNotIn('user_id', $blocked_user_ids)
+                ->whereNotIn('id', $excluded_thread_ids)
+                ->latest()
+                ->paginate(5);
+        }else {
+            $threads = Thread::where('visibility', 'public')
+                ->whereNull('share_to')
+                ->with('user')
+                ->latest()
+                ->paginate(5);
+        }
 
         $user_created_spaces = $this->getUserSpaces();
 

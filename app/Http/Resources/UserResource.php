@@ -26,22 +26,22 @@ class UserResource extends BaseResource
         if ($avatar === "") {
             $avatar = null;
         }
-        if (auth()->user()) {
-            $response['id'] = $this->id;
-            $response['name'] = $this->name;
-            $response['username'] = $this->username;
-            $response['bio'] = $this->bio;
-            $response['email'] = $this->email;
-            $response['posts_count'] = $this->posts_count;
-            $response['questions_count'] = $this->questions_count;
-            $response['answers_count'] = $this->answers_count;
-            $response['followed_spaces_count'] = $this->followed_spaces_count;
-            $response['followers_count'] = $this->followedUser->count();
-            $response['follow_count'] = $this->followerUser->count();
-            $response['is_followed'] = $is_followed;
-            $response['avatar'] = $avatar;
-            $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
-        }
+
+        $response['id'] = $this->id;
+        $response['name'] = $this->name;
+        $response['username'] = $this->username;
+        $response['bio'] = $this->bio;
+        $response['email'] = $this->email;
+        $response['posts_count'] = $this->posts_count;
+        $response['questions_count'] = $this->questions_count;
+        $response['answers_count'] = $this->answers_count;
+        $response['followed_spaces_count'] = $this->followed_spaces_count;
+        $response['followers_count'] = $this->followedUser->count();
+        $response['follow_count'] = $this->followerUser->count();
+        $response['is_followed'] = $is_followed;
+        $response['avatar'] = $avatar;
+        $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');
+
         return $response;
     }
 }

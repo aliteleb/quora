@@ -4,7 +4,9 @@ namespace App\Listeners;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 use Spatie\Image\Image;
+use Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent;
 
 class MediaOptimizer
 {
@@ -19,7 +21,7 @@ class MediaOptimizer
     /**
      * Handle the event.
      */
-    public function handle(\Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAddedEvent $event): void
+    public function handle(MediaHasBeenAddedEvent $event): void
     {
         $media = $event->media;
 

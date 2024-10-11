@@ -32,7 +32,9 @@ class ThreadResource extends BaseResource
         $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
         $is_shared = Thread::where('user_id', auth()->id())->where('share_to', $this->id)->exists();
 
-        return [
+//        dd(new UserResource($user));
+
+        $data = [
             'id' => $this->id,
             'user_id' => $this->user_id,
             'share' => new ThreadResource($this->whenLoaded('share')),
@@ -48,12 +50,13 @@ class ThreadResource extends BaseResource
             'video' => $thread_video,
             'is_followed' => $is_followed,
             'is_shared' => $is_shared,
-            'user' => new UserResource($user),
+            'user' => new UserResource($this->whenLoaded('user')),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,
             'comments_count' => count($this->comments),
             'shares_count' => $this->all_shares_count,
         ];
+        return $data;
     }
 }

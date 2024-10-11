@@ -43,7 +43,7 @@ function Master({children, threads, setThreads}) {
                                     className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </Link>
-                                <Link href={`/spaces`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link href={`/all-spaces`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
                                 </Link>
                                 <Link
@@ -126,7 +126,7 @@ function Master({children, threads, setThreads}) {
                 <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoHomeOutline />
                 </Link>
-                <Link href={`/spaces`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                <Link href={`/all-spaces`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaUsers />
                 </Link>
                 <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
