@@ -35,7 +35,7 @@ export default function Auth() {
             <img
                 src="/auth-bg.webp"
                 alt="background"
-                className={`object-cover w-full h-svh absolute`}
+                className={`w-full h-svh absolute`}
             />
 
             <div className={`w-[96%] max-w-[50rem] pt-16 text-[--theme-primary-text-color] bg-[--theme-main-bg-color] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded`}>

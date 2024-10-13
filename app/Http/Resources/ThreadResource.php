@@ -50,7 +50,7 @@ class ThreadResource extends BaseResource
             'video' => $thread_video,
             'is_followed' => $is_followed,
             'is_shared' => $is_shared,
-            'user' => new UserResource($this->whenLoaded('user')),
+            'user' => new UserResource($user),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,

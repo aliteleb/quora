@@ -91,13 +91,13 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                             <img
                                 src={userInfo?.avatar ? userInfo?.avatar : '/profile-default-svgrepo-com.svg'}
                                 alt="avatar"
-                                className={`size-32 object-cover rounded-full`}
+                                className={`size-32 rounded-full`}
                             />
                         }
                         {/* Preview uploaded avatar */}
                         {data.avatar &&
                             <div className={`${!data.avatar ? 'invisible' : 'visible w-full pb-3 border-zinc-700/70'}`}>
-                                <img className={`size-32 rounded-full object-cover`}
+                                <img className={`size-32 rounded-full`}
                                      src={data?.avatar ? URL.createObjectURL(data?.avatar) : ''}
                                      alt="profile-avatar"/>
                             </div>

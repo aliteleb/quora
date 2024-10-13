@@ -236,14 +236,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                     {!isAnswer &&
                         <Link href={`/profile/${mainThread?.user?.username}`}>
                             {mainThread?.user?.avatar &&
-                                <img src={mainThread?.user?.avatar} className={`size-9 rounded-full cursor-pointer object-cover`} alt={`avatar`}/>}
+                                <img src={mainThread?.user?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                             {(!mainThread?.user?.avatar && mainThread?.user) && <DefaultUserIcon/>}
                         </Link>
                     }
                     {isAnswer &&
                         <Link href={`/profile/${userInfo?.username}`}>
                             {userInfo?.avatar &&
-                                <img src={userInfo?.avatar} className={`size-9 rounded-full cursor-pointer object-cover`} alt={`avatar`}/>}
+                                <img src={userInfo?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                             {(!userInfo?.avatar && userInfo) && <DefaultUserIcon/>}
                         </Link>
                     }
@@ -294,14 +294,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                                 {!isAnswer &&
                                     <Link href={`/profile/${thread?.user?.username}`}>
                                         {thread?.user?.avatar &&
-                                            <img src={thread?.user?.avatar} className={`size-9 rounded-full cursor-pointer object-cover`} alt={`avatar`}/>}
+                                            <img src={thread?.user?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                                         {(!thread?.user?.avatar && thread?.user) && <DefaultUserIcon/>}
                                     </Link>
                                 }
                                 {isAnswer &&
                                     <Link href={`/profile/${userInfo?.username}`}>
                                         {userInfo?.avatar &&
-                                            <img src={userInfo?.avatar} className={`size-9 rounded-full cursor-pointer object-cover`} alt={`avatar`}/>}
+                                            <img src={userInfo?.avatar} className={`size-9 rounded-full cursor-pointer`} alt={`avatar`}/>}
                                         {(!userInfo?.avatar && userInfo) && <DefaultUserIcon/>}
                                     </Link>
                                 }
@@ -324,14 +324,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                             <img
                                 src={thread?.image}
                                 alt="post-img"
-                                className={`w-full object-cover max-h-[30rem]`}
+                                className={`w-full max-h-[30rem]`}
                             />
                         }
                         {(isAnswer && thread?.thread?.media) &&
                             <img
                                 src={thread?.thread?.media}
                                 alt="post-img"
-                                className={`w-full object-cover max-h-[30rem]`}
+                                className={`w-full max-h-[30rem]`}
                             />
                         }
                         {/*  الإجابة على السؤال  */}
@@ -343,7 +343,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                                     <img
                                         src={thread?.media.image}
                                         alt="answer-img"
-                                        className={`w-full max-h-[20rem] rounded object-cover`}
+                                        className={`w-full max-h-[20rem] rounded`}
                                     />
                                 }
                             </div>

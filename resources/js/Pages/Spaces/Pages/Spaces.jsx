@@ -58,7 +58,7 @@ export default function Spaces() {
             <div className={`flex flex-col container max-w-screen-xl mx-auto rounded mt-10 gap-y-10`}>
                 <div className={`bg-[--theme-main-bg-color] relative`}>
                     <img
-                        className={`h-full absolute md:left-24 sm:left-6 left-0 w-fit object-cover`}
+                        className={`h-full absolute md:left-24 sm:left-6 left-0 w-fit`}
                         src="/spaces-img.webp"
                         alt="spaces-img"
                     />

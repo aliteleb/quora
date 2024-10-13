@@ -88,20 +88,20 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                             <img
                                 src={'/spaces/space_default_image.webp'}
                                 alt="avatar"
-                                className={`size-32 object-cover rounded-3xl`}
+                                className={`size-32 rounded-3xl`}
                             />
                         }
                         {!data.avatar && space.media.poster &&
                             <img
                                 src={space.media.poster}
                                 alt="avatar"
-                                className={`size-32 object-cover rounded-3xl`}
+                                className={`size-32 rounded-3xl`}
                             />
                         }
                         {/* Preview uploaded avatar */}
                         {data.avatar &&
                             <div className={`${!data.avatar ? 'invisible' : 'visible w-full border-zinc-700/70'}`}>
-                                <img className={`size-32 rounded-3xl object-cover`}
+                                <img className={`size-32 rounded-3xl`}
                                      src={data?.avatar ? URL.createObjectURL(data?.avatar) : ''}
                                      alt="space-avatar"/>
                             </div>
@@ -141,20 +141,20 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                             <img
                                 src={'/spaces/space_cover_default_image_space_page.webp'}
                                 alt="cover"
-                                className={`w-full h-[160px] object-cover rounded`}
+                                className={`w-full h-[160px] rounded`}
                             />
                         }
                         {!data.cover && space?.media.cover &&
                             <img
                                 src={space.media.cover}
                                 alt="cover"
-                                className={`w-full h-[160px] object-cover rounded`}
+                                className={`w-full h-[160px] rounded`}
                             />
                         }
                         {/* Preview uploaded cover */}
                         {data.cover &&
                             <div className={`${!data.cover ? 'hidden' : 'visible w-full border-zinc-700/70'}`}>
-                                <img className={`w-full h-[160px] rounded object-cover`}
+                                <img className={`w-full h-[160px] rounded`}
                                      src={data?.cover ? URL.createObjectURL(data?.cover) : ''}
                                      alt="space-cover"/>
                             </div>

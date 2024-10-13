@@ -52,7 +52,7 @@ const AddComment = forwardRef(({handleCommentChange, handleFileChange, removeUpl
                                  className="absolute right-2 top-2 p-1 cursor-pointer hover:bg-neutral-700 bg-neutral-600/30 flex justify-center items-center rounded-full transition">
                                 <HiMiniXMark className={`size-6`}/>
                             </div>
-                            <img className={`w-full max-h-[20rem] rounded object-cover`}
+                            <img className={`w-full max-h-[20rem] rounded`}
                                  src={data?.image ? URL.createObjectURL(data?.image) : ''}
                                  alt="post-img"/>
                         </div>

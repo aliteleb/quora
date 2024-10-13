@@ -197,13 +197,13 @@ const Comment = forwardRef(({
                         <div className={`w-full break-words`}>{comment?.body}</div>
 
                         {comment?.media?.image &&
-                            <img className={`w-full max-h-[20rem] rounded object-cover`}
+                            <img className={`w-full max-h-[20rem] rounded`}
                               src={comment?.media?.image}
                               alt="comment-img"
                             />
                         }
                         {comment?.media?.video &&
-                            <video className={`w-full max-h-[20rem] rounded object-cover`}
+                            <video className={`w-full max-h-[20rem] rounded`}
                                  src={comment?.media?.video}
                             />
                         }

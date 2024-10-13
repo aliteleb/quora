@@ -56,7 +56,7 @@ export default function RecommendedSpace({space, customStyles}) {
                             <img
                                 src={space.media.poster}
                                 alt="space-img"
-                                className={`size-8 object-cover rounded-xl`}
+                                className={`size-8 rounded-xl`}
                             />
                         }
                         <div className={`font-bold`}>{space.name}</div>

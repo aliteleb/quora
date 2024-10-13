@@ -24,7 +24,7 @@ export default function SelectSpacesInput({ display_name, img, onChange, value }
                 <img
                     src={img}
                     alt={display_name}
-                    className={`absolute w-full h-full object-cover rounded shadow-lg z-0`}
+                    className={`absolute w-full h-full rounded shadow-lg z-0`}
                 />
                 <span className={`absolute bottom-2 right-2 z-20 text-white`}>{display_name}</span>
             </label>
