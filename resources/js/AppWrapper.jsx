@@ -1,6 +1,7 @@
 // Wrapper.jsx
 import React, { useEffect } from 'react';
 import { AppProvider, useApp } from './AppContext/AppContext.jsx';
+import {Head} from "@inertiajs/react";
 
 const AppWrapper = ({ App, props }) => {
     const {setSettings, setUser, setNotificationsCount} = useApp()
@@ -10,7 +11,10 @@ const AppWrapper = ({ App, props }) => {
         setNotificationsCount(props.initialPage.props.notifications_count)
     }, []);
 
-    return <App {...props} />;
+    return(
+        <App {...props} />
+    )
+
 };
 
 const Wrapper = ({ App, props }) => (

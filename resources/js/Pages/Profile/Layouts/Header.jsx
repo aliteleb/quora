@@ -229,7 +229,7 @@ export default function Header({isActive, setIsActive, threads, setThreads, setT
                         <span>{labels[active_label]}</span>
                     </div>
 
-                    {threads.length > 0 &&
+                    {threads?.length > 0 &&
                         <div className={`relative`}>
                             <Button
                                 content={filterType === 'most_recent' ? 'الأحدث' : 'الأكثر تفاعلا'}
