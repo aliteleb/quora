@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import Footer from "@/Pages/Home/Layouts/Footer.jsx";
 import CreateThread from "@/Pages/Home/Components/CreateThread.jsx";
 import { Head, router, usePage } from "@inertiajs/react";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 import SelectTopicsModal from '../Components/SelectTopicsModal.jsx';
 import Sidebar from "@/Pages/Profile/Layouts/Sidebar.jsx";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
@@ -44,7 +44,7 @@ export default function Home() {
 
     const lastThreadRef = useRef(null);
     const show_threads = threads?.map((thread, index) => (
-        <Post
+        <Thread
             key={thread.id}
             passed_thread={thread}
             ref={index === threads.length - 1 ? lastThreadRef : null}

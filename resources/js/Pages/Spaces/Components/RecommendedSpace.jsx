@@ -7,28 +7,32 @@ import {Link, router} from "@inertiajs/react";
 
 
 export default function RecommendedSpace({space, customStyles}) {
-    const {user} = useApp()
+    const {user, returnToLoginPage} = useApp()
     const [isFollowed, setIsFollowed] = useState(space.is_followed);
 
     const checkIfUserIsOwner = user?.id === space?.user?.id
 
     const followSpace = () => {
-        if (!isFollowed) {
-            router.post(`/follow-space/${space?.id}`, {}, {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: (res) => {
-                    setIsFollowed(res.props.data.space?.data.is_followed)
-                }
-            })
-        } else {
-            router.post(`/unfollow-space/${space?.id}`, {}, {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: (res) => {
-                    setIsFollowed(res.props.data.space?.data.is_followed)
-                }
-            })
+        if (!user){
+            returnToLoginPage();
+        }else {
+            if (!isFollowed) {
+                router.post(`/follow-space/${space?.id}`, {}, {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: (res) => {
+                        setIsFollowed(res.props.data.space?.data.is_followed)
+                    }
+                })
+            } else {
+                router.post(`/unfollow-space/${space?.id}`, {}, {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: (res) => {
+                        setIsFollowed(res.props.data.space?.data.is_followed)
+                    }
+                })
+            }
         }
     }
 

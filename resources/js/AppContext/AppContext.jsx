@@ -33,6 +33,10 @@ const AppProvider = ({children}) => {
         }))
     }
 
+    const returnToLoginPage = () => {
+        window.location.href = `${window.location.origin}/account`
+    }
+
     return (
         <AppContext.Provider
             value={{
@@ -52,6 +56,7 @@ const AppProvider = ({children}) => {
                 setIsPostActive,
                 setUser,
                 user: appInfo.user,
+                returnToLoginPage,
             }}
         >
             {children}

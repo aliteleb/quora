@@ -3,29 +3,19 @@ import { useApp } from "@/AppContext/AppContext.jsx";
 import {Link} from "@inertiajs/react";
 
 function Footer() {
-    const { setIsSpaceModalOpen, user } = useApp();
+    const { setIsSpaceModalOpen, user, returnToLoginPage } = useApp();
 
     return (
         <div className={`top-16 fixed text-[--theme-primary-text-color] gap-y-4 lg:flex hidden flex-col`}>
-            {!user &&
-                <Link
-                    href={'account'}
-                    onClick={() => user && setIsSpaceModalOpen(true)}
-                    className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
-                >
-                    <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
-                    <span>إنشاء مساحة</span>
-                </Link>
-            }
-            {user &&
-                <button
-                    onClick={() => user && setIsSpaceModalOpen(true)}
-                    className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
-                >
-                    <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
-                    <span>إنشاء مساحة</span>
-                </button>
-            }
+
+            <button
+                onClick={() => user ? setIsSpaceModalOpen(true) : returnToLoginPage() }
+                className={`w-fit flex gap-x-3 items-center bg-[#1b1b1b] hover:bg-[#1d1d1d] px-6 py-2 rounded transition`}
+            >
+                <LuPlus className={`bg-[#262626] p-1 rounded text-xl`}/>
+                <span>إنشاء مساحة</span>
+            </button>
+
             <div className={`text-[--theme-secondary-text-color]`}>
                 <div>
                     <a href="" className={`hover:underline`}>حول . </a>

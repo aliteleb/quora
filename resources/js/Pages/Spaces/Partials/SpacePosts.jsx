@@ -1,7 +1,7 @@
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import { IoChevronDownOutline } from "react-icons/io5";
 import { IoIosTrendingUp } from "react-icons/io";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 import FilterPosts from "@/Pages/Spaces/Components/FilterPosts.jsx";
 import { router } from "@inertiajs/react";
 
@@ -50,7 +50,7 @@ const SpacePosts = forwardRef (({ posts, setPosts, filteredNextPageUrl, setFilte
     }, [filteredNextPageUrl, isPostsFetching, filterType]);
 
     const show_posts = posts.map((post, index) => (
-        <Post
+        <Thread
             key={index}
             passed_thread={post}
             ref={index === posts.length - 1 ? ref : null}

@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
 import Footer from "@/Pages/Home/Layouts/Footer.jsx";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 
 export default function Bookmarks() {
 
@@ -15,7 +15,7 @@ export default function Bookmarks() {
     const lastThreadRef = useRef(null)
 
     const show_threads = threads?.map((thread, index) => (
-        <Post
+        <Thread
             key={index}
             passed_thread={thread}
             threads={thread}

@@ -11,9 +11,8 @@ import PostDropdown from "@/Components/PostDropdown.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 import {followUser} from "@/Utilities/followUser.js";
 
-const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage, canShare = true}, ref) => {
-    const {props} = usePage()
-    const {user} = useApp()
+const Thread = forwardRef(({passed_thread, customStyles, setThreads, threads, isAnswer, userInfo, isProfilePage, canShare = true}, ref) => {
+    const {user, returnToLoginPage} = useApp()
 
     const [thread, setThread] = useState(null);
     const [mainThread, setMainThread] = useState(passed_thread);
@@ -165,18 +164,26 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
     }
 
     const voteUp = () => {
-        if (isAnswer) {
-            vote('up', true)
-        } else {
-            vote('up', false)
+        if (!user){
+            returnToLoginPage();
+        }else {
+            if (isAnswer) {
+                vote('up', true)
+            } else {
+                vote('up', false)
+            }
         }
     }
 
     const voteDown = () => {
-        if (isAnswer) {
-            vote('down', true)
-        } else {
-            vote('down', false)
+        if (!user) {
+            returnToLoginPage();
+        }else {
+            if (isAnswer) {
+                vote('down', true)
+            } else {
+                vote('down', false)
+            }
         }
     }
 
@@ -218,14 +225,18 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
     };
 
     const shareThread = () => {
-        router.post(`/threads/${mainThread?.id}/${isShared ? 'un_share' : 'share'}`, {}, {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                setMainThread(res.props.thread?.data)
-                setIsShard(res.props.thread?.data.is_shared)
-            }
-        })
+        if (!user) {
+            returnToLoginPage();
+        }else {
+            router.post(`/threads/${mainThread?.id}/${isShared ? 'un_share' : 'share'}`, {}, {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    setMainThread(res.props.thread?.data)
+                    setIsShard(res.props.thread?.data.is_shared)
+                }
+            })
+        }
     }
 
     return (
@@ -371,12 +382,14 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                                 </div>
                                 <span>{voteUpCount}</span>
                             </div>
+
                             <div onClick={voteDown}
                                  className={`flex items-center h-full gap-x-2 px-4 py-1 rounded-l-full hover:bg-[--theme-secondary-bg-color-hover] cursor-pointer`}>
                                 {(isVoted === null || isVoted === 'up') && <PiArrowFatDown className={`size-5`}/>}
                                 {isVoted === 'down' && <PiArrowFatDownFill className={`size-5 text-[--theme-primary-button-color]`}/>}
                                 <span>{voteDownCount}</span>
                             </div>
+
                         </div>
                         {!isAnswer &&
                             <>
@@ -391,15 +404,7 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
                                     <FaRegComment/>
                                     <span>{commentsCount}</span>
                                 </div>
-                                {!user &&
-                                    <Link
-                                        href={'account'}
-                                        className={`flex items-center justify-center gap-x-1 hover:bg-[--theme-nav-bg-color-hover] rounded-full px-2 cursor-pointer`}>
-                                        <CiShare2/>
-                                        <span>{sharesCount}</span>
-                                    </Link>
-                                }
-                                {(user && canShare) &&
+                                {canShare &&
                                     <button
                                         onClick={shareThread}
                                         className={`flex items-center justify-center gap-x-1  hover:bg-[--theme-nav-bg-color-hover] rounded-full px-3 cursor-pointer`}>
@@ -457,4 +462,4 @@ const Post = forwardRef(({passed_thread, customStyles, setThreads, threads, isAn
     );
 });
 
-export default Post;
+export default Thread;

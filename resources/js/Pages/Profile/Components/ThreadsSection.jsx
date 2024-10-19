@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react'
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 import {router, usePage} from "@inertiajs/react";
 
 export default function ThreadsSection({threads, setThreads, threadsNextPageUrl, setThreadsNextPageUrl, isAnswers, userInfo}) {
@@ -9,7 +9,7 @@ export default function ThreadsSection({threads, setThreads, threadsNextPageUrl,
 
     const lastThreadRef = useRef(null)
     const show_threads = threads?.map((thread, index) =>  (
-        <Post
+        <Thread
             key={index}
             passed_thread={thread}
             ref={index === threads.length - 1 ? lastThreadRef : null}

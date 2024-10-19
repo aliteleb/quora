@@ -16,7 +16,7 @@ import EditSpaceModal from "@/Pages/Spaces/Components/EditSpaceModal.jsx";
 
 export default function ShowSpace() {
 
-    const { user } = useApp()
+    const { user, returnToLoginPage } = useApp()
     const {props} = usePage()
 
     const [isActive, setIsActive] = useState({
@@ -61,20 +61,24 @@ export default function ShowSpace() {
     }
     const checkIfUserIsOwner = user?.id === space?.user.id
     const followSpace = () => {
-        if (!isFollowed) {
-            router.post(`/follow-space/${space?.id}`, {}, {
-                preserveScroll: true,
-                onSuccess: (res) => {
-                    setIsFollowed(res.props.data.space?.data.is_followed)
-                }
-            })
-        } else {
-            router.post(`/unfollow-space/${space?.id}`, {}, {
-                preserveScroll: true,
-                onSuccess: (res) => {
-                    setIsFollowed(res.props.data.space?.data.is_followed)
-                }
-            })
+        if (!user) {
+            returnToLoginPage();
+        }else {
+            if (!isFollowed) {
+                router.post(`/follow-space/${space?.id}`, {}, {
+                    preserveScroll: true,
+                    onSuccess: (res) => {
+                        setIsFollowed(res.props.data.space?.data.is_followed)
+                    }
+                })
+            } else {
+                router.post(`/unfollow-space/${space?.id}`, {}, {
+                    preserveScroll: true,
+                    onSuccess: (res) => {
+                        setIsFollowed(res.props.data.space?.data.is_followed)
+                    }
+                })
+            }
         }
     }
 
@@ -225,18 +229,9 @@ export default function ShowSpace() {
                             </span>
 
                         </div>
-                        {!checkIfUserIsOwner && !user &&
-                            <Link
-                                href={'account'}
-                                className={`flex items-center h-fit gap-x-2 border bg-[--theme-button-border-color] border-transparent rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
-                            >
-                                متابعة
-                                <IoMdAddCircleOutline className={`text-2xl`}/>
-                            </Link>
-                        }
-                        {!checkIfUserIsOwner && user &&
+                        {!checkIfUserIsOwner &&
                             <button
-                                onClick={!checkIfUserIsOwner && user ? followSpace : null}
+                                onClick={!checkIfUserIsOwner ? followSpace : null}
                                 className={`flex items-center h-fit gap-x-2 border ${!checkIfUserIsOwner && !isFollowed ? 'bg-[--theme-button-border-color] border-transparent' : ''}  rounded-full px-2 text-sm xxs:text-md xxs:px-6 py-1 xxs:py-2 font-bold`}
                             >
                                 {!checkIfUserIsOwner && isFollowed ? 'تمت المتابعة' : !checkIfUserIsOwner && !isFollowed ? 'متابعة' : ''}

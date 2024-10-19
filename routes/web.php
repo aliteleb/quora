@@ -65,7 +65,7 @@ Route::middleware(['auth','select.topic', 'auth.redirect'])->group(function () {
 
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('index')->middleware('select.topic');
-Route::get('/spaces', [SpaceController::class, 'index'])->name('spaces.index');
+Route::get('/all-spaces', [SpaceController::class, 'index'])->name('spaces.index');
 Route::get('/spaces/{slug}', [SpaceController::class, 'showSpace'])->name('space.show');
 Route::get('/spaces/filter/{section}/{type}/{space_id}', [SpaceController::class, 'callFilterThreadsFn'])->name('space.thread.filter');
 Route::get('/profile/{username}', [ProfileController::class, 'showUser'])->name('user.show');

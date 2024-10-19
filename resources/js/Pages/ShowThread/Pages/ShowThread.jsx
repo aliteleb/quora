@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {Head, usePage} from "@inertiajs/react";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 import Master from "@/Layouts/Master.jsx";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
 import Footer from "@/Pages/Home/Layouts/Footer.jsx";
@@ -17,7 +17,7 @@ export default function ShowThread({}) {
                 <Footer />
                 <div className={`w-40 hidden lg:block`}></div> {/* Footer Simulation */}
                 <div className={`lg:w-[750px] w-full flex flex-col items-center gap-y-2 py-2 pb-16 sm:pb-2`}>
-                    <Post passed_thread={thread}/>
+                    <Thread passed_thread={thread}/>
                 </div>
                 <div className={`relative w-[50%] lg:w-[30%] hidden md:block`}>
                     <HomeSidebar/>

@@ -69,7 +69,7 @@ export default function Spaces() {
                         </div>
                         <Link
                             href={!user ? 'account' : ''}
-                            onClick={() => setIsSpaceModalOpen(true)}
+                            onClick={() => user && setIsSpaceModalOpen(true)}
                             className={`text-right text-[--theme-button-border-color] hover:bg-[#287dff1f] border-2 border-[--theme-button-border-color] w-fit px-4 py-1 rounded-full flex items-center gap-x-2`}
                         >
                             <IoIosAddCircleOutline className={`size-5`}/>

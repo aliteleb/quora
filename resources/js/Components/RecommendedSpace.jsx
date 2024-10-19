@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link, router} from "@inertiajs/react";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 export default function RecommendedSpace({space}) {
 

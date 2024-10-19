@@ -5,7 +5,7 @@ import Footer from "@/Pages/Home/Layouts/Footer.jsx";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
 import User from "@/Pages/Search/Components/User.jsx";
 import FollowedSpace from "@/Pages/Profile/Components/FollowedSpace.jsx";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 
 export default function SearchResults() {
 
@@ -30,7 +30,7 @@ export default function SearchResults() {
 
     const lastThreadRef = useRef(null);
     const show_threads = threads.map((thread, index) => (
-        <Post
+        <Thread
             passed_thread={thread}
             threads={threads}
             setThreads={setThreads}

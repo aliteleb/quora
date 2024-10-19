@@ -10,10 +10,10 @@ import EditInfoModal from "@/Pages/Profile/Components/EditInfoModal.jsx";
 
 export default function Header({isActive, setIsActive, threads, setThreads, setThreadsNextPageUrl, userInfo, setUserInfo, setIsAnswers, setIsLoading}) {
     const { user } = useApp()
-    const { props } = usePage()
+    const { props, returnToLoginPage } = usePage()
 
     const [followersCount, setFollowersCount] = useState(props.user?.data.followers_count);
-    const [followCount, setFollowCount] = useState(props.user?.data.follow_count);
+    const [followCount] = useState(props.user?.data.follow_count);
     const [isFollowed, setIsFollowed] = useState(props.is_followed);
     const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
     const [isBlocked, setIsBlocked] = useState(props.is_blocked);
@@ -26,26 +26,31 @@ export default function Header({isActive, setIsActive, threads, setThreads, setT
 
     const blockUser = () => {
         setIsBlockedBtnDisabled(true)
-        if (!isBlocked) {
-            router.post(`/users/block/block/${userInfo?.id}`, {}, {
-                preserveScroll: true,
-                preserveState: true,
-                onSuccess: () => {
-                    setIsBlocked(true);
-                    setIsBlockedBtnDisabled(false);
-                }
-            })
-        } else {
-            router.post(`/users/block/unblock/${userInfo?.id}`, {}, {
-                preserveScroll: true,
-                preserveState: true,
+        if (!user) {
+            returnToLoginPage();
+        }else {
+            if (!isBlocked) {
+                router.post(`/users/block/block/${userInfo?.id}`, {}, {
+                    preserveScroll: true,
+                    preserveState: true,
+                    onSuccess: () => {
+                        setIsBlocked(true);
+                        setIsBlockedBtnDisabled(false);
+                    }
+                })
+            } else {
+                router.post(`/users/block/unblock/${userInfo?.id}`, {}, {
+                    preserveScroll: true,
+                    preserveState: true,
 
-                onSuccess: () => {
-                    setIsBlocked(false)
-                    setIsBlockedBtnDisabled(false)
-                }
-            })
+                    onSuccess: () => {
+                        setIsBlocked(false)
+                        setIsBlockedBtnDisabled(false)
+                    }
+                })
+            }
         }
+
     }
 
     const getAnswers = () => {
@@ -170,7 +175,7 @@ export default function Header({isActive, setIsActive, threads, setThreads, setT
                             <div className={`flex flex-wrap gap-y-2 gap-x-2`}>
                                 <Button
                                     disabled={isFollowBtnDisabled}
-                                    onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled, setFollowersCount)}
+                                    onClick={() => followUser(userInfo.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled, setFollowersCount, user)}
                                     content={isFollowed ? 'تمت المتابعة' : 'متابعة'}
                                     custom_styles={`border ${!isFollowed ? 'border-transparent' : 'bg-transparent'} `}
                                     isTypeFollow={true}

@@ -3,7 +3,7 @@ import Master from "@/Layouts/Master.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
 import Footer from "@/Pages/Home/Layouts/Footer.jsx";
 import HomeSidebar from "@/Pages/Home/Layouts/HomeSidebar.jsx";
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 
 export default function Questions() {
 
@@ -15,7 +15,7 @@ export default function Questions() {
 
     const lastQuestionRef = useRef(null)
     const show_questions = questions?.map((question, index) => (
-        <Post
+        <Thread
             key={index}
             passed_thread={question}
             threads={question}

@@ -10,8 +10,6 @@ import CreateDropdownMenu from "@/Components/CreateDropdownMenu.jsx";
 import SpaceModal from "@/Pages/Auth/Components/SpaceModal.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
-import Input from "@/Core/Input.jsx";
-import {RiGlobalLine} from "react-icons/ri";
 import SearchInput from "@/Components/SearchInput.jsx";
 
 function Master({children, threads, setThreads}) {
@@ -52,7 +50,7 @@ function Master({children, threads, setThreads}) {
                                     <FaEdit />
                                 </Link>
                                 <Link
-                                    href={`/notifications`}
+                                    href={user ? `/notifications` : `/account`}
                                     className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer relative`}>
                                     <IoNotificationsOutline />
                                     {notificationsCount > 0 &&

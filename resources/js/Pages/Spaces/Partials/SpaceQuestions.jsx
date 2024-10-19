@@ -1,5 +1,5 @@
 import React, {forwardRef, useEffect, useState} from 'react'
-import Post from "@/Components/Post.jsx";
+import Thread from "@/Components/Thread.jsx";
 import {router} from "@inertiajs/react";
 
 const SpaceQuestions = forwardRef(({questions, filterType, filteredNextPageUrl, setFilteredNextPageUrl, setQuestions}, ref) => {
@@ -52,7 +52,7 @@ const SpaceQuestions = forwardRef(({questions, filterType, filteredNextPageUrl, 
 
 
     const show_questions = questions.map((question, index) => (
-        <Post
+        <Thread
             key={question.id}
             passed_thread={question}
             ref={index === questions.length - 1 ? ref : null}

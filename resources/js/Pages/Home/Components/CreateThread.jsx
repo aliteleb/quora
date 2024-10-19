@@ -8,7 +8,7 @@ import {Link} from "@inertiajs/react";
 
 export default function CreateThread() {
 
-    const {setIsCreatThreadModalOpen, setIsPostActive, user } = useApp();
+    const {setIsCreatThreadModalOpen, setIsPostActive, user, returnToLoginPage } = useApp();
 
     const handleAskButtonClick = () => {
         setIsCreatThreadModalOpen(true)
@@ -32,106 +32,56 @@ export default function CreateThread() {
                             <DefaultUserIcon/>
                         </Link>
                     }
-                    {!user &&
-                        <Link href={'account'}>
-                            <input
-                                type="text"
-                                className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
-                                placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
-                            />
-                        </Link>
-                    }
-                    {user &&
-                        <button
-                            onClick={() => user && setIsCreatThreadModalOpen(true)}
-                            className={`cursor-pointer`}
-                        >
-                            <input
-                                type="text"
-                                className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
-                                placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
-                            />
-                        </button>
-                    }
+
+                    <button
+                        onClick={() => user && setIsCreatThreadModalOpen(true) }
+                        className={`cursor-pointer w-full`}
+                    >
+                        <input
+                            type="text"
+                            className={`w-full rounded-full bg-[--theme-input-bg-color] placeholder:text-[--theme-placeholder-color] border-[--theme-default-border-color] pointer-events-none`}
+                            placeholder={`ماذا تريد أن تسأل أو تشارك؟`}
+                        />
+                    </button>
+
                 </div>
 
                 <div className={`grid grid-cols-3`}>
-                    {!user &&
-                        <Link
-                            href={'account'}
-                            className={`cursor-pointer flex items-center gap-x-3`}
-                        >
-                            <div
-                                className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
-                                <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
-                                <span>اسأل</span>
-                            </div>
-                            <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
-                        </Link>
-                    }
-                    {user &&
-                        <button
-                            className={`cursor-pointer flex items-center gap-x-3`}
-                            onClick={handleAskButtonClick}
-                        >
-                            <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
-                                <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
-                                <span>اسأل</span>
-                            </div>
-                            <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
-                        </button>
-                    }
+                    <button
+                        className={`cursor-pointer flex items-center gap-x-3`}
+                        onClick={user ? handleAskButtonClick : returnToLoginPage}
+                    >
+                        <div className={`w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                            <BsQuestionSquare className={`size-5 text-[--theme-placeholder-color]`}/>
+                            <span>اسأل</span>
+                        </div>
+                        <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
+                    </button>
 
                     <div className={`cursor-pointer flex items-center gap-x-3 ms-3`}>
-                        {!user &&
-                            <Link
-                                href={'account'}
-                                className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
-                            >
-                                <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
-                                أجب
-                            </Link>
-                        }
-                        {user &&
-                            <Link
-                                href={'/threads/questions'}
-                                className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
-                                <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
-                                أجب
-                            </Link>
-                        }
+                        <Link
+                            href={'/threads/questions'}
+                            className={`ms-1 w-full text-lg flex items-center gap-x-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}>
+                            <RiQuestionAnswerLine className={`size-6 text-[--theme-placeholder-color]`}/>
+                            أجب
+                        </Link>
                         <div className={`w-[1px] h-5 ms-1 bg-[--theme-placeholder-color]`}></div>
                     </div>
 
-                    {!user &&
-                        <Link
-                            href={'account'}
-                            className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
-                            onClick={() => {
-                                if (user) {
-                                    setIsCreatThreadModalOpen(true)
-                                    setIsPostActive(true)
-                                }
-                            }}
-                        >
-                            <BiCommentEdit className={`size-6 text-[--theme-placeholder-color]`}/>
-                            نشر
-                        </Link>
-                    }
-                    {user &&
-                        <button
-                            className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
-                            onClick={() => {
-                                if (user) {
-                                    setIsCreatThreadModalOpen(true)
-                                    setIsPostActive(true)
-                                }
-                            }}
-                        >
-                            <BiCommentEdit className={`size-6 text-[--theme-placeholder-color]`}/>
-                            نشر
-                        </button>
-                    }
+                    <button
+                        className={`cursor-pointer text-lg flex items-center gap-x-3 ms-3 justify-center hover:bg-[--theme-nav-bg-color-hover] py-2 rounded`}
+                        onClick={() => {
+                            if (user) {
+                                setIsCreatThreadModalOpen(true)
+                                setIsPostActive(true)
+                            }else {
+                                returnToLoginPage()
+                            }
+                        }}
+                    >
+                        <BiCommentEdit className={`size-6 text-[--theme-placeholder-color]`}/>
+                        نشر
+                    </button>
                 </div>
             </div>
     )
