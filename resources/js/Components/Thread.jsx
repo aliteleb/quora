@@ -130,21 +130,22 @@ const Thread = forwardRef(({passed_thread, customStyles, setThreads, threads, is
     ));
 
     const addComment = () => {
-        post('/add-comment', {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                reset()
-                setCommentsCount(commentsCount + 1)
-                setComments(prevState => ([
-                    res.props.comment.data,
-                    ...prevState
-                ]))
-            },
-            onError: () => {
-
-            }
-        })
+        if (!user) {
+            returnToLoginPage()
+        }else {
+            post('/add-comment', {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    reset()
+                    setCommentsCount(commentsCount + 1)
+                    setComments(prevState => ([
+                        res.props.comment.data,
+                        ...prevState
+                    ]))
+                },
+            })
+        }
     }
 
     const vote = (voteType, isAnswer = false) => {

@@ -6,8 +6,6 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import {AppProvider, useApp} from "./AppContext/AppContext.jsx";
 import AppWrapper from "@/AppWrapper.jsx";
-import {ToastContainer} from "react-toastify";
-
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 

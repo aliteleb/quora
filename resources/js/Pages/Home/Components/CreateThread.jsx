@@ -34,7 +34,7 @@ export default function CreateThread() {
                     }
 
                     <button
-                        onClick={() => user && setIsCreatThreadModalOpen(true) }
+                        onClick={() => user ? setIsCreatThreadModalOpen(true) : returnToLoginPage() }
                         className={`cursor-pointer w-full`}
                     >
                         <input
