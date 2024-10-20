@@ -168,7 +168,11 @@ export default function Header({isActive, setIsActive, threads, setThreads, setT
                                 <span> يتابع {followCount}</span>
                             </div>
                             {userInfo?.id === user?.id &&
-                                <Button content={`تعديل`} custom_styles={`block xxs:hidden p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}/>
+                                <Button
+                                    onClick={toggleEditModalOpen}
+                                    content={`تعديل`}
+                                    custom_styles={`block xxs:hidden p-1 bg-transparent hover:bg-[--theme-main-bg-color] rounded-full px-4 py-2`}
+                                />
                             }
                         </div>
                         {userInfo?.id !== user?.id &&

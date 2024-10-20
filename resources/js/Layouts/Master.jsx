@@ -11,10 +11,11 @@ import SpaceModal from "@/Pages/Auth/Components/SpaceModal.jsx";
 import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import SearchInput from "@/Components/SearchInput.jsx";
+import {MdLogin} from "react-icons/md";
 
 function Master({children, threads, setThreads}) {
 
-    const {settings, user, setIsSpaceModalOpen, isSpaceModalOpen, setIsCreatThreadModalOpen, notificationsCount, setNotificationsCount} = useApp()
+    const {settings, user, setIsSpaceModalOpen, setIsCreatThreadModalOpen, notificationsCount, returnToLoginPage} = useApp()
 
     const [isUserDropdownMenuOpen, setIsUserDropdownMenuOpen] = useState(false)
     const [isCreateDropdownMenuOpen, setIsCreateDropdownMenuOpen] = useState(false)
@@ -38,20 +39,22 @@ function Master({children, threads, setThreads}) {
                             <div className={`sm:flex gap-x-1 hidden`}>
                                 <Link
                                     href={`/`}
-                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                    className={`px-4 md:px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <IoHomeOutline />
                                 </Link>
-                                <Link href={`/all-spaces`} className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                <Link
+                                    href={`/all-spaces`}
+                                    className={`px-4 md:px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaUsers />
                                 </Link>
                                 <Link
                                     href={`/threads/questions`}
-                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
+                                    className={`px-4 md:px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer`}>
                                     <FaEdit />
                                 </Link>
                                 <Link
                                     href={user ? `/notifications` : `/account`}
-                                    className={`px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer relative`}>
+                                    className={`px-4 md:px-5 py-2 rounded hover:bg-[--theme-nav-bg-color-hover] transition cursor-pointer relative`}>
                                     <IoNotificationsOutline />
                                     {notificationsCount > 0 &&
                                         <span
@@ -65,20 +68,20 @@ function Master({children, threads, setThreads}) {
                            <SearchInput className={`flex-grow relative`}/>
 
                         </ul>
-                        <div className={`flex md:w-44 lg:w-auto items-center gap-x-4`}>
+                        <div className={`flex min-w-[40px] max-h-[40px] max-w-[40px] size-[40px] md:max-w-max md:max-h-max md:w-44 lg:w-auto items-center gap-x-4 justify-center`}>
 
                             <div
                                 id={`userDropdown`}
-                                className={`relative flex items-center`}
+                                className={`${!user ? `hidden lg:flex` : ``} max-h-[40px] relative items-center`}
                             >
                                 <button
                                     onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}
-                                    className={`w-10`}
+                                    className={`size-10`}
                                 >
                                     {user?.avatar &&
                                         <img
                                             src={user?.avatar}
-                                            className={`size-9 rounded-full cursor-pointer pointer-events-none`}
+                                            className={`h-full rounded-full cursor-pointer pointer-events-none`}
                                             alt={'user-avatar'}
                                         />
                                     }
@@ -94,10 +97,13 @@ function Master({children, threads, setThreads}) {
                             <button
                                 id={`createDropdown`}
                                 onClick={!user ? redirectToLogin : () => setIsCreateDropdownMenuOpen(!isCreateDropdownMenuOpen)}
-                                className={`relative hidden md:flex items-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm h-9 lg:py-1 px-4 rounded-full w-fit`}
+                                className={`relative hidden md:flex items-center justify-center lg:gap-x-4 gap-x-2 bg-[--theme-primary-button-color] text-sm lg:py-1 size-full rounded-full md:w-fit md:px-4`}
                                 data-select={true}
                             >
-                                {user ? 'إنشاء' : 'تسجيل دخول'}
+                                <span className="hidden md:block">
+                                    {user ? 'إنشاء' : 'تسجيل دخول'}
+                                </span>
+                                {!user && <MdLogin className={`md:hidden size-5`}/>}
                                 {user && <FaChevronDown id={`createDropdown`}/>}
 
                                 <CreateDropdownMenu
@@ -114,8 +120,8 @@ function Master({children, threads, setThreads}) {
             </div>
 
             {location.pathname === '/' &&
-                <button onClick={() => setIsCreatThreadModalOpen(true)}
-                        className={`fixed md:hidden size-14 text-[--theme-primary-text-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-2 z-50`}>
+                <button onClick={() => user ? setIsCreatThreadModalOpen(true) : returnToLoginPage()}
+                        className={`fixed md:hidden size-12 text-[--theme-primary-text-color] text-2xl bg-red-500 rounded-full flex justify-center items-center bottom-[15%] right-4 z-50`}>
                         <AiOutlinePlus/>
                 </button>
             }
@@ -130,7 +136,7 @@ function Master({children, threads, setThreads}) {
                 <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaEdit />
                 </Link>
-                <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                <Link href={user ? `/notifications` : `/account`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoNotificationsOutline />
                 </Link>
             </nav>

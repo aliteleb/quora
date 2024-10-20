@@ -54,7 +54,8 @@ export default function UserDropdownMenu({isUserDropdownMenuOpen ,setIsUserDropd
                                     <img
                                         onClick={() => setIsUserDropdownMenuOpen(true)}
                                         src={user.avatar}
-                                        className={`md:size-9 size-7 rounded-full cursor-pointer`}
+                                        className={`md:size-9 size-9 rounded-full cursor-pointer`}
+                                        alt="avatar"
                                     />
                                 }
                                 {(!user?.avatar && user) &&

@@ -39,6 +39,8 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                     setIsLoading(false)
                 },
             })
+        }else {
+            setIsEditModalOpen(false)
         }
         setIsLoading(false)
     }
@@ -85,7 +87,7 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
                 </div>
 
 
-                <div className={`px-3 flex gap-x-3`}>
+                <div className={`px-3 gap-x-3 flex flex-wrap`}>
                     <div className={`relative`}>
                         {!data.avatar &&
                             <img
