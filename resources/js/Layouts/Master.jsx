@@ -136,8 +136,13 @@ function Master({children, threads, setThreads}) {
                 <Link href={`/`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <FaEdit />
                 </Link>
-                <Link href={user ? `/notifications` : `/account`} className={`w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
+                <Link href={user ? `/notifications` : `/account`} className={`relative w-full flex justify-center py-3 hover:bg-[--theme-main-bg-color-hover] transition cursor-pointer`}>
                     <IoNotificationsOutline />
+                    {notificationsCount > 0 &&
+                        <span className={`absolute text-xs bg-[--theme-primary-button-color] ${notificationsCount < 10 ? 'size-4' : 'size-5'} flex justify-center items-center rounded-full top-1 left-1/2 -translate-x-4`}>
+                            {notificationsCount}
+                        </span>
+                    }
                 </Link>
             </nav>
 

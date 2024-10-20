@@ -32,7 +32,7 @@ export default function PublicOrPrivateDropdown({
         >
             <div
                 ref={publicOrPrivateDropdownOpenRef}
-                className={`dropdown-clip-path-responsive 2xl:dropdown-clip-path absolute left-1/2 top-11 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color] pt-3`}
+                className={`createQuestion-clip-path-responsive min-[915px]:createQuestion-clip-path 2xl:dropdown-clip-path absolute min-[915px]:left-1/2 max-[390px]:-right-10 top-11 2xl:-translate-x-1/2 border border-[--theme-default-border-color] rounded bg-[--theme-main-bg-color]`}
             >
                 <TransitionChild
                     enter="ease-out duration-300"
@@ -44,7 +44,7 @@ export default function PublicOrPrivateDropdown({
                     as="div"
                 >
                     <main id="drop">
-                        <div className="py-3 px-3 w-60 border-b border-[--theme-default-border-color] hover:bg-[--theme-nav-bg-color-hover]">
+                        <div className="pb-3 pt-6 px-3 w-60 border-b border-[--theme-default-border-color] hover:bg-[--theme-nav-bg-color-hover]">
                             <label
                                 htmlFor="public"
                                 className={`grid grid-cols-[5fr_0.5fr] items-center gap-x-2 cursor-pointer`}
