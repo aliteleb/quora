@@ -12,7 +12,7 @@ use Spatie\MediaLibrary\HasMedia;
 class Comment extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
-    protected $with = ['user', 'mention'];
+    protected $with = ['user', 'mention', 'media'];
     protected $guarded = [];
     public function user(): BelongsTo
     {

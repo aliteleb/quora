@@ -29,7 +29,6 @@ class ThreadResource extends BaseResource
         $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();
         $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
 
-        $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
         $is_shared = Thread::where('user_id', auth()->id())->where('share_to', $this->id)->exists();
 
 //        dd(new UserResource($user));
@@ -48,13 +47,12 @@ class ThreadResource extends BaseResource
             'scheduled' => $this->scheduled,
             'image' => $thread_image,
             'video' => $thread_video,
-            'is_followed' => $is_followed,
             'is_shared' => $is_shared,
             'user' => new UserResource($user),
             'up_votes' => $up_votes,
             'down_votes' => $down_votes,
             'vote' => $vote?->vote_type,
-            'comments_count' => count($this->comments),
+            'comments_count' => $this->comments_count,
             'shares_count' => $this->all_shares_count,
         ];
         return $data;

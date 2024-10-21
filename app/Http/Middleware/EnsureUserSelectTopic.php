@@ -18,11 +18,12 @@ class EnsureUserSelectTopic
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         $context = [
            'topics' => TopicResource::collection(Topic::all())
         ];
 
-        $user = auth()->user();
+        $user = auth()->user()?->load(['topics']);
         if ($user) {
             $topics = $user->topics ?? collect();
             if ($topics->count() === 0) {

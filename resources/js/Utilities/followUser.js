@@ -2,7 +2,6 @@ import React from 'react'
 import {router} from "@inertiajs/react";
 
 export function followUser(id, setIsFollowed, isFollowed, setIsDisabled, setFollowersCount, user = null) {
-    setIsDisabled(true)
     if (!user) {
         window.location.href = `${window.location.origin}/account`;
     }else {

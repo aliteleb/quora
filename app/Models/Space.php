@@ -11,7 +11,7 @@ class Space extends Model implements HasMedia
 {
     use InteractsWithMedia;
     protected $guarded = [];
-
+    protected $with = ['media'];
     public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

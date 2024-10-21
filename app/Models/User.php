@@ -28,6 +28,7 @@ class User extends Authenticatable implements HasMedia
         'password',
     ];
 
+    protected $with = ['media'];
 
     public function topics(): BelongsToMany
     {

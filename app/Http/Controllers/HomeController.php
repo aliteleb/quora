@@ -28,8 +28,7 @@ class HomeController extends Controller
             ->pluck('block_user.blocked_id')
             ->toArray() ?? [];
 
-        if($user)
-        {
+        if($user) {
             $user_commented_threads = Comment::where('user_id', $user->id)
                 ->distinct()
                 ->pluck('thread_id');
@@ -48,11 +47,7 @@ class HomeController extends Controller
                 $user_voted_threads->toArray(),
                 $user_hide_and_saved_threads->toArray(),
             );
-        }
 
-
-        if ($user)
-        {
             $threads = Thread::where('user_id', '!=', $user->id)
                 ->where('visibility', 'public')
                 ->whereNull('share_to')
@@ -60,10 +55,11 @@ class HomeController extends Controller
                 ->whereNotIn('id', $excluded_thread_ids)
                 ->latest()
                 ->paginate(5);
-        }else {
+        } else {
             $threads = Thread::where('visibility', 'public')
                 ->whereNull('share_to')
-                ->with('user')
+                ->with(['user'])
+                ->withCount(['comments'])
                 ->latest()
                 ->paginate(5);
         }

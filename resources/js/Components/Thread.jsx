@@ -29,7 +29,7 @@ const Thread = forwardRef(({passed_thread, customStyles, setThreads, threads, is
     const [showMoreCommentsLoading, setShowMoreCommentsLoading] = useState(false);
     const [openCommentsLoading, setOpenCommentsLoading] = useState(true);
     const [isPostDropdownOpen, setIsPostDropdownOpen] = useState(false);
-    const [isFollowed, setIsFollowed] = useState(mainThread?.is_followed);
+    const [isFollowed, setIsFollowed] = useState(mainThread?.user?.is_followed);
     const [isFollowBtnDisabled, setIsFollowBtnDisabled] = useState(false);
     const [isShared, setIsShard] = useState(false);
 
@@ -267,7 +267,9 @@ const Thread = forwardRef(({passed_thread, customStyles, setThreads, threads, is
                             {user?.id !== thread?.user?.id &&
                                 <button
                                     disabled={isFollowBtnDisabled}
-                                    onClick={() => followUser(mainThread?.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled)}
+                                    onClick={() => {
+                                        followUser(mainThread?.user.id, setIsFollowed, isFollowed, setIsFollowBtnDisabled, null, mainThread?.user)
+                                        }}
                                     className={`${isFollowed ? 'text-[--theme-secondary-text-color]' : 'text-[--theme-button-border-color]'} cursor-pointer hover:underline`}
                                 >
                                 {isFollowed ? 'تمت المتابعة' : 'متابعة'}
