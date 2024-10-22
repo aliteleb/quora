@@ -12,6 +12,7 @@ class Space extends Model implements HasMedia
     use InteractsWithMedia;
     protected $guarded = [];
     protected $with = ['media'];
+    protected $withCount = ['posts', 'followers'];
     public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
@@ -32,9 +33,9 @@ class Space extends Model implements HasMedia
         return $this->hasMany(Thread::class);
     }
 
-    public function postsCount()
+    public function posts()
     {
-        return $this->hasMany(Thread::class)->where('type', 'post')->where('created_at' , '>', now()->lastWeekDay)->count();
+        return $this->hasMany(Thread::class)->where('type', 'post')->where('created_at' , '>', now()->lastWeekDay);
     }
 
     protected static function booted(): void

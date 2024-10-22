@@ -22,6 +22,7 @@ class AppMiddleware
             $user = auth()->user();
             $user = User::with(['topics', 'un_read_notifications', 'followedSpaces'])->find($user->id);
             $user->followed_ids = $user->followerUser()->pluck('followed_id')->toArray();
+            $user->blocked_ids = $user->blockedUser()->pluck('blocked_id')->toArray();
             context()->add('user', $user);
         }
 

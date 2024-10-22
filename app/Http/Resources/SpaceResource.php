@@ -18,6 +18,7 @@ class SpaceResource extends BaseResource
     protected function resourceToArray(Request $request): array
     {
 
+        $user = context('user');
         $space_image = $this->getFirstMediaUrl('spaces_avatars');
         $space_cover_image = $this->getFirstMediaUrl('spaces_covers');
 
@@ -29,7 +30,7 @@ class SpaceResource extends BaseResource
         $is_followed = false;
 
         if (auth()->check()) {
-            $user_followed_spaces = auth()->user()->followedSpaces;
+            $user_followed_spaces = $user->followedSpaces;
             foreach ($user_followed_spaces as $space) {
                 if ($space->pivot->space_id === $this->id) {
                     $is_followed = true;
@@ -37,10 +38,6 @@ class SpaceResource extends BaseResource
                 }
             }
         }
-
-
-        $space_followers_count = $this->followers->count();
-        $space_last_week_posts_count = $this->postsCount();
 
         return [
             'id' => $this->id,
@@ -53,8 +50,8 @@ class SpaceResource extends BaseResource
             'created_at' => $this->created_at,
             'user' => new UserResource($this->user->first()),
             'is_followed' => $is_followed,
-            'followers_count' => $space_followers_count,
-            'last_week_posts_count' => $space_last_week_posts_count,
+            'followers_count' => $this->followers_count,
+            'last_week_posts_count' => $this->posts_count,
         ];
 
     }

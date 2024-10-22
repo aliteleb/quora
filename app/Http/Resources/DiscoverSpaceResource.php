@@ -15,9 +15,8 @@ class DiscoverSpaceResource extends BaseResource
      */
     protected function resourceToArray(Request $request): array
     {
-        $space = Space::where('id', $this->id)->first();
-        $space_image = $space->getFirstMediaUrl('spaces_avatars');
-        $space_cover_image = $space->getFirstMediaUrl('spaces_covers');
+        $space_image = $this->getFirstMediaUrl('spaces_avatars');
+        $space_cover_image = $this->getFirstMediaUrl('spaces_covers');
 
         $media =[];
 

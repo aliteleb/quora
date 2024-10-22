@@ -48,8 +48,8 @@ export default function Spaces() {
         }
     }, []);
 
-    const display_spaces = spaces?.map(space => (
-        <RecommendedSpace space={space}/>
+    const display_spaces = spaces?.map((space, index) => (
+        <RecommendedSpace key={index} space={space}/>
     ))
 
     return (

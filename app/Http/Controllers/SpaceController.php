@@ -84,7 +84,9 @@ class SpaceController extends Controller implements HasMedia
 
     public function showSpace($slug)
     {
-        $space = Space::where('slug', $slug)->first();
+        $space = Space::where('slug', $slug)
+            ->with('user')
+            ->first();
         if (!$space) {
             return InertiaResponse::error(['error' => 'تعذر العثور على المساحة.']);
         }

@@ -16,7 +16,7 @@ class NotificationResource extends BaseResource
      */
     protected function resourceToArray(Request $request): array
     {
-        $notification_maker = User::find($this->notification_maker_id);
+//        $notification_maker = User::find($this->notification_maker_id);
         return [
             'id' => $this->id,
             'type' => $this->type,
@@ -25,7 +25,7 @@ class NotificationResource extends BaseResource
             'post_id' => $this->post_id,
             'comment_id' => $this->comment_id,
             'is_read' => $this->is_read,
-            'notification_maker' => new UserResource($notification_maker),
+            'notification_maker' => new UserResource($this->user),
             'reply_to_comment' => $this->reply_to_comment === 1,
             'is_answer' => $this->is_answer === 1,
             'thread_slug' => $this->thread_slug,

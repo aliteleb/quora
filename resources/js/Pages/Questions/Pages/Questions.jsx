@@ -9,8 +9,8 @@ export default function Questions() {
 
     const { props } = usePage()
     console.log(props)
-    const [questions, setQuestions] = useState(props.questions.data || []);
-    const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState(props.questions.links.next || '');
+    const [questions, setQuestions] = useState(props.questions?.data || []);
+    const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState(props.questions?.links.next || '');
     const [isFetching, setIsFetching] = useState(false);
 
     const lastQuestionRef = useRef(null)

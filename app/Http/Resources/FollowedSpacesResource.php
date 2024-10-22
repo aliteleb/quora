@@ -23,6 +23,7 @@ class FollowedSpacesResource extends BaseResource
         return [
             'name' => $this->name,
             'media' => $media,
+            'followers_count' => $this->followers_count,
         ];
     }
 }
