@@ -19,12 +19,8 @@ class ThreadResource extends BaseResource
      */
     protected function resourceToArray(Request $request): array
     {
-        $user = context('user');
         $thread_image = $this->getFirstMediaUrl('threads_images');
-        $vote = $this->votes()->where('user_id', $user->id)->first(['vote_type']);
         $is_shared = $this->shared_count > 0;
-
-//        dd(new UserResource($user));
 
         $data = [
             'id' => $this->id,
@@ -43,7 +39,7 @@ class ThreadResource extends BaseResource
             'user' => new UserResource($this->user),
             'up_votes' => $this->votes_up_count,
             'down_votes' => $this->votes_down_count,
-            'vote' => $vote?->vote_type,
+            'vote' => $this->userVote ?: null,
             'comments_count' => $this->comments_count,
             'shares_count' => $this->all_shares_count,
         ];

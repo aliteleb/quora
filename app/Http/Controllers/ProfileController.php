@@ -43,7 +43,7 @@ class ProfileController extends Controller
     public function showUser($username)
     {
         $user = User::whereUsername($username)
-            ->withCount('posts', 'answers', 'followedSpaces', 'questions')
+            ->withCount('posts', 'answers', 'followedSpaces', 'questions', 'followedUser', 'followerUser')
             ->first(['name', 'bio', 'username', 'id', 'created_at']);
         if (!$user) {
             abort(404);

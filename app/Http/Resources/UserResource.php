@@ -38,8 +38,8 @@ class UserResource extends BaseResource
         $response['questions_count'] = $this->questions_count;
         $response['answers_count'] = $this->answers_count;
         $response['followed_spaces_count'] = $this->followed_spaces_count;
-        $response['followers_count'] = $this->followedUser_count;
-        $response['follow_count'] = $this->followerUser_count;
+        $response['followers_count'] = $this->followed_user_count;
+        $response['follow_count'] = $this->follower_user_count;
         $response['is_followed'] = $is_followed;
         $response['avatar'] = $avatar;
         $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');

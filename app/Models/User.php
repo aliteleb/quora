@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -57,32 +58,32 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Comment::class)->where('type', 'answer');
     }
-    public function followedSpaces()
+    public function followedSpaces(): BelongsToMany
     {
         return $this->belongsToMany(Space::class, 'follow_space', 'user_id', 'space_id');
     }
 
-    public function followerUser()
+    public function followerUser(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_user', 'user_id', 'followed_id');
     }
 
-    public function followedUser()
+    public function followedUser(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'follow_user', 'followed_id', 'user_id');
     }
 
-    public function blockedUser()
+    public function blockedUser(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'block_user', 'user_id', 'blocked_id');
     }
 
-    public function sharedThreads($user_id)
+    public function sharedThreads($user_id): Collection
     {
         return $this->hasMany(PostAction::class)->where('type', 'share')->where('user_id', $user_id)->pluck('thread_id');
     }
 
-    public function un_read_notifications()
+    public function un_read_notifications(): HasMany
     {
         return $this->hasMany(Notification::class)->where('user_id', auth()->id())->where('is_read', false);
     }
