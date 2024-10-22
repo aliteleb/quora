@@ -18,9 +18,11 @@ class UserResource extends BaseResource
     protected function resourceToArray(Request $request): array
     {
         $user = $this->resource;
-        $is_followed = $user->followedUser()->where('user_id', auth()->id())->exists();
+        $auth_user = context()->get('user');
+        $is_followed = in_array($user->id ,$auth_user->followed_ids);
 
         $response = [];
+
 
         $avatar = $user->getFirstMediaUrl('users_avatars');
         if ($avatar === "") {
@@ -36,8 +38,8 @@ class UserResource extends BaseResource
         $response['questions_count'] = $this->questions_count;
         $response['answers_count'] = $this->answers_count;
         $response['followed_spaces_count'] = $this->followed_spaces_count;
-        $response['followers_count'] = $this->followedUser->count();
-        $response['follow_count'] = $this->followerUser->count();
+        $response['followers_count'] = $this->followedUser_count;
+        $response['follow_count'] = $this->followerUser_count;
         $response['is_followed'] = $is_followed;
         $response['avatar'] = $avatar;
         $response['created_at'] = Carbon::parse($this->created_at)->locale('ar')->translatedFormat('j F Y');

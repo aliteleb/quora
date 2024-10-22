@@ -19,17 +19,9 @@ class ThreadResource extends BaseResource
      */
     protected function resourceToArray(Request $request): array
     {
-        $user = User::where('id', $this->user_id)->first();
-
-        $thread = Thread::where('id', $this->id)->first();
-        $thread_image = $thread ? $thread->getFirstMediaUrl('threads_images') : '';
-        $thread_video = $thread ? $thread->getMedia('threads_videos') : '';
-
-        $up_votes = $this->votes()->where('vote_type', 'up')->whereNull('comment_id')->count();
-        $down_votes = $this->votes()->where('vote_type', 'down')->whereNull('comment_id')->count();
-        $vote = $this->votes()->where('user_id', auth()->id())->whereNull('comment_id')->first(['vote_type']);
-
-        $is_shared = Thread::where('user_id', auth()->id())->where('share_to', $this->id)->exists();
+        $thread_image = $this->getFirstMediaUrl('threads_images');
+        $vote = $this->votes()->where('user_id', auth()->id())->first(['vote_type']);
+        $is_shared = $this->shared_count > 0;
 
 //        dd(new UserResource($user));
 
@@ -46,15 +38,15 @@ class ThreadResource extends BaseResource
             'sensitive_content' => $this->sensitive_content,
             'scheduled' => $this->scheduled,
             'image' => $thread_image,
-            'video' => $thread_video,
             'is_shared' => $is_shared,
-            'user' => new UserResource($user),
-            'up_votes' => $up_votes,
-            'down_votes' => $down_votes,
+            'user' => new UserResource($this->user),
+            'up_votes' => $this->votes_up_count,
+            'down_votes' => $this->votes_down_count,
             'vote' => $vote?->vote_type,
             'comments_count' => $this->comments_count,
             'shares_count' => $this->all_shares_count,
         ];
+//        dd($data);
         return $data;
     }
 }

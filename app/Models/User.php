@@ -29,7 +29,6 @@ class User extends Authenticatable implements HasMedia
     ];
 
     protected $with = ['media'];
-
     public function topics(): BelongsToMany
     {
         return $this->belongsToMany(Topic::class);
@@ -81,6 +80,11 @@ class User extends Authenticatable implements HasMedia
     public function sharedThreads($user_id)
     {
         return $this->hasMany(PostAction::class)->where('type', 'share')->where('user_id', $user_id)->pluck('thread_id');
+    }
+
+    public function un_read_notifications()
+    {
+        return $this->hasMany(Notification::class)->where('user_id', auth()->id())->where('is_read', false);
     }
 
     /**

@@ -15,7 +15,8 @@ class Thread extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
     protected $guarded = [];
-    protected $with = ['share', 'media'];
+    protected $with = ['share', 'media', 'user'];
+    protected $withCount = ['votes_up', 'votes_down'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -24,6 +25,16 @@ class Thread extends Model implements HasMedia
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function votes_up(): HasMany
+    {
+        return $this->hasMany(Vote::class)->where('vote_type', 'up');
+    }
+
+    public function votes_down(): HasMany
+    {
+        return $this->hasMany(Vote::class)->where('vote_type', 'down');
     }
 
     public function comments(): HasMany
@@ -43,6 +54,11 @@ class Thread extends Model implements HasMedia
     public function shares(): HasMany
     {
         return $this->hasMany(Thread::class, 'share_to');
+    }
+
+    public function shared(): HasMany
+    {
+        return $this->hasMany(Thread::class, 'share_to')->where('user_id', auth()->id());
     }
 
     public static function boot()
