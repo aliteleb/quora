@@ -8,8 +8,8 @@ import Thread from "@/Components/Thread.jsx";
 export default function Bookmarks() {
 
     const { props } = usePage()
-    const [threads, setThreads] = useState(props.saved_threads.data || []);
-    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.saved_threads.links.next || '');
+    const [threads, setThreads] = useState(props.saved_threads?.data || []);
+    const [threadsNextPageUrl, setThreadsNextPageUrl] = useState(props.saved_threads?.links.next || '');
     const [isFetching, setIsFetching] = useState(false);
 
     const lastThreadRef = useRef(null)

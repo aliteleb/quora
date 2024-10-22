@@ -16,7 +16,7 @@ class Thread extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
     protected $guarded = [];
     protected $with = ['share', 'media', 'user'];
-    protected $withCount = ['votes_up', 'votes_down'];
+    protected $withCount = ['votes_up', 'votes_down', 'comments'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
