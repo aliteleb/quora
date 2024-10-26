@@ -83,10 +83,14 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(PostAction::class)->where('type', 'share')->where('user_id', $user_id)->pluck('thread_id');
     }
 
-    public function un_read_notifications(): HasMany
+    public function getUnReadNotificationsCountAttribute(): int
     {
-        return $this->hasMany(Notification::class)->where('user_id', auth()->id())->where('is_read', false);
+        return $this->hasMany(Notification::class)
+            ->where('user_id', $this->id)
+            ->where('is_read', false)
+            ->count();
     }
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -38,7 +38,6 @@ class SpaceResource extends BaseResource
                 }
             }
         }
-
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -48,7 +47,7 @@ class SpaceResource extends BaseResource
             'status' => $this->status,
             'media' => $media,
             'created_at' => $this->created_at,
-            'user' => new UserResource($this->user->first()),
+            'user' => $this->relationLoaded('user') ? new UserResource($this->user->first()) : null, // Avoid lazy loading if already loaded
             'is_followed' => $is_followed,
             'followers_count' => $this->followers_count,
             'last_week_posts_count' => $this->posts_count,

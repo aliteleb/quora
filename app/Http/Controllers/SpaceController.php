@@ -61,6 +61,7 @@ class SpaceController extends Controller implements HasMedia
 
     protected function getThreeRandomSimilarSpaces($space, $slug)
     {
+        $user = context('user');
         $topics = $space->topics;
         $recommended_spaces = collect();
 
@@ -69,11 +70,11 @@ class SpaceController extends Controller implements HasMedia
         }
 
         $recommended_spaces = $recommended_spaces->unique('id')
-            ->filter(function ($space) use ($slug) {
+            ->filter(function ($space) use ($slug, $user) {
                 $spaceResource = new SpaceResource($space);
                 $spaceArray = $spaceResource->toArray(request());
 
-                return $space->slug !== $slug && $space->user[0]->id !== auth()->id() && !$spaceArray['is_followed'];
+                return $space->slug !== $slug && $space->user[0]->id !== $user->id && !$spaceArray['is_followed'];
             });
         if ($recommended_spaces->count() > 3) {
             $recommended_spaces = $recommended_spaces->random(3);
