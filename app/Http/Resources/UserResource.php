@@ -19,7 +19,7 @@ class UserResource extends BaseResource
     {
         $user = $this->resource;
         $auth_user = context()->get('user');
-        $is_followed = in_array($user->id ,$auth_user->followed_ids);
+        $is_followed = $auth_user && in_array($user->id, $auth_user->followed_ids);
 
         $response = [];
 

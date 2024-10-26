@@ -58,6 +58,8 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
         setData(e.target.name, e.target.value)
     }
 
+    console.log(data)
+
     return (
         <Modal
             data={data}
@@ -84,16 +86,16 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
                 <h1 className={`px-3`}>أيقونة</h1>
                 <section className={`px-3 flex flex-col xxs:flex-row gap-y-3 gap-x-3`}>
                     <div className={`relative`}>
-                        {!data.avatar && !space.media.poster &&
+                        {!data.avatar && !space.media.avatar &&
                             <img
                                 src={'/spaces/space_default_image.webp'}
                                 alt="avatar"
                                 className={`size-32 rounded-3xl`}
                             />
                         }
-                        {!data.avatar && space.media.poster &&
+                        {!data.avatar && space.media.avatar &&
                             <img
-                                src={space.media.poster}
+                                src={space.media.avatar}
                                 alt="avatar"
                                 className={`size-32 rounded-3xl`}
                             />

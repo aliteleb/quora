@@ -59,7 +59,7 @@ export default function ShowSpace() {
             })
         }
     }
-    const checkIfUserIsOwner = user?.id === space?.user.id
+    const checkIfUserIsOwner = user?.id === space?.user?.id
     const followSpace = () => {
         if (!user) {
             returnToLoginPage();

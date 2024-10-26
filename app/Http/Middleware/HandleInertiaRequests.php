@@ -43,7 +43,11 @@ class HandleInertiaRequests extends Middleware
             $followed_spaces = FollowedSpacesResource::collection($followed_spaces);
         }
 
-        $notifications_count = $user->un_read_notifications_count;
+        if ($user) {
+            $notifications_count = $user->un_read_notifications_count;
+        }else {
+            $notifications_count = null;
+        }
 
         $settings = settings();
         return [

@@ -70,16 +70,19 @@ class SpaceController extends Controller implements HasMedia
         }
 
         $recommended_spaces = $recommended_spaces->unique('id')
-            ->filter(function ($space) use ($slug, $user) {
+            ->filter(function ($space) use ($slug) {
                 $spaceResource = new SpaceResource($space);
                 $spaceArray = $spaceResource->toArray(request());
-
-                return $space->slug !== $slug && $space->user[0]->id !== $user->id && !$spaceArray['is_followed'];
+                Log::info('gg', [
+                    '$spaceArray' => $spaceArray,
+                    '$space' => $space,
+                    '$slug' => $slug,
+                ]);
+                return $space['slug'] !== $slug && !$spaceArray['is_followed'];
             });
         if ($recommended_spaces->count() > 3) {
             $recommended_spaces = $recommended_spaces->random(3);
         }
-
         return $recommended_spaces->values();
     }
 

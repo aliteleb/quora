@@ -100,10 +100,6 @@ class CommentController extends Controller implements HasMedia
             }
 
         } else {
-            Log::info('aa', array([
-                'thread_type' => $thread_type,
-                'thread_id' => $thread_id
-            ]));
             Notification::create([
                 'type' => $thread_type === 'question' && !$is_reply ? 'answer' : 'comment',
                 'user_id' => $user_id,

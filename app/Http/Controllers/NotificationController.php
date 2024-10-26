@@ -103,8 +103,6 @@ class NotificationController extends Controller
     }
     public function markAllAsRead()
     {
-        Log::info('sd');
-
         Notification::where('user_id', auth()->id())
             ->where('is_read', false)
             ->update(['is_read' => true]);
