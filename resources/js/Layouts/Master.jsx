@@ -72,7 +72,7 @@ function Master({children, threads, setThreads}) {
 
                             <div
                                 id={`userDropdown`}
-                                className={`${!user ? `hidden lg:flex` : ``} max-h-[40px] relative items-center`}
+                                className={`${!user ? `hidden pointer-events-none lg:flex` : ``} max-h-[40px] relative items-center`}
                             >
                                 <button
                                     onClick={() => setIsUserDropdownMenuOpen(!isUserDropdownMenuOpen)}

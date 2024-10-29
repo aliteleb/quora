@@ -27,12 +27,12 @@ class SearchController extends Controller
             return InertiaResponse::back();
         }
 
-        $user = auth()->user();
-        $user_spaces_ids = $user->space()->pluck('spaces.id');
+        $user = context('user');
+        $user_spaces_ids = $user ? $user->space()->pluck('spaces.id') : [];
 
-        $users = User::whereAny(['name'], 'LIKE', "%$keyword%")->where('id', '!=', $user->id)->limit(5)->get();
+        $users = $user ? User::whereAny(['name'], 'LIKE', "%$keyword%")->where('id', '!=', $user->id)->limit(5)->get() : [];
         $spaces = Space::where('name', 'LIKE', "%$keyword%")->whereNotIn('id', $user_spaces_ids)->limit(5)->get();
-        $threads = Thread::where('title', 'LIKE', "%$keyword%")->where('user_id', '!=', $user->id)->limit(5)->get();
+        $threads = $user ? Thread::where('title', 'LIKE', "%$keyword%")->where('user_id', '!=', $user->id)->limit(5)->get() : [];
 
         $data = [
             'users' => UserResource::collection($users),
