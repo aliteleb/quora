@@ -12,6 +12,7 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import CreateThreadModal from "@/Pages/Home/Components/CreateThreadModal.jsx";
 import SearchInput from "@/Components/SearchInput.jsx";
 import {MdLogin} from "react-icons/md";
+import {SlLogin} from "react-icons/sl";
 
 function Master({children, threads, setThreads}) {
 
@@ -69,7 +70,11 @@ function Master({children, threads, setThreads}) {
 
                         </ul>
                         <div className={`flex min-w-[40px] max-h-[40px] max-w-[40px] size-[40px] md:max-w-max md:max-h-max md:w-44 lg:w-auto items-center gap-x-4 justify-center`}>
-
+                            {!user && !user?.avatar &&
+                                <Link href={`/account`} className={`bg-red-500 size-9 rounded-full cursor-pointer md:hidden flex justify-center items-center`}>
+                                    <SlLogin/>
+                                </Link>
+                            }
                             <div
                                 id={`userDropdown`}
                                 className={`${!user ? `hidden pointer-events-none lg:flex` : ``} max-h-[40px] relative items-center`}
