@@ -96,8 +96,7 @@ export default function CreateThreadModal({threads, setThreads}) {
                     ...prevState
                 ]))
             },
-            onError: (response) => {
-                console.log(response)
+            onError: () => {
             },
         })
     }

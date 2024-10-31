@@ -3,7 +3,7 @@ import DefaultUserIcon from "@/Core/DefaultUserIcon.jsx";
 import Input from "@/Core/Input.jsx";
 import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
-import {useForm} from "@inertiajs/react";
+import {Link, useForm} from "@inertiajs/react";
 import Button from "@/Core/Button.jsx";
 import {useApp} from "@/AppContext/AppContext.jsx";
 

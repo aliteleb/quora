@@ -8,7 +8,6 @@ import Thread from "@/Components/Thread.jsx";
 export default function Questions() {
 
     const { props } = usePage()
-    console.log(props)
     const [questions, setQuestions] = useState(props.questions?.data || []);
     const [questionsNextPageUrl, setQuestionsNextPageUrl] = useState(props.questions?.links.next || '');
     const [isFetching, setIsFetching] = useState(false);
@@ -32,7 +31,6 @@ export default function Questions() {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (page) => {
-                    console.log(page.props)
                     setQuestions(prevQuestions => [...prevQuestions, ...page.props.questions?.data]);
                     setQuestionsNextPageUrl(page.props.questions?.links.next);
                     setIsFetching(false);

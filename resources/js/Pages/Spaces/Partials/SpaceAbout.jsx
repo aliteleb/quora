@@ -31,10 +31,6 @@ export default function SpaceAbout({checkIfUserIsOwner, space}) {
         }
     }
 
-    useEffect(() => {
-        console.log(data)
-    }, [data]);
-
     return (
         <main className={`w-full flex flex-col ${isTextAreaActive ? 'gap-y-3' : 'gap-y-4'} pb-10`}>
 

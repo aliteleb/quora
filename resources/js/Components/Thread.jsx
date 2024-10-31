@@ -153,13 +153,11 @@ const Thread = forwardRef(({passed_thread, customStyles, setThreads, threads, is
             preserveScroll: true,
             preserveState: true,
             onSuccess: (res) => {
-                console.log(res.props)
                 !res.props.vote ? setIsVoted(null) : setIsVoted(res.props.vote.vote_type)
                 setVoteUpCount(res.props.vote_count.all_up_votes_count)
                 setVoteDownCount(res.props.vote_count.all_down_votes_count)
             },
             onError: (err) => {
-                console.log(err)
             }
         })
     }

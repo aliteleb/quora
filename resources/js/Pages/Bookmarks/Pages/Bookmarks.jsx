@@ -32,7 +32,6 @@ export default function Bookmarks() {
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (page) => {
-                    console.log(page.props)
                     setThreads(prevThreads => [...prevThreads, ...page.props.saved_threads?.data]);
                     setThreadsNextPageUrl(page.props.threads?.links.next);
                     setIsFetching(false);

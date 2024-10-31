@@ -59,11 +59,6 @@ export default function EditInfoModal({isEditModalOpen, setIsEditModalOpen, user
         clearErrors()
     }
 
-    useEffect(() => {
-        console.log(errors)
-    }, [data, isEditModalOpen]);
-
-
     return (
         <Modal
             data={data}

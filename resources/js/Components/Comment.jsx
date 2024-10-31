@@ -9,6 +9,7 @@ import Input from "@/Core/Input.jsx";
 import {RiImageAddLine} from "react-icons/ri";
 import {HiMiniXMark} from "react-icons/hi2";
 import Button from "@/Core/Button.jsx";
+import {useApp} from "@/AppContext/AppContext.jsx";
 
 const Comment = forwardRef(({
     comment,
@@ -23,6 +24,8 @@ const Comment = forwardRef(({
     setParentReplies,
     parentReplies,
 }, ref) => {
+
+    const {returnToLoginPage, user: authUser} = useApp()
 
     const [replies, setReplies] = useState([]);
     const [showReplies, setShowReplies] = useState(false);
@@ -79,11 +82,19 @@ const Comment = forwardRef(({
     }
 
     const voteUp = () => {
-        vote('up')
+        if (!authUser) {
+            returnToLoginPage()
+        }else {
+            vote('up')
+        }
     }
 
     const voteDown = () => {
-        vote('down')
+        if (!authUser) {
+            returnToLoginPage()
+        }else {
+            vote('down')
+        }
     }
 
     const replyTextAreaRef = useRef(null);
@@ -103,7 +114,6 @@ const Comment = forwardRef(({
     };
 
     const handleFileChange = (e) => {
-            console.log('comment image uploaded')
         if (e.target.files[0].type.startsWith('image')) {
             setData('image', e.target.files[0])
         } else {
@@ -121,32 +131,39 @@ const Comment = forwardRef(({
     };
 
     const addReply = () => {
-
-        post('/add-comment', {
-            preserveScroll: true,
-            preserveState: true,
-            onSuccess: (res) => {
-                reset()
-                setCommentsCount(commentsCount + 1)
-                if (comment?.comment_id) {
-                    setParentReplies(prevState => ([
-                        ...prevState,
-                        res.props.reply?.data
-                    ]))
-                } else {
-                    setReplies(prevState => ([
-                        ...prevState,
-                        res.props.reply?.data
-                    ]))
-                    toggleShowReplies()
-                }
-                setShowReplyInput(false)
-            },
-        })
+        if (!authUser) {
+            returnToLoginPage()
+        } else {
+            post('/add-comment', {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (res) => {
+                    reset()
+                    setCommentsCount(commentsCount + 1)
+                    if (comment?.comment_id) {
+                        setParentReplies(prevState => ([
+                            ...prevState,
+                            res.props.reply?.data
+                        ]))
+                    } else {
+                        setReplies(prevState => ([
+                            ...prevState,
+                            res.props.reply?.data
+                        ]))
+                        toggleShowReplies()
+                    }
+                    setShowReplyInput(false)
+                },
+            })
+        }
     }
 
     const toggleShowReplyInput = () => {
-        setShowReplyInput(!showReplyInput)
+        if (!authUser) {
+            returnToLoginPage()
+        }else {
+            setShowReplyInput(!showReplyInput)
+        }
     }
 
     return (

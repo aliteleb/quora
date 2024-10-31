@@ -27,9 +27,8 @@ export default function SpaceModal() {
                 setIsSpaceModalOpen(false)
                 reset()
             },
-            onError: (response) => {
-                // console.log(response)
-                // console.log(errors)
+            onError: () => {
+
             },
         })
     }

@@ -29,8 +29,6 @@ const SpaceQuestions = forwardRef(({questions, filterType, filteredNextPageUrl, 
     useEffect(() => {
         const observer = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting && !isQuestionsFetching && filteredNextPageUrl) {
-                console.log('called')
-
                 loadNextPosts(filteredNextPageUrl);
             }
         }, {

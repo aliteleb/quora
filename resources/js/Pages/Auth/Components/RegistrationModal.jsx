@@ -27,7 +27,6 @@ export default function RegistrationModal({isRegisterModalOpen, setIsRegisterMod
                 reset()
             },
             onError: (response) => {
-                console.log(response)
             },
         })
     }

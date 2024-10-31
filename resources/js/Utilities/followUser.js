@@ -10,7 +10,6 @@ export function followUser(id, setIsFollowed, isFollowed, setIsDisabled, setFoll
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    console.log(res.props)
                     setIsFollowed(true)
                     setIsDisabled(false)
 
@@ -25,7 +24,6 @@ export function followUser(id, setIsFollowed, isFollowed, setIsDisabled, setFoll
                 preserveScroll: true,
                 preserveState: true,
                 onSuccess: (res) => {
-                    console.log(res.props)
                     setIsFollowed(false)
                     setIsDisabled(false)
 

@@ -58,8 +58,6 @@ export default function EditSpaceModal({isEditModalOpen, setIsEditModalOpen, spa
         setData(e.target.name, e.target.value)
     }
 
-    console.log(data)
-
     return (
         <Modal
             data={data}

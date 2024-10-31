@@ -23,8 +23,7 @@ export default function Auth() {
                 setUser(res.props.auth.user)
                 reset()
             },
-            onError: (response) => {
-                console.log(response)
+            onError: () => {
             },
         })
     }

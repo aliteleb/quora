@@ -11,7 +11,6 @@ export default function HomeSidebar() {
     const show_spaces = spaces?.map((space, index) => (
         <FollowedSpace key={index} space={space}/>
     ))
-    console.log(props)
     const getSpaces = (pageUrl) => {
         router.visit(pageUrl, {
             preserveScroll: true,

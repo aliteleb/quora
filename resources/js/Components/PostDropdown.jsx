@@ -15,7 +15,6 @@ export default function PostDropdown({isPostDropdownOpen, setIsPostDropdownOpen,
     const postsDropDownRef = useRef(null);
     useEffect(() => {
         const handleClickOutside = (e) => {
-            console.log(e.target.tagName)
             if (!postsDropDownRef.current?.contains(e.target) && e.target.id !== "postDropdownID") {
                 setIsPostDropdownOpen(false)
             }
